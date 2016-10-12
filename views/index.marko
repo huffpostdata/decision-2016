@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+html lang="en"
+  head
+    meta charset="utf-8"
+    title - TK
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/index.css')}"
+    $!{data.helpers.partial('_social-meta')}
+  body
+    $!{data.helpers.partial('_nav')}
+    $!{data.helpers.partial('_header')}
+
+    article
+      $!{data.model.render(data)}
+
+      .comments
+        .fb-comments data-width="100%"
+
+    $!{data.helpers.partial('_footer')}
+
+    script src="${data.path_to_asset('javascript', 'javascripts/app.js')}"
+    script src="${data.path_to_asset('digest', 'javascripts/social.js')}"
+    script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"

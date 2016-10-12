@@ -1,0 +1,8 @@
+<!-- You probably mean to edit `assets/javascripts/splash.js`... -->
+---
+var style = document.createElement('style');
+style.textContent = $!{JSON.stringify(data.asset_contents('scss', 'stylesheets/splash.css').toString('utf-8'))};
+document.head.appendChild(style);
+$!{data.asset_contents('javascript', 'javascripts/splash.js')}
+window.decision2016_init($!{JSON.stringify(data.model)})
+---

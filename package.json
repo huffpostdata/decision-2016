@@ -1,0 +1,30 @@
+{
+  "name": "decision-2016",
+  "version": "1.0.0",
+  "description": "Renders the Huffington Post election results",
+  "main": "generator/dev.js",
+  "scripts": {
+    "update-google-docs": "node generator/GoogleDocs.js",
+    "update-google-sheets": "node generator/GoogleSheets.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.3.5",
+    "browser-pack": "^6.0.1",
+    "csv-parse": "^1.0.4",
+    "glob": "^7.0.5",
+    "js-yaml": "^3.6.0",
+    "marko": "^3.1.6",
+    "module-deps": "^4.0.7",
+    "node-sass": "^3.5.3"
+  },
+  "devDependencies": {
+    "chokidar": "^1.4.3",
+    "compression": "^1.6.1",
+    "express": "^4.13.4",
+    "google-docs-markup": "^0.2.0",
+    "morgan": "^1.7.0",
+    "sync-request": "^3.0.0"
+  }
+}

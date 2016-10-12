@@ -10,5 +10,39 @@ module.exports = class Database {
   constructor() {
     const google_docs = new GoogleDocs(read_config('google-docs'))
     const google_sheets = new GoogleSheets(read_config('google-sheets'))
+
+    // FOR NOW: totally arbitrary data
+    this.splash = {
+      president: {
+        nClinton: 12341234,
+        nTrump: 2345234,
+        nClintonElectoralVotes: 269,
+        nTrumpElectoralVotes: 123
+      },
+      senate: {
+        nDemInitial: 36,
+        nDem: 4,
+        nLeanDem: 2,
+        nGopInitial: 30,
+        nGop: 5,
+        nLeanGop: 3,
+        nTossup: 20
+      },
+      house: {
+        nDem: 100,
+        nLeanDem: 14,
+        nGop: 153,
+        nLeanGop: 23,
+        nTossup: 538 - 390
+      },
+      battlegrounds: [
+        {}, {}, {}, {}, {}
+      ]
+    }
+
+    // TODO name each splash page format, (so we can _test them all)
+    this.splashFormats = [
+      { format: 'full' }
+    ]
   }
 }

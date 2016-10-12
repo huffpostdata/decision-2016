@@ -36,6 +36,7 @@ class AWS {
 
   // Returns a Promise
   upload_page(key, page) {
+    if (key.startsWith('_test/')) return Promise.resolve() // We don't publish test pages
     if (page.hasOwnProperty('redirect')) return this.upload_redirect(key, page.redirect)
 
     const brokenKey = decodeURIComponent(key) // When AWS gets a GET request, it decodes the URI :(

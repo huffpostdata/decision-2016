@@ -1,0 +1,14 @@
+javascript:
+  splash.js: javascripts/splash.js
+
+scss:
+  #index.css: stylesheets/index.scss
+  splash.css: stylesheets/splash.scss
+
+digest:
+  -
+    pattern: javascripts/{stats,social}.js
+    max_age: 8640000000
+  -
+    pattern: images/**/*.{png,jpg,gif,svg,ico}
+    max_age: 8640000000

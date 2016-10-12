@@ -1,0 +1,22 @@
+#index:
+#  path: _root
+#  model: index
+
+# GET /splash.js
+#
+# JavaScript file that assumes it's being loaded into the Huffington Post
+# front page. It will search for certain DOM IDs and replace the contents
+# of those elements.
+splash.js:
+  model: splash
+  content_type: application/javascript
+
+# GET /_test/splash/:format
+#
+# A fake Huffington Post front page, with holes where the splash should fit in.
+#
+# This page doesn't have all the clunk of an actual Huffington Post front page.
+# It's meant to be enough to check that styles and layout all work nicely.
+_test/splash/:format:
+  template: _test/splash
+  collection: splashFormats

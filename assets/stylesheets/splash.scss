@@ -1,0 +1,11 @@
+@import '_variables.scss';
+
+body {
+  font-family: $body-font-family;
+
+  &::after {
+    content: 'Ooh look, we injected assets/stylesheets/splash.scss';
+    color: $muted-color;
+    font-size: .85rem;
+  }
+}
