@@ -1,0 +1,5 @@
+*.swp
+.DS_Store
+views/*.js
+node_modules
+data/*
