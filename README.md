@@ -7,6 +7,9 @@
 
 Then browse to http://localhost:3000
 
+Also, run `npm test` before committing, and run `npm run test-watch` in the
+background if you're editing server-side JavaScript.
+
 # Directory layout and docs for dependencies
 
 This framework goes from zero to website in milliseconds. On load, it does this:

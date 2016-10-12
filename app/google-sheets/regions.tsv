@@ -1,0 +1,52 @@
+id	name	abbreviation	expectResultsTimeEST
+AL	Alabama	Ala.	8:00
+AK	Alaska	Alaska	1:00
+AZ	Arizona	Ariz.	10:00
+AR	Arkansas	Ark.	8:30
+CA	California	Calif.	11:00
+CO	Colorado	Colo.	9:00
+CT	Connecticut	Conn.	8:00
+DE	Delaware	Del.	8:00
+DC	Dist. of Columbia	D.C.	8:00
+FL	Florida	Fla.	7:00
+GA	Georgia	Ga.	7:00
+HI	Hawaii	Hawaii	11:00
+ID	Idaho	Idaho	11:00
+IL	Illinois	Ill.	8:00
+IN	Indiana	Ind.	6:00
+IA	Iowa	Iowa	10:00
+KS	Kansas	Kans.	8:00
+KY	Kentucky	Ky.	6:00
+LA	Louisiana	La.	9:00
+ME	Maine	Maine	8:00
+MD	Maryland	Md.	8:00
+MA	Massachusetts	Mass.	8:00
+MI	Michigan	Mich.	8:00
+MN	Minnesota	Minn.	9:00
+MS	Mississippi	Miss.	8:00
+MO	Missouri	Mo.	8:00
+MT	Montana	Mont.	10:00
+NE	Nebraska	Nebr.	9:00
+NV	Nevada	Nev.	10:00
+NH	New Hampshire	N.H.	7:00
+NJ	New Jersey	N.J.	8:00
+NM	New Mexico	N.M.	9:00
+NY	New York	N.Y.	9:00
+NC	North Carolina	N.C.	7:30
+ND	North Dakota	N.D.	8:00
+OH	Ohio	Ohio	7:30
+OK	Oklahoma	Okla.	8:00
+OR	Oregon	Ore.	11:00
+PA	Pennsylvania	Pa.	8:00
+RI	Rhode Island	R.I.	8:00
+SC	South Carolina	S.C.	7:00
+SD	South Dakota	S.D.	9:00
+TN	Tennessee	Tenn.	8:00
+TX	Texas	Tex.	8:00
+UT	Utah	Utah	10:00
+VT	Vermont	Vt.	7:00
+VA	Virginia	Va.	7:00
+WA	Washington	Wash.	11:00
+WV	West Virginia	W.Va.	7:30
+WI	Wisconsin	Wis.	9:00
+WY	Wyoming	Wyo.	9:00

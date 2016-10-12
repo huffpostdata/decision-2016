@@ -1,0 +1,37 @@
+id	apId	name	abbreviation	shown
+dem	dem	Democrat	Dem	headline
+gop	gop	Republican	Rep	headline
+lib	lib	Libertarian	Lib	detail
+grn	grn	Green	Grn	detail
+	ame	Americans Elect	AME	other
+	amr	American Party	AMR	other
+	ao	All Others	AO	other
+	con	Conservative	CON	other
+	cst	Constitution	CST	other
+	dcg	DC Statehood Green	DCG	other
+	igr	Independent Green	IGR	other
+	grp	Grass Roots	GRP	other
+	ind	Independent	IND	other
+	iap	Independent American	IAP	other
+	iph	Independent Party Of Hawaii	IPH	other
+	inp	Independence	INP	other
+	iph	Independent Party	IPH	other
+	lab	Labor	LAB	other
+	lun	Liberty Union	LUN	other
+	mnt	Mountain Party	MNT	other
+	mod	Moderate	MOD	other
+	npd	No Party Designation	NPD	other
+	npa	No Party Affiliation	NPA	other
+	nlp	Natural Law	NLP	other
+	np	NON PARTISAN	NP	other
+	pec	Petitioning Candidate	PEC	other
+	pfp	Peace & Freedom	PFP	other
+	prg	Progressive	PRG	other
+	pag	Pacific Green	PAG	other
+	rp	Reform	RP	other
+	ust	U.S. Taxpayers	UST	other
+	ucz	United Citizens	UCZ	other
+	uni	United Independent	UNI	other
+	una	Unaffiliated	UNA	other
+	uty	Unity	UTY	other
+	wf	Working Families	WF	other

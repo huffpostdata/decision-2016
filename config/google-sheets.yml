@@ -10,4 +10,18 @@ code_path: app/google-sheets
 
 sheets:
   # Put Google Sheets documents here. They must be published to the public and
-  # their URLs must end with "?format=csv".
+  # their URLs must end with "?format=tsv".
+  - slug: parties
+    url: https://docs.google.com/spreadsheets/d/1ALrP3tEY67wLuWP7NE9mpS-ycsfj9XFhou8-8NUaA1o/pub?gid=503493938&single=true&output=tsv
+  - slug: regions
+    url: https://docs.google.com/spreadsheets/d/1ALrP3tEY67wLuWP7NE9mpS-ycsfj9XFhou8-8NUaA1o/pub?gid=794944361&single=true&output=tsv
+  - slug: presidentCandidates
+    url: https://docs.google.com/spreadsheets/d/1ALrP3tEY67wLuWP7NE9mpS-ycsfj9XFhou8-8NUaA1o/pub?gid=1379147383&single=true&output=tsv
+  - slug: presidentRaces
+    url: https://docs.google.com/spreadsheets/d/1ALrP3tEY67wLuWP7NE9mpS-ycsfj9XFhou8-8NUaA1o/pub?gid=586565&single=true&output=tsv
+  - slug: senateRaces
+    url: https://docs.google.com/spreadsheets/d/1ALrP3tEY67wLuWP7NE9mpS-ycsfj9XFhou8-8NUaA1o/pub?gid=1668349267&single=true&output=tsv
+  - slug: houseRaces
+    url: https://docs.google.com/spreadsheets/d/1ALrP3tEY67wLuWP7NE9mpS-ycsfj9XFhou8-8NUaA1o/pub?gid=1481282156&single=true&output=tsv
+  - slug: senateSeats
+    url: https://docs.google.com/spreadsheets/d/1ALrP3tEY67wLuWP7NE9mpS-ycsfj9XFhou8-8NUaA1o/pub?gid=1554606661&single=true&output=tsv

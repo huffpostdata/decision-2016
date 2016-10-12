@@ -5,20 +5,16 @@ const read_config = require('../generator/read_config')
 
 const GoogleDocs = require('../generator/GoogleDocs')
 const GoogleSheets = require('../generator/GoogleSheets')
+const ap_fs = require('./ap/ap-fs')
 
 module.exports = class Database {
   constructor() {
     const google_docs = new GoogleDocs(read_config('google-docs'))
     const google_sheets = new GoogleSheets(read_config('google-sheets'))
+    const apData = ap_fs.load()
 
-    // FOR NOW: totally arbitrary data
     this.splash = {
-      president: {
-        nClinton: 12341234,
-        nTrump: 2345234,
-        nClintonElectoralVotes: 269,
-        nTrumpElectoralVotes: 123
-      },
+      president: apData.presidentSummary(),
       senate: {
         nDemInitial: 36,
         nDem: 4,
