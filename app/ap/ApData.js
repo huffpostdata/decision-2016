@@ -40,30 +40,33 @@ module.exports = class ApData {
    *
    *   {
    *     n: 100,
-   *     static: {
+   *     priors: {
    *       // Senate seats that are _not_ up for reelection
-   *       nDem: uint number of senators who caucus with Democrats
-   *       nGop: uint number of senators who caucus with Republicans
+   *       dem: uint number of senators who caucus with Democrats
+   *       gop: uint number of senators who caucus with Republicans
    *     },
-   *     election: {
+   *     wins: {
    *       // Senate seats that are up for reelection
-   *       nDem: uint number of winning senators who say they'll caucus with Democrats
-   *       nGop: uint number of winning senators who say they'll caucus with Republicans
+   *       dem: uint number of winning senators who say they'll caucus with Democrats
+   *       gop: uint number of winning senators who say they'll caucus with Republicans
    *     },
    *     total: {
-   *       nDem: uint total number of senators who say they'll caucus with Democrats in 2017
-   *       nGop: uint total number of senators who say they'll caucus with Republicans in 2017
+   *       dem: uint total number of senators who say they'll caucus with Democrats in 2017
+   *       gop: uint total number of senators who say they'll caucus with Republicans in 2017
    *     }
    *   }
+   *
+   * We only ever return "dem" and "gop", because anybody who enters the Senate
+   * will caucus with one or the other.
    */
   senateSummary() {
     const NTotal = 100
-    const NDemStatic = 36
-    const NGopStatic = 30
-    const NRaces = NTotal - NDemStatic - NGopStatic
+    const NDemPrior = 36
+    const NGopPrior = 30
+    const NRaces = NTotal - NDemPrior - NGopPrior
 
-    let nDem = 0
-    let nGop = 0
+    const wins = {}
+    const totals = { dem: NDemPrior, gop: NGopPrior }
 
     const races = this.fipscodeElections.findSenateRaces()
     if (races.length != NRaces) {
@@ -72,20 +75,24 @@ module.exports = class ApData {
     for (const race of races) {
       for (const candidate of race.reportingUnits[0].candidates) {
         if (candidate.winner === 'X') {
-          switch (candidate.party) {
-            case 'Dem': nDem += 1; break
-            case 'GOP': nGop += 1; break
-            default: throw new Error(`URGENT: a Senate winner is from party ${candidate.party} but we only handle "Dem" and "GOP"`)
+          if (candidate.party !== 'Dem' && candidate.party !== 'GOP') {
+            throw new Error(`URGENT: a Senate winner is from party ${candidate.party} but we only handle "Dem" and "GOP"`)
           }
+
+          const partyId = candidate.party.toLowerCase()
+          if (!wins.hasOwnProperty(partyId)) wins[partyId] = 0
+          if (!totals.hasOwnProperty(partyId)) totals[partyId] = 0
+          wins[partyId] += 1
+          totals[partyId] += 1
         }
       }
     }
 
     return {
       n: NTotal,
-      static: { nDem: NDemStatic, nGop: NGopStatic },
-      election: { nDem: nDem, nGop: nGop },
-      total: { nDem: NDemStatic + nDem, nGop: NGopStatic + nGop }
+      priors: { dem: NDemPrior, gop: NGopPrior },
+      wins: wins,
+      totals: totals,
     }
   }
 

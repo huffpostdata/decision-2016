@@ -84,16 +84,16 @@ describe('ApData', () => {
         expect(summary.n).to.eq(100)
       })
 
-      it('should set static correctly (Dem-36, GOP-30)', () => {
-        expect(summary.static).to.deep.eq({ nDem: 36, nGop: 30 })
+      it('should set priors correctly (Dem-36, GOP-30)', () => {
+        expect(summary.priors).to.deep.eq({ dem: 36, gop: 30 })
       })
 
-      it('should set election correctly (according to races)', () => {
-        expect(summary.election).to.deep.eq({ nDem: 8, nGop: 10 })
+      it('should set wins correctly (according to races)', () => {
+        expect(summary.wins).to.deep.eq({ dem: 8, gop: 10 })
       })
 
-      it('should set total correctly (according to races+static)', () => {
-        expect(summary.total).to.deep.eq({ nDem: 44, nGop: 40 })
+      it('should set totals correctly (according to races+static)', () => {
+        expect(summary.totals).to.deep.eq({ dem: 44, gop: 40 })
       })
     }) // with sample data
 
