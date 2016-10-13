@@ -1,0 +1,152 @@
+#battleground_states {
+  width: $right-column-width;
+  // padding: 0 20px;
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 20px;
+  }
+  thead {
+    color: $header-color;
+    font-size: 12px;
+    tr th {
+      border-left: 1px dashed $border-color;
+      border-bottom: 1px solid $hard-line;
+      text-align: center;
+      &:nth-child(1) {
+        text-align: left;
+        border-left: none;
+      }
+    }
+  }
+  tbody {
+    tr {
+      border-bottom: 1px solid $border-color;
+      &:last-child {
+        border-bottom: none;
+      }
+      .state-icon img {
+        border: 3px solid $border-color;
+      }
+      &.gop .state-icon img {
+        border: 3px solid $gop-win;
+      }
+      &.dem .state-icon img {
+        border: 3px solid $dem-win;
+      }
+      &.dem {
+        .percent--winner {
+          background-color: $dem-win;
+        }
+      }
+      &.gop {
+        .percent--winner {
+          background-color: $gop-win;
+        }
+      }
+    }
+    tr td {
+      height: 50px;
+      width: 50px;
+      margin: 0;
+      padding: 0 10px;
+      border-left: 1px dashed $border-color;
+      font-weight: bold;
+      font-size: 14px;
+      text-align: center;
+      img {
+        padding: 0;
+        margin: 0;
+        width: 40px;
+        height: 40px;
+
+      }
+
+      &.percent {
+        &.gop {
+          background: $gop-leading;
+        }
+        &.dem {
+          background: $dem-leading
+        }
+      }
+      .state{
+        text-transform: uppercase;
+        font-size: 12px;
+        text-align: left;
+      }
+      .votes {
+        display: block;
+        font-size: 10px;
+      }
+      &:nth-child(1) {
+        border-left: none;
+      }
+      &:nth-child(2) {
+        text-align: left;
+      }
+      &:nth-child(5) {
+        color: $precint-color;
+      }
+    }
+  }
+  .spinner {
+    visibility: hidden;
+    position: absolute;
+    width: $right-column-width;
+    background-color: rgba(255, 255, 255, 0.8);
+    height: 100%;
+    img {
+      position: relative;
+      margin: 0 auto;
+      text-align: center;
+      display: block;
+      padding-top: 100px;
+    }
+  }
+}
+
+#column1 {
+  width: 60%;
+}
+#column2 {
+  width: 40%;
+}
+.column {
+  height: 600px;
+}
+.cell {
+  border: 1px solid $border-color;
+}
+.legend {
+  background-color: $border-color;
+  font-size: 10px;
+  &-icon {
+    background-color: $poll-open;
+    display: inline-block;
+    border: 1px solid #fff;
+    height: 20px;
+    width: 40px;
+    &.closed {
+      background-color: $poll-closed;
+    }
+    &.open {
+      background-color: $poll-open;
+    }
+    &.dem {
+      background-color: $dem-leading;
+      &.win {
+        background-color: $dem-win;
+      }
+    }
+    &.gop {
+      background-color: $gop-leading;
+      &.win {
+        background-color: $gop-win;
+      }
+    }
+    &.no-data{
+      background-color: $poll-not-reported;
+    }
+  }
+}
