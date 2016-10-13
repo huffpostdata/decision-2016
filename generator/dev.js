@@ -32,14 +32,14 @@ function rebuild() {
 }
 
 const server = require('net').createServer({ pauseOnConnect: true })
-server.listen(3000, () => {
+server.listen(3001, () => {
   server.removeAllListeners('connection') // the child will handle them
 
   server.on('connection', (socket) => {
     child.send('socket', socket)
   })
 
-  console.log('Listening on http://localhost:3000')
+  console.log('Listening on http://localhost:3001')
   console.log('')
   console.log('If you change a file, all will be reloaded.')
   console.log('')
