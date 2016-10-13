@@ -88,4 +88,48 @@ module.exports = class ApData {
       total: { nDem: NDemStatic + nDem, nGop: NGopStatic + nGop }
     }
   }
+
+  /**
+   * Returns House counts.
+   *
+   * The output looks like this:
+   *
+   *   {
+   *     total: 435,
+   *     tossup: 435 minus all the following values
+   *     wins: {
+   *       dem: uint number of Dem winners
+   *       gop: uint number of Gop winners
+   *       ... [ see parties.tsv for a list of what could happen ]
+   *     }
+   *   }
+   */
+  houseSummary() {
+    const NRaces = 435
+
+    const races = this.fipscodeElections.findHouseRaces()
+    if (races.length != NRaces) {
+      throw new Error(`URGENT: expected ${NRaces} Senate races; got ${races.length}`)
+    }
+
+    let nWins = 0
+    let wins = {}
+
+    for (const race of races) {
+      for (const candidate of race.reportingUnits[0].candidates) {
+        if (candidate.winner === 'X') {
+          nWins += 1
+          const partyId = candidate.party.toLowerCase()
+          if (!wins.hasOwnProperty(partyId)) wins[partyId] = 0
+          wins[partyId] += 1
+        }
+      }
+    }
+
+    return {
+      total: NRaces,
+      tossup: NRaces - nWins,
+      wins: wins
+    }
+  }
 }

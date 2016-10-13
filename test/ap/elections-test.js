@@ -120,6 +120,32 @@ describe('elections', () => {
         const elections = new Elections({ races: [ yes1, no1, yes2 ] })
         expect(elections.findSenateRaces()).to.deep.eq([ yes1, yes2 ])
       })
-    }) // #findUSPresidentRace
+    }) // #findSenateRaces
+
+    describe('#findHouseRaces', () => {
+      it('should ignore a non-H race', () => {
+        const no1 = { officeID: 'S', seatName: 'District 1' }
+        const yes = { officeID: 'H', seatName: 'District 1' }
+
+        const elections = new Elections({ races: [ no1, yes ] })
+        expect(elections.findHouseRaces()).to.deep.eq([ yes ])
+      })
+
+      it('should return multiple races', () => {
+        const yes1 = { officeID: 'H', seatName: 'District 1' }
+        const no1 = { officeID: 'S', seatName: 'District 3' }
+        const yes2 = { officeID: 'H', seatName: 'District 2' }
+
+        const elections = new Elections({ races: [ yes1, no1, yes2 ] })
+        expect(elections.findHouseRaces()).to.deep.eq([ yes1, yes2 ])
+      })
+
+      it('should skip special elections', () => {
+        const no = { officeID: 'H', seatName: 'District 3 - special' }
+        const yes = { officeID: 'H', seatName: 'District 2' }
+        const elections = new Elections({ races: [ no, yes ] })
+        expect(elections.findHouseRaces()).to.deep.eq([ yes ])
+      })
+    }) // #findHouseRaces
   }) // Elections
 })

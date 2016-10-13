@@ -71,6 +71,24 @@ class Elections {
 
     return ret
   }
+
+  /**
+   * Returns AP's JSON for house general-election races.
+   *
+   * Excludes special elections for the lame-duck session. We don't display
+   * those anywhere.
+   */
+  findHouseRaces() {
+    const ret = []
+
+    for (const race of this.json.races) {
+      if (race.officeID === 'H' && /^District \d+$/.test(race.seatName)) {
+        ret.push(race)
+      }
+    }
+
+    return ret
+  }
 }
 
 module.exports = {
