@@ -101,6 +101,25 @@ describe('elections', () => {
           elections.findUSPresidentRace()
         }).to.throw(Error)
       })
+    })
+
+    describe('#findSenateRaces', () => {
+      it('should ignore a non-S race', () => {
+        const no1 = { officeID: 'P', reportingUnits: [ { statePostal: 'CA' } ] }
+        const yes = { officeID: 'S', reportingUnits: [ { statePostal: 'CA' } ] }
+
+        const elections = new Elections({ races: [ no1, yes ] })
+        expect(elections.findSenateRaces()).to.deep.eq([ yes ])
+      })
+
+      it('should return multiple races', () => {
+        const yes1 = { officeID: 'S', reportingUnits: [ { statePostal: 'CA' } ] }
+        const no1 = { officeID: 'P', reportingUnits: [ { statePostal: 'AL' } ] }
+        const yes2 = { officeID: 'S', reportingUnits: [ { statePostal: 'CO' } ] }
+
+        const elections = new Elections({ races: [ yes1, no1, yes2 ] })
+        expect(elections.findSenateRaces()).to.deep.eq([ yes1, yes2 ])
+      })
     }) // #findUSPresidentRace
   }) // Elections
 })

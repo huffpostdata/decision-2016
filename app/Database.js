@@ -15,15 +15,7 @@ module.exports = class Database {
 
     this.splash = {
       president: apData.presidentSummary(),
-      senate: {
-        nDemInitial: 36,
-        nDem: 4,
-        nLeanDem: 2,
-        nGopInitial: 30,
-        nGop: 5,
-        nLeanGop: 3,
-        nTossup: 20
-      },
+      senate: apData.senateSummary(),
       house: {
         nDem: 100,
         nLeanDem: 14,

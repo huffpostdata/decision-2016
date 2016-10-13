@@ -58,6 +58,19 @@ class Elections {
 
     throw new Error('URGENT: We could not find the presidential race in this JSON file.')
   }
+
+  /**
+   * Returns AP's JSON for all senate races.
+   */
+  findSenateRaces() {
+    const ret = []
+
+    for (const race of this.json.races) {
+      if (race.officeID === 'S') ret.push(race)
+    }
+
+    return ret
+  }
 }
 
 module.exports = {
