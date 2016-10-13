@@ -9,7 +9,7 @@
 # of those elements.
 splash.js:
   model: splash
-  content_type: application/javascript
+  content-type: application/javascript
 
 # GET /_test/splash/:format
 #
