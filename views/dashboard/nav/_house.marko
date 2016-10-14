@@ -1,0 +1,15 @@
+var summary=data.model.summaries.house
+
+if(data.model.metadata.slug === 'house')
+  h1 - House
+else
+  a href="house" - House
+
+.bar
+  .dem style="width: ${100 * summary.wins.dem / summary.total}%"
+  .other style="width: ${100 * (summary.total - summary.tossup - summary.wins.dem - summary.wins.gop) / summary.total}%"
+  .tossup style="width: ${100 * summary.tossup / summary.total}%"
+  .gop style="width: ${100 * summary.wins.gop / summary.total}%"
+
+var nWin=Math.ceil(summary.total / 2)
+.image.${summary.wins.dem >= nWin ? 'dem-win' : (summary.wins.gop >= nWin ? 'gop-win' : (summary.wins.dem > summary.wins.gop ? 'dem-lead' : (summary.wins.gop > summary.wins.dem ? 'gop-lead' : (summary.wins.tossup === 0 ? 'tie' : 'tossup'))))}

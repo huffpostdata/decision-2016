@@ -1,2 +1,8 @@
 nav
-  - TK nav (tabs using data.model.summaries)
+  ul
+    li.president.${data.model.metadata.slug === 'president' ? 'current' : ''}
+      $!{data.helpers.partial('dashboard/nav/_president')}
+    li.senate.${data.model.metadata.slug === 'senate' ? 'current' : ''}
+      $!{data.helpers.partial('dashboard/nav/_senate')}
+    li.house.${data.model.metadata.slug === 'house' ? 'current' : ''}
+      $!{data.helpers.partial('dashboard/nav/_house')}

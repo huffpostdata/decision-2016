@@ -56,7 +56,7 @@ module.exports = class ApData {
    *       dem: uint number of winning senators who say they'll caucus with Democrats
    *       gop: uint number of winning senators who say they'll caucus with Republicans
    *     },
-   *     total: {
+   *     totals: {
    *       dem: uint total number of senators who say they'll caucus with Democrats in 2017
    *       gop: uint total number of senators who say they'll caucus with Republicans in 2017
    *     }
