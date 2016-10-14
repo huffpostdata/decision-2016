@@ -1,0 +1,65 @@
+#election_seats{
+  border: 1px solid $border-color;
+  text-align: center;
+  width: $right-column-width;
+
+  .bar {
+    margin: 5rem auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    .middle {
+      height: calc(100% + 10px);
+      width: 3px;
+      margin-top: -5px;
+      margin-bottom: -5px;
+      background: #444;
+    }
+
+    .box {
+      box-sizing: border-box;
+      border: 1px solid white;
+      border-top: 0;
+      border-left: 0;
+      background: #ddd;
+
+      &.dem {
+        background-color: $dem-win;
+      }
+
+      &.gop {
+        background-color: $gop-win;
+      }
+
+      &.not-in-play {
+        opacity: .25;
+      }
+
+      &.space {
+        background: #fff;
+      }
+
+    }
+
+    &-senate {
+      width: 250px;
+      height: 40px;
+
+      .box {
+        width: 10px;
+        height: 10px;
+      }
+    }
+
+    &-house {
+      width: 250px;
+      height: 45px;
+
+      .box {
+        width: 5px;
+        height: 5px;
+      }
+    }
+  }
+}
