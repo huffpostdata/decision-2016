@@ -14,11 +14,15 @@ module.exports = class ApData {
    *
    * * nClinton: uint Popular vote for Clinton
    * * nTrump: uint Popular vote for Trump
+   * * nElectoralVotes: 538
    * * nClintonElectoralVotes: uint electoral votes for Clinton, [0, 538]
    * * nTrumpElectoralVotes: uint electoral votes for Trump, [0, 538]
+   * * nTossupElectoralVotes: 538 - nClintonElectoralVotes - nTrumpElectoralVotes
    * * winner: 'clinton', 'trump', or null
    */
   presidentSummary() {
+    const NElectoralVotes = 538
+
     const race = this.fipscodeElections.findUSPresidentRace()
     const candidates = race.reportingUnits[0].candidates
     const clinton = candidates.find(c => c.last === 'Clinton')
@@ -27,8 +31,10 @@ module.exports = class ApData {
     return {
       nClinton: clinton.voteCount,
       nTrump: trump.voteCount,
+      nElectoralVotes: NElectoralVotes,
       nClintonElectoralVotes: clinton.electWon,
       nTrumpElectoralVotes: trump.electWon,
+      nTossupElectoralVotes: NElectoralVotes - clinton.electWon - trump.electWon,
       winner: clinton.winner === 'X' ? 'clinton' : (trump.winner === 'X' ? 'trump' : null)
     }
   }

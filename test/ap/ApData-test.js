@@ -10,8 +10,8 @@ describe('ApData', () => {
       const apData = new ApData({
         findUSPresidentRace() { return {
           reportingUnits: [ { candidates: [
-            { last: 'Clinton', voteCount: 23456, electWon: 0, winner: '' },
-            { last: 'Trump', voteCount: 12345, electWon: 0, winner: '' },
+            { last: 'Clinton', voteCount: 23456, electWon: 257, winner: '' },
+            { last: 'Trump', voteCount: 12345, electWon: 182, winner: '' },
             { last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
           ]}]
         }}
@@ -23,9 +23,17 @@ describe('ApData', () => {
         expect(summary.nTrump).to.eq(12345)
       })
 
+      it('should set nElectoralVotes to 538', () => {
+        expect(summary.nElectoralVotes).to.eq(538)
+      })
+
       it('should count nClintonElectoralVotes, nTrumpElectoralVotes', () => {
-        expect(summary.nClinton).to.eq(23456)
-        expect(summary.nTrump).to.eq(12345)
+        expect(summary.nClintonElectoralVotes).to.eq(257)
+        expect(summary.nTrumpElectoralVotes).to.eq(182)
+      })
+
+      it('should count nTossupElectoralVotes', () => {
+        expect(summary.nTossupElectoralVotes).to.eq(99)
       })
 
       it('should default to winner=null', () => {
