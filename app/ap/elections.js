@@ -47,7 +47,7 @@ class Elections {
   }
 
   /**
-   * Returns AP's JSON for the president's race.
+   * Returns AP's summary JSON for the presidential race.
    */
   findUSPresidentRace() {
     for (const race of this.json.races) {
@@ -57,6 +57,21 @@ class Elections {
     }
 
     throw new Error('URGENT: We could not find the presidential race in this JSON file.')
+  }
+
+  /**
+   * Returns AP's JSON for races in each state (or, in ME and NE, district/at-large)
+   */
+  findPresidentRaces() {
+    let ret = []
+
+    for (const race of this.json.races) {
+      if (race.officeID === 'P' && race.reportingUnits[0].statePostal !== 'US') {
+        ret.push(race)
+      }
+    }
+
+    return ret
   }
 
   /**

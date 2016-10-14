@@ -1,3 +1,4 @@
 #president-summary {
+  @include page-width();
   height: 10rem; background: $TK-code-this-component;
 }

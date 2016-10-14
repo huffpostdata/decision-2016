@@ -1,4 +1,8 @@
+'use strict'
+
 const expect = require('chai').expect
+
+const fs = require('fs')
 
 const elections = require('../../app/ap/elections')
 const Elections = elections.Elections
@@ -100,6 +104,70 @@ describe('elections', () => {
         expect(() => {
           elections.findUSPresidentRace()
         }).to.throw(Error)
+      })
+    })
+
+    describe('#findPresidentRaces', () => {
+      describe('with sample data', () => {
+        const tsvData = fs.readFileSync(`${__dirname}/../../app/google-sheets/presidentRaces.tsv`, 'utf-8')
+          .split(/\r?\n/g)
+          .slice(1)                  // ignore header
+          .filter(s => s.length > 0) // ignore trailing newlines
+          .map(s => s.split(/\t/g))
+
+        const fipscodeRaces = tsvData
+          .filter(row => row[1].length === 0) // ignore district races
+          .map(row => {
+            return {
+              officeID: 'P',
+              reportingUnits: [ { statePostal: row[2] } ]
+            }
+          })
+
+        const districtRaces = []
+        for (const row of tsvData) {
+          if (row[1].length === 0) continue // only district races
+          if (districtRaces.length === 0 || districtRaces[districtRaces.length - 1].reportingUnits[0].statePostal !== row[2]) {
+            // New district
+            districtRaces.push({
+              officeID: 'P',
+              reportingUnits: [ { statePostal: row[2] } ]
+            })
+          }
+
+          districtRaces[districtRaces.length - 1].reportingUnits.push({
+            level: 'district',
+            statePostal: row[2],
+          })
+        }
+
+        describe('from fipscode.json', () => {
+          const elections = new Elections({ races: fipscodeRaces })
+          
+          it('should find 49 races (48 states + DC)', () => {
+            expect(elections.findPresidentRaces().length).to.eq(49)
+          })
+
+          it('should ignore the US race', () => {
+            fipscodeRaces.unshift({ officeID: 'P', reportingUnits: [ { statePostal: 'US' } ] })
+            expect(elections.findPresidentRaces().length).to.eq(49)
+          })
+
+          it('should ignore non-Presidential races', () => {
+            fipscodeRaces.unshift({ officeID: 'H', reportingUnits: [ { statePostal: 'AL' } ] })
+            fipscodeRaces.unshift({ officeID: 'S', reportingUnits: [ { statePostal: 'AL' } ] })
+            fipscodeRaces.unshift({ officeID: 'G', reportingUnits: [ { statePostal: 'AL' } ] })
+            expect(elections.findPresidentRaces().length).to.eq(49)
+          })
+        })
+
+        describe('from district.json', () => {
+          const elections = new Elections({ races: districtRaces })
+
+          it('should find 2 races (ApData will expand)', () => {
+            expect(elections.findPresidentRaces().length).to.eq(2)
+          })
+        })
       })
     })
 

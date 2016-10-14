@@ -1,0 +1,57 @@
+id	apIdOrEmpty	regionId	nElectoralVotesForTest	stateNameForTest
+AL		AL	9	Alabama
+AK		AK	3	Alaska
+AZ		AZ	11	Arizona
+AR		AR	6	Arkansas
+CA		CA	55	California
+CO		CO	9	Colorado
+CT		CT	7	Connecticut
+DE		DE	3	Delaware
+DC		DC	3	Dist. of Columbia
+FL		FL	29	Florida
+GA		GA	16	Georgia
+HI		HI	4	Hawaii
+ID		ID	4	Idaho
+IL		IL	20	Illinois
+IN		IN	11	Indiana
+IA		IA	6	Iowa
+KS		KS	6	Kansas
+KY		KY	8	Kentucky
+LA		LA	8	Louisiana
+ME	me20005	ME	2	Maine
+ME1	me20026	ME	1	Maine
+ME2	me20027	ME	1	Maine
+MD		MD	10	Maryland
+MA		MA	11	Massachusetts
+MI		MI	16	Michigan
+MN		MN	10	Minnesota
+MS		MS	6	Mississippi
+MO		MO	10	Missouri
+MT		MT	3	Montana
+NE	ne28004	NE	2	Nebraska
+NE1	ne28006	NE	1	Nebraska
+NE2	ne28007	NE	1	Nebraska
+NE3	ne28008	NE	1	Nebraska
+NV		NV	6	Nevada
+NH		NH	4	New Hampshire
+NJ		NJ	14	New Jersey
+NM		NM	5	New Mexico
+NY		NY	29	New York
+NC		NC	15	North Carolina
+ND		ND	3	North Dakota
+OH		OH	18	Ohio
+OK		OK	7	Oklahoma
+OR		OR	7	Oregon
+PA		PA	20	Pennsylvania
+RI		RI	4	Rhode Island
+SC		SC	9	South Carolina
+SD		SD	3	South Dakota
+TN		TN	11	Tennessee
+TX		TX	38	Texas
+UT		UT	6	Utah
+VT		VT	3	Vermont
+VA		VA	13	Virginia
+WA		WA	12	Washington
+WV		WV	5	West Virginia
+WI		WI	10	Wisconsin
+WY		WY	3	Wyoming
