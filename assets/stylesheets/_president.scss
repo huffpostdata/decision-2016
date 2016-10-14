@@ -6,6 +6,7 @@
 body.president {
   .map-and-map-info {
     @include wide-width();
+    margin-top: 3rem;
 
     display: -webkit-flex;
     display: flex;

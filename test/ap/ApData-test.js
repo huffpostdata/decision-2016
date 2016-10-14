@@ -121,8 +121,8 @@ describe('ApData', () => {
           statePostal: row[2],
           // no stateName
           electTotal: +row[3],
-          reportingUnitID: row[1].slice(2),
-          reportingUnitName: row[0].length === 2 ? 'At Large' : `District ${row[0].slice(2)}`,
+          reportingunitID: row[1].slice(2),
+          reportingunitName: row[0].length === 2 ? 'At Large' : `District ${row[0].slice(2)}`,
           candidates: [
             { first: 'Hillary', last: 'Clinton', party: 'Dem', winner: ([ 'ME', 'ME1', 'NE2' ].indexOf(row[0] === -1) ? '' : 'X') },
             { first: 'Donald', last: 'Trump', party: 'GOP', winner: ([ 'ME2', 'NE', 'NE2' ].indexOf(row[0] === -1) ? '' : 'X') },

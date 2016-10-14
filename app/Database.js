@@ -28,6 +28,8 @@ module.exports = class Database {
       house: apData.houseSummary()
     }
 
+    const presidentRaces = apData.presidentRaces()
+
     this.splash = {
       president: summaries.president,
       senate: summaries.senate,
@@ -43,6 +45,7 @@ module.exports = class Database {
     this.president = {
       metadata: new PageMetadata('president', {}), // TK
       summaries: summaries,
+      races: presidentRaces,
       byState: {},
       battlegrounds: battlegrounds
     }

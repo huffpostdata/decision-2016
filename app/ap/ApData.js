@@ -136,9 +136,9 @@ module.exports = class ApData {
       for (const ru of apState.reportingUnits.slice(1)) {
         const race = {
           // id: "ME", "ME1", "ME2", ...
-          id: ru.statePostal + (ru.districtType === 'CD' ? ru.reportingUnitName.slice('District '.length) : ''),
+          id: ru.statePostal + (ru.districtType === 'CD' ? ru.reportingunitName.slice('District '.length) : ''),
           regionId: ru.statePostal,
-          name: `${state.stateName} ${ru.reportingUnitName}`,
+          name: `${state.stateName} ${ru.reportingunitName}`,
           regionName: state.stateName,
           nElectoralVotes: ru.electTotal,
           nPrecinctsReporting: ru.precinctsReporting,
