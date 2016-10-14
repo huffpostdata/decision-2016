@@ -104,7 +104,7 @@ function paintRow(data) {
 module.exports = {
   render: function(data) {
     // TODO: Rename to `battlegrounds`
-    battleground = window.document.getElementById('battleground_states');
+    battleground = window.document.getElementById('battlegrounds');
 
     setUpTable();
 
