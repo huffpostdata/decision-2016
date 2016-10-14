@@ -88,5 +88,6 @@ Here's how we set up our "staging" server:
     generator/upload.js
     ```
 4. On the server, `chmod +x /opt/decision-2016/.git/hooks/post-receive`
+5. On the server, ***ONLY THE STAGING SERVER***, `cp /opt/decision-2016/sample-data/* /opt/decision-2016/data/`
 5. On each dev machine, `git remote add staging USER@[server]:/opt/decision-2016`
 6. (Once per deploy, on a dev machine) `git push staging master`. You'll see the output in your console.
