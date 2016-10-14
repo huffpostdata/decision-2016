@@ -5,7 +5,7 @@
 3. `cp sample-data/* data/`
 4. `generator/dev.js`
 
-Then browse to http://localhost:3000
+Then browse to http://localhost:3001
 
 Also, run `npm test` before committing, and run `npm run test-watch` in the
 background if you're editing server-side JavaScript.
