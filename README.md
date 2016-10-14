@@ -71,39 +71,22 @@ it.
 
 # Deploying
 
-We'll automate this. But for now, here's how we deployed to production:
+Here's how we set up our "staging" server:
 
-1. (Once per project) SSH into a server and:
-  1. `git init --bare SLUG.git`
-  2. Copy this file to `~/SLUG.git/hooks/post-receive`:
-```
-#!/bin/sh
+1. Create a server
+2. On the server, `sudo mkdir /opt/decision-2016 && sudo chown USER:USER /opt/decision-2016 && cd /opt/decision-2016 && git init && git config receive.denyCurrentBranch updateInstead` ([updateInstead documentation](https://github.com/blog/1957-git-2-3-has-been-released))
+3. On the server, write to `/opt/decision-2016/.git/hooks/post-receive`:
+    ```
+    #!/bin/sh
 
-read OLDREV NEWREV REFNAME
+    pushd /opt/decision-2016 >/dev/null
 
-set -ex
+    npm install --production
 
-[ "$REFNAME" = 'refs/heads/master' ] || exit 0
-
-ROOT=/tmp/deploy-SLUG
-
-rm -rf "$ROOT/code"
-mkdir -p "$ROOT/code"
-git archive --format=tar HEAD | (cd "$ROOT/code" && tar xf -)
-
-mkdir -p "$ROOT/shared/node_modules" # if it doesn't already exist
-ln -sf "$ROOT/shared/node_modules" "$ROOT/code/node_modules"
-
-pushd "$ROOT/code"
-
-npm install --production
-S3_BUCKET=data.huffingtonpost.com \
-  BASE_URL='http://data.huffingtonpost.com' \
-  node generator/upload.js
-
-popd
-```
-  3. `chmod +x ~/SLUG.git/hooks/post-receive`
-2. (Once per dev machine per project) Run `git remote add production ssh://rails@production-elections-utility-01.use1.huffpo.net/home/rails/SLUG.git`
-3. (Once per deploy) `git push production master`. You'll see the output in your console.
-
+    BASE_URL=... \
+    S3_BUCKET=... \
+    generator/upload.js
+    ```
+4. On the server, `chmod +x /opt/decision-2016/.git/hooks/post-receive`
+5. On each dev machine, `git remote add staging USER@[server]:/opt/decision-2016`
+6. (Once per deploy, on a dev machine) `git push staging master`. You'll see the output in your console.
