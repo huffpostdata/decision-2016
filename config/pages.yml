@@ -1,6 +1,6 @@
-#index:
-#  path: _root
-#  model: index
+index:
+  path: _root
+  redirect: president
 
 # GET /splash.js
 #
