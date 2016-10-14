@@ -110,14 +110,10 @@ nav {
       text-align: center;
     }
     &.clinton-lead, &.trump-lead, &.dem-lead, &.gop-lead {
-      &::after {
-        content: 'Lead';
-      }
+      &::after { content: 'Lead'; }
     }
     &.clinton-win, &.trump-win, &.dem-win, &.gop-win {
-      &::after {
-        content: 'Win';
-      }
+      &::after { content: 'Win'; }
     }
     &.clinton-lead, &.clinton-win {
       background-image: asset-url('digest', 'images/dashboard/clinton-bust.jpg');
@@ -125,11 +121,19 @@ nav {
     &.trump-lead, &.trump-win {
       background-image: asset-url('digest', 'images/dashboard/trump-bust.jpg');
     }
-    &.tie::after {
-      content: 'Tie';
+    &.dem-lead, &.dem-win {
+      background-image: asset-url('digest', 'images/dashboard/dem.svg');
     }
-    &.tossup::after {
-      content: 'Tossup';
+    &.gop-lead, &.gop-win {
+      background-image: asset-url('digest', 'images/dashboard/gop.svg');
+    }
+    &.tie {
+      background-image: asset-url('digest', 'images/dashboard/tossup.svg');
+      &::after { content: 'Tie'; }
+    }
+    &.tossup {
+      background-image: asset-url('digest', 'images/dashboard/tossup.svg');
+      &::after { content: 'Tossup'; }
     }
   }
 }
