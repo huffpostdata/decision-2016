@@ -103,7 +103,6 @@ function paintRow(data) {
 
 module.exports = {
   render: function(data) {
-    // TODO: Rename to `battlegrounds`
     battleground = window.document.getElementById('battlegrounds');
 
     setUpTable();
@@ -115,7 +114,5 @@ module.exports = {
       var row = paintRow(data[i]);
       tableBody.appendChild(row);
     }
-
-    console.debug("Brother, whatever you're doing, I suggest you do it faster. ");
   }
 };

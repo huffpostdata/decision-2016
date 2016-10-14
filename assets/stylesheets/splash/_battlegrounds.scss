@@ -1,4 +1,5 @@
 #battlegrounds {
+  border: 1px solid $border-color;
   width: $right-column-width;
   // padding: 0 20px;
   table {
@@ -114,39 +115,4 @@
 }
 .column {
   height: 600px;
-}
-.cell {
-  border: 1px solid $border-color;
-}
-.legend {
-  background-color: $border-color;
-  font-size: 10px;
-  &-icon {
-    background-color: $poll-open;
-    display: inline-block;
-    border: 1px solid #fff;
-    height: 20px;
-    width: 40px;
-    &.closed {
-      background-color: $poll-closed;
-    }
-    &.open {
-      background-color: $poll-open;
-    }
-    &.dem {
-      background-color: $dem-leading;
-      &.win {
-        background-color: $dem-win;
-      }
-    }
-    &.gop {
-      background-color: $gop-leading;
-      &.win {
-        background-color: $gop-win;
-      }
-    }
-    &.no-data{
-      background-color: $poll-not-reported;
-    }
-  }
 }
