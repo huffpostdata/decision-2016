@@ -1,6 +1,5 @@
 button.facebook-share, button.twitter-share {
   &, &::before {
-    font-family: $nav-font-family;
     display: inline-block;
     box-sizing: border-box; // dunno why this makes a difference
     margin: 0;

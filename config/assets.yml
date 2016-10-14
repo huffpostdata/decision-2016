@@ -1,8 +1,9 @@
 javascript:
   splash.js: javascripts/splash.js
+  president.js: javascripts/president.js
 
 scss:
-  #index.css: stylesheets/index.scss
+  dashboard.css: stylesheets/dashboard.scss
   splash.css: stylesheets/splash.scss
 
 digest:

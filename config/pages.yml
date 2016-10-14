@@ -20,3 +20,6 @@ splash.js:
 _test/splash/:format:
   template: _test/splash
   collection: splashFormats
+
+president:
+  model: president

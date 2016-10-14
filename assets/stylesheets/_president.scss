@@ -1,0 +1,26 @@
+@import 'president/_summary';
+@import 'president/_battlegrounds';
+@import 'president/_map';
+@import 'president/_map-switcher';
+
+body.president {
+  .map-and-map-info {
+    @include wide-width();
+
+    display: -webkit-flex;
+    display: flex;
+    &>* {
+      -webkit-flex: 1 1 auto;
+      flex: 1 1 auto;
+    }
+
+    .map {
+      position: relative;
+      width: 60%;
+    }
+
+    .map-info {
+      margin-left: 1rem;
+    }
+  }
+}
