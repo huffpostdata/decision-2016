@@ -42,22 +42,23 @@
       bottom: 0;
       width: 5rem;
       height: 5rem;
+      background-size: 100%;
     }
   }
 
   .total-clinton {
     text-align: left;
     left: 0;
-    .image { left: 0; }
-    margin-left: 6rem;
+    .image { left: 0; background-image: asset-url('digest', 'images/dashboard/clinton-bust.jpg'); }
+    padding-left: 6rem;
     strong { color: $dem-color; }
   }
 
   .total-trump {
     text-align: right;
     right: 0;
-    .image { right: 0; }
-    margin-right: 6rem;
+    .image { right: 0; background-image: asset-url('digest', 'images/dashboard/trump-bust.jpg'); }
+    padding-right: 6rem;
     strong { color: $gop-color; }
   }
 
