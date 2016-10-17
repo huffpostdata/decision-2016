@@ -1,4 +1,5 @@
 var cartogram = require('./common/_cartogram');
+var nav = require('./dashboard/_nav');
 var refresh = require('./common/_refresh');
 
 var mapEl = document.getElementById('map');
@@ -7,8 +8,12 @@ cartogramEl.className = 'cartogram';
 mapEl.appendChild(cartogramEl);
 var updateCartogram = cartogram(cartogramEl, { todo: 'put-data-here' });
 
+var navEl = document.querySelector('nav');
+var updateNav = nav(navEl);
+
 function doRefresh(json) {
   updateCartogram(json.races);
+  updateNav(json.summaries);
 }
 
 var refreshEl = document.getElementById('refresh');
