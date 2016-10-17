@@ -10,22 +10,6 @@ const Elections = elections.Elections
 describe('elections', () => {
   describe('Elections', () => {
     describe('#update', () => {
-      it('should not add new races', () => {
-        const oldElections = new Elections({
-          races: [
-            { raceID: '0', reportingUnits: [ { statePostal: 'US' } ] }
-          ]
-        })
-
-        const newElections = oldElections.update({
-          races: [
-            { raceID: '0', reportingUnits: [ { statePostal: 'AA' } ] }
-          ]
-        })
-
-        expect(newElections.json.races).to.deep.eq(oldElections.json.races)
-      })
-
       it('should modify .nextrequest', () => {
         const oldElections = new Elections({
           races: [],
@@ -77,6 +61,90 @@ describe('elections', () => {
         })
 
         expect(newElections.json).to.deep.eq(oldElections.json)
+      })
+
+      it('should update to a race with no reportingUnits', () => {
+        const oldElections = new Elections({
+          electionDate: 'foo',
+          timestamp: 'bar',
+          nextrequest: 'baz',
+          races: [
+            { raceID: '0', reportingUnits: [ { statePostal: 'US' } ] },
+            { raceID: '1', reportingUnits: [ { statePostal: 'US' } ] }
+          ]
+        })
+
+        const newElections = oldElections.update({
+          electionDate: 'foo',
+          timestamp: 'bar',
+          nextrequest: 'baz',
+          races: [ { raceID: '0', statePostal: 'US' } ]
+        })
+
+        expect(newElections.json).to.deep.eq({
+          electionDate: 'foo',
+          timestamp: 'bar',
+          nextrequest: 'baz',
+          races: [
+            { raceID: '0', statePostal: 'US' },
+            { raceID: '1', reportingUnits: [ { statePostal: 'US' } ] }
+          ]
+        })
+      })
+
+      it('should update from a race with no reportingUnits', () => {
+        const oldElections = new Elections({
+          electionDate: 'foo',
+          timestamp: 'bar',
+          nextrequest: 'baz',
+          races: [
+            { raceID: '0', statePostal: 'US' },
+            { raceID: '1', reportingUnits: [ { statePostal: 'US' } ] }
+          ]
+        })
+
+        const newElections = oldElections.update({
+          electionDate: 'foo',
+          timestamp: 'bar',
+          nextrequest: 'baz',
+          races: [ { raceID: '0', reportingUnits: [ { statePostal: 'US' } ] } ]
+        })
+
+        expect(newElections.json).to.deep.eq({
+          electionDate: 'foo',
+          timestamp: 'bar',
+          nextrequest: 'baz',
+          races: [
+            { raceID: '0', reportingUnits: [ { statePostal: 'US' } ] },
+            { raceID: '1', reportingUnits: [ { statePostal: 'US' } ] }
+          ]
+        })
+      })
+
+      it('should add a race (because AP actually does this)', () => {
+        const oldElections = new Elections({
+          electionDate: 'foo',
+          timestamp: 'bar',
+          nextrequest: 'baz',
+          races: [ { raceID: '0', statePostal: 'US' } ]
+        })
+
+        const newElections = oldElections.update({
+          electionDate: 'foo',
+          timestamp: 'bar',
+          nextrequest: 'baz',
+          races: [ { raceID: '1', statePostal: 'US' } ]
+        })
+
+        expect(newElections.json).to.deep.eq({
+          electionDate: 'foo',
+          timestamp: 'bar',
+          nextrequest: 'baz',
+          races: [
+            { raceID: '0', statePostal: 'US' },
+            { raceID: '1', statePostal: 'US' }
+          ]
+        })
       })
     }) // #update
 
