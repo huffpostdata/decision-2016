@@ -36,7 +36,7 @@ module.exports = function(el, url, setData) {
   var countdown = el.querySelector('span.countdown');
 
   if (!button || !countdown) {
-    console.warn('Could not find button.refresh and span.countdown. Not refreshing.');
+    console.log('Could not find button.refresh and span.countdown. Not refreshing.');
     return;
   }
 
@@ -56,6 +56,7 @@ module.exports = function(el, url, setData) {
     xhr = new XMLHttpRequest();
     xhr.open('GET', url);
     xhr.timeout = 10000;
+    xhr.responseType = 'json';
     xhr.onreadystatechange = function() {
       if (xhr.readyState !== XMLHttpRequest.DONE) return;
       if (xhr.status === 200 || xhr.status === 304) {
