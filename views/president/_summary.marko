@@ -28,3 +28,10 @@ var races=data.model.races
       for(race in races)
         if(race.winner === 'trump')
           li.trump style="width: ${100 * race.nElectoralVotes / summary.nElectoralVotes}%" data-race-id="${race.id}"
+    .popular-votes
+      .clinton-popular-votes
+        strong - ${data.helpers.formatInt(summary.nClinton)}
+        -  votes
+      .trump-popular-votes
+        strong - ${data.helpers.formatInt(summary.nTrump)}
+        -  votes

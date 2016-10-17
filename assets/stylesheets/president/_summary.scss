@@ -46,6 +46,21 @@
     }
   }
 
+  .popular-votes {
+    height: 1rem;
+    font-size: .85rem;
+    line-height: 1rem;
+    position: relative;
+    padding-top: .25rem;
+    color: $muted-color;
+
+    .trump-popular-votes {
+      position: absolute;
+      right: 0;
+      top: .25rem;
+    }
+  }
+
   .total-clinton {
     text-align: left;
     left: 0;

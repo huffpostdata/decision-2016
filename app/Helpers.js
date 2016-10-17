@@ -1,5 +1,6 @@
 'use strict'
 
+const formatInt = require('../assets/javascripts/common/formatInt')
 const PageContext = require('../generator/PageContext')
 
 function extend_context(context, locals) {
@@ -14,6 +15,10 @@ class Helpers {
 
   partial(name) {
     return this.context.render_template(name, this.context)
+  }
+
+  formatInt(i) {
+    return formatInt(i)
   }
 
   // Changes 'Written by [Adam Hooper]' to 'Written by <a href="..."></a>'
