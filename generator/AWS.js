@@ -1,7 +1,6 @@
 'use strict'
 
 const S3 = new (require('aws-sdk').S3)()
-const read_config = require('./read_config')
 
 if (!process.env.S3_BUCKET) {
   throw new Error('You must set the S3_BUCKET environment variable to use AWS')
@@ -9,10 +8,6 @@ if (!process.env.S3_BUCKET) {
 const BucketName = process.env.S3_BUCKET
 
 class AWS {
-  constructor(config) {
-    this.config = config
-  }
-
   // Returns a Promise
   upload_asset(key, asset) {
     const params = this.build_params({
@@ -74,8 +69,7 @@ class AWS {
 }
 
 AWS.upload_assets_and_pages = (assets, pages) => {
-  const config = read_config('aws')
-  const aws = new AWS(config)
+  const aws = new AWS()
   return aws.upload_assets_and_pages(assets, pages)
 }
 

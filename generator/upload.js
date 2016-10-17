@@ -2,13 +2,26 @@
 
 'use strict'
 
+const withLockfile = require('./lockfile')
+
 const App = require('./App')
 const AWS = require('./AWS')
 
-App.build_output_from_scratch((error, output) => {
-  if (error) throw error
-  if (output.error) throw output.error
+function exit(err) {
+  if (err) throw err
+}
 
-  AWS.upload_assets_and_pages(output.assets, output.pages)
-    .then(null, console.warn) // or throw the error asynchronously
+withLockfile((err, freeLockfile) => {
+  if (err) return exit(err)
+
+  App.build_output_from_scratch((err, output) => {
+    if (!err && output.error) err = output.error
+    if (err) return freeLockfile(exit, err)
+
+    AWS.upload_assets_and_pages(output.assets, output.pages)
+      .then(
+        () => freeLockfile(exit),
+        (err) => freeLockfile(exit, err)
+      )
+  })
 })
