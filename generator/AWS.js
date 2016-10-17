@@ -3,6 +3,11 @@
 const S3 = new (require('aws-sdk').S3)()
 const read_config = require('./read_config')
 
+if (!process.env.S3_BUCKET) {
+  throw new Error('You must set the S3_BUCKET environment variable to use AWS')
+}
+const BucketName = process.env.S3_BUCKET
+
 class AWS {
   constructor(config) {
     this.config = config
@@ -61,7 +66,7 @@ class AWS {
 
   build_params(params, max_age) {
     return Object.assign({
-      Bucket: process.env.S3_BUCKET || this.config.upload_to_s3_bucket,
+      Bucket: BucketName,
       ACL: 'public-read',
       CacheControl: `public, max-age=${Math.round(max_age / 1000)}`
     }, params)

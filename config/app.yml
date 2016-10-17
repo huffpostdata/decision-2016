@@ -4,11 +4,6 @@
 # This base_path will be the same on dev and production.
 base_path: '/2016/results'
 
-# The base_url describes where this site will be when it's live.
-# Start it off with "http://" unless you're certain Twitter, Facebook and
-# Google+ are all okay with schema-relative URLs.
-base_url: 'http://data.huffingtonpost.com'
-
 # The helpers are the functions you can call from within templates. You
 # define them as part of your app.
 #
