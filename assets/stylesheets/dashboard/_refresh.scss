@@ -1,3 +1,48 @@
 #refresh {
-  height: 2rem; background: $TK-code-this-component;
+  display: block;
+  height: 2rem;
+  font-size: .85rem;
+  color: $muted-color;
+
+  button {
+    display: inline-block;
+    background: $refresh-bg;
+    position: relative;
+    padding-left: 2rem;
+    margin-right: .5rem;
+    font-size: .85rem;
+    line-height: 2rem;
+    border: 1px solid $very-muted-color;
+    outline: none;
+    cursor: pointer;
+
+    &:active {
+      border-color: $muted-color;
+    }
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      position: absolute;
+      top: .5rem;
+      left: .5rem;
+      background-image: asset-as-url('digest', 'images/common/refresh.svg');
+      background-size: 100%;
+    }
+  }
+
+  &.loading button::before {
+    animation: spin 1s infinite linear;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-0.001deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(360.001deg);
+  }
 }

@@ -23,3 +23,7 @@ _test/splash/:format:
 
 president:
   model: president
+
+president.json:
+  model: presidentAsBuffer
+  content-type: application/json
