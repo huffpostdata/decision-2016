@@ -85,17 +85,16 @@ function repeatBoxes(times, css) {
 module.exports = {
   renderHouse: function(data) {
     house_seats = window.document.getElementById('house_seats');
-    console.debug("house", data);
+    if (house_seats) {
+      setUpHouse(data);
+    }
 
-    setUpHouse(data);
   },
   renderSenate: function(data) {
     senate_seats = window.document.getElementById('senate_seats');
 
-    console.debug("senate", data);
-
-    setUpSenate();
-
-    console.debug("Sweet Christmas.");
+    if (senate_seats) {
+      setUpSenate();
+    }
   }
 }

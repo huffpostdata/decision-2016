@@ -105,14 +105,14 @@ module.exports = {
   render: function(data) {
     battleground = window.document.getElementById('battlegrounds');
 
-    setUpTable();
+    if (battleground) {
+      setUpTable();
+      tableBody.innerHTML = "";
 
-
-    tableBody.innerHTML = "";
-
-    for(var i = 0; i < data.length; i++) {
-      var row = paintRow(data[i]);
-      tableBody.appendChild(row);
+      for(var i = 0; i < data.length; i++) {
+        var row = paintRow(data[i]);
+        tableBody.appendChild(row);
+      }
     }
   }
 };
