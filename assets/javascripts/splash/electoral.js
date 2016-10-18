@@ -1,4 +1,4 @@
-function startInfographic() {
+function electoralVotesGraph() {
   var electoral;
   var ctx = document.getElementById('ev-canvas').getContext('2d');
   ctx.canvas.width = 665;
@@ -540,7 +540,7 @@ module.exports = {
   render: function(data) {
     electoral = window.document.getElementById('electoral_votes');
     genHTML();
-    startInfographic();
+    electoralVotesGraph();
     window.EVG.init(data);
   }
 }
