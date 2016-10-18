@@ -5,7 +5,11 @@
  */
 function apRaceToKey(apRaceJson) {
   // AP-assigned raceIDs are unique within a state.
-  return `${apRaceJson.reportingUnits[0].statePostal}:${apRaceJson.raceID}`
+  return `${apRaceToStateCode(apRaceJson)}:${apRaceJson.raceID}`
+}
+
+function apRaceToStateCode(apRaceJson) {
+  return apRaceJson.statePostal || apRaceJson.reportingUnits[0].statePostal
 }
 
 /**
@@ -38,10 +42,18 @@ class Elections {
       keyToNewRace[apRaceToKey(race)] = race
     }
 
+    const usedKeys = {}
     newJson.races = this.json.races.map(oldRace => {
       const key = apRaceToKey(oldRace)
+      usedKeys[key] = null
       return keyToNewRace.hasOwnProperty(key) ? keyToNewRace[key] : oldRace
     })
+
+    for (const key in keyToNewRace) {
+      if (keyToNewRace.hasOwnProperty(key) && !usedKeys.hasOwnProperty(key)) {
+        newJson.races.push(keyToNewRace[key])
+      }
+    }
 
     return new Elections(newJson)
   }
@@ -51,7 +63,7 @@ class Elections {
    */
   findUSPresidentRace() {
     for (const race of this.json.races) {
-      if (race.officeID === 'P' && race.reportingUnits[0].statePostal === 'US') {
+      if (race.officeID === 'P' && apRaceToStateCode(race) === 'US') {
         return race
       }
     }
@@ -66,7 +78,7 @@ class Elections {
     let ret = []
 
     for (const race of this.json.races) {
-      if (race.officeID === 'P' && race.reportingUnits[0].statePostal !== 'US') {
+      if (race.officeID === 'P' && apRaceToStateCode(race) !== 'US') {
         ret.push(race)
       }
     }

@@ -4,6 +4,11 @@ const AssetCompiler = require('./AssetCompiler')
 const PageCompiler = require('./PageCompiler')
 const read_config = require('./read_config')
 
+const BaseUrl = process.env.BASE_URL || 'http://localhost:3001'
+if (!/^https?:/.test(BaseUrl)) {
+  throw new Error(`You set BASE_URL to ${BaseUrl}. Change it to start with "http://" or "https://" because Facebook/Twitter can't use any other URL schema`)
+}
+
 // Seeing this symbol somewhere? You should edit config/app.yml to
 // create a helper class.
 class ThereAreNoHelpers_EditConfigAppYmlToDefineThem {
@@ -29,7 +34,7 @@ class App {
     const page_compiler = new PageCompiler(
       page_config,
       this.config.base_path,
-      process.env.BASE_URL || this.config.base_url,
+      BaseUrl,
       asset_compiler,
       database,
       helpers_ctor

@@ -277,6 +277,10 @@ describe('ApData', () => {
       it('should set totals correctly (according to races+static)', () => {
         expect(summary.totals).to.deep.eq({ dem: 44, gop: 40 })
       })
+
+      it('should set tossup correctly', () => {
+        expect(summary.tossup).to.eq(16)
+      })
     }) // with sample data
 
     it('should throw if a non-Dem/GOP candidate wins', () => {

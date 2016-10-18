@@ -7,6 +7,8 @@ var races=data.model.races
       .image
       h3 - Clinton
       strong - ${summary.nClintonElectoralVotes}
+      <!-- number of electoral votes can be 0, 3 or higher -- never 1 -->
+      <!-- TK i18n: other languages can't use this shortcut -->
       span - electoral votes
     .total-trump
       .image
@@ -28,3 +30,10 @@ var races=data.model.races
       for(race in races)
         if(race.winner === 'trump')
           li.trump style="width: ${100 * race.nElectoralVotes / summary.nElectoralVotes}%" data-race-id="${race.id}"
+    .popular-votes
+      .clinton-popular-votes
+        strong - ${data.helpers.formatInt(summary.nClinton)}
+        -  votes
+      .trump-popular-votes
+        strong - ${data.helpers.formatInt(summary.nTrump)}
+        -  votes

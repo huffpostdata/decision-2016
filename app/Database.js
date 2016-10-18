@@ -62,5 +62,10 @@ module.exports = class Database {
       byState: {},
       battlegrounds: battlegrounds
     }
+
+    this.presidentAsBuffer = Buffer.from(JSON.stringify({
+      summaries: summaries,
+      races: presidentRaces
+    }));
   }
 }

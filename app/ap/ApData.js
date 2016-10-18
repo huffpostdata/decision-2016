@@ -161,6 +161,7 @@ module.exports = class ApData {
    *
    *   {
    *     n: 100,
+   *     tossup: uint number of seats not yet won
    *     priors: {
    *       // Senate seats that are _not_ up for reelection
    *       dem: uint number of senators who caucus with Democrats
@@ -211,6 +212,7 @@ module.exports = class ApData {
 
     return {
       n: NTotal,
+      tossup: NTotal - NDemPrior - NGopPrior - wins.dem - wins.gop,
       priors: { dem: NDemPrior, gop: NGopPrior },
       wins: wins,
       totals: totals,
