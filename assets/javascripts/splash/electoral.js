@@ -539,10 +539,8 @@ function genCanvasElements() {
 module.exports = {
   render: function(data) {
     electoral = window.document.getElementById('electoral_votes');
-    console.log('data.electoral:', data);
     genHTML();
     startInfographic();
     window.EVG.init(data);
-    console.log('render electoral infographic');
   }
 }
