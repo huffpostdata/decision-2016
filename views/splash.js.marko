@@ -1,6 +1,18 @@
 <!-- You probably mean to edit `assets/javascripts/splash.js`... -->
 ---
 var style = document.createElement('style');
+var electoralImages = { 
+  clinton: {
+    basic: "${data.path_to_asset('digest', 'images/splash/clinton.png')}",
+    sad: "${data.path_to_asset('digest', 'images/splash/clinton-sad.png')}",
+    happy: "${data.path_to_asset('digest', 'images/splash/clinton-happy.png')}"
+  },
+  trump: {
+    basic: "${data.path_to_asset('digest', 'images/splash/trump.png')}",
+    sad: "${data.path_to_asset('digest', 'images/splash/trump-sad.png')}",
+    happy: "${data.path_to_asset('digest', 'images/splash/trump-happy.png')}"
+  }
+};
 style.textContent = $!{JSON.stringify(data.asset_contents('scss', 'stylesheets/splash.css').toString('utf-8'))};
 document.head.appendChild(style);
 $!{data.asset_contents('javascript', 'javascripts/splash.js')}

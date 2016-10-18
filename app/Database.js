@@ -14,6 +14,18 @@ module.exports = class Database {
     const google_sheets = new GoogleSheets(read_config('google-sheets'))
     const apData = ap_fs.load()
 
+    const electoral = {
+      clinton: {
+        electoral: 117,
+        popular: 82000084,
+      },
+      trump: {
+        electoral: 210,
+        popular: 1,
+      }
+    }
+
+
     const battlegrounds = [
       {"abbr":"mo","state":"Missouri","nElectoralVotes":10,"demPercent":41,"gopPercent":59,"percentPrecinctsReporting":87,"called":false,"winner":"gop"},
       {"abbr":"wa","state":"Washington","nElectoralVotes":12,"demPercent":11,"gopPercent":89,"percentPrecinctsReporting":93,"called":false,"winner":"gop"},
@@ -34,7 +46,8 @@ module.exports = class Database {
       president: summaries.president,
       senate: summaries.senate,
       house: summaries.house,
-      battlegrounds: battlegrounds
+      battlegrounds: battlegrounds,
+      electoral: electoral
     }
 
     // TODO name each splash page format, (so we can _test them all)

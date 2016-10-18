@@ -1,0 +1,38 @@
+.ev {
+  background: #fff;
+  font-family: $body-font;
+  width: 665px;
+  height: 335px;
+  padding: 0;
+}
+.ev__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px;
+}
+.ev__title {
+  font-family: $header-font;
+  margin: 5px 0;
+  font-size: 24px;
+  flex: 0 1 auto;
+  padding-right: 20px;
+  white-space: nowrap;
+}
+.ev__blurb {
+  flex: 1 1 auto;
+  font-size: 14px;
+  color: #9c9c9c;
+}
+.ev__content {
+  position: relative;
+}
+.canvas-onion {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.canvas-overlay {
+  z-index: 999999;
+}
