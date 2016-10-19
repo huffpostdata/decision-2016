@@ -9,9 +9,12 @@
     background: $refresh-bg;
     position: relative;
     padding-left: 2rem;
+    padding-right: .5rem;
     margin-right: .5rem;
     font-size: .85rem;
-    line-height: 2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    line-height: 1.6rem;
     border: 1px solid $very-muted-color;
     outline: none;
     cursor: pointer;
@@ -23,11 +26,11 @@
     &::before {
       content: '';
       display: inline-block;
-      width: 1rem;
-      height: 1rem;
+      width: 1.2rem;
+      height: 1.2rem;
       position: absolute;
-      top: .5rem;
-      left: .5rem;
+      top: .3rem;
+      left: .3rem;
       background-image: asset-as-url('digest', 'images/common/refresh.svg');
       background-size: 100%;
     }
