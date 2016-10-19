@@ -16,7 +16,10 @@ window.decision2016_init = function(data) {
   }
 
   var refreshEl = document.getElementById('election-splash-refresh');
-  refresh(refreshEl, '/2016/results/president.json', doRefresh);
+  if (refreshEl) {
+    debugger
+    refresh(refreshEl, '/2016/results/president.json', doRefresh);
+  }
 };
 
 // Warning: this script runs before DOMContentLoaded.

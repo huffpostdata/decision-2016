@@ -1,3 +1,7 @@
+#election-splash-refresh {
+  text-align: center;
+  width: 100%;
+}
 .refresh {
   font-family: $body-font;
   background: #efefef;
@@ -6,13 +10,7 @@
   border-radius: 4px;
   padding: 2px 20px;
   margin: 10px auto;
-  // &:after {
-  //   content: '';
-  //   position: absolute;
-  //   width: 10px;
-  //   height: 10px;
-  //   background: asset-url('digest', 'images/refresh.svg') no-repeat 100%;
-  // }
+  font-size: 11px;
 }
 .countdown {
   font-family: $body-font;
