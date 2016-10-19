@@ -7,7 +7,7 @@ var renderRefreshButton = function() {
 
   var refreshButton = document.createElement('button');
   refreshButton.setAttribute('class', 'refresh');
-  refreshButton.innerHTML = 'Refresh';
+  refreshButton.innerHTML = 'REFRESH RESULTS';
 
   var countdown = document.createElement('span');
   countdown.setAttribute('class', 'countdown');

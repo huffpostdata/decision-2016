@@ -1,0 +1,22 @@
+.refresh {
+  font-family: $body-font;
+  background: #efefef;
+  border: 1px solid #aaa;
+  color: #aaa;
+  border-radius: 4px;
+  padding: 2px 20px;
+  margin: 10px auto;
+  // &:after {
+  //   content: '';
+  //   position: absolute;
+  //   width: 10px;
+  //   height: 10px;
+  //   background: asset-url('digest', 'images/refresh.svg') no-repeat 100%;
+  // }
+}
+.countdown {
+  font-family: $body-font;
+  color: #bbb;
+  font-size: 12px;
+  padding-left: 10px;
+}
