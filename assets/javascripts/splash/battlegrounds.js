@@ -102,17 +102,20 @@ function paintRow(data) {
 }
 
 module.exports = {
+  update: function(data) {
+    tableBody.innerHTML = "";
+
+    for(var i = 0; i < data.length; i++) {
+      var row = paintRow(data[i]);
+      tableBody.appendChild(row);
+    }
+  },
   render: function(data) {
     battleground = window.document.getElementById('battlegrounds');
 
     if (battleground) {
       setUpTable();
-      tableBody.innerHTML = "";
-
-      for(var i = 0; i < data.length; i++) {
-        var row = paintRow(data[i]);
-        tableBody.appendChild(row);
-      }
+      this.update(data);
     }
   }
 };

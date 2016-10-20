@@ -14,8 +14,8 @@ window.decision2016_init = function(data) {
 
   function doRefresh(json) {
     electoral.update(json.summaries.president);
-    seats.renderHouse(json.summaries.house);
-    seats.renderSenate(json.summaries.senate);
+    battlegrounds.update(data.battlegrounds);
+    // TODO: update seats 
   }
 
   var refreshEl = document.getElementById('election-splash-refresh');

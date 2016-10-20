@@ -11,6 +11,17 @@
   padding: 2px 20px;
   margin: 10px auto;
   font-size: 11px;
+  &:after {
+    content: '';
+    background: asset-as-url('digest', 'images/splash/refresh.svg');
+    width: 10px;
+    height: 10px;
+    display: block;
+    float: right;
+    margin: 2px 5px;
+    color: #aaa;
+    fill: currentColor;
+  }
 }
 .countdown {
   font-family: $body-font;
