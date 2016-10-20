@@ -13,13 +13,14 @@ window.decision2016_init = function(data) {
   seats.renderSenate(data.senate);
 
   function doRefresh(json) {
+    electoral.update(json.summaries.president);
     seats.renderHouse(json.summaries.house);
     seats.renderSenate(json.summaries.senate);
   }
 
   var refreshEl = document.getElementById('election-splash-refresh');
   if (refreshEl) {
-    refresh(refreshEl, '/2016/results/president.json', doRefresh);
+    refresh(refreshEl, presidentUrl, doRefresh);
   }
 };
 

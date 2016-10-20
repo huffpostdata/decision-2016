@@ -29,20 +29,6 @@ var loadcount = 0;
 var totalimages = 0;
 var preloaded = false;
 
-// temporarily use these images until we can figure out how to properly do images
-var electoralImages = {
-  clinton: {
-    sad: 'https://www.placecage.com/c/664/593',
-    basic: 'https://www.placecage.com/c/685/624',
-    happy: 'https://www.placecage.com/c/682/643'
-  },
-  trump: {
-    sad: 'https://www.placecage.com/c/850/640',
-    basic: 'https://www.placecage.com/c/906/623',
-    happy: 'https://www.placecage.com/c/821/607'
-  }
-};
-
 var loadImages = function(imageArray) {
   loadcount = 0;
   totalimages = imageArray.length;
