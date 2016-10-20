@@ -22,6 +22,12 @@
       font-family: $header-font-family;
       margin: 0;
     }
+    span {
+      font-size: 0.75rem;
+      @media(min-width: 600px) {
+        font-size: 1rem;
+      }
+    }
 
     strong {
       display: block;
@@ -43,7 +49,7 @@
 
     .image {
     display: none;
-  @media (min-width: 475px) {
+  @media (min-width: 600px) {
       display: block;
       position: absolute;
       bottom: 0;
@@ -74,7 +80,7 @@
     text-align: left;
     left: 0;
     .image { left: 0; background-image: asset-url('digest', 'images/dashboard/clinton-bust.jpg'); }
-    @media (min-width: 475px) {
+    @media (min-width: 600px) {
     padding-left: 6rem;
     }
     strong { color: $dem-color; }
@@ -86,7 +92,7 @@
     text-align: right;
     right: 0;
     .image { right: 0; background-image: asset-url('digest', 'images/dashboard/trump-bust.jpg'); }
-    @media (min-width: 475px) {
+    @media (min-width: 600px) {
     padding-right: 6rem;
     }
     strong { color: $gop-color; }
