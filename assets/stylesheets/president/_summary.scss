@@ -1,5 +1,5 @@
 #president-summary {
-  @include page-width();
+  @include wide-width();
 
   margin-top: 2rem;
 
@@ -38,7 +38,7 @@
           font-size: .85rem;
           font-family: $body-font-family;
       }
-      
+
     }
 
     .image {
@@ -79,7 +79,7 @@
     }
     strong { color: $dem-color; }
     }
-  
+
 
   .total-trump {
   padding-right: 0rem;
