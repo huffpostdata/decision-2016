@@ -1,0 +1,128 @@
+id	notes	en	en-CA	en-GB	en-IN	ar-SA	de-DE	el-GR	es	es-MX	fr	fr-CA	fr-MB	it	ja	ko	pt-BR
+h2.Electoral Votes	Title above photos of Clinton and Trump	Electoral Votes															
+name.clinton		Clinton															
+name.trump		Trump															
+h2.Senate Seats	Title above senate chart	Senate Seats															
+h2.House Seats	Title above house chart	House Seats															
+h2.Battleground States	Title above battleground-state charts	Battleground States															
+legend.win	Tiny text in map legend: the "Win" in "Win/Lead"	Win															
+legend.lead	Tiny text in map legend: the "Lead" in "Win/Lead"	Lead															
+legend.not yet reporting		Not yet reporting															
+linkout.See Full Results	Link to the main dashboard (the main dashboard is only English)	See Full Results															
+state.AL	Two-letter state code	AL															
+state.AK		AK															
+state.AZ		AZ															
+state.AR		AR															
+state.CA		CA															
+state.CO		CO															
+state.CT		CT															
+state.DE		DE															
+state.DC		DC															
+state.FL		FL															
+state.GA		GA															
+state.HI		HI															
+state.ID		ID															
+state.IL		IL															
+state.IN		IN															
+state.IA		IA															
+state.KS		KS															
+state.KY		KY															
+state.LA		LA															
+state.ME		ME															
+state.MD		MD															
+state.MA		MA															
+state.MI		MI															
+state.MN		MN															
+state.MS		MS															
+state.MO		MO															
+state.MT		MT															
+state.NE		NE															
+state.NV		NV															
+state.NH		NH															
+state.NJ		NJ															
+state.NM		NM															
+state.NY		NY															
+state.NC		NC															
+state.ND		ND															
+state.OH		OH															
+state.OK		OK															
+state.OR		OR															
+state.PA		PA															
+state.RI		RI															
+state.SC		SC															
+state.SD		SD															
+state.TN		TN															
+state.TX		TX															
+state.UT		UT															
+state.VT		VT															
+state.VA		VA															
+state.WA		WA															
+state.WV		WV															
+state.WI		WI															
+state.WY		WY															
+state.Alabama	Full state name	Alabama															
+state.Alaska		Alaska															
+state.Arizona		Arizona															
+state.Arkansas		Arkansas															
+state.California		California															
+state.Colorado		Colorado															
+state.Connecticut		Connecticut															
+state.Delaware		Delaware															
+state.District of Columbia		District of Columbia															
+state.Florida		Florida															
+state.Georgia		Georgia															
+state.Hawaii		Hawaii															
+state.Idaho		Idaho															
+state.Illinois		Illinois															
+state.Indiana		Indiana															
+state.Iowa		Iowa															
+state.Kansas		Kansas															
+state.Kentucky		Kentucky															
+state.Louisiana		Louisiana															
+state.Maine		Maine															
+state.Maryland		Maryland															
+state.Massachusetts		Massachusetts															
+state.Michigan		Michigan															
+state.Minnesota		Minnesota															
+state.Mississippi		Mississippi															
+state.Missouri		Missouri															
+state.Montana		Montana															
+state.Nebraska		Nebraska															
+state.Nevada		Nevada															
+state.New Hampshire		New Hampshire															
+state.New Jersey		New Jersey															
+state.New Mexico		New Mexico															
+state.New York		New York															
+state.North Carolina		North Carolina															
+state.North Dakota		North Dakota															
+state.Ohio		Ohio															
+state.Oklahoma		Oklahoma															
+state.Oregon		Oregon															
+state.Pennsylvania		Pennsylvania															
+state.Rhode Island		Rhode Island															
+state.South Carolina		South Carolina															
+state.South Dakota		South Dakota															
+state.Tennessee		Tennessee															
+state.Texas		Texas															
+state.Utah		Utah															
+state.Vermont		Vermont															
+state.Virginia		Virginia															
+state.Washington		Washington															
+state.West Virginia		West Virginia															
+state.Wisconsin		Wisconsin															
+state.Wyoming		Wyoming															
+counts.n Popular Votes	PLURALIZED number of humans who voted for the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Popular Vote |||| %{smart_count} Popular Votes															
+counts.n Electoral Votes	PLURALIZED number of electors pledged to the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Electoral Vote |||| %{smart_count} Electoral Votes															
+party.dem		Democrats															
+party.gop		Republicans															
+counts.Precincts Reporting	A table header	Precincts Reporting															
+counts.270 to win		270 Electoral Votes Needed To Win															
+refresh.countdown		Refreshing in %{smart_count} second… |||| Refreshing in %{smart_count} seconds…															
+refresh.error countdown		Failed last refresh. Refreshing in %{smart_count} second… |||| Failed last refresh. Refreshing in %{smart_count} seconds…															
+refresh.refreshing		Refreshing…															
+banner.President	Header on below-splash frame	President															
+banner.Senate	Header on below-splash frame	Senate															
+banner.House		House															
+banner.See full results	Link to English-only results page. It should end in " »"	See full results »															
+banner.34 seats up for re-election		34 seats up for re-election															
+banner.All 435 seats up for re-election		All 435 seats up for re-election															
