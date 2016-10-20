@@ -217,17 +217,23 @@ module.exports = class ApData {
       throw new Error(`URGENT: expected ${NRaces} Senate races; got ${races.length}`)
     }
     for (const race of races) {
-      for (const candidate of race.reportingUnits[0].candidates) {
-        if (candidate.winner === 'X') {
-          if (candidate.party !== 'Dem' && candidate.party !== 'GOP') {
-            throw new Error(`URGENT: a Senate winner is from party ${candidate.party} but we only handle "Dem" and "GOP"`)
-          }
+      if (race.reportingUnits[0].statePostal === 'CA') {
+        // CA is a race between a Democrat and a Democrat
+        wins.dem += 1
+        totals.dem += 1
+      } else {
+        for (const candidate of race.reportingUnits[0].candidates) {
+          if (candidate.winner === 'X') {
+            if (candidate.party !== 'Dem' && candidate.party !== 'GOP') {
+              throw new Error(`URGENT: a Senate winner is from party ${candidate.party} but we only handle "Dem" and "GOP"`)
+            }
 
-          const partyId = candidate.party.toLowerCase()
-          if (!wins.hasOwnProperty(partyId)) wins[partyId] = 0
-          if (!totals.hasOwnProperty(partyId)) totals[partyId] = 0
-          wins[partyId] += 1
-          totals[partyId] += 1
+            const partyId = candidate.party.toLowerCase()
+            if (!wins.hasOwnProperty(partyId)) wins[partyId] = 0
+            if (!totals.hasOwnProperty(partyId)) totals[partyId] = 0
+            wins[partyId] += 1
+            totals[partyId] += 1
+          }
         }
       }
     }

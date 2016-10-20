@@ -260,7 +260,7 @@ describe('ApData', () => {
   describe('#senateSummary', () => {
     describe('with sample data', () => {
       function build(winner) {
-        return { reportingUnits: [ { candidates: [
+        return { reportingUnits: [ { statePostal: 'AK', candidates: [
           { last: 'SomeDem', party: 'Dem', winner: (winner === 'Dem' ? 'X' : '') },
           { last: 'SomeGop', party: 'GOP', winner: (winner === 'GOP' ? 'X' : '') },
           { last: 'SomeoneElse', party: 'Grn', winner: '' }
@@ -295,6 +295,30 @@ describe('ApData', () => {
 
       it('should set tossup correctly', () => {
         expect(summary.tossup).to.eq(16)
+      })
+
+      describe('fiddling with CA', () => {
+        const tossup2 = JSON.parse(JSON.stringify(tossup))
+        tossup2[0].reportingUnits[0].statePostal = 'CA'
+
+        const apData = new ApData({
+          findSenateRaces() {
+            return dems.concat(...gops).concat(...tossup2)
+          }
+        }, null)
+
+        it('should mark CA as a win for Dem before AP calls the race', () => {
+          // CA's two Senate candidates are both Democrats. That means a
+          // democrat is guaranteed to win, even before AP calls it
+          const summary = apData.senateSummary()
+          expect(summary.wins).to.deep.eq({ dem: 9, gop: 10 })
+        })
+
+        it('should not double-count CA for Dem after AP calls the race', () => {
+          tossup2[0].reportingUnits[0].candidates[0].winner = 'X' // candidates[0] is SomeDem
+          const summary = apData.senateSummary()
+          expect(summary.wins).to.deep.eq({ dem: 9, gop: 10 })
+        })
       })
     }) // with sample data
 
