@@ -68,6 +68,21 @@ describe('ApData', () => {
       }, null)
       expect(apData.presidentSummary().winner).to.eq('trump')
     })
+
+    it('should set nOtherElectoralVotes', () => {
+      const apData = new ApData({
+        findUSPresidentRace() { return {
+          reportingUnits: [ { candidates: [
+            { last: 'Clinton', voteCount: 23456, electWon: 20, winner: '' },
+            { last: 'Trump', voteCount: 12345, electWon: 10, winner: '' },
+            { last: 'Johnson', voteCount: 123, electWon: 3, winner: '' }
+          ]}]
+        }}
+      }, null)
+      const summary = apData.presidentSummary()
+      expect(summary.nOtherElectoralVotes).to.eq(3)
+      expect(summary.nTossupElectoralVotes).to.eq(538 - 33)
+    })
   }) // #presidentSummary
 
   describe('#presidentRaces', () => {

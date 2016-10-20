@@ -19,6 +19,7 @@ module.exports = class ApData {
    * * nElectoralVotes: 538
    * * nClintonElectoralVotes: uint electoral votes for Clinton, [0, 538]
    * * nTrumpElectoralVotes: uint electoral votes for Trump, [0, 538]
+   * * nOtherElectoralVotes: uint electoral votes for (not Clinton or Trump), [0, 538]
    * * nTossupElectoralVotes: 538 - nClintonElectoralVotes - nTrumpElectoralVotes
    * * winner: 'clinton', 'trump', or null
    */
@@ -26,18 +27,39 @@ module.exports = class ApData {
     const NElectoralVotes = 538
 
     const race = this.fipscodeElections.findUSPresidentRace()
-    const candidates = race.reportingUnits[0].candidates
-    const clinton = candidates.find(c => c.last === 'Clinton')
-    const trump = candidates.find(c => c.last === 'Trump')
+
+    let nClintonVotes = 0
+    let nTrumpVotes = 0
+    let nClinton = 0
+    let nTrump = 0
+    let nOther = 0
+    let winner = null
+    for (const candidate of race.reportingUnits[0].candidates) {
+      switch (candidate.last) {
+        case 'Clinton':
+          nClintonVotes += candidate.voteCount
+          nClinton += candidate.electWon
+          break
+        case 'Trump':
+          nTrumpVotes += candidate.voteCount
+          nTrump += candidate.electWon
+          break
+        default:
+          nOther += candidate.electWon
+          break
+      }
+      if (candidate.winner === 'X') winner = candidate.last.toLowerCase()
+    }
 
     return {
-      nClinton: clinton.voteCount,
-      nTrump: trump.voteCount,
+      nClinton: nClintonVotes,
+      nTrump: nTrumpVotes,
       nElectoralVotes: NElectoralVotes,
-      nClintonElectoralVotes: clinton.electWon,
-      nTrumpElectoralVotes: trump.electWon,
-      nTossupElectoralVotes: NElectoralVotes - clinton.electWon - trump.electWon,
-      winner: clinton.winner === 'X' ? 'clinton' : (trump.winner === 'X' ? 'trump' : null)
+      nClintonElectoralVotes: nClinton,
+      nTrumpElectoralVotes: nTrump,
+      nOtherElectoralVotes: nOther,
+      nTossupElectoralVotes: NElectoralVotes - nClinton - nTrump - nOther,
+      winner: winner
     }
   }
 
