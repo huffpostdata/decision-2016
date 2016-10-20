@@ -41,6 +41,7 @@ App.build_output_from_scratch((error, output) => {
         res.status(302).send()
       } else {
         res.set(data.headers)
+        res.set('Access-Control-Allow-Origin', '*')
         res.status(200).send(data.body)
       }
     }
