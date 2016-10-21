@@ -36,7 +36,7 @@ function refreshEls(els, summary, races) {
     var raceId = li.getAttribute('data-race-id');
     raceLis.push({
       li: li,
-      race: raceIdToRace[raceId]
+      race: raceIdToRace[raceId] || { winner: 'other', name: '' } // TK support NE1, etc., and nix this "or" part
     });
   }
 
@@ -55,10 +55,6 @@ function refreshEls(els, summary, races) {
   for (i = 0; i < raceLis.length; i++) {
     li = raceLis[i].li;
     race = raceLis[i].race;
-
-    // TK support district-level races
-    if (race === undefined) race = { winner: 'other', name: '' }
-
     li.className = classNameForRace(race);
     li.style.order = i;
     li.style._webkitOrder = i;
