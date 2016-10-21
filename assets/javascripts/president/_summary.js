@@ -42,13 +42,11 @@ function refreshEls(els, summary, races) {
 
   var Order = { clinton: 0, other: 1, tossup: 2, trump: 3 };
   function compare(a, b) {
-    var aRace = a.race || { winner: 'other', name: '' };
-    var bRace = b.race || { winner: 'other', name: '' };
-    var aOrder = Order[aRace.winner] || 1;
-    var bOrder = Order[bRace.winner] || 1;
+    var aOrder = Order.hasOwnProperty(a.race.winner) ? Order[a.race.winner] : 1;
+    var bOrder = Order.hasOwnProperty(b.race.winner) ? Order[b.race.winner] : 1;
     if (aOrder !== bOrder) return aOrder - bOrder;
 
-    return aRace.name.localeCompare(bRace.name);
+    return a.race.name.localeCompare(b.race.name);
   }
 
   // Easiest way to move: change the 'order' style
@@ -57,6 +55,10 @@ function refreshEls(els, summary, races) {
   for (i = 0; i < raceLis.length; i++) {
     li = raceLis[i].li;
     race = raceLis[i].race;
+
+    // TK support district-level races
+    if (race === undefined) race = { winner: 'other', name: '' }
+
     li.className = classNameForRace(race);
     li.style.order = i;
     li.style._webkitOrder = i;
