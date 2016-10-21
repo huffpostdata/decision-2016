@@ -19,10 +19,11 @@ html lang="en"
       .map-and-map-info
         .map
           $!{data.helpers.partial('president/_map')}
+          $!{data.helpers.partial('president/_tooltip')}
         .map-info
           $!{data.helpers.partial('president/_map-switcher')}
           $!{data.helpers.partial('president/_battlegrounds')}
-    $!{data.helpers.partial('dashboard/_recirc')}      
+    $!{data.helpers.partial('dashboard/_recirc')}
     $!{data.helpers.partial('_footer')}
 
     script src="${data.path_to_asset('javascript', 'javascripts/president.js')}"
