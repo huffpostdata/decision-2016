@@ -1,0 +1,61 @@
+#election_map {
+  height: 500px;
+  width: $left-column-width;
+  overflow: hidden;
+
+  .tabs {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  // ** Start * Temporary for testing purposes
+  #map_us {
+    background: $gop-leading;
+    position: relative;
+  }
+  #cartogram {
+    background: $dem-leading;
+    position: relative;
+  }
+  .thingie {
+    text-decoration: none;
+    margin: 10px auto;
+    font-family: $body-font;
+    text-align: center;
+    position: absolute;
+    left: $left-column-width/2 - 75;
+    top: 100px;
+  }
+
+  // ** END * Temporary for testing purposes
+
+  .tab {
+    width: 100%;
+    height: 100%;
+    display: none;
+    &--active {
+      display: block;
+    }
+
+    &__link {
+      font-family: $header-font;
+      font-weight: bold;
+      font-size: 18px;
+      flex: 1;
+      margin-right: 4px;
+      padding: 12px;
+      color: $very-muted-color;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+      &:hover {
+        color: $accent;
+      }
+      &--active {
+        color: $color;
+      }
+    }
+  }
+}
