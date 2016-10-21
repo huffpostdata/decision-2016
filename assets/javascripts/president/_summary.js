@@ -30,11 +30,13 @@ function refreshEls(els, summary, races) {
 
   var Order = { clinton: 0, other: 1, tossup: 2, trump: 3 };
   function compare(a, b) {
-    var aOrder = Order[a.race.winner] || 1;
-    var bOrder = Order[b.race.winner] || 1;
+    var aRace = a.race || { winner: 'other', name: '' };
+    var bRace = b.race || { winner: 'other', name: '' };
+    var aOrder = Order[aRace.winner] || 1;
+    var bOrder = Order[bRace.winner] || 1;
     if (aOrder !== bOrder) return aOrder - bOrder;
 
-    return a.race.name.localeCompare(b.race.name);
+    return aRace.name.localeCompare(bRace.name);
   }
 
   // Easiest way to move: change the 'order' style
@@ -42,7 +44,8 @@ function refreshEls(els, summary, races) {
 
   for (i = 0; i < raceLis.length; i++) {
     li = raceLis[i].li;
-    li.setAttribute('style', 'order: ' + i + '; -webkit-order: ' + i);
+    li.style.order = i;
+    li.style._webkitOrder = i;
   }
 }
 
