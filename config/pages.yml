@@ -24,6 +24,12 @@ _test/splash/:format:
 president:
   model: president
 
+senate:
+  model: senate
+
+house:
+  model: house
+
 president.json:
   model: presidentAsBuffer
   content-type: application/json

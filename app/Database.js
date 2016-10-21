@@ -50,6 +50,10 @@ module.exports = class Database {
       battlegrounds: battlegrounds
     }
 
+    // TK get these up and running
+    this.senate = JSON.parse(JSON.stringify(this.president)); this.senate.metadata.slug = 'senate'
+    this.house = JSON.parse(JSON.stringify(this.president)); this.house.metadata.slug = 'house'
+
     this.presidentAsBuffer = Buffer.from(JSON.stringify({
       summaries: summaries,
       races: presidentRaces
