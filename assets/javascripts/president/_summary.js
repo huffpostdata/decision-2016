@@ -1,9 +1,5 @@
 var formatInt = require('../common/formatInt');
 
-function compareRaces(a, b) {
-  return a.w
-}
-
 function refreshEls(els, summary, races) {
   var i, li, race;
 
@@ -12,59 +8,41 @@ function refreshEls(els, summary, races) {
   els.clintonNVotes.textContent = formatInt(summary.nClinton);
   els.trumpNVotes.textContent = formatInt(summary.nTrump);
 
-  // We'll _move_ <li>s instead of repainting them. That way, when somebody
-  // hovers over a <li> during a refresh, and the refresh doesn't change
-  // anything, the user stays hovering.
-
   var raceIdToRace = {};
   for (i = 0; i < races.length; i++) {
     race = races[i];
     raceIdToRace[race.id] = race;
   }
 
+  // We'll _move_ <li>s instead of repainting them. That way, when somebody
+  // hovers over a <li> during a refresh, and the refresh doesn't change
+  // anything, the user stays hovering.
   var lis = els.races.childNodes;
-  var li;
-  var outOfOrderLis = [];
-  var raceIdToLi = {};
+  var raceLis = [];
   for (i = 0; i < lis.length; i++) {
     li = lis[i];
     var raceId = li.getAttribute('data-race-id');
-    race = raceIdToRace[raceId];
-    var className = race.winner || 'tossup';
-    raceIdToLi[raceId] = { name: race.name, className: className, li: li };
-    if (li.className !== className) { // the only change that can pull it out of order
-      outOfOrderLis.push(raceIdToLi[raceId]);
-      li.className = className;
-      // Don't call els.races.removeChild() here -- it'll break iteration
-    }
+    raceLis.push({
+      li: li,
+      race: raceIdToRace[raceId]
+    });
   }
 
   var Order = { clinton: 0, other: 1, tossup: 2, trump: 3 };
   function compare(a, b) {
-    var aOrder = Order[a.className] || 1;
-    var bOrder = Order[b.className] || 1;
+    var aOrder = Order[a.race.winner] || 1;
+    var bOrder = Order[b.race.winner] || 1;
     if (aOrder !== bOrder) return aOrder - bOrder;
 
-    return a.name.localeCompare(b.name);
-  }
-  outOfOrderLis.sort(compare);
-
-  // Remove <li>s we want to move...
-  for (i = 0; i < outOfOrderLis.length; i++) {
-    li = outOfOrderLis[i];
-    els.races.removeChild(li.li);
+    return a.race.name.localeCompare(b.race.name);
   }
 
-  // ... and then add them back in -- a merge.
-  // "lis" is a NodeList.
-  for (i = 0; i < lis.length && outOfOrderLis.length > 0; i++) {
-    li = raceIdToLi[lis[i].getAttribute('data-race-id')];
-    if (compare(outOfOrderLis[0], li) < 0) {
-      els.races.insertBefore(lis[i], outOfOrderLis.shift().li);
-    }
-  }
-  while (outOfOrderLis.length > 0) {
-    els.races.appendChild(outOfOrderLis.shift().li);
+  // Easiest way to move: change the 'order' style
+  raceLis.sort(compare);
+
+  for (i = 0; i < raceLis.length; i++) {
+    li = raceLis[i].li;
+    li.setAttribute('style', 'order: ' + i + '; -webkit-order: ' + i);
   }
 }
 
