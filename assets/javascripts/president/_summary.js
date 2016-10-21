@@ -1,5 +1,17 @@
 var formatInt = require('../common/formatInt');
 
+function classNameForRace(race) {
+  if (race.winner === 'clinton') {
+    return 'clinton';
+  } else if (race.winner === 'trump') {
+    return 'trump';
+  } else if (race.winner === null) {
+    return 'tossup';
+  } else {
+    return 'other';
+  }
+}
+
 function refreshEls(els, summary, races) {
   var i, li, race;
 
@@ -44,6 +56,8 @@ function refreshEls(els, summary, races) {
 
   for (i = 0; i < raceLis.length; i++) {
     li = raceLis[i].li;
+    race = raceLis[i].race;
+    li.className = classNameForRace(race);
     li.style.order = i;
     li.style._webkitOrder = i;
   }
