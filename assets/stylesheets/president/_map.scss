@@ -22,13 +22,17 @@
     border: 0;
   }
 
+  g.president-cartogram, g.states { opacity: 0; }
+
+  &.cartogram, &.geography {
+    canvas.animation { opacity: 0; }
+  }
+
   &.cartogram {
     g.president-cartogram { opacity: 1; }
-    g.states { opacity: 0; }
   }
 
   &.geography {
-    g.president-cartogram { opacity: 0; }
     g.states { opacity: 1; }
   }
 }

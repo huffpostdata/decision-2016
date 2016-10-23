@@ -29,10 +29,9 @@ refresh(refreshEl, '/2016/results/president.json', doRefresh);
 // TK move this elsewhere!
 document.getElementById('map-switcher').addEventListener('click', function() {
   var classList = mapEl.classList;
-
-  var className = classList.contains('geography') ? 'cartogram' : 'geography';
-  var removeName = className === 'geography' ? 'cartogram' : 'geography';
-
-  classList.remove(removeName);
-  classList.add(className);
+  if (classList.contains('geography')) {
+    map.showCartogram();
+  } else if (classList.contains('cartogram')) {
+    map.showGeography();
+  }
 });
