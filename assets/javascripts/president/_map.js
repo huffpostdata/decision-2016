@@ -1,4 +1,4 @@
-var TransitDuration = 1000; // ms
+var TransitDuration = 200; // ms
 
 var Color = {
   clinton: '#4c7de0',
@@ -11,6 +11,24 @@ function Point(x, y, len) {
   this.x = x;
   this.y = y;
   this.len = len; // Euclidian distance along loop
+}
+
+/**
+ * Returns the "best" Loop -- that is, the longest one.
+ */
+function bestLoop(d) {
+  var loop = null;
+
+  var re = /(M[^M]+)/g;
+  var m;
+  while ((m = re.exec(d)) !== null) {
+    var loop2 = new Loop(m[1]);
+    if (loop === null || loop2.len > loop.len) {
+      loop = loop2;
+    }
+  }
+
+  return loop;
 }
 
 /**
@@ -29,7 +47,7 @@ function Loop(d) {
   while ((m = re.exec(d)) !== null) {
     var op = m[1];
     // Don't animate holes, multiple polygons, etc. It's not worth the effort.
-    if (op === 'M' && x !== null) break;
+    if (op === 'M' && x !== null) throw new Error('Called with more than a loop path description');
     switch (op) {
       case 'M':
         x = +m[2];
@@ -134,8 +152,8 @@ function zipLoops(loop1, loop2) {
 }
 
 function Transit(d1, d2, path1) {
-  var loop1 = new Loop(d1);
-  var loop2 = new Loop(d2);
+  var loop1 = bestLoop(d1);
+  var loop2 = bestLoop(d2);
 
   var points = zipLoops(loop1, loop2);
   this.points = points;
@@ -248,9 +266,16 @@ Map.prototype.funkyInit = function() {
   }
 };
 
+function ease(t) {
+  t *= 2;
+  if (t < 1) return 1/2 * t * t * t;
+  t -= 2;
+  return 1/2 * t * t * t + 1;
+}
+
 function drawFrame(ctx, isForward, transits, t0, t, callback) {
-  var f = (t - t0) / TransitDuration;
-  if (f > 1.0) return callback();
+  if (t - t0 > TransitDuration) return callback();
+  var f = ease((t - t0) / TransitDuration);
 
   var f1, f2;
   if (isForward) {
