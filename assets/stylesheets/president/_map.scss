@@ -5,34 +5,30 @@
     content: '';
     display: block;
     width: 100%;
-    padding-bottom: 100% / $golden-ratio;
+    padding-bottom: 100% / $map-golden-ratio;
   }
 
-  .cartogram {
+  &.loading {
+    visibility: hidden;
+  }
+
+  svg, canvas.animation {
+    display: block;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    border: 0;
+  }
 
-    path {
-      stroke: $muted-color;
-      stroke-width: 1px;
-      fill: $tossup-color;
-    }
+  &.cartogram {
+    g.president-cartogram { opacity: 1; }
+    g.states { opacity: 0; }
+  }
 
-    g.clinton-win path { fill: $dem-color; }
-    g.trump-win path { fill: $gop-color; }
-    // TK clinton-lead, trump-lead
-
-    svg {
-      text {
-        fill: $background;
-        font-size: .85rem;
-        text-anchor: middle;
-        alignment-baseline: central;
-        font-family: 'ProximaNovaCond-Extrabld';
-      }
-    }
+  &.geography {
+    g.president-cartogram { opacity: 0; }
+    g.states { opacity: 1; }
   }
 }

@@ -103,8 +103,7 @@ const out = [
   '<?xml version="1.0"?>',
   '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">',
   '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="', Width, '" height="', Height, '" viewBox="0 0 ', Width, ' ', Height, '">',
-  '<g class="states">',
-  '<g class="geography">'
+  '<g class="states">'
 ]
 
 function geometryToDSink() {
@@ -189,7 +188,7 @@ stateFeatures.features.forEach(feature => {
   out.push('<path class="' + feature.id + '" d="' + geometryToD(feature.geometry) + '"/>')
 })
 out.push('<path class="mesh" d="' + geometryToD(stateMesh) + '"/>')
-out.push('</g>') // g.geography
+out.push('</g>') // g.states
 
 function squareD(axy) {
   const x0 = axy.x * Accuracy
@@ -199,15 +198,14 @@ function squareD(axy) {
   return [ 'M', x0, ',', y0, 'h', s, 'v', s, 'h', -s, 'Z' ].join('')
 }
 
-out.push('<g class="cartogram">')
+out.push('<g class="president-cartogram">')
 for (const stateCode in PresidentCartogramData) {
   if (!PresidentCartogramData.hasOwnProperty(stateCode)) continue
 
   out.push('<path class="' + stateCode + '" d="' + squareD(PresidentCartogramData[stateCode]) + '"/>')
 }
-out.push('</g>') // g.cartogram
+out.push('</g>') // g.president-cartogram
 
-out.push('</g>') // g.states
 out.push('</svg>')
 
 const outFile = `${__dirname}/../../assets/maps/usa.svg`
