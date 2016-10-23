@@ -7,6 +7,7 @@ const d3_geo = require('d3-geo')
 const fs = require('fs')
 const shpjs = require('shpjs')
 const topojson = require('topojson')
+const PresidentCartogramData = require('../../assets/javascripts/common/_cartogramData')
 
 const Accuracy = 2
 const Width = 647 * Accuracy
@@ -99,8 +100,11 @@ const stateMesh = topojson.feature(topo, topo.objects.states)
 debug('Generating SVG')
 
 const out = [
-  '<svg xmlns="http://www.w3.org/2000/svg" width="', Width, '" height="', Height, '" viewBox="0 0 ', Width, ' ', Height, '">',
-  '<g class="states">'
+  '<?xml version="1.0"?>',
+  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">',
+  '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="', Width, '" height="', Height, '" viewBox="0 0 ', Width, ' ', Height, '">',
+  '<g class="states">',
+  '<g class="geography">'
 ]
 
 function geometryToDSink() {
@@ -182,9 +186,26 @@ function geometryToD(geometry) {
 
 const path = d3_geo.geoPath()
 stateFeatures.features.forEach(feature => {
-  out.push('<path description="' + feature.id + '" stroke="none" fill="#eaeaea" d="' + geometryToD(feature.geometry) + '"/>')
+  out.push('<path class="' + feature.id + '" d="' + geometryToD(feature.geometry) + '"/>')
 })
-out.push('<path description="mesh" stroke="#aaa" stroke-width="' + (.75 * Accuracy) + '" fill="none" d="' + geometryToD(stateMesh) + '"/>')
+out.push('<path class="mesh" d="' + geometryToD(stateMesh) + '"/>')
+out.push('</g>') // g.geography
+
+function squareD(axy) {
+  const x0 = axy.x * Accuracy
+  const y0 = axy.y * Accuracy
+  const s = Math.round(Math.sqrt(axy.a) * Accuracy * 15)
+
+  return [ 'M', x0, ',', y0, 'h', s, 'v', s, 'h', -s, 'Z' ].join('')
+}
+
+out.push('<g class="cartogram">')
+for (const stateCode in PresidentCartogramData) {
+  if (!PresidentCartogramData.hasOwnProperty(stateCode)) continue
+
+  out.push('<path class="' + stateCode + '" d="' + squareD(PresidentCartogramData[stateCode]) + '"/>')
+}
+out.push('</g>') // g.cartogram
 
 out.push('</g>') // g.states
 out.push('</svg>')
