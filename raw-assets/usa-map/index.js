@@ -84,11 +84,11 @@ const topo = topojson.topology({ states: states},{//, districts: districts }, {
   id: d => d.properties.STUSPS,
   verbose: true
 })
-//topojson.simplify(topo, {
-//  'retain-proportion': 0.75,
-//  'coordinate-system': 'cartesian',
-//  verbose: true
-//})
+topojson.simplify(topo, {
+  'minimum-area': 1.2 * Accuracy * Accuracy,
+  'coordinate-system': 'cartesian',
+  verbose: true
+})
 topojson.filter(topo, { 'coordinate-system': 'cartesian', verbose: true })
 
 debug('Processing')
@@ -109,6 +109,20 @@ function geometryToDSink() {
   let mustMove = true
   let out = []
 
+  // Store the current "slope". This lets us compress multiple "l" operations.
+  let lastDx = null
+  let lastDy = null
+
+  function outputLine(dx, dy) {
+    if (dy === 0) {
+      out.push('h' + dx)
+    } else if (dx === 0) {
+      out.push('v' + dy)
+    } else {
+      out.push('l' + dx + ',' + dy)
+    }
+  }
+
   return {
     d() {
       return out.join('')
@@ -121,20 +135,40 @@ function geometryToDSink() {
     point(x, y) {
       x = Math.round(x)
       y = Math.round(y)
-      const dx = x - lastX
-      const dy = y - lastY
-      if (dx !== 0 && dy !== 0) {
-        const op = mustMove ? 'M' : 'l'
-        out.push(op + dx + ',' + dy)
-        lastX = x
-        lastY = y
+
+      if (mustMove) {
+        out.push('M' + x + ',' + y)
+      } else {
+        const dx = x - lastX
+        const dy = y - lastY
+
+        // Is this line parallel and in the same direction as the last line?
+        // If so, we can merge the two to save bytes.
+        // Test that "dx/dy = lastDx/lastDy" ==> "dx * lastDy = dy * lastDx"
+        // Also test the vectors don't go in opposite directions.
+        const canMerge = (lastDx !== null) && (dx * lastDy === dy * lastDx) && (dx * lastDx >= 0) && (dy * lastDy >= 0)
+
+        if (canMerge) {
+          // Don't output a line.
+          lastDx += dx
+          lastDy += dy
+        } else {
+          // Output the _previous_ point's line and start gathering this one
+          if (lastDx !== null) outputLine(lastDx, lastDy)
+          lastDx = dx
+          lastDy = dy
+        }
       }
+      lastX = x
+      lastY = y
       mustMove = false
     },
 
     lineEnd() {
+      outputLine(lastDx, lastDy)
       out.push('Z')
-      lastX = lastY = 0 // because we don't know where we are; need an M next
+      lastX = lastY = null // because we don't know where we are; need an M next
+      lastDx = lastDy = null
       mustMove = true
     }
   }
@@ -148,9 +182,9 @@ function geometryToD(geometry) {
 
 const path = d3_geo.geoPath()
 stateFeatures.features.forEach(feature => {
-  out.push('<path description="' + feature.id + '" d="' + geometryToD(feature.geometry) + '"/>')
+  out.push('<path description="' + feature.id + '" stroke="none" fill="#eaeaea" d="' + geometryToD(feature.geometry) + '"/>')
 })
-out.push('<path description="mesh" d="' + geometryToD(stateMesh) + '"/>')
+out.push('<path description="mesh" stroke="#aaa" stroke-width="' + (.75 * Accuracy) + '" fill="none" d="' + geometryToD(stateMesh) + '"/>')
 
 out.push('</g>') // g.states
 out.push('</svg>')
