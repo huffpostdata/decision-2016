@@ -14,6 +14,7 @@ const Width = 647 * Accuracy
 const Height = 400 * Accuracy
 
 function loadStatesGeojson() {
+  debug('Loading states')
   const shp = fs.readFileSync(`${__dirname}/input/statesp010g.shp`).buffer
   const dbf = fs.readFileSync(`${__dirname}/input/statesp010g.dbf`).buffer
   return shpjs.combine([ shpjs.parseShp(shp), shpjs.parseDbf(dbf) ])
@@ -46,15 +47,12 @@ function projectGeometry(geom, projection) {
       if (coordinates[0][0] === null) throw new Error(`NULL?`)
       return { type: geom.type, coordinates: coordinates }
     case 'MultiPolygon':
-      // Icky "filters" are because albersUsa() misses some TIGER2016 Hawaii
-      // We'll assume those islands aren't, erm, important. That's probably okay
-      // because this map is small-scale.
       coordinates = geom.coordinates
         .map(polygon => {
           return polygon.map(line => {
-            return line.map(projection).filter(p => p !== null)
-          }).filter(line => line.length > 0)
-        }).filter(polygon => polygon.length > 0)
+            return line.map(projection)
+          })
+        })
       return { type: geom.type, coordinates: coordinates }
     case 'GeometryCollection':
       // recurse
@@ -72,11 +70,6 @@ function projectGeometry(geom, projection) {
 
 //debug('Loading districts')
 //const districts = loadGeojson('districts')
-debug('Loading states')
-const states = loadStatesGeojson()
-states.features = states.features
-  .filter(f => f.properties.TYPE === 'Land')
-  .filter(f => [ 'PR', 'GU', 'MP', 'VI', 'AS' ].indexOf(f.properties.STATE_ABBR) === -1)
 
 const projection = d3_geo.geoAlbersUsa()
 const AlbersUsaUnderscaling = 0.9 // D3's AlbersUsa is too small
@@ -84,34 +77,36 @@ const AlbersUsaXError = -0.08 // D3's AlbersUsa shifts too far left
 projection.scale(projection.scale() * Width / projection.translate()[0] / 2 / AlbersUsaUnderscaling)
 projection.translate([ Width / 2 * (1 - AlbersUsaXError), Height / 2 ])
 
-states.features = states.features.map(f => projectGeometry(f, projection))
+function quantizeAndMeshFeatureCollection(featureCollection) {
+  debug('Building topology')
+  const topo = topojson.topology({ features: featureCollection }, {
+    quantization: Width,
+    id: d => d.properties.STATE_ABBR,
+    verbose: true
+  })
+  topojson.simplify(topo, {
+    'minimum-area': 4 * Accuracy * Accuracy,
+    'coordinate-system': 'cartesian',
+    verbose: true
+  })
+  topojson.filter(topo, { 'coordinate-system': 'cartesian', verbose: true })
 
-debug('Building topology')
-const topo = topojson.topology({ states: states},{//, districts: districts }, {
-  quantization: Width,
-  id: d => d.properties.STATE_ABBR,
-  verbose: true
-})
-topojson.simplify(topo, {
-  'minimum-area': 4 * Accuracy * Accuracy,
-  'coordinate-system': 'cartesian',
-  verbose: true
-})
-topojson.filter(topo, { 'coordinate-system': 'cartesian', verbose: true })
+  debug('De-topojson-izing')
+  const features2 = topojson.feature(topo, topo.objects.features)
+  const mesh = topojson.feature(topo, topo.objects.features)
 
-debug('Processing')
+  return { features: features2, mesh: mesh }
+}
 
-const stateFeatures = topojson.feature(topo, topo.objects.states)
-const stateMesh = topojson.feature(topo, topo.objects.states)
-
-debug('Generating SVG')
-
-const out = [
-  '<?xml version="1.0"?>',
-  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">',
-  '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="', Width, '" height="', Height, '" viewBox="0 0 ', Width, ' ', Height, '">',
-  '<g class="states">'
-]
+function calculateStatesGeodata() {
+  debug('Calculating State geodata')
+  const states = loadStatesGeojson()
+  states.features = states.features
+    .filter(f => f.properties.TYPE === 'Land')
+    .filter(f => [ 'PR', 'GU', 'MP', 'VI', 'AS' ].indexOf(f.properties.STATE_ABBR) === -1)
+    .map(f => projectGeometry(f, projection))
+  return quantizeAndMeshFeatureCollection(states)
+}
 
 function geometryToDSink() {
   let lastX = 0
@@ -190,12 +185,11 @@ function geometryToD(geometry) {
   return sink.d()
 }
 
-const path = d3_geo.geoPath()
-stateFeatures.features.forEach(feature => {
-  out.push('<path class="' + feature.id + '" d="' + geometryToD(feature.geometry) + '"/>')
-})
-out.push('<path class="mesh" d="' + geometryToD(stateMesh) + '"/>')
-out.push('</g>') // g.states
+function featureCollectionToSvgPaths(featureCollection) {
+  return featureCollection.features.map(feature => {
+    return '<path class="' + feature.id + '" d="' + geometryToD(feature.geometry) + '"/>'
+  }).join('')
+}
 
 function squareD(axy) {
   const x0 = axy.x * Accuracy
@@ -205,17 +199,31 @@ function squareD(axy) {
   return [ 'M', x0, ',', y0, 'h', s, 'v', s, 'h', -s, 'Z' ].join('')
 }
 
-out.push('<g class="president-cartogram">')
-for (const stateCode in PresidentCartogramData) {
-  if (!PresidentCartogramData.hasOwnProperty(stateCode)) continue
-
-  out.push('<path class="' + stateCode + '" d="' + squareD(PresidentCartogramData[stateCode]) + '"/>')
+function stateSquaresToSvgPaths(stateSquares) {
+  return Object.keys(stateSquares)
+    .map(stateCode => '<path class="' + stateCode + '" d="' + squareD(stateSquares[stateCode]) + '"/>')
+    .join('')
 }
-out.push('</g>') // g.president-cartogram
 
-out.push('</svg>')
+debug('Generating SVG')
 
-const outBuffer = Buffer.from(out.join(''), 'utf8')
+const states = calculateStatesGeodata()
+
+const out = [
+  '<?xml version="1.0"?>',
+  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">',
+  '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="', Width, '" height="', Height, '" viewBox="0 0 ', Width, ' ', Height, '">',
+    '<g class="states">',
+      featureCollectionToSvgPaths(states.features),
+      '<path class="mesh" d="', geometryToD(states.mesh), '"/>',
+    '</g>',
+    '<g class="president-cartogram">',
+      stateSquaresToSvgPaths(PresidentCartogramData),
+    '</g>',
+  '</svg>'
+].join('')
+
+const outBuffer = Buffer.from(out, 'utf8')
 
 const outFile = `${__dirname}/../../assets/maps/usa.svg`
 debug(`Writing to ${outFile} (${outBuffer.length} bytes)`)
