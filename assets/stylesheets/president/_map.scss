@@ -22,6 +22,11 @@
     border: 0;
   }
 
+  path.mesh {
+    fill: none;
+    stroke: $background;
+  }
+
   g.president-cartogram, g.states { opacity: 0; }
 
   &.cartogram, &.geography {
