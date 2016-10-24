@@ -12,12 +12,11 @@ function links() {
       var activeTabLink = window.document.getElementsByClassName('tab__link--active')[0];
       var selected = window.document.getElementById(e.target.getAttribute('data-key'));
 
-      activeTab.setAttribute("class", "tab"); // clear out
-      activeTabLink.setAttribute("class", "tab__link"); // clear out
+      activeTab.setAttribute("class", "tab");
+      activeTabLink.setAttribute("class", "tab__link");
 
       selected.className += " tab--active";
       e.target.className += " tab__link--active";
-      // debugger;
     });
   }
 }
@@ -45,10 +44,13 @@ function setUpTabs() {
     tabButton.setAttribute("href", "#");
     tabButton.setAttribute("class", "tab__link");
     tabButton.setAttribute("data-key", tabKey);
+    tabButton.setAttribute("data-beacon", "{\"p\":{\"lnid\":\"tab_"+tabKey+"\"}}");
 
     tabs.appendChild(tabButton);
     tab.setAttribute("class", "tab");
-    tab.innerHTML = "<a class='thingie' href='http://eelslap.com/'>Click me for tracking</a>";
+
+    // For Click Tracking testing
+    tab.innerHTML = "<a class='thingie' data-beacon='{\"p\":{\"lnid\":\"test_link_"+tabKey+"\"}}' href='http://eelslap.com/'>Click me for tracking</a>";
     electionMap.appendChild(tab);
   }
 
