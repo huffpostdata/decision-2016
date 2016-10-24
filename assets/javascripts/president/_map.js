@@ -44,7 +44,7 @@ function Loop(points) {
 Loop.fromPathD = function(d) {
   // A function mapping [0,1] to {x,y}
   var len = 0;
-  var re = /([MlhvZ])(-?\d+)(?:,(-?\d+))?/g;
+  var re = /([MlhvZ])(?:(-?\d+)(?:,(-?\d+))?)?/g;
   var x = null;
   var y = null;
   var m = null;
@@ -124,7 +124,7 @@ Loop.prototype.rotateSoTopLeftPointIsFirst = function() {
 
   // 3. Fashion new Loop starting at this point.
   // 3a. top-left point to end of original loop
-  var startLen = this.points[i].len;
+  var startLen = this.points[bestI].len;
   var points = [];
   for (i = bestI; i < this.points.length; i++) {
     point = this.points[i];
@@ -202,8 +202,8 @@ function zipLoops(loop1, loop2) {
 }
 
 function Transit(d1, d2, path1) {
-  var loop1 = bestLoop(d1);
-  var loop2 = bestLoop(d2);
+  var loop1 = bestLoop(d1).rotateSoTopLeftPointIsFirst();
+  var loop2 = bestLoop(d2).rotateSoTopLeftPointIsFirst();
 
   var points = zipLoops(loop1, loop2);
   this.points = points;
