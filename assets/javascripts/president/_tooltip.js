@@ -24,7 +24,7 @@ function refreshEls(els, races) {
   }
 
   var setText = function(stateEl) {
-    var stateId = stateEl.getAttribute('class');
+    var stateId = stateEl.getAttribute('class').split(/ /, 1)[0];
     if (stateId !== 'mesh') {
       var stateName = dataById[stateId].name;
       var nElVotes = dataById[stateId].nElectoralVotes;
@@ -34,7 +34,7 @@ function refreshEls(els, races) {
   }
 
   var buildTable = function(stateEl) {
-    var stateId = stateEl.getAttribute('class');
+    var stateId = stateEl.getAttribute('class').split(/ /, 1)[0];
     if (stateId !== 'mesh') {
       var candidates = dataById[stateId].candidates;
       var votesTotal = dataById[stateId].nVotes;

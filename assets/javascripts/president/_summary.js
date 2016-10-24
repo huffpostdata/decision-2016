@@ -29,18 +29,8 @@ function refreshEls(els, summary, races) {
     });
   }
 
-  var Order = { clinton: 0, other: 1, tossup: 2, trump: 3 };
-  function compare(a, b) {
-    var aOrder = Order.hasOwnProperty(a.race.winner) ? Order[a.race.winner] : 1;
-    var bOrder = Order.hasOwnProperty(b.race.winner) ? Order[b.race.winner] : 1;
-    if (aOrder !== bOrder) return aOrder - bOrder;
-
-    return a.race.name.localeCompare(b.race.name);
-  }
-
   // Easiest way to move: change the 'order' style
-  raceLis.sort(compare);
-
+  raceLis.sort((race1, race2) => classNameForRace.compareRaces(race1.race, race2.race));
   for (i = 0; i < raceLis.length; i++) {
     li = raceLis[i].li;
     race = raceLis[i].race;
