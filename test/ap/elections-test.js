@@ -183,7 +183,7 @@ describe('elections', () => {
           .filter(s => s.length > 0) // ignore trailing newlines
           .map(s => s.split(/\t/g))
 
-        const fipscodeRaces = tsvData
+        const reportingUnitRaces = tsvData
           .filter(row => row[1].length === 0) // ignore district races
           .map(row => {
             return {
@@ -209,22 +209,22 @@ describe('elections', () => {
           })
         }
 
-        describe('from fipscode.json', () => {
-          const elections = new Elections({ races: fipscodeRaces })
+        describe('from reportingUnit.json', () => {
+          const elections = new Elections({ races: reportingUnitRaces })
           
           it('should find 49 races (48 states + DC)', () => {
             expect(elections.findPresidentRaces().length).to.eq(49)
           })
 
           it('should ignore the US race', () => {
-            fipscodeRaces.unshift({ officeID: 'P', reportingUnits: [ { statePostal: 'US' } ] })
+            reportingUnitRaces.unshift({ officeID: 'P', reportingUnits: [ { statePostal: 'US' } ] })
             expect(elections.findPresidentRaces().length).to.eq(49)
           })
 
           it('should ignore non-Presidential races', () => {
-            fipscodeRaces.unshift({ officeID: 'H', reportingUnits: [ { statePostal: 'AL' } ] })
-            fipscodeRaces.unshift({ officeID: 'S', reportingUnits: [ { statePostal: 'AL' } ] })
-            fipscodeRaces.unshift({ officeID: 'G', reportingUnits: [ { statePostal: 'AL' } ] })
+            reportingUnitRaces.unshift({ officeID: 'H', reportingUnits: [ { statePostal: 'AL' } ] })
+            reportingUnitRaces.unshift({ officeID: 'S', reportingUnits: [ { statePostal: 'AL' } ] })
+            reportingUnitRaces.unshift({ officeID: 'G', reportingUnits: [ { statePostal: 'AL' } ] })
             expect(elections.findPresidentRaces().length).to.eq(49)
           })
         })

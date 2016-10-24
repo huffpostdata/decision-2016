@@ -22,8 +22,8 @@ const apFs = require('../app/ap/ap-fs')
 /*
  * On a loop:
  *
- * 1. Backs up `data/fipscode.json` and `data/district.json`.
- * 2. Patches `data/fipscode.json` and `data/district.json` from AP's API.
+ * 1. Backs up `data/reportingUnit.json` and `data/district.json`.
+ * 2. Patches `data/reportingUnit.json` and `data/district.json` from AP's API.
  * 3. Generates all assets and pages.
  * 4. Uploads all assets and pages.
  * 5. Waits a few seconds before starting all over.
@@ -38,22 +38,22 @@ function exit(err) {
 }
 
 /**
- * Writes a new "data/fipscode.json" or "data/district.json".
+ * Writes a new "data/reportingUnit.json" or "data/district.json".
  *
  * @param apData Original ApData, from apFs.load()
- * @param fipscodeOrDistrict "fipscode" or "district"
+ * @param reportingUnitOrDistrict "reportingUnit" or "district"
  */
-function update(apData, fipscodeOrDistrict) {
-  if ([ 'fipscode', 'district' ].indexOf(fipscodeOrDistrict) === -1) {
-    throw new Error(`fipscodeOrDistrict must be "fipscode" or "district"; got "${fipscodeOrDistrict}"`)
+function update(apData, reportingUnitOrDistrict) {
+  if ([ 'reportingUnit', 'district' ].indexOf(reportingUnitOrDistrict) === -1) {
+    throw new Error(`reportingUnitOrDistrict must be "reportingUnit" or "district"; got "${reportingUnitOrDistrict}"`)
   }
 
   const timestamp = String(new Date() - 0)
 
-  const path = apFs[`${fipscodeOrDistrict}Path`]
+  const path = apFs[`${reportingUnitOrDistrict}Path`]
   fs.writeFileSync(`${path}-${timestamp}-pre`, fs.readFileSync(`${path}`))
 
-  const elections = apData[`${fipscodeOrDistrict}Elections`]
+  const elections = apData[`${reportingUnitOrDistrict}Elections`]
   const url = `${elections.json.nextrequest}&apiKey=${ApiKey}`
   debug(`GET ${url}`)
   const result = syncRequest('GET', url)
@@ -76,7 +76,7 @@ function tick(callback) {
 
     const apData = apFs.load()
 
-    update(apData, 'fipscode')
+    update(apData, 'reportingUnit')
     update(apData, 'district')
 
     debug(`Building App…`)
