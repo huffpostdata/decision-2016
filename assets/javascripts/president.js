@@ -29,9 +29,17 @@ refresh(refreshEl, '/2016/results/president.json', doRefresh);
 // TK move this elsewhere!
 document.getElementById('map-switcher').addEventListener('click', function() {
   var classList = mapEl.classList;
+  var geo = document.querySelector('#map').querySelector('.states');
+  var carto = document.querySelector('#map').querySelector('.president-cartogram');
+  var mesh = document.querySelector('#map').querySelector('.mesh');
   if (classList.contains('geography')) {
     map.showCartogram();
+    geo.style.pointerEvents = 'none';
+    carto.style.pointerEvents = 'all';
   } else if (classList.contains('cartogram')) {
     map.showGeography();
+    geo.style.pointerEvents = 'all';
+    mesh.style.pointerEvents = 'none';
+    carto.style.pointerEvents = 'none';
   }
 });
