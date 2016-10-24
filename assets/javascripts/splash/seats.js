@@ -6,7 +6,8 @@ function setUpHouse(data) {
   var bar = document.createElement('div');
   var sub = document.createElement('div');
 
-  h2.innerHTML = "House Seats";
+  h2.setAttribute('class', 'seats-title bN');
+  h2.innerHTML = "HOUSE SEATS";
   sub.innerHTML = "Nine up for grabs";
 
   bar.setAttribute("class", "bar bar-house");
@@ -49,9 +50,11 @@ function setUpHouse(data) {
   bar.innerHTML += "<div class='box space'></div>";
   bar.innerHTML += repeatBoxes(153, "box gop");
 
-  house_seats.appendChild(h2);
-  house_seats.appendChild(sub);
-  house_seats.appendChild(bar);
+  house_seats.innerHTML = '<a href="'+electionBaseUrl+'/house" target="_blank" id="house-link"></a>';
+  var linkWrapper = document.getElementById('house-link');
+  linkWrapper.appendChild(h2);
+  linkWrapper.appendChild(sub);
+  linkWrapper.appendChild(bar);
 }
 
 function setUpSenate() {
@@ -59,7 +62,8 @@ function setUpSenate() {
   var bar = document.createElement('div');
   var sub = document.createElement('div');
 
-  h2.innerHTML = "Senate Seats";
+  h2.setAttribute('class', 'seats-title');
+  h2.innerHTML = "SENATE SEATS";
   sub.innerHTML = "Thirty up for grabs";
 
   bar.setAttribute("class", "bar bar-senate");
@@ -73,9 +77,11 @@ function setUpSenate() {
   bar.innerHTML += repeatBoxes(30, "box gop not-in-play");
 
 
-  senate_seats.appendChild(h2);
-  senate_seats.appendChild(sub);
-  senate_seats.appendChild(bar);
+  senate_seats.innerHTML = '<a href="'+electionBaseUrl+'/senate" target="_blank" id="senate-link"></a>';
+  var linkWrapper = document.getElementById('senate-link');
+  linkWrapper.appendChild(h2);
+  linkWrapper.appendChild(sub);
+  linkWrapper.appendChild(bar);
 }
 
 function repeatBoxes(times, css) {
