@@ -2,6 +2,7 @@
 
 'use strict'
 
+const Canvas = require('canvas')
 const debug = require('debug')('index')
 const d3_geo = require('d3-geo')
 const fs = require('fs')
@@ -205,26 +206,93 @@ function stateSquaresToSvgPaths(stateSquares) {
     .join('')
 }
 
-debug('Generating SVG')
+function writePresidentSvg() {
+  debug('Generating president SVG')
+
+  const out = [
+    '<?xml version="1.0"?>',
+    '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">',
+    '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="', Width, '" height="', Height, '" viewBox="0 0 ', Width, ' ', Height, '">',
+      '<g class="states">',
+        featureCollectionToSvgPaths(states.features),
+        '<path class="mesh" d="', geometryToD(states.mesh), '"/>',
+      '</g>',
+      '<g class="president-cartogram">',
+        stateSquaresToSvgPaths(PresidentCartogramData),
+      '</g>',
+    '</svg>'
+  ].join('')
+
+  const outBuffer = Buffer.from(out, 'utf8')
+
+  const outFile = `${__dirname}/../../assets/maps/usa.svg`
+  debug(`Writing to ${outFile} (${outBuffer.length} bytes)`)
+  fs.writeFileSync(outFile, outBuffer)
+}
+
+function drawGeometry(ctx, geom) {
+  switch (geom.type) {
+    case 'Polygon':
+      geom.coordinates.forEach(points => {
+        ctx.moveTo(points[0][0], points[0][1])
+        points.slice(1).forEach(pt => {
+          ctx.lineTo(pt[0], pt[1])
+        })
+        ctx.closePath()
+      })
+      break
+    case 'MultiPolygon':
+      geom.coordinates.forEach(c => drawGeometry(ctx, { type: 'Polygon', coordinates: c }))
+      break
+    case 'Feature':
+      drawGeometry(ctx, geom.geometry)
+      break
+    case 'FeatureCollection':
+      geom.features.forEach(f => drawGeometry(ctx, f))
+      break
+    default:
+      throw new Error(`Unknown geometry: ${JSON.stringify(geom)}`)
+  }
+}
+
+function writePresidentThumbnails(states) {
+  debug('Generating president thumbnail PNGs')
+
+  const canvas = new Canvas(Width, Height)
+  const ctx = canvas.getContext('2d')
+
+  ctx.fillStyle = 'black'
+  ctx.strokeStyle = 'white'
+  ctx.lineWidth = 3
+  ctx.beginPath()
+  drawGeometry(ctx, states.features)
+  ctx.fill()
+  ctx.stroke()
+
+  const thumbWidth = Math.ceil(Width / Accuracy / 2)
+  const thumbHeight = Math.ceil(Height / Accuracy / 2)
+
+  const canvas2 = new Canvas(thumbWidth, thumbHeight)
+  const ctx2 = canvas2.getContext('2d')
+  ctx2.drawImage(canvas, 0, 0, Width, Height, 0, 0, thumbWidth, thumbHeight)
+
+  const buf = canvas2.toBuffer()
+  fs.writeFileSync(`${__dirname}/../../assets/maps/president-usa-thumbnail.png`, buf)
+
+  ctx2.clearRect(0, 0, thumbWidth, thumbHeight)
+  ctx2.fillStyle = 'black'
+  ctx2.beginPath()
+  Object.keys(PresidentCartogramData).forEach(stateCode => {
+    const square = PresidentCartogramData[stateCode]
+    const s = Math.sqrt(square.a) * 15 / 2
+    ctx2.rect(square.x / 2, square.y / 2, s, s)
+  })
+  ctx2.fill()
+
+  const buf2 = canvas2.toBuffer()
+  fs.writeFileSync(`${__dirname}/../../assets/maps/president-cartogram-thumbnail.png`, buf2)
+}
 
 const states = calculateStatesGeodata()
-
-const out = [
-  '<?xml version="1.0"?>',
-  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">',
-  '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="', Width, '" height="', Height, '" viewBox="0 0 ', Width, ' ', Height, '">',
-    '<g class="states">',
-      featureCollectionToSvgPaths(states.features),
-      '<path class="mesh" d="', geometryToD(states.mesh), '"/>',
-    '</g>',
-    '<g class="president-cartogram">',
-      stateSquaresToSvgPaths(PresidentCartogramData),
-    '</g>',
-  '</svg>'
-].join('')
-
-const outBuffer = Buffer.from(out, 'utf8')
-
-const outFile = `${__dirname}/../../assets/maps/usa.svg`
-debug(`Writing to ${outFile} (${outBuffer.length} bytes)`)
-fs.writeFileSync(outFile, outBuffer)
+writePresidentSvg(states)
+writePresidentThumbnails(states)
