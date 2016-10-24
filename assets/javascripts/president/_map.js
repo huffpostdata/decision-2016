@@ -1,3 +1,5 @@
+var classNameForRace = require('./_classNameForRace');
+
 var TransitDuration = 200; // ms
 
 var Color = {
@@ -42,7 +44,7 @@ function Loop(points) {
 Loop.fromPathD = function(d) {
   // A function mapping [0,1] to {x,y}
   var len = 0;
-  var re = /([MlhvZ])(-?\d+)(?:,(-?\d+))?/g;
+  var re = /([MlhvZ])(?:(-?\d+)(?:,(-?\d+))?)?/g;
   var x = null;
   var y = null;
   var m = null;
@@ -122,7 +124,7 @@ Loop.prototype.rotateSoTopLeftPointIsFirst = function() {
 
   // 3. Fashion new Loop starting at this point.
   // 3a. top-left point to end of original loop
-  var startLen = this.points[i].len;
+  var startLen = this.points[bestI].len;
   var points = [];
   for (i = bestI; i < this.points.length; i++) {
     point = this.points[i];
@@ -200,8 +202,8 @@ function zipLoops(loop1, loop2) {
 }
 
 function Transit(d1, d2, path1) {
-  var loop1 = bestLoop(d1);
-  var loop2 = bestLoop(d2);
+  var loop1 = bestLoop(d1).rotateSoTopLeftPointIsFirst();
+  var loop2 = bestLoop(d2).rotateSoTopLeftPointIsFirst();
 
   var points = zipLoops(loop1, loop2);
   this.points = points;
@@ -287,10 +289,14 @@ Map.prototype.recolorIfLoaded = function() {
 Map.prototype.recolor = function() {
   for (var i = 0; i < this.racesJson.length; i++) {
     var race = this.racesJson[i];
-    var color = race.winner === null ? Color.tossup : (Color[race.winner] || Color.other);
+    var className = classNameForRace(race);
     var paths = this.racePaths[race.id] || [];
     for (var j = 0; j < paths.length; j++) {
-      paths[j].setAttribute('fill', color);
+      var path = paths[j];
+      for (var k = 0; k < classNameForRace.AllClassNames.length; k++) {
+        path.classList.remove(classNameForRace.AllClassNames[k]);
+        path.classList.add(className);
+      }
     }
   }
 };
@@ -321,38 +327,46 @@ function ease(t) {
   return 1/2 * t * t * t + 1;
 }
 
+function traceTransitPathAtFraction(ctx, transit, fraction) {
+  ctx.beginPath();
+
+  var points = transit.points;
+  for (var i = 0; i < points.length; i++) {
+    var pt = points[i];
+    var x = pt.x1 * (1 - fraction) + pt.x2 * fraction;
+    var y = pt.y1 * (1 - fraction) + pt.y2 * fraction;
+    if (i === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  }
+
+  ctx.closePath();
+}
+
+function drawTransitAtFraction(ctx, transit, fraction) {
+  ctx.fillStyle = transit.fill;
+  traceTransitPathAtFraction(ctx, transit, fraction);
+  ctx.fill();
+
+  ctx.strokeStyle = transit.stroke;
+  ctx.lineWidth = transit.strokeWidth;
+  traceTransitPathAtFraction(ctx, transit, fraction);
+  ctx.stroke();
+}
+
 function drawFrame(ctx, isForward, transits, t0, t, callback) {
   if (t - t0 > TransitDuration) return callback();
   var f = ease((t - t0) / TransitDuration);
 
-  var f1, f2;
-  if (isForward) {
-    f1 = (1 - f);
-    f2 = f;
-  } else {
-    f1 = f;
-    f2 = (1 - f);
-  }
+  var fraction = isForward ? f : (1 - f);
 
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
   for (var i = 0; i < transits.length; i++) {
     var transit = transits[i];
-    var points = transit.points;
-    ctx.fillStyle = transit.path.getAttribute('fill');
-    ctx.beginPath();
-    for (var j = 0; j < points.length; j += 1) {
-      var pt = points[j];
-      var x = pt.x1 * f1 + pt.x2 * f2;
-      var y = pt.y1 * f1 + pt.y2 * f2;
-      if (j === 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
-      }
-    }
-    ctx.closePath();
-    ctx.fill();
+    drawTransitAtFraction(ctx, transit, fraction);
   }
 
   window.requestAnimationFrame(function(t1) {
@@ -362,6 +376,15 @@ function drawFrame(ctx, isForward, transits, t0, t, callback) {
 
 Map.prototype.transition = function(fromClass, toClass) {
   if (!this.el.classList.contains(fromClass)) return; // we're already animating
+
+  for (var i = 0; i < this.transits.length; i++) {
+    var transit = this.transits[i];
+    var style = window.getComputedStyle(transit.path);
+    transit.fill = style.fill;
+    // TK programmatic way of pulling stroke from mesh?
+    transit.stroke = 'white';
+    transit.strokeWidth = 2;
+  }
 
   var _this = this;
   window.requestAnimationFrame(function(t0) {

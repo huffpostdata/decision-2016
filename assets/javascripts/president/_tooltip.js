@@ -1,51 +1,61 @@
 function refreshEls(els, races) {
+  var maps = document.getElementById('map');
+  var cartStates = maps.querySelector('.president-cartogram').querySelectorAll('path');
+  var geoStates = maps.querySelector('.states').querySelectorAll('path');
 
-  dataById = {}
+  var dataById = {}
   for (var i = 0; i < races.length; i++) {
     dataById[races[i].id] = races[i];
   }
 
   var positionTooltip = function(stateEl){
     var mapHeight = document.querySelector('.map').offsetHeight;
-    var labelTag = stateEl.querySelector('.label');
-    var xPos = parseFloat(labelTag.getAttribute('x'));
-    var yPos = parseFloat(labelTag.getAttribute('y'));
+    var mapWidth = document.querySelector('.map').offsetWidth;
+    var boundBox = stateEl.getBBox();
+    var scaleDown = mapWidth > mapHeight ? mapWidth / 1294 : mapHeight / 800;
+    var xPos = Math.floor((boundBox.x + boundBox.width / 2) * scaleDown);
+    var yPos = Math.floor((boundBox.y + boundBox.height / 2) * scaleDown);
     var width = parseFloat(els.tooltip.offsetWidth);
     var height = parseFloat(els.tooltip.offsetHeight);
-    var offsetX = width / 2;
-    var offsetY = yPos + height > mapHeight ? height : 0;
-    els.tooltip.style.left = xPos - offsetX + 'px';
+    var offsetX = (xPos + width) > mapWidth ? ((xPos + width) - mapWidth) : 0;
+    var offsetY = (yPos + height) > mapHeight ? ((yPos + height) - mapHeight) : 0;
+    els.tooltip.style.left = xPos + 'px';// - offsetX + 'px';
     els.tooltip.style.top = yPos - offsetY + 'px';
   }
 
   var setText = function(stateEl) {
-    var stateId = stateEl.getAttribute('data-state-code');
-    var stateName = dataById[stateId].name;
-    var nElVotes = dataById[stateId].nElectoralVotes;
-    els.stateName.textContent = stateName;
-    els.stateSummary.textContent = 'The candidate that wins the popular vote will win all ' + nElVotes + ' of ' + stateName + '\'s electoral votes';
+    var stateId = stateEl.getAttribute('class').split(/ /, 1)[0];
+    if (stateId !== 'mesh') {
+      var stateName = dataById[stateId].name;
+      var nElVotes = dataById[stateId].nElectoralVotes;
+      els.stateName.textContent = stateName;
+      els.stateSummary.textContent = 'The candidate that wins the popular vote will win all ' + nElVotes + ' of ' + stateName + '\'s electoral votes';
+    }
   }
 
   var buildTable = function(stateEl) {
-    var stateId = stateEl.getAttribute('data-state-code');
-    var candidates = dataById[stateId].candidates;
-    var votesTotal = dataById[stateId].nVotes;
-    var table = els.tooltip.querySelector('.c-table');
-    var htmlInject = ['<table>', '<thead>', '<tr>', '<th></th>', '<th></th>', '<th></th>', '</tr>', '</thead><tbody>']
-    for (var i = 0; i < candidates.length; i++) {
-      var name = candidates[i].name;
-      var votes = candidates[i].n;
-      var pct = (votes / votesTotal) * 100;
-      var count = '' + candidates[i].n;
-      tableStr =['<tr>', '<td class="name" style="width: 25%;">' + name + '</td>', '<td class="vote-bar" style="width: 50%;">', '<div class="vote-div">', '<div style="width: ' + pct + '%; background-color: blue; height: 10px;"></div>', '</div>', '</td>', '<td class="vote-count" style="width: 25%;">' + count + '</td>', '</tr>'];
-      htmlInject = htmlInject.concat(tableStr);
+    var stateId = stateEl.getAttribute('class').split(/ /, 1)[0];
+    if (stateId !== 'mesh') {
+      var candidates = dataById[stateId].candidates;
+      var votesTotal = dataById[stateId].nVotes;
+      var table = els.tooltip.querySelector('.c-table');
+      var iterLimit = candidates.length <= 5 ? candidates.length : 5;
+      var htmlInject = ['<table>', '<thead>', '<tr>', '<th></th>', '<th></th>', '<th></th>', '</tr>', '</thead><tbody>']
+      for (var i = 0; i < iterLimit; i++) {
+        var name = candidates[i].name;
+        var votes = candidates[i].n;
+        var pct = (votes / votesTotal) * 100;
+        var count = '' + candidates[i].n;
+        tableStr =['<tr>', '<td class="name" style="width: 25%;">' + name + '</td>', '<td class="vote-bar" style="width: 50%;">', '<div class="vote-div">', '<div style="width: ' + pct + '%; background-color: blue; height: 10px;"></div>', '</div>', '</td>', '<td class="vote-count" style="width: 25%;">' + count + '</td>', '</tr>'];
+        htmlInject = htmlInject.concat(tableStr);
+      }
+      resultStr = '';
+      for (var i = 0; i < htmlInject.length; i++) {
+        resultStr += htmlInject[i];
+      }
+      resultStr += '</tbody></table>';
+      table.innerHTML = resultStr;
     }
-    resultStr = '';
-    for (var i = 0; i < htmlInject.length; i++) {
-      resultStr += htmlInject[i];
-    }
-    resultStr += '</tbody></table>';
-    table.innerHTML = resultStr;
   }
 
   var handleMouseover = function(stateEl) {
@@ -60,13 +70,21 @@ function refreshEls(els, races) {
   }
 
   function setListeners() {
-    var states = document.querySelectorAll('[data-state-code]');
-    for (var i = 0; i < states.length; i++) {
-      states[i].addEventListener('mouseover', function() {
+    for (var i = 0; i < cartStates.length; i++) {
+      cartStates[i].addEventListener('mouseover', function() {
         var that = this;
          handleMouseover(that);
        }, false);
-      states[i].addEventListener('mouseout', function() {
+      cartStates[i].addEventListener('mouseout', function() {
+        handleMouseout();
+      }, false);
+    }
+    for (var i = 0; i < geoStates.length; i++) {
+      geoStates[i].addEventListener('mouseover', function() {
+        var that = this;
+         handleMouseover(that);
+       }, false);
+      geoStates[i].addEventListener('mouseout', function() {
         handleMouseout();
       }, false);
     }

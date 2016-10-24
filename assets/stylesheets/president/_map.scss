@@ -12,6 +12,10 @@
     visibility: hidden;
   }
 
+  canvas.animation {
+    pointer-events: none;
+  }
+
   svg, canvas.animation {
     display: block;
     position: absolute;
@@ -40,4 +44,12 @@
   &.geography {
     g.states { opacity: 1; }
   }
+
+  path.clinton-win { fill: $dem-color; }
+  path.clinton-lead { fill: $dem-lead-color; }
+  path.trump-win { fill: $gop-color; }
+  path.trump-lead { fill: $gop-lead-color; }
+  path.other-win { fill: $other-color; }
+  path.other-lead { fill: $other-lead-color; }
+  path.tossup { fill: $tossup-color; }
 }

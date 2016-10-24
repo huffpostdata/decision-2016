@@ -4,8 +4,8 @@
  * A rollup of all the data Associated Pres gives us.
  */
 module.exports = class ApData {
-  constructor(fipscodeElections, districtElections) {
-    this.fipscodeElections = fipscodeElections
+  constructor(reportingUnitElections, districtElections) {
+    this.reportingUnitElections = reportingUnitElections
     this.districtElections = districtElections
   }
 
@@ -26,7 +26,7 @@ module.exports = class ApData {
   presidentSummary() {
     const NElectoralVotes = 538
 
-    const race = this.fipscodeElections.findUSPresidentRace()
+    const race = this.reportingUnitElections.findUSPresidentRace()
 
     let nClintonVotes = 0
     let nTrumpVotes = 0
@@ -135,8 +135,9 @@ module.exports = class ApData {
       race.winner = winner
     }
 
-    for (const apRace of this.fipscodeElections.findPresidentRaces()) {
+    for (const apRace of this.reportingUnitElections.findPresidentRaces()) {
       const state = apRace.reportingUnits[0]
+      if (state.statePostal === 'ME' || state.statePostal === 'NE') continue;
 
       const race = {
         id: state.statePostal,
@@ -212,7 +213,7 @@ module.exports = class ApData {
     const wins = {}
     const totals = { dem: NDemPrior, gop: NGopPrior }
 
-    const races = this.fipscodeElections.findSenateRaces()
+    const races = this.reportingUnitElections.findSenateRaces()
     if (races.length != NRaces) {
       throw new Error(`URGENT: expected ${NRaces} Senate races; got ${races.length}`)
     }
@@ -265,7 +266,7 @@ module.exports = class ApData {
   houseSummary() {
     const NRaces = 435
 
-    const races = this.fipscodeElections.findHouseRaces()
+    const races = this.reportingUnitElections.findHouseRaces()
     if (races.length != NRaces) {
       throw new Error(`URGENT: expected ${NRaces} Senate races; got ${races.length}`)
     }

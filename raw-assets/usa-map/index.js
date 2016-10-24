@@ -13,7 +13,13 @@ const Accuracy = 2
 const Width = 647 * Accuracy
 const Height = 400 * Accuracy
 
-function loadGeojson(key) {
+function loadStatesGeojson() {
+  const shp = fs.readFileSync(`${__dirname}/input/statesp010g.shp`).buffer
+  const dbf = fs.readFileSync(`${__dirname}/input/statesp010g.dbf`).buffer
+  return shpjs.combine([ shpjs.parseShp(shp), shpjs.parseDbf(dbf) ])
+}
+
+function loadGeojson(key, callback) {
   const KeyToFilename = {
     districts: 'tl_2016_us_cd115.zip',
     states: 'tl_2016_us_state.zip'
@@ -67,9 +73,10 @@ function projectGeometry(geom, projection) {
 //debug('Loading districts')
 //const districts = loadGeojson('districts')
 debug('Loading states')
-const states = loadGeojson('states')
+const states = loadStatesGeojson()
 states.features = states.features
-  .filter(f => [ 'PR', 'GU', 'MP', 'VI', 'AS' ].indexOf(f.properties.STUSPS) === -1)
+  .filter(f => f.properties.TYPE === 'Land')
+  .filter(f => [ 'PR', 'GU', 'MP', 'VI', 'AS' ].indexOf(f.properties.STATE_ABBR) === -1)
 
 const projection = d3_geo.geoAlbersUsa()
 const AlbersUsaUnderscaling = 0.9 // D3's AlbersUsa is too small
@@ -82,11 +89,11 @@ states.features = states.features.map(f => projectGeometry(f, projection))
 debug('Building topology')
 const topo = topojson.topology({ states: states},{//, districts: districts }, {
   quantization: Width,
-  id: d => d.properties.STUSPS,
+  id: d => d.properties.STATE_ABBR,
   verbose: true
 })
 topojson.simplify(topo, {
-  'minimum-area': 1.2 * Accuracy * Accuracy,
+  'minimum-area': 4 * Accuracy * Accuracy,
   'coordinate-system': 'cartesian',
   verbose: true
 })
@@ -208,6 +215,8 @@ out.push('</g>') // g.president-cartogram
 
 out.push('</svg>')
 
+const outBuffer = Buffer.from(out.join(''), 'utf8')
+
 const outFile = `${__dirname}/../../assets/maps/usa.svg`
-debug(`Writing to ${outFile}`)
-fs.writeFileSync(outFile, out.join(''))
+debug(`Writing to ${outFile} (${outBuffer.length} bytes)`)
+fs.writeFileSync(outFile, outBuffer)

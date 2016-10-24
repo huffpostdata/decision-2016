@@ -94,8 +94,7 @@ describe('ApData', () => {
         .filter(s => s.length > 0) // ignore trailing newlines
         .map(s => s.split(/\t/g))
 
-      const fipscodeRaces = tsvData
-        .filter(row => row[1].length === 0) // ignore district races
+      const reportingUnitRaces = tsvData
         .map(row => {
           return {
             officeID: 'P',
@@ -146,24 +145,24 @@ describe('ApData', () => {
         })
       }
 
-      function go(fipscodeRaces, districtRaces) {
+      function go(reportingUnitRaces, districtRaces) {
         const apData = new ApData({
-          findPresidentRaces() { return fipscodeRaces }
+          findPresidentRaces() { return reportingUnitRaces }
         }, {
           findPresidentRaces() { return districtRaces }
         })
         return apData.presidentRaces()
       }
 
-      const races = go(fipscodeRaces, districtRaces)
+      const races = go(reportingUnitRaces, districtRaces)
 
       it('should find 56 races (50 states + DC + 2 ME + 3 NE)', () => {
         expect(races.length).to.eq(56)
       })
 
       it('should sort alphabetically', () => {
-        const fipscodeRaces2 = [ fipscodeRaces[1], fipscodeRaces[0] ].concat(fipscodeRaces.slice(2))
-        const races = go(fipscodeRaces2, districtRaces)
+        const reportingUnitRaces2 = [ reportingUnitRaces[1], reportingUnitRaces[0] ].concat(reportingUnitRaces.slice(2))
+        const races = go(reportingUnitRaces2, districtRaces)
         expect(races[0].name).to.eq('Alabama')
         expect(races[1].name).to.eq('Alaska')
       })
@@ -185,15 +184,15 @@ describe('ApData', () => {
       })
 
       it('should count nVotes, nVotesClinton, nVotesTrump, nVotesOther', () => {
-        const fipscodeRaces2 = JSON.parse(JSON.stringify(fipscodeRaces))
-        const apJson = fipscodeRaces2[0]
+        const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
+        const apJson = reportingUnitRaces2[0]
         apJson.reportingUnits[0].candidates = [
           { party: 'Dem', last: 'Clinton', voteCount: 1234 },
           { party: 'GOP', last: 'Trump', voteCount: 2345 },
           { party: 'Lib', last: 'Johnson', voteCount: 3456 },
           { party: 'Oth', last: 'Other', voteCount: 4567 }
         ]
-        const race = go(fipscodeRaces2, districtRaces)[0]
+        const race = go(reportingUnitRaces2, districtRaces)[0]
         expect(race.nVotes).to.eq(1234+2345+3456+4567)
         expect(race.nVotesClinton).to.eq(1234)
         expect(race.nVotesTrump).to.eq(2345)
@@ -201,26 +200,26 @@ describe('ApData', () => {
       })
 
       it('should count nPrecincts and nPrecinctsReporting', () => {
-        const fipscodeRaces2 = JSON.parse(JSON.stringify(fipscodeRaces))
-        Object.assign(fipscodeRaces2[0].reportingUnits[0], {
+        const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
+        Object.assign(reportingUnitRaces2[0].reportingUnits[0], {
           precinctsReporting: 106,
           precinctsTotal: 166
         })
-        const race = go(fipscodeRaces2, districtRaces)[0]
+        const race = go(reportingUnitRaces2, districtRaces)[0]
         expect(race.nPrecincts).to.eq(166)
         expect(race.nPrecinctsReporting).to.eq(106)
       })
 
       it('should format candidates', () => {
-        const fipscodeRaces2 = JSON.parse(JSON.stringify(fipscodeRaces))
-        const apJson = fipscodeRaces2[0]
+        const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
+        const apJson = reportingUnitRaces2[0]
         apJson.reportingUnits[0].candidates = [
           { party: 'Dem', first: 'Hillary', last: 'Clinton', voteCount: 1234 },
           { party: 'GOP', first: 'Donald', last: 'Trump', voteCount: 2345, winner: 'X' },
           { party: 'Lib', first: 'Gary', last: 'Johnson', voteCount: 3456 },
           { party: 'Oth', first: 'Oth', last: 'Er', voteCount: 4567 }
         ]
-        const candidates = go(fipscodeRaces2, districtRaces)[0].candidates
+        const candidates = go(reportingUnitRaces2, districtRaces)[0].candidates
         expect(candidates).to.deep.eq([
           { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem', winner: false },
           { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop', winner: true },
@@ -230,28 +229,28 @@ describe('ApData', () => {
       })
 
       it('should set the winner', () => {
-        const fipscodeRaces2 = JSON.parse(JSON.stringify(fipscodeRaces))
-        const apJson = fipscodeRaces2[0]
+        const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
+        const apJson = reportingUnitRaces2[0]
         apJson.reportingUnits[0].candidates = [
           { party: 'Dem', last: 'Clinton', voteCount: 1234 },
           { party: 'GOP', last: 'Trump', voteCount: 2345, winner: 'X' },
           { party: 'Lib', last: 'Johnson', voteCount: 3456 },
           { party: 'Oth', last: 'Other', voteCount: 4567 }
         ]
-        const race = go(fipscodeRaces2, districtRaces)[0]
+        const race = go(reportingUnitRaces2, districtRaces)[0]
         expect(race.winner).to.eq('trump')
       })
 
       it('should set winner=null', () => {
-        const fipscodeRaces2 = JSON.parse(JSON.stringify(fipscodeRaces))
-        const apJson = fipscodeRaces2[0]
+        const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
+        const apJson = reportingUnitRaces2[0]
         apJson.reportingUnits[0].candidates = [
           { party: 'Dem', last: 'Clinton', voteCount: 1234 },
           { party: 'GOP', last: 'Trump', voteCount: 2345 },
           { party: 'Lib', last: 'Johnson', voteCount: 3456 },
           { party: 'Oth', last: 'Other', voteCount: 4567 }
         ]
-        const race = go(fipscodeRaces2, districtRaces)[0]
+        const race = go(reportingUnitRaces2, districtRaces)[0]
         expect(race.winner).to.eq(null)
       })
     })
