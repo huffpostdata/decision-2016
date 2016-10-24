@@ -22,7 +22,7 @@ function bestLoop(d) {
   var re = /(M[^M]+)/g;
   var m;
   while ((m = re.exec(d)) !== null) {
-    var loop2 = new Loop(m[1]);
+    var loop2 = Loop.fromPathD(m[1]);
     if (loop === null || loop2.len > loop.len) {
       loop = loop2;
     }
@@ -34,7 +34,12 @@ function bestLoop(d) {
 /**
  * Contains an Array of `points` that start and end at the same (x,y).
  */
-function Loop(d) {
+function Loop(points) {
+  this.points = points;
+  this.len = points[points.length - 1].len;
+}
+
+Loop.fromPathD = function(d) {
   // A function mapping [0,1] to {x,y}
   var len = 0;
   var re = /([MlhvZ])(-?\d+)(?:,(-?\d+))?/g;
@@ -87,9 +92,52 @@ function Loop(d) {
     }
   }
 
-  this.len = len;
-  this.points = points;
+  return new Loop(points);
 }
+
+Loop.prototype.rotateSoTopLeftPointIsFirst = function() {
+  // 1. Find top-left bounding box
+  var i, point;
+  var left = this.points[0].x;
+  var top = this.points[0].y;
+  for (i = 1; i < this.points.length; i++) {
+    point = this.points[i];
+    if (point.x < left) left = point.x;
+    if (point.y < top) top = point.y;
+  }
+
+  // 2. Find closest point: smallest Euclidean distance
+  var bestD2 = null;
+  var bestI = null;
+  for (i = 0; i < this.points.length; i++) {
+    point = this.points[i];
+    var dx = point.x - left;
+    var dy = point.y - top;
+    var d2 = dx * dx + dy * dy;
+    if (bestD2 === null || d2 < bestD2) {
+      bestD2 = d2;
+      bestI = i;
+    }
+  }
+
+  // 3. Fashion new Loop starting at this point.
+  // 3a. top-left point to end of original loop
+  var startLen = this.points[i].len;
+  var points = [];
+  for (i = bestI; i < this.points.length; i++) {
+    point = this.points[i];
+    points.push(new Point(point.x, point.y, point.len - startLen));
+  }
+  // the last point is at the same (x,y) as this.points[0].
+  // 3b. all the points, ending at the top-left point we started at
+  var lenAt0 = this.len - startLen;
+  for (i = 1; i <= bestI; i++) {
+    point = this.points[i];
+    points.push(new Point(point.x, point.y, point.len + lenAt0));
+  }
+
+  return new Loop(points);
+};
 
 /**
  * Returns a Point between point1 and point2, with the given `len`.

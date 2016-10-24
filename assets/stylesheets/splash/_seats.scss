@@ -1,10 +1,11 @@
 #election_seats{
-  border: 1px solid $border-color;
   text-align: center;
   width: $right-column-width;
+  padding: 20px 50px;
+  box-sizing: border-box;
 
   .bar {
-    margin: 5rem auto;
+    margin: 25px auto;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -62,4 +63,16 @@
       }
     }
   }
+}
+
+.seats-title {
+  border-bottom: 1px solid #ececec;
+  padding-bottom: 10px;
+  margin: 10px 0;
+}
+
+#senate-link,
+#house-link {
+  text-decoration: none;
+  color: inherit;
 }

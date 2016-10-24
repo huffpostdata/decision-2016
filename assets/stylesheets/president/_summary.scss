@@ -137,15 +137,18 @@
     box-sizing: border-box;
   }
 
-  li.clinton { background: $dem-color; }
-  li.other { background: $other-color; }
+  li.clinton-win { background: $dem-color; }
+  li.clinton-lead { background: $dem-lead-color; }
+  li.other-win { background: $other-color; }
+  li.other-lead { background: $other-lead-color; }
+  li.trump-win { background: $gop-color; }
+  li.trump-lead { background: $gop-lead-color; }
   li.tossup { background: $tossup-color; }
-  li.trump { background: $gop-color; }
-}
 
-.photo-credit {
-  font-family: $body-font-family;
-  color: $very-muted-color;
-  font-size: .7rem;
-  margin-top: 10px;
+  .photo-credit {
+    font-family: $body-font-family;
+    color: $very-muted-color;
+    font-size: .7rem;
+    margin-top: 10px;
+  }
 }
