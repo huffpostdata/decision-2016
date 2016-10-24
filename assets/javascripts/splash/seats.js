@@ -6,7 +6,7 @@ function setUpHouse(data) {
   var bar = document.createElement('div');
   var sub = document.createElement('div');
 
-  h2.setAttribute('class', 'seats-title bN');
+  h2.setAttribute('class', 'seats-title');
   h2.innerHTML = "HOUSE SEATS";
   sub.innerHTML = "Nine up for grabs";
 
