@@ -141,11 +141,11 @@
   li.other { background: $other-color; }
   li.tossup { background: $tossup-color; }
   li.trump { background: $gop-color; }
-}
 
-.photo-credit {
-  font-family: $body-font-family;
-  color: $very-muted-color;
-  font-size: .7rem;
-  margin-top: 10px;
+  .photo-credit {
+    font-family: $body-font-family;
+    color: $very-muted-color;
+    font-size: .7rem;
+    margin-top: 10px;
+  }
 }
