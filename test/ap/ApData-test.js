@@ -95,7 +95,6 @@ describe('ApData', () => {
         .map(s => s.split(/\t/g))
 
       const reportingUnitRaces = tsvData
-        .filter(row => row[1].length === 0) // ignore district races
         .map(row => {
           return {
             officeID: 'P',

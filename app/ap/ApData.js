@@ -137,6 +137,7 @@ module.exports = class ApData {
 
     for (const apRace of this.reportingUnitElections.findPresidentRaces()) {
       const state = apRace.reportingUnits[0]
+      if (state.statePostal === 'ME' || state.statePostal === 'NE') continue;
 
       const race = {
         id: state.statePostal,
