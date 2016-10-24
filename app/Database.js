@@ -7,6 +7,7 @@ const GoogleDocs = require('../generator/GoogleDocs')
 const GoogleSheets = require('../generator/GoogleSheets')
 const PageMetadata = require('../generator/PageMetadata')
 const ap_fs = require('./ap/ap-fs')
+const presidentClassNameForRace = require('../assets/javascripts/president/_classNameForRace')
 
 module.exports = class Database {
   constructor() {
@@ -28,7 +29,8 @@ module.exports = class Database {
       house: apData.houseSummary()
     }
 
-    const presidentRaces = apData.presidentRaces()
+    const presidentRaces = apData.presidentRaces().sort(presidentClassNameForRace.compareRaces)
+    presidentRaces.forEach(race => race.className = presidentClassNameForRace(race))
 
     this.splash = {
       president: summaries.president,

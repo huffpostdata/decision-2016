@@ -17,19 +17,8 @@ var races=data.model.races
       span - electoral votes
     .middle - 270 to win
     ol.races
-      <!-- Races ordered alphabetically, sized by n electoral votes -->
       for(race in races)
-        if(race.winner === 'clinton')
-          li.clinton style="width: ${100 * race.nElectoralVotes / summary.nElectoralVotes}%" data-race-id="${race.id}"
-      for(race in races)
-        if(race.winner !== null && race.winner !== 'clinton' && race.winner !== 'trump')
-          li.other style="width: ${100 * race.nElectoralVotes / summary.nElectoralVotes}%" data-race-id="${race.id}"
-      for(race in races)
-        if(race.winner === null)
-          li.tossup style="width: ${100 * race.nElectoralVotes / summary.nElectoralVotes}%" data-race-id="${race.id}"
-      for(race in races)
-        if(race.winner === 'trump')
-          li.trump style="width: ${100 * race.nElectoralVotes / summary.nElectoralVotes}%" data-race-id="${race.id}"
+        li.${race.className} style="width: ${100 * race.nElectoralVotes / summary.nElectoralVotes}%" data-race-id="${race.id}"
     .popular-votes
       .clinton-popular-votes
         strong - ${data.helpers.formatInt(summary.nClinton)}
