@@ -6,7 +6,7 @@ function setUpHouse(data) {
   var bar = document.createElement('div');
   var sub = document.createElement('div');
 
-  h2.setAttribute('class', 'seats-title');
+  h2.setAttribute('class', 'module__header');
   h2.innerHTML = "HOUSE SEATS";
   sub.innerHTML = "Nine up for grabs";
 
@@ -62,7 +62,7 @@ function setUpSenate() {
   var bar = document.createElement('div');
   var sub = document.createElement('div');
 
-  h2.setAttribute('class', 'seats-title');
+  h2.setAttribute('class', 'module__header');
   h2.innerHTML = "SENATE SEATS";
   sub.innerHTML = "Thirty up for grabs";
 
