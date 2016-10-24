@@ -9,7 +9,8 @@ index:
 # of those elements.
 splash.js:
   model: splash
-  content-type: application/javascript
+  headers:
+    Content-Type: application/javascript
 
 # GET /_test/splash/:format
 #
@@ -32,4 +33,6 @@ house:
 
 president.json:
   model: presidentAsBuffer
-  content-type: application/json
+  headers:
+    Content-Type: application/json
+    Cache-Control: public, max-age=5
