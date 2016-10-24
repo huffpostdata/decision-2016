@@ -7,13 +7,14 @@ function refreshEls(els, races) {
 
   var positionTooltip = function(stateEl){
     var mapHeight = document.querySelector('.map').offsetHeight;
+    var mapWidth = document.querySelector('.map').offsetWidth;
     var labelTag = stateEl.querySelector('.label');
     var xPos = parseFloat(labelTag.getAttribute('x'));
     var yPos = parseFloat(labelTag.getAttribute('y'));
     var width = parseFloat(els.tooltip.offsetWidth);
     var height = parseFloat(els.tooltip.offsetHeight);
-    var offsetX = width / 2;
-    var offsetY = yPos + height > mapHeight ? height : 0;
+    var offsetX = (xPos + width) > mapWidth ? ((xPos + width) - mapWidth) : 0;
+    var offsetY = (yPos + height) > mapHeight ? ((yPos + height) - mapHeight) : width / 2;
     els.tooltip.style.left = xPos - offsetX + 'px';
     els.tooltip.style.top = yPos - offsetY + 'px';
   }
@@ -31,8 +32,9 @@ function refreshEls(els, races) {
     var candidates = dataById[stateId].candidates;
     var votesTotal = dataById[stateId].nVotes;
     var table = els.tooltip.querySelector('.c-table');
+    var iterLimit = candidates.length <= 5 ? candidates.length : 5;
     var htmlInject = ['<table>', '<thead>', '<tr>', '<th></th>', '<th></th>', '<th></th>', '</tr>', '</thead><tbody>']
-    for (var i = 0; i < candidates.length; i++) {
+    for (var i = 0; i < iterLimit; i++) {
       var name = candidates[i].name;
       var votes = candidates[i].n;
       var pct = (votes / votesTotal) * 100;
