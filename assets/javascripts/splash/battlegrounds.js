@@ -8,7 +8,8 @@ function setUpTable () {
   var tableHead = document.createElement("thead");
   tableBody = document.createElement("tbody");
 
-  h2.innerHTML = "Battleground States";
+  h2.innerHTML = "BATTLEGROUND STATES";
+  h2.setAttribute("class", "module__header");
 
   tableHead.appendChild(getHeader());
 
