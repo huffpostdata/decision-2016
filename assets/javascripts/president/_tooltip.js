@@ -8,19 +8,22 @@ function refreshEls(els, races) {
   var positionTooltip = function(stateEl){
     var mapHeight = document.querySelector('.map').offsetHeight;
     var mapWidth = document.querySelector('.map').offsetWidth;
-    var labelTag = stateEl.querySelector('.label');
-    var xPos = parseFloat(labelTag.getAttribute('x'));
-    var yPos = parseFloat(labelTag.getAttribute('y'));
+    var boundBox = stateEl.getBBox();
+    var scaleDown = mapWidth > mapHeight ? mapWidth / 1294 : mapHeight / 800;
+    // var scaleDown = mapWidth / 1294;
+    // var yRatio = mapWidth / 800;
+    var xPos = (boundBox.x + boundBox.width / 2) * scaleDown;
+    var yPos = (boundBox.y + boundBox.height / 2) * scaleDown;
     var width = parseFloat(els.tooltip.offsetWidth);
     var height = parseFloat(els.tooltip.offsetHeight);
     var offsetX = (xPos + width) > mapWidth ? ((xPos + width) - mapWidth) : 0;
-    var offsetY = (yPos + height) > mapHeight ? ((yPos + height) - mapHeight) : width / 2;
+    var offsetY = (yPos + height) > mapHeight ? ((yPos + height) - mapHeight) : 0;
     els.tooltip.style.left = xPos - offsetX + 'px';
     els.tooltip.style.top = yPos - offsetY + 'px';
   }
 
   var setText = function(stateEl) {
-    var stateId = stateEl.getAttribute('data-state-code');
+    var stateId = stateEl.getAttribute('class');
     var stateName = dataById[stateId].name;
     var nElVotes = dataById[stateId].nElectoralVotes;
     els.stateName.textContent = stateName;
@@ -28,7 +31,7 @@ function refreshEls(els, races) {
   }
 
   var buildTable = function(stateEl) {
-    var stateId = stateEl.getAttribute('data-state-code');
+    var stateId = stateEl.getAttribute('class');
     var candidates = dataById[stateId].candidates;
     var votesTotal = dataById[stateId].nVotes;
     var table = els.tooltip.querySelector('.c-table');
@@ -62,13 +65,15 @@ function refreshEls(els, races) {
   }
 
   function setListeners() {
-    var states = document.querySelectorAll('[data-state-code]');
-    for (var i = 0; i < states.length; i++) {
-      states[i].addEventListener('mouseover', function() {
+    var maps = document.getElementById('map');
+    var cartStates = maps.querySelector('.president-cartogram').querySelectorAll('path');
+    var geoStates = maps.querySelector('.states').querySelectorAll('path');
+    for (var i = 0; i < cartStates.length; i++) {
+      cartStates[i].addEventListener('mouseover', function() {
         var that = this;
          handleMouseover(that);
        }, false);
-      states[i].addEventListener('mouseout', function() {
+      cartStates[i].addEventListener('mouseout', function() {
         handleMouseout();
       }, false);
     }

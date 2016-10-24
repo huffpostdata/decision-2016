@@ -19,6 +19,9 @@ body.president {
     .map {
       position: relative;
       width: 60%;
+      .animation {
+        pointer-events: none;
+      }
     }
 
     .map-info {
