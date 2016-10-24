@@ -1,3 +1,5 @@
+var classNameForRace = require('./_classNameForRace');
+
 var TransitDuration = 200; // ms
 
 var Color = {
@@ -287,10 +289,14 @@ Map.prototype.recolorIfLoaded = function() {
 Map.prototype.recolor = function() {
   for (var i = 0; i < this.racesJson.length; i++) {
     var race = this.racesJson[i];
-    var color = race.winner === null ? Color.tossup : (Color[race.winner] || Color.other);
+    var className = classNameForRace(race);
     var paths = this.racePaths[race.id] || [];
     for (var j = 0; j < paths.length; j++) {
-      paths[j].setAttribute('fill', color);
+      var path = paths[j];
+      for (var k = 0; k < classNameForRace.AllClassNames.length; k++) {
+        path.classList.remove(classNameForRace.AllClassNames[k]);
+        path.classList.add(className);
+      }
     }
   }
 };
@@ -339,7 +345,7 @@ function drawFrame(ctx, isForward, transits, t0, t, callback) {
   for (var i = 0; i < transits.length; i++) {
     var transit = transits[i];
     var points = transit.points;
-    ctx.fillStyle = transit.path.getAttribute('fill');
+    ctx.fillStyle = transit.fill;
     ctx.beginPath();
     for (var j = 0; j < points.length; j += 1) {
       var pt = points[j];
@@ -362,6 +368,11 @@ function drawFrame(ctx, isForward, transits, t0, t, callback) {
 
 Map.prototype.transition = function(fromClass, toClass) {
   if (!this.el.classList.contains(fromClass)) return; // we're already animating
+
+  for (var i = 0; i < this.transits.length; i++) {
+    var transit = this.transits[i];
+    transit.fill = window.getComputedStyle(transit.path).fill;
+  }
 
   var _this = this;
   window.requestAnimationFrame(function(t0) {

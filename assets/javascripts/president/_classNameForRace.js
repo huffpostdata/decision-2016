@@ -6,7 +6,12 @@ function classNameForRace(race) {
   } else if (race.winner !== null) {
     return 'other-win';
   } else {
-    console.log(race);
+    var c = race.nVotesClinton;
+    var t = race.nVotesTrump;
+    var o = race.nVotesOther;
+    if (c > t && t > o) return 'clinton-lead';
+    if (t > c && t > o) return 'trump-lead';
+    if (o > c && o > t) return 'other-lead';
     return 'tossup';
   }
 };
