@@ -1,4 +1,5 @@
 var battlegrounds = require('./splash/battlegrounds');
+var electionMap = require('./splash/election-map')
 var electoral = require('./splash/electoral');
 var seats = require('./splash/seats');
 var refreshButton = require('./splash/refresh-element');
@@ -8,6 +9,7 @@ window.decision2016_init = function(data) {
   console.log("Sending data", data);
   refreshButton.render();
   electoral.render(data.president);
+  electionMap.render(data);
   battlegrounds.render(data.battlegrounds);
   seats.renderHouse(data.house);
   seats.renderSenate(data.senate);
@@ -15,7 +17,7 @@ window.decision2016_init = function(data) {
   function doRefresh(json) {
     electoral.update(json.summaries.president);
     battlegrounds.update(data.battlegrounds);
-    // TODO: update seats 
+    // TODO: update seats
   }
 
   var refreshEl = document.getElementById('election-splash-refresh');

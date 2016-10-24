@@ -1,0 +1,34 @@
+#tooltip {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 200px;
+  height: auto;
+  pointer-events: none;
+  background-color: rgba(255, 255, 255, 0.9);
+  .inner {
+    position: relative;
+    display: block;
+    padding: 5px;
+    margin: auto;
+    width: 100%;
+    p {
+      font-size: 12px;
+    }
+    table {
+      position: relative;
+      width: 180px;
+      .name {
+        font-size: 12px;
+      }
+      .vote-count {
+        font-size: 12px;
+      }
+      .vote-div {
+        width: 100%;
+        position: relative;
+      }
+    }
+  }
+}
