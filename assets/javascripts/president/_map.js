@@ -327,38 +327,46 @@ function ease(t) {
   return 1/2 * t * t * t + 1;
 }
 
+function traceTransitPathAtFraction(ctx, transit, fraction) {
+  ctx.beginPath();
+
+  var points = transit.points;
+  for (var i = 0; i < points.length; i++) {
+    var pt = points[i];
+    var x = pt.x1 * (1 - fraction) + pt.x2 * fraction;
+    var y = pt.y1 * (1 - fraction) + pt.y2 * fraction;
+    if (i === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  }
+
+  ctx.closePath();
+}
+
+function drawTransitAtFraction(ctx, transit, fraction) {
+  ctx.fillStyle = transit.fill;
+  traceTransitPathAtFraction(ctx, transit, fraction);
+  ctx.fill();
+
+  ctx.strokeStyle = transit.stroke;
+  ctx.lineWidth = transit.strokeWidth;
+  traceTransitPathAtFraction(ctx, transit, fraction);
+  ctx.stroke();
+}
+
 function drawFrame(ctx, isForward, transits, t0, t, callback) {
   if (t - t0 > TransitDuration) return callback();
   var f = ease((t - t0) / TransitDuration);
 
-  var f1, f2;
-  if (isForward) {
-    f1 = (1 - f);
-    f2 = f;
-  } else {
-    f1 = f;
-    f2 = (1 - f);
-  }
+  var fraction = isForward ? f : (1 - f);
 
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
   for (var i = 0; i < transits.length; i++) {
     var transit = transits[i];
-    var points = transit.points;
-    ctx.fillStyle = transit.fill;
-    ctx.beginPath();
-    for (var j = 0; j < points.length; j += 1) {
-      var pt = points[j];
-      var x = pt.x1 * f1 + pt.x2 * f2;
-      var y = pt.y1 * f1 + pt.y2 * f2;
-      if (j === 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
-      }
-    }
-    ctx.closePath();
-    ctx.fill();
+    drawTransitAtFraction(ctx, transit, fraction);
   }
 
   window.requestAnimationFrame(function(t1) {
@@ -371,7 +379,11 @@ Map.prototype.transition = function(fromClass, toClass) {
 
   for (var i = 0; i < this.transits.length; i++) {
     var transit = this.transits[i];
-    transit.fill = window.getComputedStyle(transit.path).fill;
+    var style = window.getComputedStyle(transit.path);
+    transit.fill = style.fill;
+    // TK programmatic way of pulling stroke from mesh?
+    transit.stroke = 'white';
+    transit.strokeWidth = 2;
   }
 
   var _this = this;
