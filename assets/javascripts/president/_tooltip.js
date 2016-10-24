@@ -1,7 +1,7 @@
 function refreshEls(els, races) {
   var maps = document.getElementById('map');
-  var cartStates = maps.querySelector('.president-cartogram').querySelectorAll('path');
-  var geoStates = maps.querySelector('.states').querySelectorAll('path');
+  var cartStates = maps.querySelectorAll('svg g.president-cartogram path');
+  var geoStates = maps.querySelectorAll('svg g.states path:not(.mesh)');
 
   var dataById = {}
   for (var i = 0; i < races.length; i++) {

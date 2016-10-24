@@ -43,3 +43,6 @@ document.getElementById('map-switcher').addEventListener('click', function() {
     carto.style.pointerEvents = 'none';
   }
 });
+
+var initialJson = document.querySelector('script[data-json]').getAttribute('data-json');
+doRefresh(JSON.parse(initialJson));
