@@ -6,6 +6,7 @@ const Canvas = require('canvas')
 const debug = require('debug')('index')
 const d3_geo = require('d3-geo')
 const fs = require('fs')
+const jsts = require('jsts')
 const shpjs = require('shpjs')
 const topojson = require('topojson')
 const PresidentCartogramData = require('../../assets/javascripts/common/_cartogramData')
@@ -18,7 +19,29 @@ function loadStatesGeojson() {
   debug('Loading states')
   const shp = fs.readFileSync(`${__dirname}/input/statesp010g.shp`).buffer
   const dbf = fs.readFileSync(`${__dirname}/input/statesp010g.dbf`).buffer
-  return shpjs.combine([ shpjs.parseShp(shp), shpjs.parseDbf(dbf) ])
+  const geojson = shpjs.combine([ shpjs.parseShp(shp), shpjs.parseDbf(dbf) ])
+  debug('Making data valid')
+  const validGeojson = makeGeojsonValid(geojson)
+  return validGeojson
+}
+
+const GeoJSONReader = new jsts.io.GeoJSONReader()
+const GeoJSONWriter = new jsts.io.GeoJSONWriter()
+function makeGeojsonGeometryValid(geom) {
+  const jstsGeom = GeoJSONReader.read(geom)
+  const validJstsGeom = jstsGeom.buffer(0) // fixes all sorts of problems
+  return GeoJSONWriter.write(validJstsGeom)
+}
+
+function makeGeojsonValid(geojson) {
+  switch (geojson.type) {
+    case 'Feature':
+      return Object.assign({}, geojson, { geometry: makeGeojsonGeometryValid(geojson.geometry) })
+    case 'FeatureCollection':
+      return Object.assign({}, geojson, { features: geojson.features.map(makeGeojsonValid) })
+    default:
+      return makeGeojsonGeometryValid(geojson)
+  }
 }
 
 function loadGeojson(key, callback) {
@@ -94,7 +117,7 @@ function quantizeAndMeshFeatureCollection(featureCollection) {
 
   debug('De-topojson-izing')
   const features2 = topojson.feature(topo, topo.objects.features)
-  const mesh = topojson.feature(topo, topo.objects.features)
+  const mesh = topojson.mesh(topo, topo.objects.features, (a, b) => a !== b)
 
   return { features: features2, mesh: mesh }
 }
@@ -110,11 +133,12 @@ function calculateStatesGeodata() {
 }
 
 function geometryToDSink() {
-  let lastX = 0
-  let lastY = 0
-  let mustMove = true
-  let out = []
+  const out = []
 
+  let inPolygon = false
+  let mustMove = true
+  let lastX = null
+  let lastY = null
   // Store the current "slope". This lets us compress multiple "l" operations.
   let lastDx = null
   let lastDy = null
@@ -134,8 +158,8 @@ function geometryToDSink() {
       return out.join('')
     },
 
-    polygonStart() {},
-    polygonEnd() {},
+    polygonStart() { inPolygon = true },
+    polygonEnd() { inPolygon = false },
     lineStart() {},
 
     point(x, y) {
@@ -172,7 +196,7 @@ function geometryToDSink() {
 
     lineEnd() {
       outputLine(lastDx, lastDy)
-      out.push('Z')
+      if (inPolygon) out.push('Z')
       lastX = lastY = null // because we don't know where we are; need an M next
       lastDx = lastDy = null
       mustMove = true

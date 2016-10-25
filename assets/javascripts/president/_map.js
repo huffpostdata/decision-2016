@@ -391,7 +391,9 @@ Map.prototype.transition = function(fromClass, toClass) {
     transit.fill = style.fill;
     // TK programmatic way of pulling stroke from mesh?
     transit.stroke = 'white';
-    transit.strokeWidth = 2;
+    // Set lineWidth halfway between 0 (what we want on coastline) and the
+    // mesh width (what we want between states).
+    transit.strokeWidth = 1.5;
   }
 
   var _this = this;
