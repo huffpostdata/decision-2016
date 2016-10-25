@@ -74,7 +74,7 @@ function projectGeometry(geom, projection) {
 
 const projection = d3_geo.geoAlbersUsa()
 const AlbersUsaUnderscaling = 0.9 // D3's AlbersUsa is too small
-const AlbersUsaXError = -0.08 // D3's AlbersUsa shifts too far left
+const AlbersUsaXError = 0.08 // We need more space on the right, for labels
 projection.scale(projection.scale() * Width / projection.translate()[0] / 2 / AlbersUsaUnderscaling)
 projection.translate([ Width / 2 * (1 - AlbersUsaXError), Height / 2 ])
 
