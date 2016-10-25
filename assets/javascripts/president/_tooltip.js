@@ -85,7 +85,6 @@ var toolTip = (function() {
   }
 
   function setListeners() {
-    console.log('setting listeners');
     var mapDiv = document.getElementById('map');
     mapDiv.addEventListener('mouseover', checkTargetOver, false)
     mapDiv.addEventListener('mouseout', checkTargetOut, false)
