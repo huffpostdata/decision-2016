@@ -5,33 +5,11 @@
 const Canvas = require('canvas')
 const debug = require('debug')('president')
 const fs = require('fs')
-const defaultProjection = require('./lib/defaultProjection')
 const dims = require('./lib/dims')
-const makeGeojsonValid = require('./lib/makeGeojsonValid')
+const loadStatesGeojson = require('./lib/loadStatesGeojson')
 const pathDBuilder = require('./lib/pathDBuilder')
-const projectGeojson = require('./lib/projectGeojson')
 const quantizeAndMesh = require('./lib/quantizeAndMesh')
-const shpjs = require('shpjs')
 const PresidentCartogramData = require('../../assets/javascripts/common/_cartogramData')
-
-function loadStatesGeojson() {
-  debug('Loading states')
-  const shp = fs.readFileSync(`${__dirname}/input/statesp010g.shp`).buffer
-  const dbf = fs.readFileSync(`${__dirname}/input/statesp010g.dbf`).buffer
-  const geojson = shpjs.combine([ shpjs.parseShp(shp), shpjs.parseDbf(dbf) ])
-  const validGeojson = makeGeojsonValid(geojson)
-  return validGeojson
-}
-
-function calculateStatesGeodata() {
-  debug('Calculating State geodata')
-  const states = loadStatesGeojson()
-  states.features = states.features
-    .filter(f => f.properties.TYPE === 'Land')
-    .filter(f => [ 'PR', 'GU', 'MP', 'VI', 'AS' ].indexOf(f.properties.STATE_ABBR) === -1)
-    .map(f => projectGeojson(f, defaultProjection))
-  return quantizeAndMesh(states)
-}
 
 function featureCollectionToSvgPaths(featureCollection) {
   return featureCollection.features.map(feature => {
@@ -132,6 +110,6 @@ function writePresidentThumbnails(states) {
   fs.writeFileSync(`${__dirname}/../../assets/maps/president-cartogram-thumbnail.png`, buf2)
 }
 
-const states = calculateStatesGeodata()
+const states = loadStatesGeojson()
 writePresidentSvg(states)
 writePresidentThumbnails(states)
