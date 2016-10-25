@@ -15,4 +15,5 @@ html lang="en"
       #house_seats
       #senate_seats
 
-    script src="${data.path_to_asset('javascript', 'javascripts/splash/desktop.js')}" data-locale="${data.model.locale}" data-translations="${JSON.stringify(data.model.translations)}"
+    <!-- script id="splash-js" src="${data.path_to_asset('javascript', 'javascripts/splash.js')}" data-locale="${data.model.locale}" data-translations="${JSON.stringify(data.model.translations)}" -->
+    script id="splash-js" src="${data.path_to('splash.js')}" data-locale="${data.model.locale}" data-translations="${JSON.stringify(data.model.translations)}"
