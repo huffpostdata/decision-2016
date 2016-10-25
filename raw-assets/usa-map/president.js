@@ -6,7 +6,7 @@ const Canvas = require('canvas')
 const debug = require('debug')('president')
 const d3_geo = require('d3-geo')
 const fs = require('fs')
-const jsts = require('jsts')
+const makeGeojsonValid = require('./lib/makeGeojsonValid')
 const shpjs = require('shpjs')
 const topojson = require('topojson')
 const PresidentCartogramData = require('../../assets/javascripts/common/_cartogramData')
@@ -20,28 +20,8 @@ function loadStatesGeojson() {
   const shp = fs.readFileSync(`${__dirname}/input/statesp010g.shp`).buffer
   const dbf = fs.readFileSync(`${__dirname}/input/statesp010g.dbf`).buffer
   const geojson = shpjs.combine([ shpjs.parseShp(shp), shpjs.parseDbf(dbf) ])
-  debug('Making data valid')
   const validGeojson = makeGeojsonValid(geojson)
   return validGeojson
-}
-
-const GeoJSONReader = new jsts.io.GeoJSONReader()
-const GeoJSONWriter = new jsts.io.GeoJSONWriter()
-function makeGeojsonGeometryValid(geom) {
-  const jstsGeom = GeoJSONReader.read(geom)
-  const validJstsGeom = jstsGeom.buffer(0) // fixes all sorts of problems
-  return GeoJSONWriter.write(validJstsGeom)
-}
-
-function makeGeojsonValid(geojson) {
-  switch (geojson.type) {
-    case 'Feature':
-      return Object.assign({}, geojson, { geometry: makeGeojsonGeometryValid(geojson.geometry) })
-    case 'FeatureCollection':
-      return Object.assign({}, geojson, { features: geojson.features.map(makeGeojsonValid) })
-    default:
-      return makeGeojsonGeometryValid(geojson)
-  }
 }
 
 function loadGeojson(key, callback) {
