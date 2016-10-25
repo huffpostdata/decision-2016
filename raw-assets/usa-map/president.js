@@ -3,7 +3,7 @@
 'use strict'
 
 const Canvas = require('canvas')
-const debug = require('debug')('index')
+const debug = require('debug')('president')
 const d3_geo = require('d3-geo')
 const fs = require('fs')
 const jsts = require('jsts')
