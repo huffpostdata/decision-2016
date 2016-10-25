@@ -15,13 +15,13 @@ var summaryEl = document.getElementById('president-summary');
 var updateSummary = summary(summaryEl);
 
 var tooltipEl = document.getElementById('tooltip');
-var updateTooltip = tooltip(tooltipEl);
+var toolTip = tooltip(tooltipEl);
 
 function doRefresh(json) {
   map.update(json.races);
   updateNav(json.summaries);
   updateSummary(json);
-  updateTooltip(json);
+  toolTip.setData(json.races);
 }
 
 var refreshEl = document.getElementById('refresh');
