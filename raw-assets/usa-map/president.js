@@ -7,11 +7,11 @@ const debug = require('debug')('president')
 const d3_geo = require('d3-geo')
 const fs = require('fs')
 const dims = require('./lib/dims')
+const quantizeAndMesh = require('./lib/quantizeAndMesh')
 const makeGeojsonValid = require('./lib/makeGeojsonValid')
 const projectGeojson = require('./lib/projectGeojson')
 const defaultProjection = require('./lib/defaultProjection')
 const shpjs = require('shpjs')
-const topojson = require('topojson')
 const PresidentCartogramData = require('../../assets/javascripts/common/_cartogramData')
 
 function loadStatesGeojson() {
@@ -23,27 +23,6 @@ function loadStatesGeojson() {
   return validGeojson
 }
 
-function quantizeAndMeshFeatureCollection(featureCollection) {
-  debug('Building topology')
-  const topo = topojson.topology({ features: featureCollection }, {
-    quantization: dims.Width,
-    id: d => d.properties.STATE_ABBR,
-    verbose: true
-  })
-  topojson.simplify(topo, {
-    'minimum-area': 4 * dims.Accuracy * dims.Accuracy,
-    'coordinate-system': 'cartesian',
-    verbose: true
-  })
-  topojson.filter(topo, { 'coordinate-system': 'cartesian', verbose: true })
-
-  debug('De-topojson-izing')
-  const features2 = topojson.feature(topo, topo.objects.features)
-  const mesh = topojson.mesh(topo, topo.objects.features, (a, b) => a !== b)
-
-  return { features: features2, mesh: mesh }
-}
-
 function calculateStatesGeodata() {
   debug('Calculating State geodata')
   const states = loadStatesGeojson()
@@ -51,7 +30,7 @@ function calculateStatesGeodata() {
     .filter(f => f.properties.TYPE === 'Land')
     .filter(f => [ 'PR', 'GU', 'MP', 'VI', 'AS' ].indexOf(f.properties.STATE_ABBR) === -1)
     .map(f => projectGeojson(f, defaultProjection))
-  return quantizeAndMeshFeatureCollection(states)
+  return quantizeAndMesh(states)
 }
 
 function geometryToDSink() {
