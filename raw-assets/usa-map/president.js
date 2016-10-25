@@ -4,13 +4,13 @@
 
 const Canvas = require('canvas')
 const debug = require('debug')('president')
-const d3_geo = require('d3-geo')
 const fs = require('fs')
-const dims = require('./lib/dims')
-const quantizeAndMesh = require('./lib/quantizeAndMesh')
-const makeGeojsonValid = require('./lib/makeGeojsonValid')
-const projectGeojson = require('./lib/projectGeojson')
 const defaultProjection = require('./lib/defaultProjection')
+const dims = require('./lib/dims')
+const makeGeojsonValid = require('./lib/makeGeojsonValid')
+const pathDBuilder = require('./lib/pathDBuilder')
+const projectGeojson = require('./lib/projectGeojson')
+const quantizeAndMesh = require('./lib/quantizeAndMesh')
 const shpjs = require('shpjs')
 const PresidentCartogramData = require('../../assets/javascripts/common/_cartogramData')
 
@@ -33,101 +33,15 @@ function calculateStatesGeodata() {
   return quantizeAndMesh(states)
 }
 
-function geometryToDSink() {
-  const out = []
-
-  let inPolygon = false
-  let mustMove = true
-  let lastX = null
-  let lastY = null
-  // Store the current "slope". This lets us compress multiple "l" operations.
-  let lastDx = null
-  let lastDy = null
-
-  function outputLine(dx, dy) {
-    if (dy === 0) {
-      out.push('h' + dx)
-    } else if (dx === 0) {
-      out.push('v' + dy)
-    } else {
-      out.push('l' + dx + ',' + dy)
-    }
-  }
-
-  return {
-    d() {
-      return out.join('')
-    },
-
-    polygonStart() { inPolygon = true },
-    polygonEnd() { inPolygon = false },
-    lineStart() {},
-
-    point(x, y) {
-      x = Math.round(x)
-      y = Math.round(y)
-
-      if (mustMove) {
-        out.push('M' + x + ',' + y)
-      } else {
-        const dx = x - lastX
-        const dy = y - lastY
-
-        // Is this line parallel and in the same direction as the last line?
-        // If so, we can merge the two to save bytes.
-        // Test that "dx/dy = lastDx/lastDy" ==> "dx * lastDy = dy * lastDx"
-        // Also test the vectors don't go in opposite directions.
-        const canMerge = (lastDx !== null) && (dx * lastDy === dy * lastDx) && (dx * lastDx >= 0) && (dy * lastDy >= 0)
-
-        if (canMerge) {
-          // Don't output a line.
-          lastDx += dx
-          lastDy += dy
-        } else {
-          // Output the _previous_ point's line and start gathering this one
-          if (lastDx !== null) outputLine(lastDx, lastDy)
-          lastDx = dx
-          lastDy = dy
-        }
-      }
-      lastX = x
-      lastY = y
-      mustMove = false
-    },
-
-    lineEnd() {
-      outputLine(lastDx, lastDy)
-      if (inPolygon) out.push('Z')
-      lastX = lastY = null // because we don't know where we are; need an M next
-      lastDx = lastDy = null
-      mustMove = true
-    }
-  }
-}
-
-function geometryToD(geometry) {
-  const sink = geometryToDSink()
-  d3_geo.geoStream(geometry, sink)
-  return sink.d()
-}
-
 function featureCollectionToSvgPaths(featureCollection) {
   return featureCollection.features.map(feature => {
-    return '<path class="' + feature.id + '" d="' + geometryToD(feature.geometry) + '"/>'
+    return '<path class="' + feature.id + '" d="' + pathDBuilder.fromGeojson(feature.geometry) + '"/>'
   }).join('')
-}
-
-function squareD(axy) {
-  const x0 = axy.x * dims.Accuracy
-  const y0 = axy.y * dims.Accuracy
-  const s = Math.round(Math.sqrt(axy.a) * dims.Accuracy * 15)
-
-  return [ 'M', x0, ',', y0, 'h', s, 'v', s, 'h', -s, 'Z' ].join('')
 }
 
 function stateSquaresToSvgPaths(stateSquares) {
   return Object.keys(stateSquares)
-    .map(stateCode => '<path class="' + stateCode + '" d="' + squareD(stateSquares[stateCode]) + '"/>')
+    .map(stateCode => '<path class="' + stateCode + '" d="' + pathDBuilder.fromSquare(stateSquares[stateCode]) + '"/>')
     .join('')
 }
 
@@ -140,7 +54,7 @@ function writePresidentSvg() {
     '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="', dims.Width, '" height="', dims.Height, '" viewBox="0 0 ', dims.Width, ' ', dims.Height, '">',
       '<g class="states">',
         featureCollectionToSvgPaths(states.features),
-        '<path class="mesh" d="', geometryToD(states.mesh), '"/>',
+        '<path class="mesh" d="', pathDBuilder.fromGeojson(states.mesh), '"/>',
       '</g>',
       '<g class="president-cartogram">',
         stateSquaresToSvgPaths(PresidentCartogramData),
