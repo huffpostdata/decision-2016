@@ -60,5 +60,13 @@ module.exports = class Database {
       summaries: summaries,
       races: presidentRaces
     }));
+
+    this.translatedSplash = []
+    this.translatedPresident = []
+    Object.keys(translations).forEach((locale) => {
+      const localeObj = { locale: locale, translations: translations[locale] }
+      this.translatedSplash.push(Object.assign({}, localeObj, this.splash))
+      this.translatedPresident.push(Object.assign({}, localeObj, this.president))
+    })
   }
 }
