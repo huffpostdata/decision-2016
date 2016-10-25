@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 'use strict'
 
 const debug = require('debug')('makeValid')
@@ -27,6 +25,6 @@ function makeGeojsonValid(geojson) {
 module.exports = function(geojson) {
   debug(`Making ${JSON.stringify(geojson).length} bytes of GeoJSON valid...`)
   const ret = makeGeojsonValid(geojson)
-  debug('done')
+  debug(`Done: ${JSON.stringify(ret).length} bytes`)
   return ret
 }

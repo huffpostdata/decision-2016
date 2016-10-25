@@ -6,14 +6,13 @@ const Canvas = require('canvas')
 const debug = require('debug')('president')
 const d3_geo = require('d3-geo')
 const fs = require('fs')
+const dims = require('./lib/dims')
 const makeGeojsonValid = require('./lib/makeGeojsonValid')
+const projectGeojson = require('./lib/projectGeojson')
+const defaultProjection = require('./lib/defaultProjection')
 const shpjs = require('shpjs')
 const topojson = require('topojson')
 const PresidentCartogramData = require('../../assets/javascripts/common/_cartogramData')
-
-const Accuracy = 2
-const Width = 647 * Accuracy
-const Height = 400 * Accuracy
 
 function loadStatesGeojson() {
   debug('Loading states')
@@ -24,72 +23,15 @@ function loadStatesGeojson() {
   return validGeojson
 }
 
-function loadGeojson(key, callback) {
-  const KeyToFilename = {
-    districts: 'tl_2016_us_cd115.zip',
-    states: 'tl_2016_us_state.zip'
-  }
-  const filename = KeyToFilename[key]
-  if (!filename) throw new Error(`No such key ${key}; must be one of ${Object.keys(KeyToFilename).join(', ')}`)
-
-  const zipData = fs.readFileSync(`${__dirname}/input/${filename}`)
-  return shpjs.parseZip(zipData)
-}
-
-function projectGeometry(geom, projection) {
-  let coordinates
-
-  switch (geom.type) {
-    case 'Point':
-      return { type: geom.type, coordinates: projection(geom.coordinates) }
-    case 'MultiPoint':
-    case 'LineString':
-      return { type: geom.type, coordinates: geom.coordinates.map(projection) }
-    case 'MultiLineString':
-    case 'Polygon':
-      coordinates = geom.coordinates.map(c => c.map(projection))
-      if (coordinates[0][0] === null) throw new Error(`NULL?`)
-      return { type: geom.type, coordinates: coordinates }
-    case 'MultiPolygon':
-      coordinates = geom.coordinates
-        .map(polygon => {
-          return polygon.map(line => {
-            return line.map(projection)
-          })
-        })
-      return { type: geom.type, coordinates: coordinates }
-    case 'GeometryCollection':
-      // recurse
-      return { type: geom.type, geometries: geom.geometries.map(g => projectGeometry(g, projection)) }
-    case 'Feature':
-      const ret = { type: geom.type, geometry: projectGeometry(geom.geometry, projection), properties: geom.properties }
-      if (geom.hasOwnProperty('id')) ret.id = geom.id
-      return ret
-    case 'FeatureCollection':
-      return { type: geom.type, features: geom.features.map(f => projectGeometry(f, projection)) }
-    default:
-      throw new Error(`Unknown geometry type ${geom.type}`)
-  }
-}
-
-//debug('Loading districts')
-//const districts = loadGeojson('districts')
-
-const projection = d3_geo.geoAlbersUsa()
-const AlbersUsaUnderscaling = 0.9 // D3's AlbersUsa is too small
-const AlbersUsaXError = 0.08 // We need more space on the right, for labels
-projection.scale(projection.scale() * Width / projection.translate()[0] / 2 / AlbersUsaUnderscaling)
-projection.translate([ Width / 2 * (1 - AlbersUsaXError), Height / 2 ])
-
 function quantizeAndMeshFeatureCollection(featureCollection) {
   debug('Building topology')
   const topo = topojson.topology({ features: featureCollection }, {
-    quantization: Width,
+    quantization: dims.Width,
     id: d => d.properties.STATE_ABBR,
     verbose: true
   })
   topojson.simplify(topo, {
-    'minimum-area': 4 * Accuracy * Accuracy,
+    'minimum-area': 4 * dims.Accuracy * dims.Accuracy,
     'coordinate-system': 'cartesian',
     verbose: true
   })
@@ -108,7 +50,7 @@ function calculateStatesGeodata() {
   states.features = states.features
     .filter(f => f.properties.TYPE === 'Land')
     .filter(f => [ 'PR', 'GU', 'MP', 'VI', 'AS' ].indexOf(f.properties.STATE_ABBR) === -1)
-    .map(f => projectGeometry(f, projection))
+    .map(f => projectGeojson(f, defaultProjection))
   return quantizeAndMeshFeatureCollection(states)
 }
 
@@ -197,9 +139,9 @@ function featureCollectionToSvgPaths(featureCollection) {
 }
 
 function squareD(axy) {
-  const x0 = axy.x * Accuracy
-  const y0 = axy.y * Accuracy
-  const s = Math.round(Math.sqrt(axy.a) * Accuracy * 15)
+  const x0 = axy.x * dims.Accuracy
+  const y0 = axy.y * dims.Accuracy
+  const s = Math.round(Math.sqrt(axy.a) * dims.Accuracy * 15)
 
   return [ 'M', x0, ',', y0, 'h', s, 'v', s, 'h', -s, 'Z' ].join('')
 }
@@ -216,7 +158,7 @@ function writePresidentSvg() {
   const out = [
     '<?xml version="1.0"?>',
     '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">',
-    '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="', Width, '" height="', Height, '" viewBox="0 0 ', Width, ' ', Height, '">',
+    '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="', dims.Width, '" height="', dims.Height, '" viewBox="0 0 ', dims.Width, ' ', dims.Height, '">',
       '<g class="states">',
         featureCollectionToSvgPaths(states.features),
         '<path class="mesh" d="', geometryToD(states.mesh), '"/>',
@@ -262,7 +204,7 @@ function drawGeometry(ctx, geom) {
 function writePresidentThumbnails(states) {
   debug('Generating president thumbnail PNGs')
 
-  const canvas = new Canvas(Width, Height)
+  const canvas = new Canvas(dims.Width, dims.Height)
   const ctx = canvas.getContext('2d')
 
   ctx.fillStyle = 'black'
@@ -273,12 +215,12 @@ function writePresidentThumbnails(states) {
   ctx.fill()
   ctx.stroke()
 
-  const thumbWidth = Math.ceil(Width / Accuracy / 2)
-  const thumbHeight = Math.ceil(Height / Accuracy / 2)
+  const thumbWidth = Math.ceil(dims.Width / dims.Accuracy / 2)
+  const thumbHeight = Math.ceil(dims.Height / dims.Accuracy / 2)
 
   const canvas2 = new Canvas(thumbWidth, thumbHeight)
   const ctx2 = canvas2.getContext('2d')
-  ctx2.drawImage(canvas, 0, 0, Width, Height, 0, 0, thumbWidth, thumbHeight)
+  ctx2.drawImage(canvas, 0, 0, dims.Width, dims.Height, 0, 0, thumbWidth, thumbHeight)
 
   const buf = canvas2.toBuffer()
   fs.writeFileSync(`${__dirname}/../../assets/maps/president-usa-thumbnail.png`, buf)
