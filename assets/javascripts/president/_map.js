@@ -222,8 +222,9 @@ function loadSvg(url, callback) {
   xhr.send();
 }
 
-function Map(el) {
+function Map(el, switchEl) {
   this.el = el;
+  this.switchEl = switchEl;
 
   this.racesJson = null;
 
@@ -274,6 +275,15 @@ function Map(el) {
     _this.funkyInit();
 
     el.classList.remove('loading');
+  });
+
+  this.switchEl.addEventListener('click', function(ev) {
+    ev.preventDefault();
+    if (_this.el.classList.contains('geography')) {
+      _this.showCartogram();
+    } else if (_this.el.classList.contains('cartogram')) {
+      _this.showGeography();
+    } // otherwise do nothing
   });
 }
 
@@ -347,12 +357,10 @@ function traceTransitPathAtFraction(ctx, transit, fraction) {
 
 function drawTransitAtFraction(ctx, transit, fraction) {
   ctx.fillStyle = transit.fill;
-  traceTransitPathAtFraction(ctx, transit, fraction);
-  ctx.fill();
-
   ctx.strokeStyle = transit.stroke;
   ctx.lineWidth = transit.strokeWidth;
   traceTransitPathAtFraction(ctx, transit, fraction);
+  ctx.fill();
   ctx.stroke();
 }
 
@@ -392,6 +400,8 @@ Map.prototype.transition = function(fromClass, toClass) {
       _this.el.classList.add(toClass);
     });
     _this.el.classList.remove(fromClass);
+    _this.switchEl.classList.remove(fromClass);
+    _this.switchEl.classList.add(toClass);
   });
 }
 

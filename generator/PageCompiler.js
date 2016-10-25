@@ -54,11 +54,11 @@ module.exports = class PageCompiler {
 
     return {
       body: body,
-      headers: {
-        'Content-Type': object['content-type'] || 'text/html; charset=utf-8',
-        'Cache-Control': 'max-age=30',
+      headers: Object.assign({
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'public, max-age=30',
         'ETag': md5sum(body)
-      }
+      }, object.headers || {})
     }
   }
 

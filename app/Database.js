@@ -48,7 +48,6 @@ module.exports = class Database {
       metadata: new PageMetadata('president', {}), // TK
       summaries: summaries,
       races: presidentRaces,
-      byState: {},
       battlegrounds: battlegrounds
     }
 

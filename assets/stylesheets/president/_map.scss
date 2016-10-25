@@ -31,18 +31,18 @@
     stroke: $background;
   }
 
-  g.president-cartogram, g.states { opacity: 0; }
+  g.president-cartogram, g.states { opacity: 0; pointer-events: none; }
 
   &.cartogram, &.geography {
     canvas.animation { opacity: 0; }
   }
 
   &.cartogram {
-    g.president-cartogram { opacity: 1; }
+    g.president-cartogram { opacity: 1; pointer-events: all; }
   }
 
   &.geography {
-    g.states { opacity: 1; }
+    g.states { opacity: 1; pointer-events: all; }
   }
 
   path.clinton-win { fill: $dem-color; }

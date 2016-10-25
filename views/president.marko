@@ -26,6 +26,6 @@ html lang="en"
     $!{data.helpers.partial('dashboard/_recirc')}
     $!{data.helpers.partial('_footer')}
 
-    script src="${data.path_to_asset('javascript', 'javascripts/president.js')}"
+    script src="${data.path_to_asset('javascript', 'javascripts/president.js')}" data-json="${JSON.stringify(data.model)}"
     script src="${data.path_to_asset('digest', 'javascripts/social.js')}"
     script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"

@@ -46,7 +46,8 @@ class AWS {
       Body: page.body,
       ContentType: page.headers['Content-Type']
     }, max_age)
-    console.log(`PUT s3://${params.Bucket}/${params.Key} ${params.ContentType} ${max_age}`)
+    if (page.headers['Cache-Control']) params.CacheControl = page.headers['Cache-Control']
+    console.log(`PUT s3://${params.Bucket}/${params.Key} ${params.ContentType} ${params.CacheControl}`)
     return S3.putObject(params).promise()
   }
 
