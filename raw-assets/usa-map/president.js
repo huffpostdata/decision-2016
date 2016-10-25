@@ -8,7 +8,6 @@ const fs = require('fs')
 const dims = require('./lib/dims')
 const loadStatesGeojson = require('./lib/loadStatesGeojson')
 const pathDBuilder = require('./lib/pathDBuilder')
-const quantizeAndMesh = require('./lib/quantizeAndMesh')
 const PresidentCartogramData = require('../../assets/javascripts/common/_cartogramData')
 
 function featureCollectionToSvgPaths(featureCollection) {
