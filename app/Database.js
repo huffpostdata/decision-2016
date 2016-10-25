@@ -13,6 +13,7 @@ module.exports = class Database {
   constructor() {
     const google_docs = new GoogleDocs(read_config('google-docs'))
     const google_sheets = new GoogleSheets(read_config('google-sheets'))
+    const translations = google_sheets.slug_to_array('translations');
     const apData = ap_fs.load()
 
     const battlegrounds = [
