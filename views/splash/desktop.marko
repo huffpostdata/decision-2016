@@ -15,5 +15,4 @@ html lang="en"
       #house_seats
       #senate_seats
 
-    <!-- <script> src is the "page" (views/splash/desktop.js.marko), not the JS -->
-    <!-- script src="${data.path_to('splash/desktop.js')}" data-locale="${data.model.locale}" data-translations="${data.model.translations}" -->
+    script src="${data.path_to_asset('javascript', 'javascripts/splash/desktop.js')}" data-locale="${data.model.locale}" data-translations="${JSON.stringify(data.model.translations)}"
