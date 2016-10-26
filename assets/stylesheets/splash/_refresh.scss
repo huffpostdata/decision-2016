@@ -3,7 +3,7 @@
   width: 100%;
 }
 .refresh {
-  font-family: $body-font;
+  font-family: $body-font-family;
   background: #efefef;
   border: 1px solid #aaa;
   color: #aaa;
@@ -24,7 +24,7 @@
   }
 }
 .countdown {
-  font-family: $body-font;
+  font-family: $body-font-family;
   color: #bbb;
   font-size: 12px;
   padding-left: 10px;
