@@ -210,7 +210,7 @@ module.exports = class ApData {
     const NGopPrior = 30
     const NRaces = NTotal - NDemPrior - NGopPrior
 
-    const wins = {}
+    const wins = { dem: 0, gop: 0 }
     const totals = { dem: NDemPrior, gop: NGopPrior }
 
     const races = this.reportingUnitElections.findSenateRaces()

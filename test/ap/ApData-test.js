@@ -284,6 +284,18 @@ describe('ApData', () => {
         expect(summary.priors).to.deep.eq({ dem: 36, gop: 30 })
       })
 
+      it('should set wins correctly when a party has 0', () => {
+        const apData = new ApData({
+          findSenateRaces() {
+            return dems.concat(...new Array(26).fill(null).map(build))
+          }
+        }, null)
+        const summary = apData.senateSummary()
+        expect(summary.wins.gop).to.eq(0)
+        expect(summary.totals.gop).to.eq(30)
+        expect(summary.tossup).to.eq(26)
+      })
+
       it('should set wins correctly (according to races)', () => {
         expect(summary.wins).to.deep.eq({ dem: 8, gop: 10 })
       })
