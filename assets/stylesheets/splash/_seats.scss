@@ -26,11 +26,26 @@
 
       &.dem {
         background-color: $dem-win;
+        &--priors {
+          background-color: $dem-leading;
+        }
       }
 
       &.gop {
         background-color: $gop-win;
+        &--priors {
+          background-color: $gop-leading;
+        }
       }
+
+      &.other {
+        background-color: $other-color;
+      }
+
+      &.tossup {
+        background-color: $tossup-color;
+      }
+
 
       &.not-in-play {
         opacity: .25;
@@ -53,7 +68,7 @@
     }
 
     &-house {
-      width: 250px;
+      width: 245px;
       height: 45px;
 
       .box {
