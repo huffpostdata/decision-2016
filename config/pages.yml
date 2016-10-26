@@ -12,6 +12,10 @@ splash.js:
   headers:
     Content-Type: application/javascript
 
+splash/:locale:
+  collection: translatedSplash
+  template: splash/desktop
+
 # GET /_test/splash/:format
 #
 # A fake Huffington Post front page, with holes where the splash should fit in.

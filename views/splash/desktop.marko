@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+html lang="en"
+  head
+    meta charset="utf-8"
+    title - Splash Page Test
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/splash.css')}"
+  body
+    p - This is a test splash page! here are the divs
+    #election-splash-refresh
+    #electoral_votes
+    #election_map
+    #battlegrounds
+    #election_seats
+      #house_seats
+      #senate_seats
+
+    script
+      ---
+      var presidentUrl = "${data.url_to('president.json')}";
+      var electionBaseUrl = "${data.url_to('index')}";
+      var electoralImages = { 
+        clinton: {
+          basic: "${data.url_to_asset('digest', 'images/splash/clinton.jpg')}",
+          sad: "${data.url_to_asset('digest', 'images/splash/clinton-sad.png')}",
+          happy: "${data.url_to_asset('digest', 'images/splash/clinton-happy.png')}"
+        },
+        trump: {
+          basic: "${data.url_to_asset('digest', 'images/splash/trump.jpg')}",
+          sad: "${data.url_to_asset('digest', 'images/splash/trump-sad.png')}",
+          happy: "${data.url_to_asset('digest', 'images/splash/trump-happy.png')}"
+        }
+      };
+
+      // TK nix all variables (make them HTML data- attributes or CSS backgrounds)
+      // TK then link this JS with data.path_to_asset()
+      $!{data.asset_contents('javascript', 'javascripts/splash.js')}
+
+      var model = $!{JSON.stringify(data.model)};
+      window.decision2016_init(model);
+      ---
