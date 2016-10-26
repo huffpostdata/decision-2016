@@ -6,7 +6,6 @@ var refreshButton = require('./splash/refresh-element');
 var refresh = require('./common/_refresh');
 
 window.decision2016_init = function(data) {
-  console.log("Sending data", data);
   refreshButton.render();
   electoral.render(data.president);
   electionMap.render(data);
@@ -17,7 +16,8 @@ window.decision2016_init = function(data) {
   function doRefresh(json) {
     electoral.update(json.summaries.president);
     battlegrounds.update(data.battlegrounds);
-    // TODO: update seats
+    seats.updateSenate(json.summaries.senate);
+    seats.updateHouse(json.summaries.house);
   }
 
   var refreshEl = document.getElementById('election-splash-refresh');
