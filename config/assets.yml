@@ -1,6 +1,7 @@
 javascript:
   splash.js: javascripts/splash.js
   president.js: javascripts/president.js
+  splash/desktop.js: javascripts/splash/desktop.js
 
 scss:
   dashboard.css: stylesheets/dashboard.scss

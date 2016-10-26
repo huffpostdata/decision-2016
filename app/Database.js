@@ -9,10 +9,23 @@ const PageMetadata = require('../generator/PageMetadata')
 const ap_fs = require('./ap/ap-fs')
 const presidentClassNameForRace = require('../assets/javascripts/president/_classNameForRace')
 
+function invertTranslations(translations) {
+  return translations.reduce(function(acc, phrase) {
+    const phraseId = phrase.id
+    Object.keys(phrase).forEach((locale) => {
+      if (locale === 'id' || locale === 'notes') { return acc }
+      if (typeof acc[locale] === 'undefined') { acc[locale] = {} }
+      acc[locale][phraseId] = phrase[locale]
+    })
+    return acc
+  }, {})
+}
+
 module.exports = class Database {
   constructor() {
     const google_docs = new GoogleDocs(read_config('google-docs'))
     const google_sheets = new GoogleSheets(read_config('google-sheets'))
+    const translations = invertTranslations(google_sheets.slug_to_array('translations'));
     const apData = ap_fs.load()
 
     const battlegrounds = [
@@ -59,5 +72,13 @@ module.exports = class Database {
       summaries: summaries,
       races: presidentRaces
     }));
+
+    this.translatedSplash = []
+    this.translatedPresident = []
+    Object.keys(translations).forEach((locale) => {
+      const localeObj = { locale: locale, translations: translations[locale] }
+      this.translatedSplash.push(Object.assign({}, localeObj, this.splash))
+      this.translatedPresident.push(Object.assign({}, localeObj, this.president))
+    })
   }
 }

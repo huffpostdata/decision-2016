@@ -5,23 +5,20 @@ var seats = require('./splash/seats');
 var refreshButton = require('./splash/refresh-element');
 var refresh = require('./common/_refresh');
 
-// window.evupdate = function(c, t, w) {
-//   electoral.update({
-//     nClinton: 0,
-//     nClintonElectoralVotes: c,
-//     nTrump: 0,
-//     nTrumpElectoralVotes: t,
-//     winner: w
-//   });
-// };
+function translationJSON() {
+  var scripts = document.querySelectorAll('script');
+  var script = scripts[scripts.length-1];
+  return script.dataset.translations ? JSON.parse(script.dataset.translations) : {};
+}
+var translations = translationJSON();
 
 window.decision2016_init = function(data) {
   refreshButton.render();
-  electoral.render(data.president);
-  electionMap.render(data);
-  battlegrounds.render(data.battlegrounds);
-  seats.renderHouse(data.house);
-  seats.renderSenate(data.senate);
+  electoral.render(data.president, translations);
+  electionMap.render(data, translations);
+  battlegrounds.render(data.battlegrounds, translations);
+  seats.renderHouse(data.house, translations);
+  seats.renderSenate(data.senate, translations);
 
   function doRefresh(json) {
     electoral.update(json.summaries.president);
