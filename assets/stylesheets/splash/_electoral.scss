@@ -36,3 +36,205 @@
 .canvas-overlay {
   z-index: 999999;
 }
+
+$container-width: 665px;
+$container-height: 275px;
+$bar-height: 30px;
+$bar-position: $bar-height*1.5;
+$base-index: 1000;
+$transition-speed: 1s;
+
+@mixin img-wh($w, $h) {
+  $max-width: 300;
+  width: #{$max-width}px;
+  height: #{($h/$w) * $max-width}px;
+}
+
+#electoral_votes {
+  width: 100%;
+  max-width: $container-width;
+  height: $container-height;;
+  background: #ffffff;
+  position: relative;
+  .face {
+    position: absolute;
+    bottom: $bar-position + $bar-height;
+    z-index: $base-index - 1;
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: width $transition-speed ease, height $transition-speed ease, right $transition-speed ease, left $transition-speed ease;
+    &--clinton {
+      background-image: asset-url('digest', 'images/splash/clinton.jpg');
+      background-position: bottom left;
+      left: 0;
+      width: 0;
+      height: 0;
+      // @include img-wh(685, 624);
+    }
+    &--trump {
+      background-image: asset-url('digest', 'images/splash/trump.jpg');
+      background-position: bottom right;
+      right: 0;
+      width: 0;
+      height: 0;
+      // @include img-wh(906, 623);
+    }
+  }
+  .bubble {
+    font-family: $header-font;
+    font-size: 25px;
+    line-height: 1.4em;
+    position: absolute;
+    bottom: $bar-position + $bar-height + 11;
+    z-index: $base-index + 2;
+    text-align: center;
+    width: 80px;
+    height: 60px;
+    transition: width $transition-speed ease, height $transition-speed ease, left $transition-speed ease, right $transition-speed ease;
+    &--clinton {
+      left: 0;
+      transform: translateX(-50%);
+      border: 1px solid $dem-win;
+      color: $dem-win;
+      background: #cfd4ea;
+      .bubble__handle {
+        left: 50%;
+        transition: left $transition-speed ease;
+        &__inside {
+          border-color: #cfd4ea transparent;
+        }
+        &__border {
+          border-color: $dem-win transparent;
+        }
+      }
+    }
+    &--trump {
+      right: 0;
+      transform: translateX(50%);
+      border: 1px solid $gop-win;
+      color: $gop-win;
+      background: #f8dad8;
+      .bubble__handle {
+        right: 50%;
+        transition: right $transition-speed ease;
+        &__inside {
+          border-color: #f8dad8 transparent;
+        }
+        &__border {
+          border-color: $gop-win transparent;
+        }
+      }
+    }
+    &__candidate {
+      color: #000;
+      display: block;
+      font-size: 1em;
+      display: none;
+    }
+    &__votes {
+      display: block;
+      font-size: 2.2em;
+      display: none;
+    }
+  }
+  .bubble-handle { 
+    position: absolute;
+    bottom: $bar-position + $bar-height + 12px;
+    transform: translateX(-50%);
+    z-index: $base-index + 3;
+    &__inside {
+      transition: all $transition-speed ease;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 10px 6px 0px;
+      border-style: solid; 
+      width: 0;
+      z-index: 100;
+    }
+    &__border {
+      transition: all $transition-speed ease;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 11px 7px 0px;
+      border-style: solid; 
+      width: 0;
+      z-index: 90;
+    }
+    &--clinton {
+      left: 50%;
+      transition: left $transition-speed ease;
+      &[data-handle="outside"] {
+        .bubble-handle__inside {
+          border-width: 6px 4px 0px 0px;
+        }
+        .bubble-handle__border {
+          border-width: 11px 6px 0px 0px;
+        }
+      }
+      &[data-handle="inside"] {
+        .bubble-handle__inside {
+          border-width: 6px 0px 0px 4px;
+        }
+        .bubble-handle__border {
+          border-width: 11px 0px 0px 6px;
+        }
+      }
+      .bubble-handle__inside {
+        border-color: #cfd4ea transparent;
+      }
+      .bubble-handle__border {
+        border-color: $dem-win transparent;
+      }
+    }
+    &--trump {
+      right: 50%;
+      transition: right $transition-speed ease;
+      &[data-handle="outside"] {
+        .bubble-handle__inside {
+          border-width: 6px 0px 0px 4px;
+        }
+        .bubble-handle__border {
+          border-width: 11px 0px 0px 6px;
+        }
+      }
+      &[data-handle="inside"] {
+        .bubble-handle__inside {
+          border-width: 6px 4px 0px 0px;
+        }
+        .bubble-handle__border {
+          border-width: 11px 6px 0px 0px;
+        }
+      }
+      .bubble-handle__inside {
+        border-color: #f8dad8 transparent;
+      }
+      .bubble-handle__border {
+        border-color: $gop-win transparent;
+      }
+    }
+  }
+  .bars {
+    height: $bar-height;
+    position: absolute;
+    bottom: $bar-position;
+    width: 100%;
+    background: #c7c7c7;
+    z-index: $base-index;
+  }
+  .bar {
+    position: absolute;
+    transition: width $transition-speed ease;
+    height: 100%;
+    width: 0;
+    &--clinton {
+      background: $dem-win;
+      left: 0;
+    }
+    &--trump {
+      background: $gop-win;
+      right: 0;
+    }
+  }
+}

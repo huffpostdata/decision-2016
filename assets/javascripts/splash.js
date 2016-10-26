@@ -5,6 +5,16 @@ var seats = require('./splash/seats');
 var refreshButton = require('./splash/refresh-element');
 var refresh = require('./common/_refresh');
 
+window.evupdate = function(c, t, w) {
+  electoral.update({
+    nClinton: 0,
+    nClintonElectoralVotes: c,
+    nTrump: 0,
+    nTrumpElectoralVotes: t,
+    winner: w
+  });
+};
+
 window.decision2016_init = function(data) {
   console.log("Sending data", data);
   refreshButton.render();
@@ -15,7 +25,7 @@ window.decision2016_init = function(data) {
   seats.renderSenate(data.senate);
 
   function doRefresh(json) {
-    electoral.update(json.summaries.president);
+    // electoral.update(json.summaries.president);
     battlegrounds.update(data.battlegrounds);
     // TODO: update seats
   }
