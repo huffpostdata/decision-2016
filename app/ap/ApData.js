@@ -87,7 +87,7 @@ module.exports = class ApData {
    *     nVotes: 1234, // total votes cast
    *     nVotesClinton: 612,
    *     nVotesTrump: 612,
-   *     nVotesOther: (uint nVotes - nVotesClinton - nVotesTrump)
+   *     nVotesThird: 2, // votes for top third-party candidate
    *     candidates: [
    *      { name: 'Clinton', partyId: 'dem', fullName: 'Hillary Clinton', n: 612, winner: false },
    *      { name: 'Trump', partyId: 'gop', fullName: 'Donald Trump', n: 612, winner: false },
@@ -114,14 +114,23 @@ module.exports = class ApData {
       let n = 0
       let nClinton = 0
       let nTrump = 0
+      let nThird = 0
       let winner = null
 
       let candidates = []
       for (const c of apCandidates) {
         n += c.voteCount
-        if (c.last === 'Clinton') nClinton += c.voteCount
-        if (c.last === 'Trump') nTrump += c.voteCount
+
+        if (c.last === 'Clinton') {
+          nClinton += c.voteCount
+        } else if (c.last === 'Trump') {
+          nTrump += c.voteCount
+        } else if (c.voteCount > nThird) {
+          nThird = c.voteCount
+        }
+
         if (c.winner === 'X') winner = c.last.toLowerCase()
+
         candidates.push({
           name: c.last,
           fullName: `${c.first} ${c.last}`,
@@ -134,7 +143,7 @@ module.exports = class ApData {
       race.nVotes = n
       race.nVotesClinton = nClinton
       race.nVotesTrump = nTrump
-      race.nVotesOther = n - nClinton - nTrump
+      race.nVotesThird = nThird
       race.candidates = candidates
       race.winner = winner
     }

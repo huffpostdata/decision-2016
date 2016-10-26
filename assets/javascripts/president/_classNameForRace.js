@@ -8,10 +8,10 @@ function classNameForRace(race) {
   } else {
     var c = race.nVotesClinton;
     var t = race.nVotesTrump;
-    var o = race.nVotesOther;
-    if (c > t && t > o) return 'clinton-lead';
-    if (t > c && t > o) return 'trump-lead';
-    if (o > c && o > t) return 'other-lead';
+    var th = race.nVotesThird;
+    if (c > t && c > th) return 'clinton-lead';
+    if (t > th && t > c) return 'trump-lead';
+    if (th > c && th > t) return 'other-lead';
     return 'tossup';
   }
 };
