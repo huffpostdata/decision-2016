@@ -25,16 +25,16 @@
       background: #ddd;
 
       &.dem {
-        background-color: $dem-win;
+        background-color: $dem-color;
         &--priors {
-          background-color: $dem-leading;
+          background-color: $dem-lead-color;
         }
       }
 
       &.gop {
-        background-color: $gop-win;
+        background-color: $gop-color;
         &--priors {
-          background-color: $gop-leading;
+          background-color: $gop-lead-color;
         }
       }
 

@@ -1,6 +1,6 @@
 .ev {
   background: #fff;
-  font-family: $body-font;
+  font-family: $body-font-family;
   width: $left-column-width;
   height: 335px;
   padding: 0;
@@ -12,7 +12,7 @@
   padding: 0 10px;
 }
 .ev__title {
-  font-family: $header-font;
+  font-family: $header-font-family;
   margin: 5px 0;
   font-size: 24px;
   flex: 0 1 auto;
@@ -81,7 +81,7 @@ $transition-speed: 1s;
     }
   }
   .bubble {
-    font-family: $header-font;
+    font-family: $header-font-family;
     font-size: 25px;
     line-height: 1.4em;
     position: absolute;
@@ -94,8 +94,8 @@ $transition-speed: 1s;
     &--clinton {
       left: 0;
       transform: translateX(-50%);
-      border: 1px solid $dem-win;
-      color: $dem-win;
+      border: 1px solid $dem-color;
+      color: $dem-color;
       background: #cfd4ea;
       .bubble__handle {
         left: 50%;
@@ -104,15 +104,15 @@ $transition-speed: 1s;
           border-color: #cfd4ea transparent;
         }
         &__border {
-          border-color: $dem-win transparent;
+          border-color: $dem-color transparent;
         }
       }
     }
     &--trump {
       right: 0;
       transform: translateX(50%);
-      border: 1px solid $gop-win;
-      color: $gop-win;
+      border: 1px solid $gop-color;
+      color: $gop-color;
       background: #f8dad8;
       .bubble__handle {
         right: 50%;
@@ -121,7 +121,7 @@ $transition-speed: 1s;
           border-color: #f8dad8 transparent;
         }
         &__border {
-          border-color: $gop-win transparent;
+          border-color: $gop-color transparent;
         }
       }
     }
@@ -137,7 +137,7 @@ $transition-speed: 1s;
       display: none;
     }
   }
-  .bubble-handle { 
+  .bubble-handle {
     position: absolute;
     bottom: $bar-position + $bar-height + 12px;
     transform: translateX(-50%);
@@ -148,7 +148,7 @@ $transition-speed: 1s;
       left: 50%;
       transform: translateX(-50%);
       border-width: 10px 6px 0px;
-      border-style: solid; 
+      border-style: solid;
       width: 0;
       z-index: 100;
     }
@@ -158,7 +158,7 @@ $transition-speed: 1s;
       left: 50%;
       transform: translateX(-50%);
       border-width: 11px 7px 0px;
-      border-style: solid; 
+      border-style: solid;
       width: 0;
       z-index: 90;
     }
@@ -185,7 +185,7 @@ $transition-speed: 1s;
         border-color: #cfd4ea transparent;
       }
       .bubble-handle__border {
-        border-color: $dem-win transparent;
+        border-color: $dem-color transparent;
       }
     }
     &--trump {
@@ -211,7 +211,7 @@ $transition-speed: 1s;
         border-color: #f8dad8 transparent;
       }
       .bubble-handle__border {
-        border-color: $gop-win transparent;
+        border-color: $gop-color transparent;
       }
     }
   }
@@ -229,11 +229,11 @@ $transition-speed: 1s;
     height: 100%;
     width: 0;
     &--clinton {
-      background: $dem-win;
+      background: $dem-color;
       left: 0;
     }
     &--trump {
-      background: $gop-win;
+      background: $gop-color;
       right: 0;
     }
   }

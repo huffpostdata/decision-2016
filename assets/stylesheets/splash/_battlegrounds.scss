@@ -30,19 +30,19 @@
         border: 3px solid $border-color;
       }
       &.gop .state-icon img {
-        border: 3px solid $gop-win;
+        border: 3px solid $gop-color;
       }
       &.dem .state-icon img {
-        border: 3px solid $dem-win;
+        border: 3px solid $dem-color;
       }
       &.dem {
         .percent--winner {
-          background-color: $dem-win;
+          background-color: $dem-color;
         }
       }
       &.gop {
         .percent--winner {
-          background-color: $gop-win;
+          background-color: $gop-color;
         }
       }
     }
@@ -65,10 +65,10 @@
 
       &.percent {
         &.gop {
-          background: $gop-leading;
+          background: $gop-lead-color;
         }
         &.dem {
-          background: $dem-leading
+          background: $dem-lead-color
         }
       }
       .state{
