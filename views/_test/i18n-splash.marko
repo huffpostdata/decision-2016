@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+html lang="en"
+  head
+    meta charset="utf-8"
+    title - Embed code generator
+    meta name="viewport" content="width=device-width, initial-scale=1"
+  body
+    p - Click a locale to see its embed code:
+    ul.locales
+      for(object in data.model)
+        li.${object.locale === 'en' ? 'selected' : ''}
+          a href="#${object.locale}" - ${object.locale}
+
+    #preview
+
+    script
+      ---
+      var preview = document.getElementById('preview');
+      var urlTemplate = $!{JSON.stringify(data.url_to('splash/:locale', 'LOCALE'))};
+
+      document.addEventListener('click', function(ev) {
+        if (ev.target.tagName !== 'A') return;
+        ev.preventDefault();
+
+        window.location.hash = ev.target.getAttribute('href');
+      });
+
+      function refreshFromHash() {
+        var locale = window.location.hash.slice(1) || 'en';
+
+        var embedCode = '<iframe width="940" height="700" style="border:0" src="' + urlTemplate.replace('LOCALE', locale) + '"></iframe>';
+        var html = '<h2>Embed code</h2><pre></pre><h2>Preview</h2>' + embedCode;
+        preview.innerHTML = html;
+        preview.querySelector('pre').textContent = embedCode;
+      }
+
+      window.addEventListener('hashchange', refreshFromHash);
+
+      document.addEventListener('DOMContentLoaded', refreshFromHash);
+      ---

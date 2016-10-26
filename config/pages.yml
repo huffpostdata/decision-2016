@@ -26,6 +26,10 @@ _test/splash/:format:
   template: _test/splash
   collection: splashFormats
 
+_test/splash/i18n:
+  template: _test/i18n-splash
+  model: translatedSplash
+
 president:
   model: president
 
