@@ -10,15 +10,49 @@ const ap_fs = require('./ap/ap-fs')
 const presidentClassNameForRace = require('../assets/javascripts/president/_classNameForRace')
 
 function invertTranslations(translations) {
-  return translations.reduce(function(acc, phrase) {
-    const phraseId = phrase.id
-    Object.keys(phrase).forEach((locale) => {
-      if (locale === 'id' || locale === 'notes') { return acc }
-      if (typeof acc[locale] === 'undefined') { acc[locale] = {} }
-      acc[locale][phraseId] = phrase[locale]
-    })
-    return acc
-  }, {})
+  const Locales = Object.keys(translations[0])
+  Locales.splice(Locales.indexOf('id'), 1)
+  Locales.splice(Locales.indexOf('notes'), 1)
+
+  const Phrases = {}
+
+  for (const locale of Locales) {
+    Phrases[locale] = {}
+  }
+
+  for (const row of translations) {
+    for (const locale of Locales) {
+      Phrases[locale][row.id] = row[locale]
+    }
+  }
+
+  // Now work on defaults for all rows
+  for (const locale of Locales) {
+    const phrases = Phrases[locale]
+
+    // Fallback: "fr-CA" => "fr"
+    if (locale.indexOf('-') !== -1) {
+      const baseLocale = locale.slice(0, 2);
+
+      if (Phrases.hasOwnProperty(baseLocale)) {
+        for (const id of Object.keys(phrases)) {
+          if (phrases[id] === '') phrases[id] = Phrases[baseLocale][id]
+        }
+      }
+    }
+
+    // Fallback: "fr" => "en"
+    // Don't worry if we hit "fr-CA" first (which will fallback to "en") or if
+    // we hit "fr" before "fr-CA" (in which case "fr-CA" will fallback to "fr").
+    // The result is guaranteed to be equal.
+    if (locale !== 'en') {
+      for (const id of Object.keys(phrases)) {
+        if (phrases[id] === '') phrases[id] = Phrases.en[id]
+      }
+    }
+  }
+
+  return Phrases;
 }
 
 module.exports = class Database {
@@ -49,7 +83,11 @@ module.exports = class Database {
       president: summaries.president,
       senate: summaries.senate,
       house: summaries.house,
-      battlegrounds: battlegrounds
+      battlegrounds: battlegrounds,
+      i18n: {
+        locale: 'en',
+        phrases: null // we set this later in this function
+      }
     }
 
     // TODO name each splash page format, (so we can _test them all)
@@ -74,11 +112,13 @@ module.exports = class Database {
     }));
 
     this.translatedSplash = []
-    this.translatedPresident = []
-    Object.keys(translations).forEach((locale) => {
-      const localeObj = { locale: locale, translations: translations[locale] }
-      this.translatedSplash.push(Object.assign({}, localeObj, this.splash))
-      this.translatedPresident.push(Object.assign({}, localeObj, this.president))
+    Object.keys(translations).forEach(locale => {
+      const localeObj = { locale: locale, phrases: translations[locale] }
+      this.translatedSplash.push(Object.assign({}, this.splash, { locale: locale, i18n: localeObj }))
+
+      if (locale === 'en') {
+        this.splash.i18n.phrases = translations[locale]
+      }
     })
   }
 }
