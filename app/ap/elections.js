@@ -15,7 +15,7 @@ function apRaceToStateCode(apRaceJson) {
 /**
  * The AP elections response -- at least, the parts we care about.
  *
- * This relates to https://api.ap.org/v2/elections/2016-11-08?officeID=P,S,H,G
+ * This relates to https://api.ap.org/v2/elections/2016-11-08?officeID=P,S,H,I
  *
  * We build two of these: one for FIPSCode and one for District-level results.
  */

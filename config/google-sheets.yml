@@ -25,5 +25,7 @@ sheets:
     url: https://docs.google.com/spreadsheets/d/1ALrP3tEY67wLuWP7NE9mpS-ycsfj9XFhou8-8NUaA1o/pub?gid=1481282156&single=true&output=tsv
   - slug: senateSeats
     url: https://docs.google.com/spreadsheets/d/1ALrP3tEY67wLuWP7NE9mpS-ycsfj9XFhou8-8NUaA1o/pub?gid=1554606661&single=true&output=tsv
+  - slug: ballotInitiatives
+    url: https://docs.google.com/spreadsheets/d/1ALrP3tEY67wLuWP7NE9mpS-ycsfj9XFhou8-8NUaA1o/pub?gid=1491538661&single=true&output=tsv
   - slug: translations
     url: https://docs.google.com/spreadsheets/d/14aedrJbax29B2PKuwepgHdO-bTLpdZW5MVCUmTaDtXM/pub?gid=0&single=true&output=tsv
