@@ -1,5 +1,9 @@
 'use strict'
 
+function apRaceToStateCode(apRaceJson) {
+  return apRaceJson.statePostal || apRaceJson.reportingUnits[0].statePostal
+}
+
 /**
  * A rollup of all the data Associated Pres gives us.
  */
@@ -218,7 +222,7 @@ module.exports = class ApData {
       throw new Error(`URGENT: expected ${NRaces} Senate races; got ${races.length}`)
     }
     for (const race of races) {
-      if (race.reportingUnits[0].statePostal === 'CA') {
+      if (apRaceToStateCode(race) === 'CA') {
         // CA is a race between a Democrat and a Democrat
         wins.dem += 1
         totals.dem += 1

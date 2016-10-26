@@ -318,6 +318,20 @@ describe('ApData', () => {
           }
         }, null)
 
+        it('should mark CA as a win before any votes are cast', () => {
+          const tossup3 = JSON.parse(JSON.stringify(tossup2))
+          delete tossup3[0].reportingUnits
+          tossup3[0].statePostal = 'CA'
+
+          const apData = new ApData({
+            findSenateRaces() {
+              return dems.concat(...gops).concat(...tossup3)
+            }
+          }, null)
+          const summary = apData.senateSummary()
+          expect(summary.wins).to.deep.eq({ dem: 9, gop: 10 })
+        })
+
         it('should mark CA as a win for Dem before AP calls the race', () => {
           // CA's two Senate candidates are both Democrats. That means a
           // democrat is guaranteed to win, even before AP calls it
