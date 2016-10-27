@@ -1,0 +1,37 @@
+#map-switcher {
+  &.cartogram .tab.cartogram,
+  &.geography .tab.geography{
+    border-bottom: 3px solid $color;
+    .tab__link {
+      color: $color;
+    }
+  }
+  .switch {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .tab {
+      width: 100%;
+      &__link {
+        font-family: $header-font-family;
+        font-weight: bold;
+        font-size: 18px;
+        flex: 1;
+        margin-right: 4px;
+        padding: 12px;
+        color: $very-muted-color;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        &:hover {
+          color: $accent;
+        }
+        &--active {
+          color: $color;
+        }
+      }
+    }
+  }
+}

@@ -81,6 +81,7 @@ module.exports = class Database {
 
     this.splash = {
       president: summaries.president,
+      races: presidentRaces,
       senate: summaries.senate,
       house: summaries.house,
       battlegrounds: battlegrounds,
