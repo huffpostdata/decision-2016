@@ -6,6 +6,7 @@ const Canvas = require('canvas')
 const debug = require('debug')('president')
 const fs = require('fs')
 const dims = require('./lib/dims')
+const drawGeojsonOntoCanvas = require('./lib/drawGeojsonOntoCanvas')
 const loadStatesGeojson = require('./lib/loadStatesGeojson')
 const pathDBuilder = require('./lib/pathDBuilder')
 const PresidentCartogramData = require('../../assets/javascripts/common/_cartogramData')
@@ -46,31 +47,6 @@ function writePresidentSvg() {
   fs.writeFileSync(outFile, outBuffer)
 }
 
-function drawGeometry(ctx, geom) {
-  switch (geom.type) {
-    case 'Polygon':
-      geom.coordinates.forEach(points => {
-        ctx.moveTo(points[0][0], points[0][1])
-        points.slice(1).forEach(pt => {
-          ctx.lineTo(pt[0], pt[1])
-        })
-        ctx.closePath()
-      })
-      break
-    case 'MultiPolygon':
-      geom.coordinates.forEach(c => drawGeometry(ctx, { type: 'Polygon', coordinates: c }))
-      break
-    case 'Feature':
-      drawGeometry(ctx, geom.geometry)
-      break
-    case 'FeatureCollection':
-      geom.features.forEach(f => drawGeometry(ctx, f))
-      break
-    default:
-      throw new Error(`Unknown geometry: ${JSON.stringify(geom)}`)
-  }
-}
-
 function writePresidentThumbnails(states) {
   debug('Generating president thumbnail PNGs')
 
@@ -81,7 +57,7 @@ function writePresidentThumbnails(states) {
   ctx.strokeStyle = 'white'
   ctx.lineWidth = 3
   ctx.beginPath()
-  drawGeometry(ctx, states.features)
+  drawGeojsonOntoCanvas(ctx, states.features)
   ctx.fill()
   ctx.stroke()
 
