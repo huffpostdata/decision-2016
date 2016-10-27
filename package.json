@@ -25,17 +25,13 @@
     "node-sass": "^3.5.3"
   },
   "devDependencies": {
-    "canvas": "^1.6.1",
     "chai": "^3.5.0",
     "chokidar": "^1.4.3",
     "compression": "^1.6.1",
-    "d3-geo": "^1.2.6",
     "express": "^4.13.4",
     "google-docs-markup": "^0.2.0",
-    "jsts": "^1.2.1",
     "mocha": "^3.1.2",
     "morgan": "^1.7.0",
-    "shpjs": "^3.3.2",
     "sinon": "^1.17.6",
     "sync-request": "^3.0.0",
     "topojson": "^1.6.27"
