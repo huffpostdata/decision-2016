@@ -79,6 +79,8 @@ module.exports = class Database {
     const presidentRaces = apData.presidentRaces().sort(presidentClassNameForRace.compareRaces)
     presidentRaces.forEach(race => race.className = presidentClassNameForRace(race))
 
+    const houseRaces = apData.houseRaces()
+
     this.splash = {
       president: summaries.president,
       senate: summaries.senate,
@@ -98,18 +100,27 @@ module.exports = class Database {
     this.president = {
       metadata: new PageMetadata('president', {}), // TK
       summaries: summaries,
-      races: presidentRaces,
-      battlegrounds: battlegrounds
+      races: presidentRaces
     }
 
     // TK get these up and running
     this.senate = JSON.parse(JSON.stringify(this.president)); this.senate.metadata.slug = 'senate'
-    this.house = JSON.parse(JSON.stringify(this.president)); this.house.metadata.slug = 'house'
+
+    this.house = {
+      metadata: new PageMetadata('house', {}), // TK
+      summaries: summaries,
+      races: houseRaces
+    }
 
     this.presidentAsBuffer = Buffer.from(JSON.stringify({
       summaries: summaries,
       races: presidentRaces
     }));
+
+    this.houseAsBuffer = Buffer.from(JSON.stringify({
+      summaries: summaries,
+      races: houseRaces
+    }))
 
     this.translatedSplash = []
     Object.keys(translations).forEach(locale => {

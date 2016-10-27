@@ -304,4 +304,42 @@ module.exports = class ApData {
       wins: wins
     }
   }
+
+  /**
+   * Returns House races.
+   *
+   * The output looks like this:
+   *
+   *   [
+   *     {
+   *       id: 'AK01',
+   *       stateName: 'Alaska',
+   *       name: 'Alaska At Large',
+   *       nPrecinctsReporting: 102,
+   *       nPrecincts: 243,
+   *       winner: 'dem',
+   *       candidates: [
+   *        { name: 'Smith', partyId: 'dem', n: 13001, winner: true },
+   *        { name: 'Black', partyId: 'gop', n: 12111, winner: false },
+   *        ...
+   *       ]
+   *     },
+   *     ...
+   *   ]
+   */
+  houseRaces() {
+    // TK NEED UNIT TESTS
+    return this.reportingUnitElections.findHouseRaces().map(race => {
+      const ru = race.reportingUnits[0]
+
+      return {
+        id: `${ru.statePostal}${String(100 + +race.seatNum).slice(1)}`,
+        stateName: ru.stateName,
+        raceName: / at large/i.test(race.description) ? `${ru.stateName} At Large` : `${ru.stateName} District ${race.seatNum}`,
+        className: [ 'dem-win', 'gop-win', 'dem-lead', 'gop-lead', 'tossup' ][Math.floor(Math.random() * 5)], // TK
+        winner: null, // TK
+        candidates: ru.candidates
+      }
+    })
+  }
 }

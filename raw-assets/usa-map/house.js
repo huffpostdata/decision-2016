@@ -6,16 +6,17 @@ const debug = require('debug')('house')
 const dims = require('./lib/dims')
 const fs = require('fs')
 const loadDistrictsGeojson = require('./lib/loadDistrictsGeojson')
+const loadHouseCartogram = require('./lib/loadHouseCartogram')
 const loadStatesGeojson = require('./lib/loadStatesGeojson')
 const pathDBuilder = require('./lib/pathDBuilder')
 
 function featureCollectionToSvgPaths(featureCollection) {
   return featureCollection.features.map(feature => {
-    return '<path fill="#f88" class="' + feature.id + '" d="' + pathDBuilder.fromGeojson(feature.geometry) + '"/>'
+    return `<path class="${feature.id}" d="${pathDBuilder.fromGeojson(feature.geometry)}"/>`
   }).join('')
 }
 
-function writeHouseSvg(districts, states) {
+function writeHouseSvg(cartogram, districts, states) {
   debug('Generating house SVG')
 
   const out = [
@@ -24,10 +25,13 @@ function writeHouseSvg(districts, states) {
     '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="', dims.Width, '" height="', dims.Height, '" viewBox="0 0 ', dims.Width, ' ', dims.Height, '">',
       '<g class="districts">',
         featureCollectionToSvgPaths(districts.features),
-        '<path fill="none" stroke="black" class="mesh" d="', pathDBuilder.fromGeojson(districts.mesh), '"/>',
+        '<path class="district-mesh" d="', pathDBuilder.fromGeojson(districts.mesh), '"/>',
+        '<path class="state-mesh" d="', pathDBuilder.fromGeojson(states.mesh), '"/>',
       '</g>',
       '<g class="house-cartogram">',
-        //houseCartogramPaths(),
+        '<path class="underlay" d="', cartogram.underlay, '"/>',
+        cartogram.text.map(t => `<text x="${t.x}" y="${t.y}">${t.text}</text>`).join(''),
+        cartogram.districts.map(d => `<path class="${d.id}" d="${d.d}"/>`).join(''),
       '</g>',
     '</svg>'
   ].join('');
@@ -39,7 +43,8 @@ function writeHouseSvg(districts, states) {
   fs.writeFileSync(outFile, outBuffer)
 }
 
+const cartogram = loadHouseCartogram()
 const districts = loadDistrictsGeojson()
 const states = loadStatesGeojson()
-writeHouseSvg(districts, states)
+writeHouseSvg(cartogram, districts, states)
 writeHouseThumbnails(districts, states)

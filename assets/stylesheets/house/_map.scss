@@ -1,0 +1,40 @@
+body.house #map {
+  g.house-cartogram, g.districts {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &.cartogram {
+    g.house-cartogram { opacity: 1; pointer-events: all; }
+  }
+
+  &.geography {
+    g.districts { opacity: 1; pointer-events: all; }
+  }
+
+  path.district-mesh {
+    fill: none;
+    stroke: $background;
+    stroke-width: 1px;
+  }
+
+  path.state-mesh {
+    fill: none;
+    stroke: $background;
+    stroke-width: 3px;
+  }
+
+  path.underlay {
+    fill: $background;
+    stroke: $very-muted-color;
+    stroke-width: 1px;
+  }
+
+  path.dem-win { fill: $dem-color; }
+  path.dem-lead { fill: $dem-lead-color; }
+  path.gop-win { fill: $gop-color; }
+  path.gop-lead { fill: $gop-lead-color; }
+  path.other-win { fill: $other-color; }
+  path.other-lead { fill: $other-lead-color; }
+  path.tossup { fill: $tossup-color; }
+}
