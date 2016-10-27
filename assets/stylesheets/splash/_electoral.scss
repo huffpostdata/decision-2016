@@ -84,8 +84,8 @@ $transition-speed: 1s;
   }
   .bubble {
     font-family: $header-font;
-    font-size: 25px;
-    line-height: 1.4em;
+    font-size: 18px;
+    line-height: 1em;
     position: absolute;
     bottom: $bar-position + $bar-height + 11;
     z-index: $base-index + 2;
@@ -93,6 +93,25 @@ $transition-speed: 1s;
     width: 80px;
     height: 60px;
     transition: width $transition-speed ease, height $transition-speed ease, left $transition-speed ease, right $transition-speed ease;
+    &__candidate {
+      transition: font-size $transition-speed ease;
+      color: #000;
+      display: block;
+      font-size: 33%;
+      line-height: 1;
+      position: absolute;
+      top: 5%;
+      width: 100%;
+    }
+    &__votes {
+      transition: font-size $transition-speed ease;
+      display: block;
+      font-size: 72%;
+      line-height: 1;
+      position: absolute;
+      bottom: -5%;
+      width: 100%;
+    }
     &--clinton {
       left: 40px;
       transform: translateX(-50%);
@@ -127,17 +146,6 @@ $transition-speed: 1s;
         }
       }
     }
-    &__candidate {
-      color: #000;
-      display: block;
-      font-size: 1em;
-      display: none;
-    }
-    &__votes {
-      display: block;
-      font-size: 2.2em;
-      display: none;
-    }
   }
   .bubble-handle { 
     position: absolute;
@@ -163,6 +171,9 @@ $transition-speed: 1s;
       border-style: solid; 
       width: 0;
       z-index: 90;
+    }
+    &[data-handle="disable"] {
+      display: none;
     }
     &--clinton {
       left: 3px;

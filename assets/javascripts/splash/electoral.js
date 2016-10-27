@@ -81,7 +81,6 @@ if (electoral) {
   var cBubbleText = cBubble.querySelector('.bubble__votes');
   var cBubbleHandle = electoral.querySelector('.bubble-handle--clinton');
 
-
   var tBubble = electoral.querySelector('.bubble'+tMod);
   var tBubbleText = tBubble.querySelector('.bubble__votes');
   var tBubbleHandle = electoral.querySelector('.bubble-handle--trump');
@@ -126,10 +125,12 @@ if (electoral) {
     var cBubbleSize = bubbleSize(cPer);
     var tBubbleSize = bubbleSize(tPer);
 
-    var collision = getCollision(cPer, tPer, cBubbleSize.width, tBubbleSize.width);
+    var collision = getCollision(cBarPosition, tBarPosition, cBubbleSize.width, tBubbleSize.width);
 
     var cBubblePosition = bubblePosition(cBarPosition, cBubbleSize.width, collision.clinton);
     var tBubblePosition = bubblePosition(tBarPosition, tBubbleSize.width, collision.trump);
+
+    // var cNameSize = nameSize(cBubbleSize.height);
 
     var cHandlePosition = handlePosition(cBarPosition, cBubbleSize.width, collision.clinton);
     var tHandlePosition = handlePosition(tBarPosition, tBubbleSize.width, collision.trump);
@@ -181,37 +182,42 @@ if (electoral) {
     }
   }
 
-  function getCollision(cPer, tPer, cBubbleW, tBubbleW) {
-    var cBubblePosition = percentToPixel(cPer)
-    var tBubblePosition = percentToPixel(tPer);
+  function getCollision(cPosition, tPosition, cBubbleW, tBubbleW) {
+    var cBubbleHalf = cBubbleW/2;
+    var tBubbleHalf = tBubbleW/2;
 
-    var cBubbleHalf = parseInt(cBubbleW)/2;
-    var tBubbleHalf = parseInt(tBubbleW)/2;
-
-    var cBubbleRange = cBubblePosition + cBubbleHalf;
-    var tBubbleRange = tBubblePosition + tBubbleHalf;
+    var cBubbleRange = cPosition + cBubbleHalf;
+    var tBubbleRange = tPosition + tBubbleHalf;
 
     var collisionDiff = 0;
-    var collision = {
-      clinton: 0,
-      trump: 0,
-    }
+    var cCollision = 0;
+    var tCollision = 0;
+
     if (cBubbleRange > (electoral.offsetWidth - tBubbleRange)) {
       collisionDiff = cBubbleRange - (electoral.offsetWidth - tBubbleRange);
     }
 
     if (collisionDiff/2 > cBubbleHalf) {
-      collision.clinton = cBubbleHalf;
-      collision.trump = collisionDiff - cBubbleHalf;
+      cCollision = cBubbleHalf;
+      tCollision = collisionDiff - cBubbleHalf;
     } else if (collisionDiff/2 > tBubbleHalf) {
-      collision.clinton = collisionDiff - tBubbleHalf;
-      collision.trump = tBubbleHalf;
+      cCollision = collisionDiff - tBubbleHalf;
+      tCollision = tBubbleHalf;
     } else {
-      collision.clinton = collisionDiff/2;
-      collision.trump = collisionDiff/2;
+      cCollision = collisionDiff/2;
+      tCollision = collisionDiff/2;
     }
 
-    return collision;
+    if (cPosition < 150) {
+      cCollision = 0; 
+    }
+    if (tPosition < 150) {
+      tCollision = 0;
+    }
+    return {
+      clinton: cCollision,
+      trump: tCollision,
+    }
   }
 
   function bubbleSize(percent) {
@@ -243,19 +249,19 @@ if (electoral) {
     }
   }
 
-  function facePosition(bubblePosition, bubble, bubbleWidth, faceWidth, collision) {
+  function facePosition(barPosition, bubble, bubbleWidth, faceWidth, collision) {
     var position = 0;
-    var bubbleRange = Math.abs(bubblePosition - (bubbleWidth)/2 - collision);
+    var bubbleRange = Math.abs(barPosition - (bubbleWidth)/2 - collision);
     var faceRange = faceWidth*0.7;
     var bubbleIsCoveringFace = collision && faceRange > bubbleRange;
     
-    if (bubblePosition < 110) {
-      position = bubblePosition + (bubbleWidth/2);
+    if (barPosition < 110) {
+      position = barPosition + (bubbleWidth/2);
     } 
-    if (bubblePosition <= bubbleWidth/2) {
+    if (barPosition <= bubbleWidth/2) {
       position = bubbleWidth;
     }
-    if (bubbleIsCoveringFace) {
+    if (barPosition > 110 && bubbleIsCoveringFace) {
       position = bubbleRange - faceRange;
     }
 
@@ -268,10 +274,15 @@ if (electoral) {
     if (position <= bubbleWidth/2) {
       bubbleOffset = bubbleWidth/2;
     }
-    // if (position >= 350) {
-    //   bubbleOffset = position;
-    // }
+    if (position >= 450) {
+      bubbleOffset = 350;
+    }
     return bubbleOffset;
+  }
+
+  function nameSize(bubbleHeight) {
+    var size = bubbleHeight * .33;
+    return size;
   }
 
   function handlePosition(position, bubbleWidth, collision) {
@@ -284,6 +295,9 @@ if (electoral) {
       handleOffset = position - 3;
       handleMod = 'inside';
     }
+    if (position >= 450) {
+      handleMod = 'disable';
+    }
 
     return {
       offset: handleOffset,
@@ -291,16 +305,20 @@ if (electoral) {
     }
   }
 
-  function bubbles(c, t) {
+  function bubbles(d, c, t) {
     cBubble.style.left = c.bubble.position;
     cBubble.style.width = c.bubble.width;
     cBubble.style.height = c.bubble.height;
+    cBubble.style.fontSize = c.bubble.height;
+    cBubbleText.innerHTML = d.clinton.electoral;
     cBubbleHandle.style.left = c.bubble.handle;
     cBubbleHandle.setAttribute('data-handle', c.bubble.handleModifier);
 
     tBubble.style.right = t.bubble.position;
     tBubble.style.width = t.bubble.width;
     tBubble.style.height = t.bubble.height;
+    tBubble.style.fontSize = t.bubble.height;
+    tBubbleText.innerHTML = d.trump.electoral;
     tBubbleHandle.style.right = t.bubble.handle;
     tBubbleHandle.setAttribute('data-handle', t.bubble.handleModifier);
   }
@@ -334,7 +352,7 @@ if (electoral) {
   }
 
   function animate(d, c, t) {
-    bubbles(c, t);
+    bubbles(d, c, t);
     bars(d, c, t);
     faces(c, t);
   }
