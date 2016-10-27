@@ -24,4 +24,4 @@ function doRefresh(json) {
 }
 
 var refreshEl = document.getElementById('refresh');
-refresh(refreshEl, '/2016/results/president.json', doRefresh);
+refresh(refreshEl, '/2016/results/house.json', doRefresh);
