@@ -23,10 +23,16 @@ function calculateStatesGeodata() {
   states.features = states.features
     .filter(f => f.properties.TYPE === 'Land')
     .filter(f => [ 'PR', 'GU', 'MP', 'VI', 'AS' ].indexOf(f.properties.STATE_ABBR) === -1)
-    .map(f => projectGeojson(f, defaultProjection))
+    .map(f => {
+      const ret = projectGeojson(f, defaultProjection)
+      ret.id = f.properties.STATE_ABBR
+      return ret
+    })
   return quantizeAndMesh(states)
 }
 
+var memo = null
 module.exports = function() {
-  return calculateStatesGeodata()
+  if (memo !== null) return memo
+  return memo = calculateStatesGeodata()
 }
