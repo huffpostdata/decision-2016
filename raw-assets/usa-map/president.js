@@ -23,7 +23,7 @@ function stateSquaresToSvgPaths(stateSquares) {
     .join('')
 }
 
-function writePresidentSvg() {
+function writePresidentSvg(states) {
   debug('Generating president SVG')
 
   const out = [
