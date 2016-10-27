@@ -1,7 +1,65 @@
 var electoral = document.getElementById('electoral_votes');
 
 if (electoral) {
-  electoral.innerHTML = "<div class=\"bubble bubble--clinton\"><span class=\"bubble__candidate\">CLINTON<\/span><span class=\"bubble__votes\">0<\/span><\/div><span class=\"bubble-handle bubble-handle--clinton\" data-handle=\"\"><span class=\"bubble-handle__inside\"><\/span><span class=\"bubble-handle__border\"><\/span><\/span><div class=\"bubble bubble--trump\"><span class=\"bubble__candidate\">TRUMP<\/span><span class=\"bubble__votes\">0<\/span><\/div><span class=\"bubble-handle bubble-handle--trump\" data-handle=\"\"><span class=\"bubble-handle__inside\"><\/span><span class=\"bubble-handle__border\"><\/span><\/span><div class=\"face face--clinton\"><\/div><div class=\"face face--trump\"><\/div><div class=\"bars\"><div class=\"bar bar--clinton\"><\/div><div class=\"bar bar--trump\"><\/div><\/div>";
+  electoral.innerHTML = "<div class=\"bubble bubble--clinton\"><span class=\"bubble__candidate\">CLINTON<\/span><span class=\"bubble__votes\">0<\/span><\/div><span class=\"bubble-handle bubble-handle--clinton\" data-handle=\"outside\"><span class=\"bubble-handle__inside\"><\/span><span class=\"bubble-handle__border\"><\/span><\/span><div class=\"bubble bubble--trump\"><span class=\"bubble__candidate\">TRUMP<\/span><span class=\"bubble__votes\">0<\/span><\/div><span class=\"bubble-handle bubble-handle--trump\" data-handle=\"outside\"><span class=\"bubble-handle__inside\"><\/span><span class=\"bubble-handle__border\"><\/span><\/span><div class=\"face face--clinton\"><\/div><div class=\"face face--trump\"><\/div><div class=\"bars\"><div class=\"bar bar--clinton\"><\/div><div class=\"bar bar--trump\"><\/div><div class=\"bar-text bar-text--clinton\"><\/div><div class=\"bar-text bar-text--trump\"><\/div><\/div>";
+
+  var loadImages = function(imageArray) {
+    loadcount = 0;
+    totalimages = imageArray.length;
+    preloaded = false;
+
+    var loadedImages = [];
+    for (var i=0; i<imageArray.length; i++) {
+      var image = new Image();
+      image.onload = function() {
+        loadcount++
+        if(loadcount === totalimages) {
+          preloaded = true;
+        }
+      }
+      image.src = imageArray[i].name;
+      image.width = imageArray[i].width;
+      image.height = imageArray[i].height;
+      loadedImages[i] = image;
+    }
+    return loadedImages;
+  }
+
+  var clintonImages = loadImages([
+    {
+      name: electoralImages.clinton.sad,
+      width: 600,
+      height: 536
+    }, 
+    {
+      name: electoralImages.clinton.basic,
+      width: 600,
+      height: 547
+    }, 
+    {
+      name: electoralImages.clinton.happy,
+      width: 600,
+      height: 566
+    }, 
+  ]);
+
+  var trumpImages = loadImages([
+    {
+      name: electoralImages.trump.sad,
+      width: 600,
+      height: 452
+    }, 
+    {
+      name: electoralImages.trump.basic,
+      width: 600,
+      height: 413
+    }, 
+    {
+      name: electoralImages.trump.happy,
+      width: 600,
+      height: 444
+    }, 
+  ]);
 
   var electoralBars = electoral.querySelector('.bars');
   var areaWidth = electoral.offsetWidth;
@@ -13,10 +71,11 @@ if (electoral) {
   var cBar = electoral.querySelector('.bar'+cMod);
   var tBar = electoral.querySelector('.bar'+tMod);
 
+  var cBarText = electoral.querySelector('.bar-text'+cMod);
+  var tBarText = electoral.querySelector('.bar-text'+tMod);
+
   var cFace = electoral.querySelector('.face'+cMod);
   var tFace = electoral.querySelector('.face'+tMod);
-  cFace.style.backgroundImage = "url("+electoralImages.clinton.basic+")";
-  tFace.style.backgroundImage = "url("+electoralImages.trump.basic+")";
 
   var cBubble = electoral.querySelector('.bubble'+cMod);
   var cBubbleText = cBubble.querySelector('.bubble__votes');
@@ -36,41 +95,6 @@ if (electoral) {
   var totalVotes = 538;
   var winCondition = 270;
   var titleFont = '"ProximaNovaCond-Extrabld", "Helvetica Neue", "Helvetica", Arial, sans-serif';
-
-  // var clintonImages = loadImages([
-  //   {
-  //     name: electoralImages.clinton.sad,
-  //     width: 664,
-  //     height: 593
-  //   }, 
-  //   {
-  //     name: electoralImages.clinton.basic,
-  //     width: 685,
-  //     height: 624
-  //   }, 
-  //   {
-  //     name: electoralImages.clinton.happy,
-  //     width: 682,
-  //     height: 643
-  //   }, 
-  // ]);
-  // var trumpImages = loadImages([
-  //   {
-  //     name: electoralImages.trump.sad,
-  //     width: 850,
-  //     height: 640
-  //   }, 
-  //   {
-  //     name: electoralImages.trump.basic,
-  //     width: 906,
-  //     height: 623
-  //   }, 
-  //   {
-  //     name: electoralImages.trump.happy,
-  //     width: 821,
-  //     height: 607
-  //   }, 
-  // ]);
 
   function percentToPixel(percent) {
     return electoral.offsetWidth * (percent/100);
@@ -110,8 +134,11 @@ if (electoral) {
     var cHandlePosition = handlePosition(cBarPosition, cBubbleSize.width, collision.clinton);
     var tHandlePosition = handlePosition(tBarPosition, tBubbleSize.width, collision.trump);
 
-    var cFaceSize = faceSize(cPer);
-    var tFaceSize = faceSize(tPer);
+    var cImage = facePicker('clinton', clintonImages, data.winner);
+    var tImage = facePicker('trump', trumpImages, data.winner);
+
+    var cFaceSize = faceSize(cPer, cImage);
+    var tFaceSize = faceSize(tPer, tImage);
 
     var cFacePosition = facePosition(cBarPosition, cBubble, cBubbleSize.width, cFaceSize.width, collision.clinton);
     var tFacePosition = facePosition(tBarPosition, tBubble, tBubbleSize.width, tFaceSize.width, collision.trump);
@@ -119,26 +146,36 @@ if (electoral) {
     return {
       clinton: {
         barPosition: cBarPosition+'px',
-        bubblePosition: cBubblePosition+'px',
-        bubbleHandle: cHandlePosition.offset+'px',
-        bubbleHandleModifier: cHandlePosition.modifier,
-        bubbleWidth: cBubbleSize.width+'px',
-        bubbleHeight: cBubbleSize.height+'px',
-        faceWidth: cFaceSize.width+'px',
-        faceHeight: cFaceSize.height+'px',
-        facePosition: cFacePosition,
+        bubble: {
+          position: cBubblePosition+'px',
+          handle: cHandlePosition.offset+'px',
+          handleModifier: cHandlePosition.modifier,
+          width: cBubbleSize.width+'px',
+          height: cBubbleSize.height+'px',
+        },
+        face: {
+          image: cImage.src,
+          width: cFaceSize.width+'px',
+          height: cFaceSize.height+'px',
+          position: cFacePosition,
+        },
         collision: collision.clinton,
       },             
       trump: {
         barPosition: tBarPosition+'px',
-        bubblePosition: tBubblePosition+'px',
-        bubbleHandle: tHandlePosition.offset+'px',
-        bubbleHandleModifier: tHandlePosition.modifier,
-        bubbleWidth: tBubbleSize.width+'px',
-        bubbleHeight: tBubbleSize.height+'px',
-        faceWidth: tFaceSize.width+'px',
-        faceHeight: tFaceSize.height+'px',
-        facePosition: tFacePosition,
+        bubble: {
+          position: tBubblePosition+'px',
+          handle: tHandlePosition.offset+'px',
+          handleModifier: tHandlePosition.modifier,
+          width: tBubbleSize.width+'px',
+          height: tBubbleSize.height+'px',
+        },
+        face: {
+          image: tImage.src,
+          width: tFaceSize.width+'px',
+          height: tFaceSize.height+'px',
+          position: tFacePosition,
+        },
         collision: collision.trump,
       }
     }
@@ -186,11 +223,22 @@ if (electoral) {
     }
   }
 
-  function faceSize(percent) {
+  function facePicker(candidate, images, winner) {
+    var index = 1;
+    if (winner) {
+      index = 0;
+      if (winner === candidate) {
+        index = 2;
+      }
+    }
+    return images[index];
+  }
+
+  function faceSize(percent, image) {
     // min limit 40%, max limit 100%
     var height = imageMaxHeight * Math.max(0.4, Math.min(percent/50, 1));
     return {
-      width: (imageMaxWidth/imageMaxHeight)*height,
+      width: (image.width/image.height)*height,
       height: height,
     }
   }
@@ -207,18 +255,18 @@ if (electoral) {
     if (bubblePosition <= bubbleWidth/2) {
       position = bubbleWidth;
     }
-    // if (bubbleIsCoveringFace) {
-    //   position = bubbleRange - faceRange;
-    // }
+    if (bubbleIsCoveringFace) {
+      position = bubbleRange - faceRange;
+    }
 
     return position+'px';
   }
 
   function bubblePosition(position, bubbleWidth, collision) {
-    var bubbleOffset = position - collision - 1;
+    var bubbleOffset = position - collision;
     bubbleOffset = bubbleOffset < 0 ? 0 : bubbleOffset;
     if (position <= bubbleWidth/2) {
-      bubbleOffset = bubbleWidth/2 + 1;
+      bubbleOffset = bubbleWidth/2;
     }
     // if (position >= 350) {
     //   bubbleOffset = position;
@@ -244,32 +292,37 @@ if (electoral) {
   }
 
   function bubbles(c, t) {
-    cBubble.style.left = c.bubblePosition;
-    cBubble.style.width = c.bubbleWidth;
-    cBubble.style.height = c.bubbleHeight;
-    cBubbleHandle.style.left = c.bubbleHandle;
-    cBubbleHandle.setAttribute('data-handle', c.bubbleHandleModifier);
+    cBubble.style.left = c.bubble.position;
+    cBubble.style.width = c.bubble.width;
+    cBubble.style.height = c.bubble.height;
+    cBubbleHandle.style.left = c.bubble.handle;
+    cBubbleHandle.setAttribute('data-handle', c.bubble.handleModifier);
 
-    tBubble.style.right = t.bubblePosition;
-    tBubble.style.width = t.bubbleWidth;
-    tBubble.style.height = t.bubbleHeight;
-    tBubbleHandle.style.right = t.bubbleHandle;
-    tBubbleHandle.setAttribute('data-handle', t.bubbleHandleModifier);
+    tBubble.style.right = t.bubble.position;
+    tBubble.style.width = t.bubble.width;
+    tBubble.style.height = t.bubble.height;
+    tBubbleHandle.style.right = t.bubble.handle;
+    tBubbleHandle.setAttribute('data-handle', t.bubble.handleModifier);
   }
 
-  function bars(c, t) {
+  function bars(d, c, t) {
+    console.log(d)
     cBar.style.width = c.barPosition; 
+    cBarText.innerHTML = d.clinton.popular.toLocaleString() + ' POPULAR VOTES';
     tBar.style.width = t.barPosition;
+    tBarText.innerHTML = d.trump.popular.toLocaleString() + ' POPULAR VOTES';
   }
 
   function faces(c, t) {
-    cFace.style.width = c.faceWidth;
-    cFace.style.height = c.faceHeight;
-    cFace.style.left = c.facePosition;
+    cFace.style.width = c.face.width;
+    cFace.style.height = c.face.height;
+    cFace.style.left = c.face.position;
+    cFace.style.backgroundImage = "url("+c.face.image+")";
 
-    tFace.style.width = t.faceWidth;
-    tFace.style.height = t.faceHeight;
-    tFace.style.right = t.facePosition;
+    tFace.style.width = t.face.width;
+    tFace.style.height = t.face.height;
+    tFace.style.right = t.face.position;
+    tFace.style.backgroundImage = "url("+t.face.image+")";
   }
 
   function updateThings(data) {
@@ -277,12 +330,12 @@ if (electoral) {
     var trumpPercent = percentOfVotes(data.trump.electoral);
     var newState = nextState(data, clintonPercent, trumpPercent);
 
-    animate(newState.clinton, newState.trump);  
+    animate(data, newState.clinton, newState.trump);  
   }
 
-  function animate(c, t) {
+  function animate(d, c, t) {
     bubbles(c, t);
-    bars(c, t);
+    bars(d, c, t);
     faces(c, t);
   }
 }

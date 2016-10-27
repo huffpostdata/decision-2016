@@ -53,9 +53,15 @@ $transition-speed: 1s;
 #electoral_votes {
   width: 100%;
   max-width: $container-width;
-  height: $container-height;;
+  height: $container-height;
   background: #ffffff;
   position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
   .face {
     position: absolute;
     bottom: $bar-position + $bar-height;
@@ -64,20 +70,16 @@ $transition-speed: 1s;
     background-repeat: no-repeat;
     transition: width $transition-speed ease, height $transition-speed ease, right $transition-speed ease, left $transition-speed ease;
     &--clinton {
-      background-image: asset-url('digest', 'images/splash/clinton.jpg');
       background-position: bottom left;
       left: 0;
       width: 0;
       height: 0;
-      // @include img-wh(685, 624);
     }
     &--trump {
-      background-image: asset-url('digest', 'images/splash/trump.jpg');
       background-position: bottom right;
       right: 0;
       width: 0;
       height: 0;
-      // @include img-wh(906, 623);
     }
   }
   .bubble {
@@ -92,7 +94,7 @@ $transition-speed: 1s;
     height: 60px;
     transition: width $transition-speed ease, height $transition-speed ease, left $transition-speed ease, right $transition-speed ease;
     &--clinton {
-      left: 0;
+      left: 40px;
       transform: translateX(-50%);
       border: 1px solid $dem-win;
       color: $dem-win;
@@ -109,7 +111,7 @@ $transition-speed: 1s;
       }
     }
     &--trump {
-      right: 0;
+      right: 40px;
       transform: translateX(50%);
       border: 1px solid $gop-win;
       color: $gop-win;
@@ -163,7 +165,7 @@ $transition-speed: 1s;
       z-index: 90;
     }
     &--clinton {
-      left: 50%;
+      left: 3px;
       transition: left $transition-speed ease;
       &[data-handle="outside"] {
         .bubble-handle__inside {
@@ -189,7 +191,7 @@ $transition-speed: 1s;
       }
     }
     &--trump {
-      right: 50%;
+      right: 3px;
       transition: right $transition-speed ease;
       &[data-handle="outside"] {
         .bubble-handle__inside {
@@ -234,6 +236,20 @@ $transition-speed: 1s;
     }
     &--trump {
       background: $gop-win;
+      right: 0;
+    }
+  }
+  .bar-text {
+    display: block;
+    line-height: $bar-height;
+    position: absolute;
+    padding: 0 7px;
+    font-family: $body-font;
+    color: #fff;
+    font-size: 12px;
+    white-space: nowrap;
+    text-shadow: 1px 0px 2px #777;
+    &--trump {
       right: 0;
     }
   }
