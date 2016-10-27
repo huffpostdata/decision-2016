@@ -2,6 +2,7 @@
 
 const fs = require('fs')
 const debug = require('debug')('loadDistrictsGeojson')
+const dims = require('./dims')
 const defaultProjection = require('./defaultProjection')
 const jsts = require('jsts')
 const makeGeojsonValid = require('./makeGeojsonValid')
@@ -74,37 +75,46 @@ function jstsToGeojsonGeometry(jstsGeometry) {
   return GeoJSONWriter.write(jstsGeometry)
 }
 
-function featureCollectionToMultiPolygon(collection) {
-  const arrays = collection.features.map(feature => {
-    switch (feature.type) {
-      case 'MultiPolygon': return feature.coordinates
-      case 'Polygon': return [ feature.coordinates ]
-      default: throw new Error(`Unexpected feature type: ${feature.type}`)
+function featureCollectionToMultiPolygon(featureCollection) {
+  const arr = []
+
+  featureCollection.features.forEach(feature => {
+    const geometry = feature.geometry
+
+    switch (geometry.type) {
+      case 'Polygon':
+        arr.push([ geometry.coordinates ])
+        break
+      case 'MultiPolygon':
+        arr.push(geometry.coordinates)
+        break
+      default:
+        throw new Error(`Can't handle geometry ${JSON.stringify(geometry)}`)
     }
   })
 
-  return { type: 'MultiPolygon', coordinates: [].concat(...arrays) }
+  return {
+    type: 'MultiPolygon',
+    coordinates: Array.prototype.concat.apply([], arr)
+  }
+}
+
+function bufferToArrayBuffer(buf) {
+  return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
 }
 
 function loadDistrictsGeojson() {
-  debug('Loading states')
-  const statesShp = fs.readFileSync(`${__dirname}/../input/statesp010g.shp`).buffer
-  const statesDbf = fs.readFileSync(`${__dirname}/../input/statesp010g.dbf`).buffer
-  const statesGeojson = shpjs.combine([ shpjs.parseShp(statesShp), shpjs.parseDbf(statesDbf) ])
-  const validStatesGeojson = makeGeojsonValid(statesGeojson)
-  debug('Organizing states')
-  const idToJstsState = {}
-  for (const state of validStatesGeojson.features) {
-    if (state.properties.TYPE !== 'Land') continue
-
-    const id = state.properties.STATE_ABBR
-    if ([ 'PR', 'GU', 'MP', 'VI', 'AS' ].indexOf(id) !== -1) continue
-
-    const projectedGeometry = projectGeojson(state.geometry, defaultProjection)
-    const jstsGeometry = geojsonToJsts(projectedGeometry)
-      .buffer(0.2) // buffer(0) means makeValid(). >0 makes the geometry simpler, and it's small so we won't go too far into the ocean
-    idToJstsState[id] = jstsGeometry
-  }
+  debug('Loading nation')
+  const nationShp = bufferToArrayBuffer(fs.readFileSync(`${__dirname}/../input/nationp010g.shp`))
+  const nationDbf = bufferToArrayBuffer(fs.readFileSync(`${__dirname}/../input/nationp010g.dbf`))
+  const nationGeojson = shpjs.combine([ shpjs.parseShp(nationShp), shpjs.parseDbf(nationDbf) ])
+  nationGeojson.features = nationGeojson.features
+    .filter(f => f.properties.NAME === 'United States of America' && f.properties.TYPE === 'Land')
+  const nationGeometry = featureCollectionToMultiPolygon(nationGeojson)
+  const projectedNationGeometry = projectGeojson(nationGeometry, defaultProjection)
+  const nationJsts = geojsonToJsts(projectedNationGeometry)
+  debug('Making nation valid')
+  const validNation = nationJsts.buffer(0)
 
   debug('Loading districts')
   const districtsZip = fs.readFileSync(`${__dirname}/../input/tl_2016_us_cd115.zip`)
@@ -128,9 +138,8 @@ function loadDistrictsGeojson() {
   const intersectedFeatures = validDistricts.features.map(feature => {
     debug(`${feature.id}...`)
     const stateId = feature.id.slice(0, 2)
-    const jstsStateGeometry = idToJstsState[stateId]
     const jstsGeometry = geojsonToJsts(feature.geometry).buffer(0) // buffer(0) means makeValid()
-    const jstsIntersected = jstsGeometry.intersection(jstsStateGeometry)
+    const jstsIntersected = jstsGeometry.intersection(validNation)
     const intersected = jstsToGeojsonGeometry(jstsIntersected)
 
     return {
