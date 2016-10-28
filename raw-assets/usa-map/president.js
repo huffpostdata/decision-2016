@@ -10,6 +10,7 @@ const drawGeojsonOntoCanvas = require('./lib/drawGeojsonOntoCanvas')
 const loadStatesGeojson = require('./lib/loadStatesGeojson')
 const pathDBuilder = require('./lib/pathDBuilder')
 const PresidentCartogramData = require('../../assets/javascripts/common/_cartogramData')
+const StateLabels = require('./lib/StateLabels')
 
 function featureCollectionToSvgPaths(featureCollection) {
   return featureCollection.features.map(feature => {
@@ -19,8 +20,39 @@ function featureCollectionToSvgPaths(featureCollection) {
 
 function stateSquaresToSvgPaths(stateSquares) {
   return Object.keys(stateSquares)
-    .map(stateCode => '<path class="' + stateCode + '" d="' + pathDBuilder.fromSquare(stateSquares[stateCode]) + '"/>')
+    .map(stateCode => `<path class="${stateCode}" d="${pathDBuilder.fromSquare(stateSquares[stateCode])}"/>`)
     .join('')
+}
+
+const StateCodeToAbbreviation = fs.readFileSync(`${__dirname}/../../app/google-sheets/regions.tsv`, 'utf8')
+  .split(/\r?\n/)
+  .slice(1)
+  .map(s => s.split(/\t/))
+  .filter(s => s.length === 4) // nix last row
+  .reduce(((s, row) => { s[row[0]] = row[2]; return s }), {})
+
+function stateSquaresToTexts(stateSquares) {
+  function squareCX(axy) { // "center-X"
+    return Math.round(dims.Accuracy * (axy.x + Math.sqrt(axy.a) * 15 / 2))
+  }
+
+  function squareCY(axy) { // "center-Y"
+    return Math.round(dims.Accuracy * (axy.y + Math.sqrt(axy.a) * 15 / 2))
+  }
+
+  return Object.keys(stateSquares)
+    .map(stateCode => {
+      const square = stateSquares[stateCode]
+      const abbreviation = StateCodeToAbbreviation[stateCode]
+      return `<text x="${squareCX(square)}" y="${squareCY(square)}">${abbreviation}</text>`
+    })
+    .join('')
+}
+
+function stateLabelsToTexts(stateLabels) {
+  return stateLabels.map(label => {
+    return `<text x="${label.x}" y="${label.y}">${label.text}</text>`
+  }).join('')
 }
 
 function writePresidentSvg(states) {
@@ -33,9 +65,11 @@ function writePresidentSvg(states) {
       '<g class="geography">',
         featureCollectionToSvgPaths(states.features),
         '<path class="mesh" d="', pathDBuilder.fromGeojson(states.mesh), '"/>',
+        stateLabelsToTexts(StateLabels),
       '</g>',
       '<g class="cartogram">',
         stateSquaresToSvgPaths(PresidentCartogramData),
+        stateSquaresToTexts(PresidentCartogramData),
       '</g>',
     '</svg>'
   ].join('')
