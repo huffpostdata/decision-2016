@@ -1,8 +1,9 @@
-var electoral = document.getElementById('electoral_votes');
+var electoralPlacement = document.getElementById('electoral_votes');
 
-if (electoral) {
-  electoral.innerHTML = "<div class=\"bubble bubble--clinton\"><span class=\"bubble__candidate\">CLINTON<\/span><span class=\"bubble__votes\">0<\/span><\/div><span class=\"bubble-handle bubble-handle--clinton\" data-handle=\"outside\"><span class=\"bubble-handle__inside\"><\/span><span class=\"bubble-handle__border\"><\/span><\/span><div class=\"bubble bubble--trump\"><span class=\"bubble__candidate\">TRUMP<\/span><span class=\"bubble__votes\">0<\/span><\/div><span class=\"bubble-handle bubble-handle--trump\" data-handle=\"outside\"><span class=\"bubble-handle__inside\"><\/span><span class=\"bubble-handle__border\"><\/span><\/span><div class=\"face face--clinton\"><\/div><div class=\"face face--trump\"><\/div><div class=\"bars\"><div class=\"bar bar--clinton\"><\/div><div class=\"bar bar--trump\"><\/div><div class=\"bar-text bar-text--clinton\"><\/div><div class=\"bar-text bar-text--trump\"><\/div><\/div>";
+if (electoralPlacement) {
+  electoralPlacement.innerHTML = electoralHTML;
 
+  var electoral = document.querySelector('.electoral-content');
   var loadImages = function(imageArray) {
     loadcount = 0;
     totalimages = imageArray.length;
@@ -208,10 +209,8 @@ if (electoral) {
       tCollision = collisionDiff/2;
     }
 
-    if (cPosition < 150) {
+    if (cPosition >= 450 || tPosition >= 450) {
       cCollision = 0; 
-    }
-    if (tPosition < 150) {
       tCollision = 0;
     }
     return {
@@ -255,7 +254,7 @@ if (electoral) {
     var faceRange = faceWidth*0.7;
     var bubbleIsCoveringFace = collision && faceRange > bubbleRange;
     
-    if (barPosition < 110) {
+    if (barPosition < 110 && !collision) {
       position = barPosition + (bubbleWidth/2);
     } 
     if (barPosition <= bubbleWidth/2) {
@@ -274,8 +273,8 @@ if (electoral) {
     if (position <= bubbleWidth/2) {
       bubbleOffset = bubbleWidth/2;
     }
-    if (position >= 450) {
-      bubbleOffset = 350;
+    if (position >= 425) {
+      bubbleOffset = 300;
     }
     return bubbleOffset;
   }
@@ -295,8 +294,9 @@ if (electoral) {
       handleOffset = position - 3;
       handleMod = 'inside';
     }
-    if (position >= 450) {
-      handleMod = 'disable';
+    if (position >= 425) {
+      handleOffset = 332.5;
+      handleMod = '';
     }
 
     return {
@@ -360,13 +360,13 @@ if (electoral) {
 
 module.exports = {
   update: function(data) {
-    if(electoral) {
+    if(electoralPlacement) {
       var normalData = normalizeData(data);
       updateThings(normalData);
     }
   },
   render: function(data) {
-    if(electoral) {
+    if(electoralPlacement) {
       var normalData = normalizeData(data);
       // render static elements
       updateThings(normalData);

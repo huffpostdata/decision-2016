@@ -5,7 +5,14 @@ var seats = require('./splash/seats');
 var refreshButton = require('./splash/refresh-element');
 var refresh = require('./common/_refresh');
 
-window.evupdate = function(c, t, w) {
+window.evupdate = function(c, t) {
+  var w;
+  if (c > 269) {
+    w = 'clinton';
+  }
+  if (t > 269) {
+    w = 'trump';
+  }
   electoral.update({
     nClinton: 1000000,
     nClintonElectoralVotes: c,

@@ -1,43 +1,12 @@
-.ev {
-  background: #fff;
-  font-family: $body-font;
-  width: $left-column-width;
-  height: 335px;
-  padding: 0;
-}
-.ev__header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0 10px;
-}
-.ev__title {
-  font-family: $header-font;
-  margin: 5px 0;
-  font-size: 24px;
-  flex: 0 1 auto;
-  padding-right: 20px;
-  white-space: nowrap;
-}
-.ev__blurb {
-  flex: 1 1 auto;
-  font-size: 14px;
-  color: #9c9c9c;
-}
-.ev__content {
-  position: relative;
-}
-.canvas-onion {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.canvas-overlay {
-  z-index: 999999;
-}
+// .ev {
+//   background: #fff;
+//   font-family: $body-font;
+//   width: ;
+//   height: 335px;
+//   padding: 0;
+// }
 
-$container-width: 665px;
+$container-width: $left-column-width;
 $container-height: 275px;
 $bar-height: 30px;
 $bar-position: $bar-height*1.5;
@@ -53,7 +22,6 @@ $transition-speed: 1s;
 #electoral_votes {
   width: 100%;
   max-width: $container-width;
-  height: $container-height;
   background: #ffffff;
   position: relative;
   box-sizing: border-box;
@@ -61,6 +29,31 @@ $transition-speed: 1s;
   
   *, *:before, *:after {
     box-sizing: inherit;
+  }
+
+  .electoral-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 10px 5px;
+  }
+  .electoral-title {
+    font-family: $header-font;
+    margin: 5px 0;
+    font-size: 24px;
+    flex: 0 1 auto;
+    padding-right: 20px;
+    white-space: nowrap;
+  }
+  .electoral-blurb {
+    flex: 1 1 auto;
+    font-size: 14px;
+    color: #9c9c9c;
+  }
+  .electoral-content {
+    position: relative;
+    height: $container-height;
+    border-top: 1px solid #ececec;
   }
   .face {
     position: absolute;
@@ -84,14 +77,14 @@ $transition-speed: 1s;
   }
   .bubble {
     font-family: $header-font;
-    font-size: 18px;
+    font-size: 56px;
     line-height: 1em;
     position: absolute;
     bottom: $bar-position + $bar-height + 11;
     z-index: $base-index + 2;
     text-align: center;
     width: 80px;
-    height: 60px;
+    height: 56px;
     transition: width $transition-speed ease, height $transition-speed ease, left $transition-speed ease, right $transition-speed ease;
     &__candidate {
       transition: font-size $transition-speed ease;
@@ -118,16 +111,6 @@ $transition-speed: 1s;
       border: 1px solid $dem-win;
       color: $dem-win;
       background: #cfd4ea;
-      .bubble__handle {
-        left: 50%;
-        transition: left $transition-speed ease;
-        &__inside {
-          border-color: #cfd4ea transparent;
-        }
-        &__border {
-          border-color: $dem-win transparent;
-        }
-      }
     }
     &--trump {
       right: 40px;
@@ -135,16 +118,6 @@ $transition-speed: 1s;
       border: 1px solid $gop-win;
       color: $gop-win;
       background: #f8dad8;
-      .bubble__handle {
-        right: 50%;
-        transition: right $transition-speed ease;
-        &__inside {
-          border-color: #f8dad8 transparent;
-        }
-        &__border {
-          border-color: $gop-win transparent;
-        }
-      }
     }
   }
   .bubble-handle { 
@@ -235,6 +208,17 @@ $transition-speed: 1s;
     width: 100%;
     background: #c7c7c7;
     z-index: $base-index;
+    &:after {
+      content: '';
+      position: absolute;
+      height: $container-height - $bar-position;
+      border-left: 2px dashed #888;
+      border-left: 2px dashed rgba(0,0,0,0.25);
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      z-index: 100;
+    }
   }
   .bar {
     position: absolute;
@@ -262,6 +246,43 @@ $transition-speed: 1s;
     text-shadow: 1px 0px 2px #777;
     &--trump {
       right: 0;
+    }
+  }
+  .finish-bubble {
+    border: 1px solid #000;
+    background: #fff;
+    text-align: center;
+    position: absolute;
+    top: $bar-height + 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: $body-font;
+    padding: 2px 5px;
+    font-size: 13px;
+    z-index: 110;
+    &:before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0px 6px 15px;
+      top: -15px;
+      border-style: solid; 
+      width: 0;
+      z-index: 100;
+      border-color: #fff transparent;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0px 7px 16px;
+      top: -16px;
+      border-style: solid; 
+      width: 0;
+      z-index: 90;
+      border-color: #000 transparent;
     }
   }
 }

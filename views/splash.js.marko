@@ -3,6 +3,7 @@
 var style = document.createElement('style');
 var presidentUrl = "${data.url_to('president.json')}";
 var electionBaseUrl = "${data.url_to('index')}";
+var electoralHTML = $!{JSON.stringify(data.helpers.partial('_test/splash/_electoral'))};
 var electoralImages = { 
   clinton: {
     basic: "${data.url_to_asset('digest', 'images/splash/clinton.jpg')}",
