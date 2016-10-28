@@ -1,0 +1,57 @@
+@mixin animated-map() {
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 100%;
+    padding-bottom: 100% / $map-golden-ratio;
+  }
+
+  &.loading {
+    visibility: hidden;
+  }
+
+  canvas.animation {
+    pointer-events: none;
+  }
+
+  svg, canvas.animation {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  path[class$=mesh] {
+    fill: none;
+    stroke: $background;
+    stroke-width: 1px;
+  }
+
+  g.cartogram, g.geography {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &.cartogram g.cartogram, &.geography g.geography {
+    opacity: 1;
+    transition: opacity 75ms ease-out;
+    pointer-events: all;
+  }
+}
+
+#map { // May be body.president #map, body.senate #map, body.house #map
+
+  path.clinton-win { fill: $dem-color; }
+  path.clinton-lead { fill: $dem-lead-color; }
+  path.trump-win { fill: $gop-color; }
+  path.trump-lead { fill: $gop-lead-color; }
+  path.other-win { fill: $other-color; }
+  path.other-lead { fill: $other-lead-color; }
+  path.tossup { fill: $tossup-color; }
+}
+

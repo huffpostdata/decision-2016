@@ -282,31 +282,26 @@ function Map(options) {
 
   this.raceIdToPaths = null;
 
-  if (!options.geographyClass) throw new Error('Missing "geographyClass", a String');
-  if (!options.cartogramClass) throw new Error('Missing "cartogramClass", a String');
-  this._loadSvg(options.geographyClass, options.cartogramClass);
+  this._loadSvg();
 }
 
-Map.prototype._loadSvg = function(geographyClass, cartogramClass) {
+Map.prototype._loadSvg = function() {
   var _this = this;
   loadSvg(this.el.getAttribute('data-src'), function(err, xml) {
     if (err !== null) throw err; // it'll show an error in the console, that's all
-    _this._setSvg(xml, geographyClass, cartogramClass);
+    _this._setSvg(xml);
   });
 };
 
-Map.prototype._setSvg = function(xml, geographyClass, cartogramClass) {
+Map.prototype._setSvg = function(xml) {
   var svg = this.svg = xml.documentElement;
   svg.setAttribute('width', '100%');
   svg.setAttribute('height', '100%');
   this.el.appendChild(svg);
 
-  this.gCartogram = svg.querySelector('g.' + cartogramClass);
-  this.gGeography = svg.querySelector('g.' + geographyClass);
-
   var racePaths = {};
   var transits = [];
-  var paths = this.gCartogram.querySelectorAll('path:not(.underlay)');
+  var paths = svg.querySelectorAll('g.cartogram path:not(.underlay):not(.overlay)');
   var path, raceId, i;
   for (i = 0; i < paths.length; i++) {
     path = paths[i];
@@ -314,7 +309,7 @@ Map.prototype._setSvg = function(xml, geographyClass, cartogramClass) {
     racePaths[raceId] = [ path ];
   }
 
-  paths = this.gGeography.querySelectorAll('path:not([class$=mesh])');
+  paths = svg.querySelectorAll('g.geography path:not([class$=mesh])');
   for (i = 0; i < paths.length; i++) {
     path = paths[i];
     raceId = path.getAttribute('class');

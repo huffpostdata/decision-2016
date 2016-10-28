@@ -30,11 +30,11 @@ function writePresidentSvg(states) {
     '<?xml version="1.0"?>',
     '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">',
     '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="', dims.Width, '" height="', dims.Height, '" viewBox="0 0 ', dims.Width, ' ', dims.Height, '">',
-      '<g class="states">',
+      '<g class="geography">',
         featureCollectionToSvgPaths(states.features),
         '<path class="mesh" d="', pathDBuilder.fromGeojson(states.mesh), '"/>',
       '</g>',
-      '<g class="president-cartogram">',
+      '<g class="cartogram">',
         stateSquaresToSvgPaths(PresidentCartogramData),
       '</g>',
     '</svg>'

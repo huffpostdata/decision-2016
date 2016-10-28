@@ -10,6 +10,13 @@
 @import 'dashboard/_refresh';
 @import 'dashboard/_nav';
 @import 'dashboard/_recirc';
+@import '_map';
+
+body.president, body.senate, body.house {
+  #map {
+    @include animated-map();
+  }
+}
 
 @import '_president';
 @import '_house';
