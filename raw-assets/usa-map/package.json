@@ -1,0 +1,14 @@
+{
+  "name": "decision-2016-usa-map",
+  "version": "1.0.0",
+  "description": "Makes maps",
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "canvas": "^1.6.1",
+    "d3-geo": "^1.2.6",
+    "jsts": "^1.2.1",
+    "shpjs": "^3.3.2",
+    "topojson": "^1.6.27"
+  }
+}

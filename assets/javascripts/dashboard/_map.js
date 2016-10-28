@@ -1,13 +1,8 @@
-var classNameForRace = require('./_classNameForRace');
+classNameForRace = {
+  AllClassNames: [ 'dem-win', 'gop-win', 'dem-lead', 'gop-lead', 'tossup' ]
+};
 
 var TransitDuration = 200; // ms
-
-var Color = {
-  clinton: '#4c7de0',
-  trump: '#e52426',
-  tossup: '#ccc',
-  other: '#dae086'
-};
 
 function Point(x, y, len) {
   this.x = x;
@@ -210,126 +205,6 @@ function Transit(d1, d2, path1) {
   this.path = path1;
 }
 
-function loadSvg(url, callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', url);
-  xhr.onload = function() {
-    if (xhr.status !== 200 && xhr.status !== 304) {
-      return callback(new Error('Invalid XHR response code: ' + xhr.status));
-    }
-    return callback(null, xhr.responseXML);
-  };
-  xhr.send();
-}
-
-function Map(el, switchEl) {
-  this.el = el;
-  this.switchEl = switchEl;
-
-  this.racesJson = null;
-
-  this.svg = null;
-  this.gPresidentCartogram = null;
-  this.gStates = null;
-  this.racePaths = null; // { race ID => Array of <path>s }
-  this.ctx = null;
-
-  var _this = this;
-  loadSvg(el.getAttribute('data-src'), function(err, xml) {
-    if (err !== null) throw err; // it'll show an error in the console, that's all
-
-    var svg = _this.svg = xml.documentElement;
-    svg.setAttribute('width', '100%');
-    svg.setAttribute('height', '100%');
-    el.appendChild(svg);
-
-    _this.gPresidentCartogram = svg.querySelector('g.president-cartogram');
-    _this.gStates = svg.querySelector('g.states');
-    var rp = _this.racePaths = {};
-    var paths = svg.querySelectorAll('path');
-    for (var i = 0; i < paths.length; i++) {
-      var path = paths[i];
-      var stateCode = path.getAttribute('class');
-
-      if (stateCode === 'mesh') {
-        path.setAttribute('stroke', '#aaa');
-        path.setAttribute('stroke-width', '3');
-        path.setAttribute('fill', 'none');
-      } else {
-        if (!rp.hasOwnProperty(stateCode)) rp[stateCode] = [];
-        rp[stateCode].push(path);
-      }
-    }
-
-    // Add a <canvas> to animate switches
-    var canvas = document.createElement('canvas');
-    canvas.className = 'animation';
-    var viewBox = svg.getAttribute('viewBox').split(/\s+/);
-    canvas.setAttribute('width', viewBox[2]);
-    canvas.setAttribute('height', viewBox[3]);
-    el.insertBefore(canvas, svg);
-    _this.ctx = canvas.getContext('2d');
-
-    _this.recolorIfLoaded();
-
-    _this.funkyInit();
-
-    el.classList.remove('loading');
-  });
-
-  this.switchEl.addEventListener('click', function(ev) {
-    ev.preventDefault();
-    if (_this.el.classList.contains('geography')) {
-      _this.showCartogram();
-    } else if (_this.el.classList.contains('cartogram')) {
-      _this.showGeography();
-    } // otherwise do nothing
-  });
-}
-
-Map.prototype.update = function(racesJson) {
-  this.racesJson = racesJson;
-  this.recolorIfLoaded();
-};
-
-Map.prototype.recolorIfLoaded = function() {
-  if (this.racesJson !== null && this.svg !== null) this.recolor();
-};
-
-Map.prototype.recolor = function() {
-  for (var i = 0; i < this.racesJson.length; i++) {
-    var race = this.racesJson[i];
-    var className = classNameForRace(race);
-    var paths = this.racePaths[race.id] || [];
-    for (var j = 0; j < paths.length; j++) {
-      var path = paths[j];
-      for (var k = 0; k < classNameForRace.AllClassNames.length; k++) {
-        path.classList.remove(classNameForRace.AllClassNames[k]);
-        path.classList.add(className);
-      }
-    }
-  }
-};
-
-Map.prototype.funkyInit = function() {
-  this.transits = [];
-  this.start = 0;
-  this.end = 1;
-
-  // Calculate enough about a state's <path>s for a transition
-  for (var raceId in this.racePaths) {
-    if (!this.racePaths.hasOwnProperty(raceId)) continue;
-
-    var racePaths = this.racePaths[raceId];
-
-    var d1 = racePaths[0].getAttribute('d');
-    var d2 = racePaths[1].getAttribute('d');
-
-    var transit = new Transit(d1, d2, racePaths[0]);
-    this.transits.push(transit);
-  }
-};
-
 function ease(t) {
   t *= 2;
   if (t < 1) return 1/2 * t * t * t;
@@ -382,6 +257,121 @@ function drawFrame(ctx, isForward, transits, t0, t, callback) {
   });
 };
 
+function loadSvg(url, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url);
+  xhr.onload = function() {
+    if (xhr.status !== 200 && xhr.status !== 304) {
+      return callback(new Error('Invalid XHR response code: ' + xhr.status));
+    }
+    return callback(null, xhr.responseXML);
+  };
+  xhr.send();
+}
+
+/**
+ * Shows a map, and switches it between geography and cartogram.
+ */
+function Map(options) {
+  if (!options.el) throw new Error('Missing "el", an HTMLElement');
+  this.el = options.el;
+  if (!options.switchEl) throw new Error('Missing "switchEl", an HTMLElement');
+  this.switchEl = options.switchEl;
+  if (!options.racesJson) throw new Error('Missing "racesJson", an Array');
+  this.racesJson = options.racesJson;
+
+  this.raceIdToPaths = null;
+
+  if (!options.geographyClass) throw new Error('Missing "geographyClass", a String');
+  if (!options.cartogramClass) throw new Error('Missing "cartogramClass", a String');
+  this._loadSvg(options.geographyClass, options.cartogramClass);
+}
+
+Map.prototype._loadSvg = function(geographyClass, cartogramClass) {
+  var _this = this;
+  loadSvg(this.el.getAttribute('data-src'), function(err, xml) {
+    if (err !== null) throw err; // it'll show an error in the console, that's all
+    _this._setSvg(xml, geographyClass, cartogramClass);
+  });
+};
+
+Map.prototype._setSvg = function(xml, geographyClass, cartogramClass) {
+  var svg = this.svg = xml.documentElement;
+  svg.setAttribute('width', '100%');
+  svg.setAttribute('height', '100%');
+  this.el.appendChild(svg);
+
+  this.gCartogram = svg.querySelector('g.' + cartogramClass);
+  this.gGeography = svg.querySelector('g.' + geographyClass);
+
+  var racePaths = {};
+  var transits = [];
+  var paths = this.gCartogram.querySelectorAll('path:not(.underlay)');
+  var path, raceId, i;
+  for (i = 0; i < paths.length; i++) {
+    path = paths[i];
+    raceId = path.getAttribute('class');
+    racePaths[raceId] = [ path ];
+  }
+
+  paths = this.gGeography.querySelectorAll('path:not([class$=mesh])');
+  for (i = 0; i < paths.length; i++) {
+    path = paths[i];
+    raceId = path.getAttribute('class');
+    racePaths[raceId].push(path);
+
+    var d1 = racePaths[raceId][0].getAttribute('d');
+    var d2 = racePaths[raceId][1].getAttribute('d');
+    var transit = new Transit(d2, d1, path); // icky reverse... oh well
+    transits.push(transit);
+  }
+
+  // Add a <canvas> to animate switches
+  var canvas = document.createElement('canvas');
+  canvas.className = 'animation';
+  var viewBox = svg.getAttribute('viewBox').split(/\s+/);
+  canvas.setAttribute('width', viewBox[2]);
+  canvas.setAttribute('height', viewBox[3]);
+  this.el.insertBefore(canvas, svg);
+  this.ctx = canvas.getContext('2d');
+
+  this.transits = transits;
+  this.raceIdToPaths = racePaths;
+
+  this._recolor();
+
+  this.el.classList.remove('loading');
+
+  var _this = this;
+  this.switchEl.addEventListener('click', function(ev) {
+    ev.preventDefault();
+    if (_this.el.classList.contains('geography')) {
+      _this.showCartogram();
+    } else if (_this.el.classList.contains('cartogram')) {
+      _this.showGeography();
+    } // otherwise do nothing
+  });
+};
+
+Map.prototype.update = function(racesJson) {
+  this.racesJson = racesJson;
+  if (this.raceIdToPaths) this._recolor();
+};
+
+Map.prototype._recolor = function() {
+  for (var i = 0; i < this.racesJson.length; i++) {
+    var race = this.racesJson[i];
+    var paths = this.raceIdToPaths[race.id] || [];
+    for (var j = 0; j < paths.length; j++) {
+      var path = paths[j];
+      for (var k = 0; k < classNameForRace.AllClassNames.length; k++) {
+        path.classList.remove(classNameForRace.AllClassNames[k]);
+      }
+      path.classList.add(race.className);
+    }
+  }
+};
+
 Map.prototype.transition = function(fromClass, toClass) {
   if (!this.el.classList.contains(fromClass)) return; // we're already animating
 
@@ -415,4 +405,4 @@ Map.prototype.showGeography = function() {
   this.transition('cartogram', 'geography');
 };
 
-module.exports = Map;
+module.exports = Map

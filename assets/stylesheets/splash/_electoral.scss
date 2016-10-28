@@ -1,43 +1,4 @@
-.ev {
-  background: #fff;
-  font-family: $body-font-family;
-  width: $left-column-width;
-  height: 335px;
-  padding: 0;
-}
-.ev__header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0 10px;
-}
-.ev__title {
-  font-family: $header-font-family;
-  margin: 5px 0;
-  font-size: 24px;
-  flex: 0 1 auto;
-  padding-right: 20px;
-  white-space: nowrap;
-}
-.ev__blurb {
-  flex: 1 1 auto;
-  font-size: 14px;
-  color: #9c9c9c;
-}
-.ev__content {
-  position: relative;
-}
-.canvas-onion {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.canvas-overlay {
-  z-index: 999999;
-}
-
-$container-width: 665px;
+$container-width: $left-column-width;
 $container-height: 275px;
 $bar-height: 30px;
 $bar-position: $bar-height*1.5;
@@ -53,9 +14,39 @@ $transition-speed: 1s;
 #electoral_votes {
   width: 100%;
   max-width: $container-width;
-  height: $container-height;;
   background: #ffffff;
   position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+
+  .electoral-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 10px 5px;
+  }
+  .electoral-title {
+    font-family: $header-font-family;
+    margin: 5px 0;
+    font-size: 24px;
+    flex: 0 1 auto;
+    padding-right: 20px;
+    white-space: nowrap;
+  }
+  .electoral-blurb {
+    flex: 1 1 auto;
+    font-size: 14px;
+    color: #9c9c9c;
+  }
+  .electoral-content {
+    position: relative;
+    height: $container-height;
+    border-top: 1px solid #ececec;
+  }
   .face {
     position: absolute;
     bottom: $bar-position + $bar-height;
@@ -64,77 +55,61 @@ $transition-speed: 1s;
     background-repeat: no-repeat;
     transition: width $transition-speed ease, height $transition-speed ease, right $transition-speed ease, left $transition-speed ease;
     &--clinton {
-      background-image: asset-url('digest', 'images/splash/clinton.jpg');
       background-position: bottom left;
       left: 0;
       width: 0;
       height: 0;
-      // @include img-wh(685, 624);
     }
     &--trump {
-      background-image: asset-url('digest', 'images/splash/trump.jpg');
       background-position: bottom right;
       right: 0;
       width: 0;
       height: 0;
-      // @include img-wh(906, 623);
     }
   }
   .bubble {
     font-family: $header-font-family;
-    font-size: 25px;
-    line-height: 1.4em;
+    font-size: 56px;
+    line-height: 1em;
     position: absolute;
     bottom: $bar-position + $bar-height + 11;
     z-index: $base-index + 2;
     text-align: center;
     width: 80px;
-    height: 60px;
+    height: 56px;
     transition: width $transition-speed ease, height $transition-speed ease, left $transition-speed ease, right $transition-speed ease;
+    &__candidate {
+      transition: font-size $transition-speed ease;
+      color: #000;
+      display: block;
+      font-size: 33%;
+      line-height: 1;
+      position: absolute;
+      top: 5%;
+      width: 100%;
+    }
+    &__votes {
+      transition: font-size $transition-speed ease;
+      display: block;
+      font-size: 72%;
+      line-height: 1;
+      position: absolute;
+      bottom: -5%;
+      width: 100%;
+    }
     &--clinton {
-      left: 0;
+      left: 40px;
       transform: translateX(-50%);
       border: 1px solid $dem-color;
       color: $dem-color;
       background: #cfd4ea;
-      .bubble__handle {
-        left: 50%;
-        transition: left $transition-speed ease;
-        &__inside {
-          border-color: #cfd4ea transparent;
-        }
-        &__border {
-          border-color: $dem-color transparent;
-        }
-      }
     }
     &--trump {
-      right: 0;
+      right: 40px;
       transform: translateX(50%);
       border: 1px solid $gop-color;
       color: $gop-color;
       background: #f8dad8;
-      .bubble__handle {
-        right: 50%;
-        transition: right $transition-speed ease;
-        &__inside {
-          border-color: #f8dad8 transparent;
-        }
-        &__border {
-          border-color: $gop-color transparent;
-        }
-      }
-    }
-    &__candidate {
-      color: #000;
-      display: block;
-      font-size: 1em;
-      display: none;
-    }
-    &__votes {
-      display: block;
-      font-size: 2.2em;
-      display: none;
     }
   }
   .bubble-handle {
@@ -162,8 +137,11 @@ $transition-speed: 1s;
       width: 0;
       z-index: 90;
     }
+    &[data-handle="disable"] {
+      display: none;
+    }
     &--clinton {
-      left: 50%;
+      left: 3px;
       transition: left $transition-speed ease;
       &[data-handle="outside"] {
         .bubble-handle__inside {
@@ -189,7 +167,7 @@ $transition-speed: 1s;
       }
     }
     &--trump {
-      right: 50%;
+      right: 3px;
       transition: right $transition-speed ease;
       &[data-handle="outside"] {
         .bubble-handle__inside {
@@ -222,6 +200,17 @@ $transition-speed: 1s;
     width: 100%;
     background: #c7c7c7;
     z-index: $base-index;
+    &:after {
+      content: '';
+      position: absolute;
+      height: $container-height - $bar-position;
+      border-left: 2px dashed #888;
+      border-left: 2px dashed rgba(0,0,0,0.25);
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      z-index: 100;
+    }
   }
   .bar {
     position: absolute;
@@ -235,6 +224,57 @@ $transition-speed: 1s;
     &--trump {
       background: $gop-color;
       right: 0;
+    }
+  }
+  .bar-text {
+    display: block;
+    line-height: $bar-height;
+    position: absolute;
+    padding: 0 7px;
+    font-family: $body-font-family;
+    color: #fff;
+    font-size: 12px;
+    white-space: nowrap;
+    text-shadow: 1px 0px 2px #777;
+    &--trump {
+      right: 0;
+    }
+  }
+  .finish-bubble {
+    border: 1px solid #000;
+    background: #fff;
+    text-align: center;
+    position: absolute;
+    top: $bar-height + 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: $body-font-family;
+    padding: 2px 5px;
+    font-size: 13px;
+    z-index: 110;
+    &:before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0px 6px 15px;
+      top: -15px;
+      border-style: solid; 
+      width: 0;
+      z-index: 100;
+      border-color: #fff transparent;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0px 7px 16px;
+      top: -16px;
+      border-style: solid; 
+      width: 0;
+      z-index: 90;
+      border-color: #000 transparent;
     }
   }
 }

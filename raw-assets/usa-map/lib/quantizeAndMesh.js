@@ -8,7 +8,7 @@ module.exports = function quantizeAndMesh(featureCollection) {
   debug(`Building topology from ${JSON.stringify(featureCollection).length} bytes of GeoJSON`)
   const topo = topojson.topology({ features: featureCollection }, {
     quantization: dims.Width,
-    id: d => d.properties.STATE_ABBR,
+    id: d => d.id,
     verbose: true
   })
   topojson.simplify(topo, {
