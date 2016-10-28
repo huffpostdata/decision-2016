@@ -20,12 +20,13 @@ window.decision2016_init = function(data) {
 
   refreshButton.render();
   electoral.render(data.president, i18n);
-  electionMap.render(data, i18n);
+  electionMap.render(data.races, i18n);
   battlegrounds.render(data.battlegrounds, i18n);
   seats.renderHouse(data.house, i18n);
   seats.renderSenate(data.senate, i18n);
 
   function doRefresh(json) {
+    electionMap.update(json.races, i18n);
     electoral.render(json.summaries.president, i18n);
     battlegrounds.update(data.battlegrounds);
     seats.updateSenate(json.summaries.senate);
