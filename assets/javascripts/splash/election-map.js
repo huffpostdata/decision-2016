@@ -1,4 +1,4 @@
-var Map = require('../president/_map');
+var Map = require('../dashboard/_map');
 var i18n;
 
 var mapEl;
@@ -21,8 +21,7 @@ module.exports = {
       mapSwitcherEl.querySelector(geographyTab).innerHTML = _i18n.t('h5.Geography');
       mapSwitcherEl.querySelector(cartogramTab).innerHTML = _i18n.t('h5.Cartogram');
 
-      map = new Map(mapEl, mapSwitcherEl);
-      map.update(data);
+      map = new Map({ el: mapEl, switchEl: mapSwitcherEl, racesJson: data });
     }
   },
   update: function(data, _i18n) {
