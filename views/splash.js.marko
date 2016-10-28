@@ -3,16 +3,17 @@
 var style = document.createElement('style');
 var presidentUrl = "${data.url_to('president.json')}";
 var electionBaseUrl = "${data.url_to('index')}";
+var electoralHTML = $!{JSON.stringify(data.helpers.partial('_test/splash/_electoral'))};
 var electoralImages = { 
   clinton: {
     basic: "${data.url_to_asset('digest', 'images/splash/clinton.jpg')}",
-    sad: "${data.url_to_asset('digest', 'images/splash/clinton-sad.png')}",
-    happy: "${data.url_to_asset('digest', 'images/splash/clinton-happy.png')}"
+    sad: "${data.url_to_asset('digest', 'images/splash/clinton-sad.jpg')}",
+    happy: "${data.url_to_asset('digest', 'images/splash/clinton-happy.jpg')}"
   },
   trump: {
     basic: "${data.url_to_asset('digest', 'images/splash/trump.jpg')}",
-    sad: "${data.url_to_asset('digest', 'images/splash/trump-sad.png')}",
-    happy: "${data.url_to_asset('digest', 'images/splash/trump-happy.png')}"
+    sad: "${data.url_to_asset('digest', 'images/splash/trump-sad.jpg')}",
+    happy: "${data.url_to_asset('digest', 'images/splash/trump-happy.jpg')}"
   }
 };
 style.textContent = $!{JSON.stringify(data.asset_contents('scss', 'stylesheets/splash.css').toString('utf-8'))};
