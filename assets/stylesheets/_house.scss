@@ -1,5 +1,6 @@
 @import 'house/_summary';
 @import 'house/_map';
+@import 'house/_map-switcher';
 
 body.house {
   @include dashboard-body();
