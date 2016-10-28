@@ -81,6 +81,8 @@ module.exports = class Database {
 
     const houseRaces = apData.houseRaces()
 
+    const senateRaces = [] // TK
+
     this.splash = {
       president: summaries.president,
       races: presidentRaces,
@@ -121,6 +123,11 @@ module.exports = class Database {
     this.houseAsBuffer = Buffer.from(JSON.stringify({
       summaries: summaries,
       races: houseRaces
+    }))
+
+    this.senateAsBuffer = Buffer.from(JSON.stringify({
+      summaries: summaries,
+      races: senateRaces
     }))
 
     this.translatedSplash = []

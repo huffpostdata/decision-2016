@@ -1,0 +1,11 @@
+body.senate #map-switcher {
+  @include map-switcher();
+
+  .geography a::before {
+    //background-image: asset-url('digest', 'maps/senate-geography-thumbnail.png');
+  }
+
+  .cartogram a::before {
+    //background-image: asset-url('digest', 'maps/senate-cartogram-thumbnail.png');
+  }
+}

@@ -45,6 +45,12 @@ president.json:
     Content-Type: application/json
     Cache-Control: public, max-age=5
 
+senate.json:
+  model: senateAsBuffer
+  headers:
+    Content-Type: application/json
+    Cache-Control: public, max-age=5
+
 house.json:
   model: houseAsBuffer
   headers:
