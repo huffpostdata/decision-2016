@@ -16,7 +16,7 @@ It's so handy if you have your browser window open beside the code....
 
 1. Install the [Chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei)
 2. `npm install -g livereload`
-3. `livereload 'app,views,assets,config' -d -e 'scss svg' -w 100`
+3. `livereload 'app,views,assets,config' -d -e 'scss svg marko' -w 100`
 
 Now browse to http://localhost:3001 and enable LiveReload in your browser.
 You'll see some sort of confirmation in your "livereload" terminal window.
