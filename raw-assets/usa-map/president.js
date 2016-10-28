@@ -12,9 +12,30 @@ const pathDBuilder = require('./lib/pathDBuilder')
 const CartogramData = require('./lib/PresidentCartogram')
 const StateLabels = require('./lib/StateLabels')
 
+const LabeledRaces = [
+  { index: 0, id: 'NH', label: 'N.H.' },
+  { index: 1, id: 'VT', label: 'Vt.' },
+  { index: 2, id: 'MA', label: 'Mass.' },
+  { index: 3, id: 'RI', label: 'R.I.' },
+  { index: 4, id: 'CT', label: 'Conn.' },
+  { index: 5, id: 'NJ', label: 'N.J.' },
+  { index: 6, id: 'DE', label: 'Del.' },
+  { index: 7, id: 'MD', label: 'Md.' },
+  { index: 8, id: 'DC', label: 'D.C.' }
+]
+
+const LabelWidth = dims.Accuracy * 38
+const LabelHeight = dims.Accuracy * 22
+const LabelLeading = dims.Accuracy * 25
+const LabelX0 = dims.Width - LabelWidth - 3
+const LabelY0 = dims.Accuracy * 78
+
 function featureCollectionToSvgPaths(featureCollection) {
   return featureCollection.features.map(feature => {
-    return '<path class="' + feature.id + '" d="' + pathDBuilder.fromGeojson(feature.geometry) + '"/>'
+    const geoPath = pathDBuilder.fromGeojson(feature.geometry)
+    const labeledRace = LabeledRaces.find(lr => lr.id === feature.id)
+    const labelPath = labeledRace ? `M${LabelX0},${LabelY0 + labeledRace.index * LabelLeading}h${LabelWidth}v${LabelHeight}h-${LabelWidth}Z` : ''
+    return `<path class="${feature.id}" d="${geoPath}${labelPath}"/>`
   }).join('')
 }
 
@@ -58,9 +79,13 @@ function stateSquaresToTexts(stateSquares) {
     .join('')
 }
 
-function stateLabelsToTexts(stateLabels) {
-  return stateLabels.map(label => {
+function stateLabelsToTexts() {
+  return StateLabels.map(label => {
     return `<text x="${label.x}" y="${label.y}">${label.text}</text>`
+  }).join('') + LabeledRaces.map((labeledRace, i) => {
+    const x = Math.round(LabelX0 + LabelWidth / 2)
+    const y = Math.round(LabelY0 + LabelLeading * labeledRace.index + LabelHeight / 2)
+    return `<text x="${x}" y="${y}">${labeledRace.label}</text>`
   }).join('')
 }
 
@@ -74,7 +99,7 @@ function writePresidentSvg(states) {
       '<g class="geography">',
         featureCollectionToSvgPaths(states.features),
         '<path class="mesh" d="', pathDBuilder.fromGeojson(states.mesh), '"/>',
-        stateLabelsToTexts(StateLabels),
+        stateLabelsToTexts(),
       '</g>',
       '<g class="cartogram">',
         stateSquaresToSvgPaths(CartogramData),
