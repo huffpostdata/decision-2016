@@ -9,7 +9,7 @@ const dims = require('./lib/dims')
 const drawGeojsonOntoCanvas = require('./lib/drawGeojsonOntoCanvas')
 const loadStatesGeojson = require('./lib/loadStatesGeojson')
 const pathDBuilder = require('./lib/pathDBuilder')
-const PresidentCartogramData = require('../../assets/javascripts/common/_cartogramData')
+const CartogramData = require('./lib/PresidentCartogram')
 const StateLabels = require('./lib/StateLabels')
 
 function featureCollectionToSvgPaths(featureCollection) {
@@ -40,11 +40,20 @@ function stateSquaresToTexts(stateSquares) {
     return Math.round(dims.Accuracy * (axy.y + Math.sqrt(axy.a) * 15 / 2))
   }
 
+  function text(raceId) {
+    if (raceId.length === 2) {
+      // "NY" => "N.Y."
+      return StateCodeToAbbreviation[raceId]
+    } else {
+      // "ME1" => "1"
+      return raceId.slice(2)
+    }
+  }
+
   return Object.keys(stateSquares)
-    .map(stateCode => {
-      const square = stateSquares[stateCode]
-      const abbreviation = StateCodeToAbbreviation[stateCode]
-      return `<text x="${squareCX(square)}" y="${squareCY(square)}">${abbreviation}</text>`
+    .map(raceId => {
+      const square = stateSquares[raceId]
+      return `<text x="${squareCX(square)}" y="${squareCY(square)}">${text(raceId)}</text>`
     })
     .join('')
 }
@@ -68,8 +77,8 @@ function writePresidentSvg(states) {
         stateLabelsToTexts(StateLabels),
       '</g>',
       '<g class="cartogram">',
-        stateSquaresToSvgPaths(PresidentCartogramData),
-        stateSquaresToTexts(PresidentCartogramData),
+        stateSquaresToSvgPaths(CartogramData),
+        stateSquaresToTexts(CartogramData),
       '</g>',
     '</svg>'
   ].join('')
@@ -108,8 +117,8 @@ function writePresidentThumbnails(states) {
   ctx2.clearRect(0, 0, thumbWidth, thumbHeight)
   ctx2.fillStyle = 'black'
   ctx2.beginPath()
-  Object.keys(PresidentCartogramData).forEach(stateCode => {
-    const square = PresidentCartogramData[stateCode]
+  Object.keys(CartogramData).forEach(stateCode => {
+    const square = CartogramData[stateCode]
     const s = Math.sqrt(square.a) * 15 / 2
     ctx2.rect(square.x / 2, square.y / 2, s, s)
   })
