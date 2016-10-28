@@ -6,19 +6,26 @@ var mapSwitcherEl;
 var map;
 
 module.exports = {
-  render: function(data) {
+  render: function(data, _i18n) {
+    var geographyTab = '.geography > .tab__link h5';
+    var cartogramTab = '.cartogram > .tab__link h5';
+
     electionMap = window.document.getElementById('election_map');
+
     if(electionMap) {
       electionMap.innerHTML = markoMapSwitcher + markoMap;
 
       mapEl = document.getElementById('map');
       mapSwitcherEl = document.getElementById('map-switcher');
-      map = new Map(mapEl, mapSwitcherEl);
 
+      mapSwitcherEl.querySelector(geographyTab).innerHTML = _i18n.t('h5.Geography');
+      mapSwitcherEl.querySelector(cartogramTab).innerHTML = _i18n.t('h5.Cartogram');
+
+      map = new Map(mapEl, mapSwitcherEl);
       map.update(data);
     }
   },
-  update: function(data) {
+  update: function(data, _i18n) {
     electionMap = window.document.getElementById('election_map');
     if(electionMap) {
       map.update(data);
