@@ -51,11 +51,19 @@ const StateCodeToAbbreviation = fs.readFileSync(`${__dirname}/../../app/google-s
   .reduce(((s, row) => { s[row[0]] = row[2]; return s }), {})
 
 function stateSquaresToTexts(stateSquares) {
-  function squareCX(axy) { // "center-X"
-    return Math.round(dims.Accuracy * (axy.x + Math.sqrt(axy.a) * 15 / 2))
+  function squareCX(raceId) { // "center-X"
+    const axy = stateSquares[raceId]
+    switch (raceId) {
+      case 'ME': return 1260
+      case 'AK': return 63
+      case 'HI': return 260
+      case 'NE': return 448
+      default: return Math.round(dims.Accuracy * (axy.x + Math.sqrt(axy.a) * 15 / 2))
+    }
   }
 
-  function squareCY(axy) { // "center-Y"
+  function squareCY(raceId) { // "center-Y"
+    const axy = stateSquares[raceId]
     return Math.round(dims.Accuracy * (axy.y + Math.sqrt(axy.a) * 15 / 2))
   }
 
@@ -64,15 +72,14 @@ function stateSquaresToTexts(stateSquares) {
       // "NY" => "N.Y."
       return StateCodeToAbbreviation[raceId]
     } else {
-      // "ME1" => "1"
-      return raceId.slice(2)
+      return ''
     }
   }
 
   return Object.keys(stateSquares)
     .map(raceId => {
       const square = stateSquares[raceId]
-      return `<text x="${squareCX(square)}" y="${squareCY(square)}">${text(raceId)}</text>`
+      return `<text x="${squareCX(raceId)}" y="${squareCY(raceId)}">${text(raceId)}</text>`
     })
     .join('')
 }
