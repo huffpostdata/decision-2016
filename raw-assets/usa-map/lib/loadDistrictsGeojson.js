@@ -134,22 +134,22 @@ function loadDistrictsGeojson() {
       return ret
     })
 
-  debug('Intersecting')
-  const intersectedFeatures = validDistricts.features.map(feature => {
-    debug(`${feature.id}...`)
-    const stateId = feature.id.slice(0, 2)
-    const jstsGeometry = geojsonToJsts(feature.geometry).buffer(0) // buffer(0) means makeValid()
-    const jstsIntersected = jstsGeometry.intersection(validNation)
-    const intersected = jstsToGeojsonGeometry(jstsIntersected)
+  //debug('Intersecting')
+  //const intersectedFeatures = validDistricts.features.map(feature => {
+  //  debug(`${feature.id}...`)
+    //const stateId = feature.id.slice(0, 2)
+  //  const jstsGeometry = geojsonToJsts(feature.geometry).buffer(0) // buffer(0) means makeValid()
+  //  const jstsIntersected = jstsGeometry.intersection(validNation)
+   // const intersected = jstsToGeojsonGeometry(jstsIntersected)
+//
+   // return {
+   //   type: 'Feature',
+   //   id: feature.id,
+   //   geometry: intersected,
+  //  }
+ // })
 
-    return {
-      type: 'Feature',
-      id: feature.id,
-      geometry: intersected,
-    }
-  })
-
-  validDistricts.features = intersectedFeatures
+//  validDistricts.features = intersectedFeatures
 
   const districts = quantizeAndMesh(validDistricts)
   districts.features.features.sort((a, b) => a.id.localeCompare(b.id))
