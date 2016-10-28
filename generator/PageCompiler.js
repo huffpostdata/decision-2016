@@ -26,7 +26,7 @@ module.exports = class PageCompiler {
   get_template(key) {
     if (!this.cache.has(key)) {
       const path = `views/${key}.marko`
-      const template = marko.load(path)
+      const template = marko.load(path, { writeToDisk: false })
       this.cache.set(key, template)
     }
 
