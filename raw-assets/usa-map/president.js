@@ -110,7 +110,7 @@ function writePresidentSvg(states) {
 
   const outBuffer = Buffer.from(out, 'utf8')
 
-  const outFile = `${__dirname}/../../assets/maps/usa.svg`
+  const outFile = `${__dirname}/../../assets/maps/president.svg`
   debug(`Writing to ${outFile} (${outBuffer.length} bytes)`)
   fs.writeFileSync(outFile, outBuffer)
 }

@@ -1,5 +1,4 @@
-Builds "usa.svg", which includes all states and congressional districts, plus
-labels.
+Builds "president.svg", "senate.svg" and "house.svg"
 
 # Running
 
