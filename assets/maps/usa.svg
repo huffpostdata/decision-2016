@@ -464,7 +464,7 @@
 	<path d="M1371,178h52v52h-52V178z"/>
 	<path d="M1103,434h162v162h-162V434z"/>
 	<path d="M1145,308h120v120h-120V308z"/>
-	<path d="M483,530h60v60h-60V530z"/>
+	<path d="M557,530h60v60h-60V530z"/>
 	<path d="M791-30h60v60h-60V-30z"/>
 	<path d="M553-24h60v60h-60V-24z"/>
 	<path d="M857-24h134v134H857V-24z"/>
@@ -510,7 +510,7 @@
 	<path d="M1131,120h67v67h-67V120z"/>
 	<path d="M635,54h52v52h-52V54z"/>
 	<text transform="matrix(1 0 0 1 1094 353)" class="st2 st3">Ala.</text>
-	<text transform="matrix(1 0 0 1 377 560)" class="st2 st3">Alaska</text>
+	<text transform="matrix(1 0 0 1 431 560)" class="st2 st3">Alaska</text>
 	<text transform="matrix(1 0 0 1 938 267)" class="st2 st3">Ark.</text>
 	<text transform="matrix(1 0 0 1 607 354)" class="st2 st3">Ariz.</text>
 	<text transform="matrix(1 0 0 1 438 271)" class="st2 st3">Calif.</text>
@@ -520,7 +520,7 @@
 	<text transform="matrix(1 0 0 1 1397 204)" class="st2 st3">Del.</text>
 	<text transform="matrix(1 0 0 1 1184 515)" class="st2 st3">Fla.</text>
 	<text transform="matrix(1 0 0 1 1205 368)" class="st2 st3">Ga.</text>
-	<text transform="matrix(1 0 0 1 549 560)" class="st2 st3">Hawaii</text>
+	<text transform="matrix(1 0 0 1 569 560)" class="st2 st3">Hawaii</text>
 	<text transform="matrix(1 0 0 1 821 0)" class="st2 st3">Iowa</text>
 	<text transform="matrix(1 0 0 1 583 6)" class="st2 st3">Idaho</text>
 	<text transform="matrix(1 0 0 1 924 43)" class="st2 st3">Ill.</text>
