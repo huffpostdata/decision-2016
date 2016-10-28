@@ -19,15 +19,15 @@
         background-color: $poll-open;
       }
       &.dem {
-        background-color: $dem-leading;
+        background-color: $dem-lead-color;
         &.win {
-          background-color: $dem-win;
+          background-color: $dem-color;
         }
       }
       &.gop {
-        background-color: $gop-leading;
+        background-color: $gop-lead-color;
         &.win {
-          background-color: $gop-win;
+          background-color: $gop-color;
         }
       }
       &.no-data{

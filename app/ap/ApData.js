@@ -1,5 +1,9 @@
 'use strict'
 
+function apRaceToStateCode(apRaceJson) {
+  return apRaceJson.statePostal || apRaceJson.reportingUnits[0].statePostal
+}
+
 /**
  * A rollup of all the data Associated Pres gives us.
  */
@@ -83,7 +87,7 @@ module.exports = class ApData {
    *     nVotes: 1234, // total votes cast
    *     nVotesClinton: 612,
    *     nVotesTrump: 612,
-   *     nVotesOther: (uint nVotes - nVotesClinton - nVotesTrump)
+   *     nVotesThird: 2, // votes for top third-party candidate
    *     candidates: [
    *      { name: 'Clinton', partyId: 'dem', fullName: 'Hillary Clinton', n: 612, winner: false },
    *      { name: 'Trump', partyId: 'gop', fullName: 'Donald Trump', n: 612, winner: false },
@@ -110,14 +114,23 @@ module.exports = class ApData {
       let n = 0
       let nClinton = 0
       let nTrump = 0
+      let nThird = 0
       let winner = null
 
       let candidates = []
       for (const c of apCandidates) {
         n += c.voteCount
-        if (c.last === 'Clinton') nClinton += c.voteCount
-        if (c.last === 'Trump') nTrump += c.voteCount
+
+        if (c.last === 'Clinton') {
+          nClinton += c.voteCount
+        } else if (c.last === 'Trump') {
+          nTrump += c.voteCount
+        } else if (c.voteCount > nThird) {
+          nThird = c.voteCount
+        }
+
         if (c.winner === 'X') winner = c.last.toLowerCase()
+
         candidates.push({
           name: c.last,
           fullName: `${c.first} ${c.last}`,
@@ -130,7 +143,7 @@ module.exports = class ApData {
       race.nVotes = n
       race.nVotesClinton = nClinton
       race.nVotesTrump = nTrump
-      race.nVotesOther = n - nClinton - nTrump
+      race.nVotesThird = nThird
       race.candidates = candidates
       race.winner = winner
     }
@@ -210,7 +223,7 @@ module.exports = class ApData {
     const NGopPrior = 30
     const NRaces = NTotal - NDemPrior - NGopPrior
 
-    const wins = {}
+    const wins = { dem: 0, gop: 0 }
     const totals = { dem: NDemPrior, gop: NGopPrior }
 
     const races = this.reportingUnitElections.findSenateRaces()
@@ -218,7 +231,7 @@ module.exports = class ApData {
       throw new Error(`URGENT: expected ${NRaces} Senate races; got ${races.length}`)
     }
     for (const race of races) {
-      if (race.reportingUnits[0].statePostal === 'CA') {
+      if (apRaceToStateCode(race) === 'CA') {
         // CA is a race between a Democrat and a Democrat
         wins.dem += 1
         totals.dem += 1
@@ -290,5 +303,43 @@ module.exports = class ApData {
       tossup: NRaces - nWins,
       wins: wins
     }
+  }
+
+  /**
+   * Returns House races.
+   *
+   * The output looks like this:
+   *
+   *   [
+   *     {
+   *       id: 'AK01',
+   *       stateName: 'Alaska',
+   *       name: 'Alaska At Large',
+   *       nPrecinctsReporting: 102,
+   *       nPrecincts: 243,
+   *       winner: 'dem',
+   *       candidates: [
+   *        { name: 'Smith', partyId: 'dem', n: 13001, winner: true },
+   *        { name: 'Black', partyId: 'gop', n: 12111, winner: false },
+   *        ...
+   *       ]
+   *     },
+   *     ...
+   *   ]
+   */
+  houseRaces() {
+    // TK NEED UNIT TESTS
+    return this.reportingUnitElections.findHouseRaces().map(race => {
+      const ru = race.reportingUnits[0]
+
+      return {
+        id: `${ru.statePostal}${String(100 + +race.seatNum).slice(1)}`,
+        stateName: ru.stateName,
+        raceName: / at large/i.test(race.description) ? `${ru.stateName} At Large` : `${ru.stateName} District ${race.seatNum}`,
+        className: [ 'dem-win', 'gop-win', 'dem-lead', 'gop-lead', 'tossup' ][Math.floor(Math.random() * 5)], // TK
+        winner: null, // TK
+        candidates: ru.candidates
+      }
+    })
   }
 }

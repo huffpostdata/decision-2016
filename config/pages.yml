@@ -12,6 +12,10 @@ splash.js:
   headers:
     Content-Type: application/javascript
 
+splash/:locale:
+  collection: translatedSplash
+  template: splash/desktop
+
 # GET /_test/splash/:format
 #
 # A fake Huffington Post front page, with holes where the splash should fit in.
@@ -21,6 +25,10 @@ splash.js:
 _test/splash/:format:
   template: _test/splash
   collection: splashFormats
+
+_test/splash/i18n:
+  template: _test/i18n-splash
+  model: translatedSplash
 
 president:
   model: president
@@ -33,6 +41,12 @@ house:
 
 president.json:
   model: presidentAsBuffer
+  headers:
+    Content-Type: application/json
+    Cache-Control: public, max-age=5
+
+house.json:
+  model: houseAsBuffer
   headers:
     Content-Type: application/json
     Cache-Control: public, max-age=5

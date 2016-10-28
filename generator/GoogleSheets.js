@@ -16,7 +16,7 @@ class GoogleSheets {
     if (!this.cache.has(slug)) {
       const input_path = `${this.config.code_path}/${slug}.tsv`
       const tsv = fs.readFileSync(input_path)
-      const array = csv_parse(tsv, { delimiter: '\t', columns: true })
+      const array = csv_parse(tsv, { delimiter: '\t', columns: true, relax: true })
       this.cache.set(slug, array)
     }
 

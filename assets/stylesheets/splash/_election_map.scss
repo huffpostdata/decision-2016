@@ -12,17 +12,17 @@
 
   // ** Start * Temporary for testing purposes
   #map_us {
-    background: $gop-leading;
+    background: $gop-lead-color;
     position: relative;
   }
   #cartogram {
-    background: $dem-leading;
+    background: $dem-lead-color;
     position: relative;
   }
   .thingie {
     text-decoration: none;
     margin: 10px auto;
-    font-family: $body-font;
+    font-family: $body-font-family;
     text-align: center;
     position: absolute;
     left: $left-column-width/2 - 75;
@@ -40,7 +40,7 @@
     }
 
     &__link {
-      font-family: $header-font;
+      font-family: $header-font-family;
       font-weight: bold;
       font-size: 18px;
       flex: 1;

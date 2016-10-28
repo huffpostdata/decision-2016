@@ -267,7 +267,7 @@ function Map(el, switchEl) {
     var viewBox = svg.getAttribute('viewBox').split(/\s+/);
     canvas.setAttribute('width', viewBox[2]);
     canvas.setAttribute('height', viewBox[3]);
-    el.insertBefore(canvas, _this.iframe);
+    el.insertBefore(canvas, svg);
     _this.ctx = canvas.getContext('2d');
 
     _this.recolorIfLoaded();

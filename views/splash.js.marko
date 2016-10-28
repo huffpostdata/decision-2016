@@ -18,6 +18,9 @@ var electoralImages = {
 };
 style.textContent = $!{JSON.stringify(data.asset_contents('scss', 'stylesheets/splash.css').toString('utf-8'))};
 document.head.appendChild(style);
+
 $!{data.asset_contents('javascript', 'javascripts/splash.js')}
-window.decision2016_init($!{JSON.stringify(data.model)})
+
+var model = $!{JSON.stringify(data.model)};
+window.decision2016_init(model);
 ---

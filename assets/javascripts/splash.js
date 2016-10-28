@@ -4,6 +4,7 @@ var electoral = require('./splash/electoral');
 var seats = require('./splash/seats');
 var refreshButton = require('./splash/refresh-element');
 var refresh = require('./common/_refresh');
+var Polyglot = require('../../node_modules/node-polyglot/build/polyglot');
 
 window.evupdate = function(c, t) {
   var w;
@@ -22,10 +23,20 @@ window.evupdate = function(c, t) {
   });
 };
 
+function buildI18n(options) {
+  var numberFormat = typeof Intl === 'object' ? new Intl.NumberFormat(options.locale).format : String;
+  return new Polyglot({
+    phrases: options.phrases,
+    locale: options.locale,
+    numberFormat: numberFormat
+  });
+}
+
 window.decision2016_init = function(data) {
-  console.log("Sending data", data);
+  var i18n = buildI18n(data.i18n);
+
   refreshButton.render();
-  // electoral.render(data.president);
+  // electoral.render(data.president, i18n);
   electoral.render({
     nClinton: data.president.nClinton,
     nClintonElectoralVotes: 0,
@@ -33,15 +44,16 @@ window.decision2016_init = function(data) {
     nTrumpElectoralVotes: 0,
     winner: data.winner
   });
-  electionMap.render(data);
-  battlegrounds.render(data.battlegrounds);
-  seats.renderHouse(data.house);
-  seats.renderSenate(data.senate);
+  electionMap.render(data, i18n);
+  battlegrounds.render(data.battlegrounds, i18n);
+  seats.renderHouse(data.house, i18n);
+  seats.renderSenate(data.senate, i18n);
 
   function doRefresh(json) {
     // electoral.update(json.summaries.president);
     battlegrounds.update(data.battlegrounds);
-    // TODO: update seats
+    seats.updateSenate(json.summaries.senate);
+    seats.updateHouse(json.summaries.house);
   }
 
   var refreshEl = document.getElementById('election-splash-refresh');

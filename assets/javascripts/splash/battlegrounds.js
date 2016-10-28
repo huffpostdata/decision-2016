@@ -1,14 +1,17 @@
 // TODO: Shouldn't be here
 var battleground;
 var tableBody;
+var i18n;
 
-function setUpTable () {
+function setUpTable(_i18n) {
+  i18n = _i18n;
+
   var h2 = document.createElement("h2");
   var table = document.createElement("table");
   var tableHead = document.createElement("thead");
   tableBody = document.createElement("tbody");
 
-  h2.innerHTML = "BATTLEGROUND STATES";
+  h2.innerHTML = i18n.t('h2.Battleground States')
   h2.setAttribute("class", "module__header");
 
   tableHead.appendChild(getHeader());
@@ -69,8 +72,7 @@ function paintRow(data) {
   stateName.innerHTML = data.state;
 
   stateVotes.setAttribute("class", "votes gop");
-  stateVotes.innerHTML = data.nElectoralVotes + " Electoral Votes";
-
+  stateVotes.textContent = i18n.t('counts.n Electoral Votes', data.nElectoralVotes);
 
   stateIcon.appendChild(imgIcon);
   stateInfo.appendChild(stateName);
@@ -111,11 +113,11 @@ module.exports = {
       tableBody.appendChild(row);
     }
   },
-  render: function(data) {
+  render: function(data, i18n) {
     battleground = window.document.getElementById('battlegrounds');
 
     if (battleground) {
-      setUpTable();
+      setUpTable(i18n);
       this.update(data);
     }
   }

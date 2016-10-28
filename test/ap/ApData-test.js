@@ -183,20 +183,20 @@ describe('ApData', () => {
         expect(me1.nElectoralVotes).to.eq(1)
       })
 
-      it('should count nVotes, nVotesClinton, nVotesTrump, nVotesOther', () => {
+      it('should count nVotes, nVotesClinton, nVotesTrump, nVotesThird', () => {
         const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
         const apJson = reportingUnitRaces2[0]
         apJson.reportingUnits[0].candidates = [
           { party: 'Dem', last: 'Clinton', voteCount: 1234 },
           { party: 'GOP', last: 'Trump', voteCount: 2345 },
           { party: 'Lib', last: 'Johnson', voteCount: 3456 },
-          { party: 'Oth', last: 'Other', voteCount: 4567 }
+          { party: 'Oth', last: 'Other', voteCount: 123 }
         ]
         const race = go(reportingUnitRaces2, districtRaces)[0]
-        expect(race.nVotes).to.eq(1234+2345+3456+4567)
+        expect(race.nVotes).to.eq(1234+2345+3456+123)
         expect(race.nVotesClinton).to.eq(1234)
         expect(race.nVotesTrump).to.eq(2345)
-        expect(race.nVotesOther).to.eq(3456+4567)
+        expect(race.nVotesThird).to.eq(3456)
       })
 
       it('should count nPrecincts and nPrecinctsReporting', () => {
@@ -284,6 +284,18 @@ describe('ApData', () => {
         expect(summary.priors).to.deep.eq({ dem: 36, gop: 30 })
       })
 
+      it('should set wins correctly when a party has 0', () => {
+        const apData = new ApData({
+          findSenateRaces() {
+            return dems.concat(...new Array(26).fill(null).map(build))
+          }
+        }, null)
+        const summary = apData.senateSummary()
+        expect(summary.wins.gop).to.eq(0)
+        expect(summary.totals.gop).to.eq(30)
+        expect(summary.tossup).to.eq(26)
+      })
+
       it('should set wins correctly (according to races)', () => {
         expect(summary.wins).to.deep.eq({ dem: 8, gop: 10 })
       })
@@ -305,6 +317,20 @@ describe('ApData', () => {
             return dems.concat(...gops).concat(...tossup2)
           }
         }, null)
+
+        it('should mark CA as a win before any votes are cast', () => {
+          const tossup3 = JSON.parse(JSON.stringify(tossup2))
+          delete tossup3[0].reportingUnits
+          tossup3[0].statePostal = 'CA'
+
+          const apData = new ApData({
+            findSenateRaces() {
+              return dems.concat(...gops).concat(...tossup3)
+            }
+          }, null)
+          const summary = apData.senateSummary()
+          expect(summary.wins).to.deep.eq({ dem: 9, gop: 10 })
+        })
 
         it('should mark CA as a win for Dem before AP calls the race', () => {
           // CA's two Senate candidates are both Democrats. That means a

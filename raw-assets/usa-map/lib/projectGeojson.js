@@ -15,12 +15,21 @@ function projectGeojson(geom, projection) {
       if (coordinates[0][0] === null) throw new Error(`NULL?`)
       return { type: geom.type, coordinates: coordinates }
     case 'MultiPolygon':
+      // Icky "filters" are because albersUsa() misses some TIGER2016 Hawaii
+      // We'll assume those islands aren't, erm, important. That's probably okay
+      // because this map is small-scale.
       coordinates = geom.coordinates
         .map(polygon => {
-          return polygon.map(line => {
-            return line.map(projection)
-          })
-        })
+          return polygon
+            .map(line => line.map(projection).filter(p => p !== null))
+            .filter(line => line.length > 0)
+            .map(line => {
+              const begin = line[0]
+              const end = line[line.length - 1]
+              const closed = (begin[0] === end[0] && begin[1] === end[1])
+              return closed ? line : line.concat([begin])
+            })
+        }).filter(polygon => polygon.length > 0)
       return { type: geom.type, coordinates: coordinates }
     case 'GeometryCollection':
       // recurse
