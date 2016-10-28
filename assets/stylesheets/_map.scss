@@ -26,10 +26,15 @@
     border: 0;
   }
 
-  path[class$=mesh] {
+  text {
+    pointer-events: none;
+  }
+
+  path[class$=mesh], path.underlay, path.overlay {
     fill: none;
     stroke: $background;
     stroke-width: 1px;
+    pointer-events: none;
   }
 
   g.cartogram, g.geography {
@@ -43,15 +48,3 @@
     pointer-events: all;
   }
 }
-
-#map { // May be body.president #map, body.senate #map, body.house #map
-
-  path.clinton-win { fill: $dem-color; }
-  path.clinton-lead { fill: $dem-lead-color; }
-  path.trump-win { fill: $gop-color; }
-  path.trump-lead { fill: $gop-lead-color; }
-  path.other-win { fill: $other-color; }
-  path.other-lead { fill: $other-lead-color; }
-  path.tossup { fill: $tossup-color; }
-}
-

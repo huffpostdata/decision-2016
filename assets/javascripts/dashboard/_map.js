@@ -240,8 +240,7 @@ function drawTransitAtFraction(ctx, transit, fraction) {
 }
 
 function drawFrame(ctx, isForward, transits, t0, t, callback) {
-  if (t - t0 > TransitDuration) return callback();
-  var f = ease((t - t0) / TransitDuration);
+  var f = Math.min(1, ease((t - t0) / TransitDuration));
 
   var fraction = isForward ? f : (1 - f);
 
@@ -251,6 +250,8 @@ function drawFrame(ctx, isForward, transits, t0, t, callback) {
     var transit = transits[i];
     drawTransitAtFraction(ctx, transit, fraction);
   }
+
+  if (f === 1) return callback();
 
   window.requestAnimationFrame(function(t1) {
     drawFrame(ctx, isForward, transits, t0, t1, callback);
