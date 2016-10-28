@@ -56,6 +56,7 @@ App.build_output_from_scratch((error, output) => {
         server.emit('connection', socket)
       }
     })
+    process.send('ready')
 
     console.log('Ready for connections...')
   } else {
