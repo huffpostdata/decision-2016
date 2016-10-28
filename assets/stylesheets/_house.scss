@@ -1,1 +1,6 @@
+@import 'house/_summary';
 @import 'house/_map';
+
+body.house {
+  @include dashboard-body();
+}

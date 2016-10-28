@@ -5,33 +5,5 @@
 @import 'president/_tooltip';
 
 body.president {
-  .map-and-map-info {
-    @include wide-width();
-    margin-top: 3rem;
-
-    display: -webkit-flex;
-    display: flex;
-    &>* {
-      -webkit-flex: 1 1 auto;
-      flex: 1 1 auto;
-    }
-
-    .map {
-      position: relative;
-      width: 60%;
-      .animation {
-        pointer-events: none;
-      }
-      .states{
-        pointer-events: none;
-      }
-      .mesh{
-        pointer-events: none;
-      }
-    }
-
-    .map-info {
-      margin-left: 1rem;
-    }
-  }
+  @include dashboard-body();
 }

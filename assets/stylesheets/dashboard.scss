@@ -10,6 +10,8 @@
 @import 'dashboard/_refresh';
 @import 'dashboard/_nav';
 @import 'dashboard/_recirc';
+@import 'dashboard/_mixins';
+@import 'dashboard/_changelog';
 @import '_map';
 
 body.president, body.senate, body.house {

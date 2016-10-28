@@ -1,11 +1,12 @@
 #map-switcher {
+  text-align: center;
+  padding: 0 1rem;
+
   .switch {
     margin-top: .5rem;
-    display: -webkit-flex;
-    display: flex;
+    display: -webkit-inline-flex;
+    display: inline-flex;
     position: relative;
-    padding-left: 3rem;
-    padding-right: 3rem;
     padding-bottom: 2.5rem; // for .text
 
     &>*:last-child { margin-left: -1px; }
@@ -30,8 +31,8 @@
   }
 
   img {
-    width: 6rem;
-    height: 6rem / $map-golden-ratio;
+    width: 4.5rem;
+    height: 4.5rem / $map-golden-ratio;
     display: inline-block;
     border: 1px solid $very-muted-color;
     padding: .5rem 1rem;
