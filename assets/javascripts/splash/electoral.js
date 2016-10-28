@@ -324,7 +324,6 @@ if (electoralPlacement) {
   }
 
   function bars(d, c, t) {
-    console.log(d)
     cBar.style.width = c.barPosition; 
     cBarText.innerHTML = d.clinton.popular.toLocaleString() + ' POPULAR VOTES';
     tBar.style.width = t.barPosition;
@@ -348,27 +347,16 @@ if (electoralPlacement) {
     var trumpPercent = percentOfVotes(data.trump.electoral);
     var newState = nextState(data, clintonPercent, trumpPercent);
 
-    animate(data, newState.clinton, newState.trump);  
-  }
-
-  function animate(d, c, t) {
-    bubbles(d, c, t);
-    bars(d, c, t);
-    faces(c, t);
+    bubbles(data, newState.clinton, newState.trump);
+    bars(data, newState.clinton, newState.trump);
+    faces(newState.clinton, newState.trump);
   }
 }
 
 module.exports = {
-  update: function(data) {
+  render: function(data, i18n) {
     if(electoralPlacement) {
       var normalData = normalizeData(data);
-      updateThings(normalData);
-    }
-  },
-  render: function(data) {
-    if(electoralPlacement) {
-      var normalData = normalizeData(data);
-      // render static elements
       updateThings(normalData);
     }
   }
