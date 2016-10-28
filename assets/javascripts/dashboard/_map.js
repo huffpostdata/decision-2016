@@ -306,6 +306,12 @@ Map.prototype._setSvg = function(xml) {
   for (i = 0; i < paths.length; i++) {
     path = paths[i];
     raceId = path.getAttribute('class');
+    // SVG doesn't allow "data-" attributes, but HTML does. So after injecting
+    // into the page, we'll get race IDs out of the "class" attribute (not "id"
+    // because that'd conflict with the rest of the page), and write them to
+    // the "data-" attributes which are all of a sudden valid because this isn't
+    // a standalone SVG any more.
+    path.setAttribute('data-race-id', raceId);
     racePaths[raceId] = [ path ];
   }
 
@@ -313,6 +319,7 @@ Map.prototype._setSvg = function(xml) {
   for (i = 0; i < paths.length; i++) {
     path = paths[i];
     raceId = path.getAttribute('class');
+    path.setAttribute('data-race-id', raceId);
     racePaths[raceId].push(path);
 
     var d1 = racePaths[raceId][0].getAttribute('d');
@@ -358,11 +365,7 @@ Map.prototype._recolor = function() {
     var race = this.racesJson[i];
     var paths = this.raceIdToPaths[race.id] || [];
     for (var j = 0; j < paths.length; j++) {
-      var path = paths[j];
-      for (var k = 0; k < classNameForRace.AllClassNames.length; k++) {
-        path.classList.remove(classNameForRace.AllClassNames[k]);
-      }
-      path.classList.add(race.className);
+      paths[j].setAttribute('class', race.className);
     }
   }
 };
