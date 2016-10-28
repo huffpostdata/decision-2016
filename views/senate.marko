@@ -1,6 +1,4 @@
-
 <!DOCTYPE html>
-
 html lang="en"
   head
     meta charset="utf-8"
@@ -15,9 +13,18 @@ html lang="en"
     main
       $!{data.helpers.partial('dashboard/_refresh')}
 
+      $!{data.helpers.partial('senate/_summary')}
+
+      .map-and-map-info
+        .map
+          $!{data.helpers.partial('senate/_map')}
+        .map-info
+          $!{data.helpers.partial('senate/_map-switcher')}
+          $!{data.helpers.partial('dashboard/_changelog')}
+
+    $!{data.helpers.partial('dashboard/_recirc')}
     $!{data.helpers.partial('_footer')}
 
-    <!-- TK "house.js", not "president.js" -->
-    script src="${data.path_to_asset('javascript', 'javascripts/president.js')}"
+    script src="${data.path_to_asset('javascript', 'javascripts/senate.js')}" data-json="${JSON.stringify(data.model)}"
     script src="${data.path_to_asset('digest', 'javascripts/social.js')}"
     script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"
