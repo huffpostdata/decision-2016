@@ -4,6 +4,109 @@ function apRaceToStateCode(apRaceJson) {
   return apRaceJson.statePostal || apRaceJson.reportingUnits[0].statePostal
 }
 
+const ValidParties = {
+  // The keys signify that we won't filter out candidates with these parties
+  // The values determine the CSS classes we'll use
+  Dem: 'dem',
+  GOP: 'gop',
+  Lib: 'lib',
+  Grn: 'grn',
+  BFA: 'bfa'
+}
+function validParty(apPartyId) {
+  return ValidParties[apPartyId] || 'other'
+}
+
+function apCandidateToCandidate(apJson) {
+  return {
+    name: apJson.last,
+    fullName: `${apJson.first} ${apJson.last}`,
+    partyId: validParty(apJson.party),
+    n: apJson.voteCount,
+    winner: (apJson.winner === 'X')
+  }
+}
+
+function compareCandidates(a, b) {
+  // Winner comes first
+  if (a.winner !== b.winner) return (a.winner ? 0 : 1) - (b.winner ? 0 : 1)
+
+  // Then Person with most votes comes first
+  if (a.n !== b.n) return b.n - a.n
+
+  // Same vote counts? "dem" and "gop" come first
+  if ((a.partyId === 'dem' || a.partyId === 'gop') !== (b.partyId === 'dem' || b.partyId === 'gop')) {
+    return ((a.partyId === 'dem' || a.partyId === 'gop') ? 0 : 1) - ((b.partyId === 'dem' || b.partyId === 'gop') ? 0 : 1)
+  }
+
+  // Still tied? Sort by name
+  return a.name.localeCompare(b.name)
+}
+
+const ClassNameSortOrder = {
+  'dem-win': 1,
+  'clinton-win': 1,
+  'dem-lead': 2,
+  'clinton-lead': 2,
+  'lib-win': 3,
+  'johnson-win': 3,
+  'lib-lead': 4,
+  'lib-win': 4,
+  'grn-win': 5,
+  'stein-win': 5,
+  'grn-lead': 6,
+  'stein-lead': 6,
+  'bfa-win': 7,
+  'mcmullin-win': 7,
+  'bfa-lead': 8,
+  'mcmullin-lead': 8,
+  'other-win': 9,
+  'other-lead': 10,
+  'tossup': 11,
+  'gop-lead': 12,
+  'trump-lead': 12,
+  'gop-win': 13,
+  'trump-win': 13
+}
+function compareRaces(a, b) {
+  // 1. Sort by class name: dem-win on left, gop-win on right
+  const aSort = ClassNameSortOrder[a.className] || ClassNameSortOrder.tossup
+  const bSort = ClassNameSortOrder[b.className] || ClassNameSortOrder.tossup
+  if (aSort !== bSort) return aSort - bSort
+
+  // 2. Sort by state name
+  if (a.stateName !== b.stateName) return a.stateName.localeCompare(b.stateName)
+
+  // 3. Sort by seat number (be careful: "3" should come _after_ "20")
+  return a.id.localeCompare(b.id)
+}
+
+function apCandidatesToCandidates(apCandidates) {
+  const ret = []
+  let nOther = 0
+  for (const apCandidate of apCandidates) {
+    if (ValidParties.hasOwnProperty(apCandidate.party)) {
+      ret.push(apCandidateToCandidate(apCandidate))
+    } else {
+      nOther += apCandidate.voteCount
+    }
+  }
+  ret.sort(compareCandidates)
+  ret.push({ name: 'Other', party: 'other', n: nOther, winner: false })
+  return ret
+}
+
+function houseRaceClassName(race) {
+  if (race.winner) return `${race.winner}-win`
+
+  // Assume candidates are sorted
+  if (race.candidates[0].n === race.candidates[1].n) {
+    return 'tossup'
+  } else {
+    return `${race.candidates[0].partyId}-lead`
+  }
+}
+
 /**
  * A rollup of all the data Associated Pres gives us.
  */
@@ -131,13 +234,7 @@ module.exports = class ApData {
 
         if (c.winner === 'X') winner = c.last.toLowerCase()
 
-        candidates.push({
-          name: c.last,
-          fullName: `${c.first} ${c.last}`,
-          partyId: c.party.toLowerCase(),
-          n: c.voteCount,
-          winner: (c.winner === 'X')
-        })
+        candidates.push(apCandidateToCandidate(c))
       }
 
       race.nVotes = n
@@ -350,7 +447,6 @@ module.exports = class ApData {
    *   [
    *     {
    *       id: 'AK01',
-   *       stateName: 'Alaska',
    *       name: 'Alaska At Large',
    *       nPrecinctsReporting: 102,
    *       nPrecincts: 243,
@@ -366,17 +462,25 @@ module.exports = class ApData {
    */
   houseRaces() {
     // TK NEED UNIT TESTS
-    return this.reportingUnitElections.findHouseRaces().map(race => {
-      const ru = race.reportingUnits[0]
+    const ret = this.reportingUnitElections.findHouseRaces().map(apRace => {
+      const ru = apRace.reportingUnits[0]
 
-      return {
-        id: `${ru.statePostal}${String(100 + +race.seatNum).slice(1)}`,
-        stateName: ru.stateName,
-        raceName: / at large/i.test(race.description) ? `${ru.stateName} At Large` : `${ru.stateName} District ${race.seatNum}`,
-        className: [ 'dem-win', 'gop-win', 'dem-lead', 'gop-lead', 'tossup' ][Math.floor(Math.random() * 5)], // TK
-        winner: null, // TK
-        candidates: ru.candidates
+      const race = {
+        id: `${ru.statePostal}${String(100 + +apRace.seatNum).slice(1)}`,
+        name: / at large/i.test(apRace.description) ? `${ru.stateName} At Large` : `${ru.stateName} District ${apRace.seatNum}`,
+        candidates: apCandidatesToCandidates(ru.candidates),
+        nPrecinctsReporting: apRace.precinctsReporting,
+        nPrecincts: apRace.precinctsTotal
       }
+      race.winner = race.candidates[0].winner ? race.candidates[0].partyId : null
+
+      race.className = houseRaceClassName(race)
+
+      return race
     })
+
+    ret.sort(compareRaces)
+
+    return ret
   }
 }
