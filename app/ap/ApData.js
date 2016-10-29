@@ -306,6 +306,43 @@ module.exports = class ApData {
   }
 
   /**
+   * Returns Senate races.
+   *
+   * The output looks like this:
+   *
+   *
+   *   [
+   *     {
+   *       id: 'AKS3',
+   *       name: 'Alaska',
+   *       nPrecinctsReporting: 102,
+   *       nPrecincts: 243,
+   *       winner: 'dem',
+   *       candidates: [
+   *        { name: 'Smith', partyId: 'dem', n: 13001, winner: true },
+   *        { name: 'Black', partyId: 'gop', n: 12111, winner: false },
+   *        ...
+   *       ]
+   *     },
+   *     ...
+   *   ]
+   */
+  senateRaces() {
+    // TK NEED UNIT TESTS
+    return this.reportingUnitElections.findSenateRaces().map(race => {
+      const ru = race.reportingUnits[0]
+
+      return {
+        id: `${ru.statePostal}S3`,
+        name: ru.stateName,
+        className: [ 'dem-win', 'gop-win', 'dem-lead', 'gop-lead', 'tossup' ][Math.floor(Math.random() * 5)], // TK
+        winner: null, // TK
+        candidates: ru.candidates
+      }
+    })
+  }
+
+  /**
    * Returns House races.
    *
    * The output looks like this:

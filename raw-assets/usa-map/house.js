@@ -34,7 +34,7 @@ function writeHouseSvg(cartogram, districts, states) {
         cartogram.districts.map(d => `<path class="${d.id}" d="${d.d}"/>`).join(''),
       '</g>',
     '</svg>'
-  ].join('');
+  ].join('')
 
   const outBuffer = Buffer.from(out, 'utf8')
 
@@ -47,4 +47,3 @@ const cartogram = loadHouseCartogram()
 const districts = loadDistrictsGeojson()
 const states = loadStatesGeojson()
 writeHouseSvg(cartogram, districts, states)
-writeHouseThumbnails(districts, states)

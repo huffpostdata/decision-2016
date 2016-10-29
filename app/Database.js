@@ -81,7 +81,7 @@ module.exports = class Database {
 
     const houseRaces = apData.houseRaces()
 
-    const senateRaces = [] // TK
+    const senateRaces = apData.senateRaces()
 
     this.splash = {
       president: summaries.president,
@@ -106,8 +106,11 @@ module.exports = class Database {
       races: presidentRaces
     }
 
-    // TK get these up and running
-    this.senate = JSON.parse(JSON.stringify(this.president)); this.senate.metadata.slug = 'senate'
+    this.senate = {
+      metadata: new PageMetadata('senate', {}), // TK
+      summaries: summaries,
+      races: senateRaces
+    }
 
     this.house = {
       metadata: new PageMetadata('house', {}), // TK

@@ -1,3 +1,22 @@
 body.senate #map {
+  text {
+    text-anchor: middle;
+    alignment-baseline: middle;
+    font-family: $header-font-family;
+    font-weight: bold;
+    font-size: 22px;
+  }
 
+  path.mesh {
+    stroke-width: 3px;
+  }
+
+  path { fill: $very-very-muted-color; } // TK delete me! Figure out all the class names
+  path.dem-win { fill: $dem-color; }
+  path.dem-lead { fill: $dem-lead-color; }
+  path.gop-win { fill: $gop-color; }
+  path.gop-lead { fill: $gop-lead-color; }
+  path.other-win { fill: $other-color; }
+  path.other-lead { fill: $other-lead-color; }
+  path.tossup { fill: $tossup-color; }
 }
