@@ -44,7 +44,7 @@ function findSeats(stateId) {
 const NStatesWide = Math.ceil(AsciiMap[0].length / 3)
 const NStatesTall = AsciiMap.length
 
-const StateSize = Math.floor(dims.Height / NStatesTall)
+const StateSize = Math.min(Math.floor(dims.Height / NStatesTall), Math.floor(dims.Width / NStatesWide))
 const X0 = Math.round(0.5 * (dims.Width - NStatesWide * StateSize))
 const Y0 = Math.round(0.5 * (dims.Height - NStatesTall * StateSize))
 
