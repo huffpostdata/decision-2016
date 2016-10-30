@@ -1,5 +1,7 @@
 'use strict'
 
+const SenatePriorSeats = require('../SenatePriorSeats')
+
 function apRaceToStateCode(apRaceJson) {
   return apRaceJson.statePostal || apRaceJson.reportingUnits[0].statePostal
 }
@@ -44,29 +46,31 @@ function compareCandidates(a, b) {
 }
 
 const ClassNameSortOrder = {
-  'dem-win': 1,
-  'clinton-win': 1,
-  'dem-lead': 2,
-  'clinton-lead': 2,
-  'lib-win': 3,
-  'johnson-win': 3,
-  'lib-lead': 4,
+  'dem-prior': 1, // Senate seats class 1, 2
+  'dem-win': 2,
+  'clinton-win': 2,
+  'dem-lead': 3,
+  'clinton-lead': 3,
   'lib-win': 4,
-  'grn-win': 5,
-  'stein-win': 5,
-  'grn-lead': 6,
-  'stein-lead': 6,
-  'bfa-win': 7,
-  'mcmullin-win': 7,
-  'bfa-lead': 8,
-  'mcmullin-lead': 8,
-  'other-win': 9,
-  'other-lead': 10,
-  'tossup': 11,
-  'gop-lead': 12,
-  'trump-lead': 12,
-  'gop-win': 13,
-  'trump-win': 13
+  'johnson-win': 4,
+  'lib-lead': 5,
+  'lib-win': 5,
+  'grn-win': 6,
+  'stein-win': 6,
+  'grn-lead': 7,
+  'stein-lead': 7,
+  'bfa-win': 8,
+  'mcmullin-win': 8,
+  'bfa-lead': 9,
+  'mcmullin-lead': 9,
+  'other-win': 10,
+  'other-lead': 11,
+  'tossup': 12,
+  'gop-lead': 13,
+  'trump-lead': 13,
+  'gop-win': 14,
+  'trump-win': 14,
+  'gop-prior': 15 // Senate seats class 1, 2
 }
 function compareRaces(a, b) {
   // 1. Sort by class name: dem-win on left, gop-win on right
@@ -77,7 +81,7 @@ function compareRaces(a, b) {
   // 2. Sort by state name
   if (a.stateName !== b.stateName) return a.stateName.localeCompare(b.stateName)
 
-  // 3. Sort by seat number (be careful: "3" should come _after_ "20")
+  // 3. Sort by seat number/class (be careful: "3" should come _after_ "20")
   return a.id.localeCompare(b.id)
 }
 
@@ -92,8 +96,44 @@ function apCandidatesToCandidates(apCandidates) {
     }
   }
   ret.sort(compareCandidates)
-  ret.push({ name: 'Other', party: 'other', n: nOther, winner: false })
+
+  if (nOther !== 0) {
+    // "Other" comes last, always. It can't be the leader.
+    ret.push({ name: 'Other', party: 'other', n: nOther, winner: false })
+  }
+
   return ret
+}
+
+function raceWinner(race) {
+  const candidates = race.candidates
+
+  if (candidates[0].winner) return candidates[0].partyId
+
+  let justOneParty = true
+  const onlyPartyId = candidates[0].partyId
+  for (const candidate of candidates) {
+    if (candidate.partyId !== onlyPartyId) {
+      justOneParty = false
+      break
+    }
+  }
+  if (justOneParty) {
+    return onlyPartyId
+  }
+
+  return null
+}
+
+function senateRaceClassName(race) {
+  if (race.winner) return `${race.winner}-win`
+
+  // Assume candidates are sorted
+  if (race.candidates[0].n === race.candidates[1].n) {
+    return 'tossup'
+  } else {
+    return `${race.candidates[0].partyId}-lead`
+  }
 }
 
 function houseRaceClassName(race) {
@@ -425,18 +465,30 @@ module.exports = class ApData {
    *   ]
    */
   senateRaces() {
-    // TK NEED UNIT TESTS
-    return this.reportingUnitElections.findSenateRaces().map(race => {
-      const ru = race.reportingUnits[0]
+    const races = this.reportingUnitElections.findSenateRaces().map(apRace => {
+      const ru = apRace.reportingUnits[0]
 
-      return {
+      const ret = {
         id: `${ru.statePostal}S3`,
         name: ru.stateName,
-        className: [ 'dem-win', 'gop-win', 'dem-lead', 'gop-lead', 'tossup' ][Math.floor(Math.random() * 5)], // TK
-        winner: null, // TK
-        candidates: ru.candidates
+        stateName: ru.stateName,
+        seatClass: '3',
+        nPrecincts: ru.precinctsTotal,
+        nPrecinctsReporting: ru.precinctsReporting,
+        candidates: apCandidatesToCandidates(ru.candidates)
       }
+      ret.winner = raceWinner(ret)
+      ret.className = senateRaceClassName(ret)
+
+      return ret
     })
+
+    const priorRaces = SenatePriorSeats
+
+    const ret = priorRaces.concat(races)
+    ret.sort(compareRaces)
+
+    return ret
   }
 
   /**
@@ -467,13 +519,13 @@ module.exports = class ApData {
 
       const race = {
         id: `${ru.statePostal}${String(100 + +apRace.seatNum).slice(1)}`,
+        stateName: ru.stateName,
         name: / at large/i.test(apRace.description) ? `${ru.stateName} At Large` : `${ru.stateName} District ${apRace.seatNum}`,
         candidates: apCandidatesToCandidates(ru.candidates),
-        nPrecinctsReporting: apRace.precinctsReporting,
-        nPrecincts: apRace.precinctsTotal
+        nPrecinctsReporting: ru.precinctsReporting,
+        nPrecincts: ru.precinctsTotal
       }
-      race.winner = race.candidates[0].winner ? race.candidates[0].partyId : null
-
+      race.winner = raceWinner(race)
       race.className = houseRaceClassName(race)
 
       return race
