@@ -404,4 +404,4 @@ Map.prototype.showGeography = function() {
   this.transition('cartogram', 'geography');
 };
 
-module.exports = Map
+module.exports = Map;

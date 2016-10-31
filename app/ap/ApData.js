@@ -1,6 +1,14 @@
 'use strict'
 
+const fs = require('fs')
 const SenatePriorSeats = require('../SenatePriorSeats')
+
+const StateCodeToStateName = fs.readFileSync(`${__dirname}/../google-sheets/regions.tsv`, 'utf8')
+  .split(/\r?\n/)
+  .slice(1)
+  .map(s => s.split(/\t/))
+  .filter(arr => arr.length > 0)
+  .reduce(((s, arr) => { s[arr[0]] = arr[1]; return s }), {})
 
 function apRaceToStateCode(apRaceJson) {
   return apRaceJson.statePostal || apRaceJson.reportingUnits[0].statePostal
@@ -287,13 +295,14 @@ module.exports = class ApData {
 
     for (const apRace of this.reportingUnitElections.findPresidentRaces()) {
       const state = apRace.reportingUnits[0]
+      const stateName = StateCodeToStateName[state.statePostal]
       if (state.statePostal === 'ME' || state.statePostal === 'NE') continue;
 
       const race = {
         id: state.statePostal,
         regionId: state.statePostal,
-        name: state.stateName,
-        regionName: state.stateName,
+        name: stateName,
+        stateName: stateName,
         nElectoralVotes: state.electTotal,
         nPrecinctsReporting: state.precinctsReporting,
         nPrecincts: state.precinctsTotal
@@ -307,12 +316,13 @@ module.exports = class ApData {
       const state = apState.reportingUnits[0]
 
       for (const ru of apState.reportingUnits.slice(1)) {
+        const stateName = StateCodeToStateName[state.statePostal]
         const race = {
           // id: "ME", "ME1", "ME2", ...
           id: ru.statePostal + (ru.districtType === 'CD' ? ru.reportingunitName.slice('District '.length) : ''),
           regionId: ru.statePostal,
-          name: `${state.stateName} ${ru.reportingunitName}`,
-          regionName: state.stateName,
+          name: `${stateName} ${ru.reportingunitName}`,
+          stateName: stateName,
           nElectoralVotes: ru.electTotal,
           nPrecinctsReporting: ru.precinctsReporting,
           nPrecincts: ru.precinctsTotal
@@ -467,11 +477,12 @@ module.exports = class ApData {
   senateRaces() {
     const races = this.reportingUnitElections.findSenateRaces().map(apRace => {
       const ru = apRace.reportingUnits[0]
+      const stateName = StateCodeToStateName[ru.statePostal]
 
       const ret = {
         id: `${ru.statePostal}S3`,
-        name: ru.stateName,
-        stateName: ru.stateName,
+        name: stateName,
+        stateName: stateName,
         seatClass: '3',
         nPrecincts: ru.precinctsTotal,
         nPrecinctsReporting: ru.precinctsReporting,
@@ -516,11 +527,12 @@ module.exports = class ApData {
     // TK NEED UNIT TESTS
     const ret = this.reportingUnitElections.findHouseRaces().map(apRace => {
       const ru = apRace.reportingUnits[0]
+      const stateName = StateCodeToStateName[ru.statePostal]
 
       const race = {
         id: `${ru.statePostal}${String(100 + +apRace.seatNum).slice(1)}`,
-        stateName: ru.stateName,
-        name: / at large/i.test(apRace.description) ? `${ru.stateName} At Large` : `${ru.stateName} District ${apRace.seatNum}`,
+        stateName: stateName,
+        name: / at large/i.test(apRace.description) ? `${stateName} At Large` : `${stateName} District ${apRace.seatNum}`,
         candidates: apCandidatesToCandidates(ru.candidates),
         nPrecinctsReporting: ru.precinctsReporting,
         nPrecincts: ru.precinctsTotal

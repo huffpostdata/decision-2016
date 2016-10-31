@@ -2,8 +2,9 @@ function readInt(s) { return s === '' ? null : parseInt(s, 10); }
 function writeInt(i) { return i === null ? '' : String(i); }
 var IntType = { read: readInt, write: writeInt };
 
+function readDate(s) { return new Date(Date.parse(s)); }
 function writeDate(d) { return d.toISOString(); }
-var DateType = { read: Date.parse, write: writeDate };
+var DateType = { read: readDate, write: writeDate };
 
 function readString(s) { return s === '' ? null : s; }
 function writeString(s) { return s || ''; }
@@ -47,11 +48,15 @@ ChangelogEntry.fromTsvLine = function(tsv) {
   return new ChangelogEntry(tsv.split(/\t/));
 };
 
-ChangelogEntry.toTsvLine = function() {
+ChangelogEntry.parseAll = function(text) {
+  return text.split(/\n/).map(ChangelogEntry.fromTsvLine);
+};
+
+ChangelogEntry.prototype.toTsvLine = function() {
   var _this = this;
   return Fields
-    .map(function(field) { return field.write(_this[field.key]); })
-    .join(/\t/);
+    .map(function(field) { return field.type.write(_this[field.key]); })
+    .join('\t');
 };
 
 module.exports = ChangelogEntry;

@@ -68,10 +68,10 @@ function findWins(id1, date, races1, races2) {
 
 function findLeads(id1, date, races1, races2) {
   const ClassNames1 = {}
-  const Tenths1 = {}
+  const Quarters1 = {}
   for (const race of races1) {
     ClassNames1[race.id] = race.className
-    Tenths1[race.id] = Math.floor(race.nPrecintsReporting / race.nPrecincts * 10)
+    Quarters1[race.id] = Math.floor(race.nPrecinctsReporting / race.nPrecincts * 4)
   }
 
   const ret = []
@@ -82,8 +82,8 @@ function findLeads(id1, date, races1, races2) {
     if (!(/-lead/.test(race.className))) continue
 
     // Only report races that go from 9%->10%+
-    const tenth = Math.floor(race.nPrecinctsReporting / race.nPrecincts * 10)
-    if (tenth === Tenths1[race.id] || tenth === 0) continue
+    const quarter = Math.floor(race.nPrecinctsReporting / race.nPrecincts * 4)
+    if (quarter === Quarters1[race.id] || quarter === 0) continue
 
     ret.push(new ChangelogEntry({
       id: id,
@@ -110,11 +110,12 @@ function allRaces(apData) {
 module.exports = {
   diff(id1, date, apData1, apData2) {
     const entries = []
-    findStarts(id1, date, apData1, apData2)
-      .forEach(entry => entries.push(entry))
 
     const races1 = allRaces(apData1)
     const races2 = allRaces(apData2)
+
+    findStarts(id1, date, apData1, apData2)
+      .forEach(entry => entries.push(entry))
 
     findWins(id1 + entries.length, date, races1, races2)
       .forEach(entry => entries.push(entry))

@@ -13,6 +13,7 @@ const debug = require('debug')('script/loop-update-and-upload')
 const fs = require('fs')
 const syncRequest = require('sync-request')
 
+const ApDataDiff = require('../app/ap/ApDataDiff')
 const App = require('../generator/App')
 const AWS = require('../generator/AWS')
 const withLockfile = require('../generator/lockfile')
@@ -35,6 +36,30 @@ const apFs = require('../app/ap/ap-fs')
 
 function exit(err) {
   if (err) throw err
+}
+
+/**
+ * Writes a new "data/changelog.tsv".
+ */
+function writeChangelogEntries(apData1, apData2) {
+  const date = new Date()
+  const timestamp = String(date - 0)
+
+  const path = `${__dirname}/../data/changelog.tsv`
+
+  let entries;
+  try {
+    entries = fs.readFileSync(path, 'utf8').split(/\r?\n/)
+  } catch (e) {
+    entries = [ 'id\tdate\tchangeType\tstateId\traceType\traceId\tcandidateName\tpartyId\tnPrecinctsReporting\tnPrecincts' ]
+  }
+
+  const newEntries = ApDataDiff.diff(entries.length, date, apData1, apData2).map(e => e.toTsvLine())
+
+  const allEntries = entries.concat(newEntries)
+
+  fs.writeFileSync(`${path}-${timestamp}-post`, allEntries.join('\n'))
+  fs.writeFileSync(`${path}`, allEntries.join('\n'))
 }
 
 /**
@@ -78,6 +103,8 @@ function tick(callback) {
 
     update(apData, 'reportingUnit')
     update(apData, 'district')
+
+    writeChangelogEntries(apData, apFs.load())
 
     debug(`Building App…`)
     App.build_output_from_scratch((err, output) => {

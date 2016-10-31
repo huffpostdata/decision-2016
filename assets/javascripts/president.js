@@ -1,3 +1,4 @@
+var Changelog = require('./dashboard/_changelog');
 var Map = require('./dashboard/_map');
 var nav = require('./dashboard/_nav');
 var refresh = require('./common/_refresh');
@@ -18,6 +19,9 @@ var navEl = document.querySelector('nav');
 var updateNav = nav(navEl);
 updateNav(initialJson.summaries);
 
+var changelogEl = document.getElementById('changelog');
+var changelog = new Changelog(changelogEl, initialJson);
+
 var summaryEl = document.getElementById('president-summary');
 var updateSummary = summary(summaryEl);
 updateSummary(initialJson);
@@ -28,6 +32,7 @@ toolTip.setData(initialJson.races);
 
 function doRefresh(json) {
   map.update(json.races);
+  changelog.update(json);
   updateNav(json.summaries);
   updateSummary(json);
   toolTip.setData(json.races);

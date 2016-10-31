@@ -64,6 +64,7 @@ module.exports = class Database {
     const google_sheets = new GoogleSheets(read_config('google-sheets'))
     const translations = invertTranslations(google_sheets.slug_to_array('translations'));
     const apData = ap_fs.load()
+    const changelog = ap_fs.loadChangelogEntries()
 
     const battlegrounds = [
       {"abbr":"mo","state":"Missouri","nElectoralVotes":10,"demPercent":41,"gopPercent":59,"percentPrecinctsReporting":87,"called":false,"winner":"gop"},
@@ -79,6 +80,7 @@ module.exports = class Database {
       house: apData.houseSummary()
     }
 
+    // TK make presidentRaces() work like houseRaces() or senateRaces()
     const presidentRaces = apData.presidentRaces().sort(presidentClassNameForRace.compareRaces)
     presidentRaces.forEach(race => race.className = presidentClassNameForRace(race))
 
@@ -106,34 +108,40 @@ module.exports = class Database {
     this.president = {
       metadata: new PageMetadata('president', {}), // TK
       summaries: summaries,
-      races: presidentRaces
+      races: presidentRaces,
+      changelog: changelog.president.slice(0, 10).map(e => e.toTsvLine()).join('\n')
     }
 
     this.senate = {
       metadata: new PageMetadata('senate', {}), // TK
       summaries: summaries,
-      races: senateRaces
+      races: senateRaces,
+      changelog: changelog.senate.slice(0, 10).map(e => e.toTsvLine()).join('\n')
     }
 
     this.house = {
       metadata: new PageMetadata('house', {}), // TK
       summaries: summaries,
-      races: houseRaces
+      races: houseRaces,
+      changelog: changelog.house.slice(0, 10).map(e => e.toTsvLine()).join('\n')
     }
 
     this.presidentAsBuffer = Buffer.from(JSON.stringify({
       summaries: summaries,
-      races: presidentRaces
+      races: presidentRaces,
+      changelog: this.president.changelog
     }));
-
-    this.houseAsBuffer = Buffer.from(JSON.stringify({
-      summaries: summaries,
-      races: houseRaces
-    }))
 
     this.senateAsBuffer = Buffer.from(JSON.stringify({
       summaries: summaries,
-      races: senateRaces
+      races: senateRaces,
+      changelog: this.senate.changelog
+    }))
+
+    this.houseAsBuffer = Buffer.from(JSON.stringify({
+      summaries: summaries,
+      races: houseRaces,
+      changelog: this.house.changelog
     }))
 
     this.translatedSplash = []

@@ -200,11 +200,11 @@ describe('ApDataDiff', () => {
     })])
   })
 
-  it('should create entry for "10% precincts lead" for president', () => {
+  it('should create entry for "25% precincts lead" for president', () => {
     const d = ApDataDiff.diff(
       1, date1,
       apData([ presidentRace('NY', 1, 'clinton-lead', 'clinton') ], [], []),
-      apData([ presidentRace('NY', 11, 'clinton-lead', 'clinton') ], [], [])
+      apData([ presidentRace('NY', 26, 'clinton-lead', 'clinton') ], [], [])
     )
     expect(d).to.deep.eq([new ChangelogEntry({
       id: 1,
@@ -215,15 +215,24 @@ describe('ApDataDiff', () => {
       raceId: 'NY',
       candidateName: 'Clinton',
       partyId: 'dem',
-      nPrecinctsReporting: 11,
+      nPrecinctsReporting: 26,
       nPrecincts: 100
     })])
   })
 
-  //it('should not create entry for "20% precincts lead" when same lead as "10%"')
-  //it('should create entry for "20% precincts lead" when different from "10% precincts lead"')
+  it('should not create extra entries between 26% and 49% lead', () => {
+    const d = ApDataDiff.diff(
+      1, date1,
+      apData([ presidentRace('NY', 26, 'clinton-lead', 'clinton') ], [], []),
+      apData([ presidentRace('NY', 49, 'clinton-lead', 'clinton') ], [], [])
+    )
+    expect(d.length).to.eq(0)
+  })
 
-  it('should not create entry for "10% precincts lead" when winner is called', () => {
+  //it('should not create entry for "50% precincts lead" when same lead as "25%"')
+  //it('should create entry for "50% precincts lead" when different from "25% precincts lead"')
+
+  it('should not create entry for "25% precincts lead" when winner is called', () => {
     const d = ApDataDiff.diff(
       1, date1,
       apData([ presidentRace('NY', 1, 'clinton-lead', 'clinton') ], [], []),
@@ -231,4 +240,6 @@ describe('ApDataDiff', () => {
     )
     expect(d.map(r => r.changeType)).to.deep.eq([ 'win' ])
   })
+
+  it('should omit "start" events for Montana when asked for just Senate results')
 })
