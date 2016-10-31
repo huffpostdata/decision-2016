@@ -9,9 +9,7 @@ var mapSwitcherEl = document.getElementById('map-switcher');
 var map = new Map({
   el: mapEl,
   switchEl: mapSwitcherEl,
-  racesJson: initialJson.races,
-  geographyClass: 'districts',
-  cartogramClass: 'house-cartogram'
+  racesJson: initialJson.races
 });
 
 var navEl = document.querySelector('nav');

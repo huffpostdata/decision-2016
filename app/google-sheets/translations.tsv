@@ -1,10 +1,10 @@
 id	notes	en	en-CA	en-GB	en-IN	ar-SA	de-DE	el-GR	es	es-MX	fr	fr-CA	fr-MB	it	ja	ko	pt-BR
 h2.Electoral Votes	Title above photos of Clinton and Trump	Electoral Votes															
-name.clinton		Clinton	CA-linton														
+name.clinton		Clinton															
 name.trump		Trump															
-h2.Senate Seats	Title above senate chart	Senate Seats	Canadian Senate Seats														
-h2.House Seats	Title above house chart	House Seats	Canadian House Seats														
-h2.Battleground States	Title above battleground-state charts	Battleground States	CA-ttleground States														
+h2.Senate Seats	Title above senate chart	Senate Seats															
+h2.House Seats	Title above house chart	House Seats															
+h2.Battleground States	Title above battleground-state charts	Battleground States															
 legend.win	Tiny text in map legend: the "Win" in "Win/Lead"	Win															
 legend.lead	Tiny text in map legend: the "Lead" in "Win/Lead"	Lead															
 legend.not yet reporting		Not yet reporting															
@@ -112,7 +112,7 @@ state.West Virginia		West Virginia
 state.Wisconsin		Wisconsin															
 state.Wyoming		Wyoming															
 counts.n Popular Votes	PLURALIZED number of humans who voted for the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Popular Vote |||| %{smart_count} Popular Votes															
-counts.n Electoral Votes	PLURALIZED number of electors pledged to the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Electoral Vote |||| %{smart_count} Electoral Votes															
+counts.n Electoral Votes	PLURALIZED number of electors pledged to the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Electoral Vote |||| %{smart_count} Electoral Votes				ﻭﻻ ﺹﻮﺗ |||| ﺹﻮﺗ ﻭﺎﺣﺩ |||| ﺹﻮﺗﺎﻧ |||| %{smart_count} ﺄﺻﻭﺎﺗ |||| %{smart_count} ﺹﻮﺗ |||| %{smart_count} ﺹﻭ											
 party.dem		Democrats															
 party.gop		Republicans															
 counts.Precincts Reporting	A table header	Precincts Reporting															
@@ -126,3 +126,6 @@ banner.House		House
 banner.See full results	Link to English-only results page. It should end in " »"	See full results »															
 banner.34 seats up for re-election		34 seats up for re-election															
 banner.All 435 seats up for re-election		All 435 seats up for re-election															
+h5.Cartogram	Tab for Cartogram map mode	SIZED BY # OF ELECTORAL VOTES															
+h5.Geography	Tab for Geography map mode	MAP OF US															
+electoral.blurb		TK The country's 538 electors all vote according to their state's color. The candidate with 270 electors wins.															

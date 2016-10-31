@@ -21,7 +21,7 @@ html lang="en"
       var presidentUrl = "${data.url_to('president.json')}";
       var electionBaseUrl = "${data.url_to('index')}";
       var electoralHTML = $!{JSON.stringify(data.helpers.partial('_test/splash/_electoral'))};
-      var electoralImages = { 
+      var electoralImages = {
         clinton: {
           basic: "${data.url_to_asset('digest', 'images/splash/clinton.jpg')}",
           sad: "${data.url_to_asset('digest', 'images/splash/clinton-sad.jpg')}",
@@ -33,6 +33,8 @@ html lang="en"
           happy: "${data.url_to_asset('digest', 'images/splash/trump-happy.jpg')}"
         }
       };
+      var markoMap = $!{JSON.stringify(data.helpers.partial('president/_map'))};
+      var markoMapSwitcher = $!{JSON.stringify(data.helpers.partial('splash/_map-switcher'))};
 
       // TK nix all variables (make them HTML data- attributes or CSS backgrounds)
       // TK then link this JS with data.path_to_asset()

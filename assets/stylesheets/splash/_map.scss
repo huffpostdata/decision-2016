@@ -1,0 +1,13 @@
+@import '../_map';
+
+#election_map div[data-src] {
+  @include animated-map();
+
+  path.clinton-win { fill: $dem-color; }
+  path.clinton-lead { fill: $tossup-color; }
+  path.trump-win { fill: $gop-color; }
+  path.trump-lead { fill: $tossup-color; }
+  path.other-win { fill: $other-color; }
+  path.other-lead { fill: $tossup-color; }
+  path.tossup { fill: $tossup-color; }
+}

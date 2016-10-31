@@ -1,63 +1,11 @@
-#map-switcher {
-  .switch {
-    margin-top: .5rem;
-    display: -webkit-flex;
-    display: flex;
-    position: relative;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-bottom: 2.5rem; // for .text
+body.president #map-switcher {
+  @include map-switcher();
 
-    &>*:last-child { margin-left: -1px; }
+  .geography a::before {
+    background-image: asset-url('digest', 'maps/president-geography-thumbnail.png');
   }
 
-  a {
-    display: block;
-    color: inherit;
-    position: relative;
-    text-decoration: none;
-  }
-
-  .cartogram, .geography {
-    opacity: .3;
-    transition: opacity 200ms ease-in-out;
-    .text { display: none; }
-  }
-  &.cartogram .cartogram, &.geography .geography {
-    opacity: 1;
-    .text { display: block; }
-    a::before { display: none; }
-  }
-
-  img {
-    width: 6rem;
-    height: 6rem / $map-golden-ratio;
-    display: inline-block;
-    border: 1px solid $very-muted-color;
-    padding: .5rem 1rem;
-  }
-
-  h4 {
-    font-family: $header-font-family;
-    margin: 0;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  h5 {
-    font-family: $body-font-family;
-    font-weight: normal;
-    text-transform: uppercase;
-    font-size: 1rem;
-    text-align: center;
-    margin: 0;
-  }
-
-  .text {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    font-size: .85rem;
-    color: $muted-color;
+  .cartogram a::before {
+    background-image: asset-url('digest', 'maps/president-cartogram-thumbnail.png');
   }
 }

@@ -26,10 +26,15 @@
     border: 0;
   }
 
-  path[class$=mesh] {
+  text {
+    pointer-events: none;
+  }
+
+  path[class$=mesh], path.underlay, path.overlay {
     fill: none;
     stroke: $background;
     stroke-width: 1px;
+    pointer-events: none;
   }
 
   g.cartogram, g.geography {
@@ -44,14 +49,71 @@
   }
 }
 
-#map { // May be body.president #map, body.senate #map, body.house #map
+@mixin map-switcher() {
+  text-align: center;
+  padding: 0 1rem;
 
-  path.clinton-win { fill: $dem-color; }
-  path.clinton-lead { fill: $dem-lead-color; }
-  path.trump-win { fill: $gop-color; }
-  path.trump-lead { fill: $gop-lead-color; }
-  path.other-win { fill: $other-color; }
-  path.other-lead { fill: $other-lead-color; }
-  path.tossup { fill: $tossup-color; }
+  .switch {
+    margin-top: .5rem;
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    position: relative;
+    padding-bottom: 2.5rem; // for .text
+
+    &>*:last-child { margin-left: -1px; }
+  }
+
+  a {
+    display: block;
+    color: inherit;
+    position: relative;
+    text-decoration: none;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 4.5rem;
+      height: 4.5rem / $map-golden-ratio;
+      border: 1px solid $very-muted-color;
+      background-size: 4.5rem (4.5rem / $map-golden-ratio);
+      background-repeat: no-repeat;
+      background-position: center center;
+      padding: .5rem 1rem;
+    }
+  }
+
+  .cartogram, .geography {
+    opacity: .3;
+    transition: opacity 200ms ease-in-out;
+    .text { display: none; }
+  }
+
+  &.cartogram .cartogram, &.geography .geography {
+    opacity: 1;
+    .text { display: block; }
+  }
+
+  h4 {
+    font-family: $header-font-family;
+    margin: 0;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  h5 {
+    font-family: $body-font-family;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 1rem;
+    text-align: center;
+    margin: 0;
+  }
+
+  .text {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: .85rem;
+    color: $muted-color;
+  }
 }
-

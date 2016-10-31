@@ -1,4 +1,12 @@
 body.president #map {
+  text {
+    text-anchor: middle;
+    alignment-baseline: middle;
+    font-family: $header-font-family;
+    font-weight: bold;
+    font-size: 22px;
+  }
+
   path.clinton-win { fill: $dem-color; }
   path.clinton-lead { fill: $dem-lead-color; }
   path.trump-win { fill: $gop-color; }
