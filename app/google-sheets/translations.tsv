@@ -9,57 +9,57 @@ legend.win	Tiny text in map legend: the "Win" in "Win/Lead"	Win
 legend.lead	Tiny text in map legend: the "Lead" in "Win/Lead"	Lead															
 legend.not yet reporting		Not yet reporting															
 linkout.See Full Results	Link to the main dashboard (the main dashboard is only English)	See Full Results															
-state.AL	Two-letter state code	AL															
-state.AK		AK															
-state.AZ		AZ															
-state.AR		AR															
-state.CA		CA															
-state.CO		CO															
-state.CT		CT															
-state.DE		DE															
-state.DC		DC															
-state.FL		FL															
-state.GA		GA															
-state.HI		HI															
-state.ID		ID															
-state.IL		IL															
-state.IN		IN															
-state.IA		IA															
-state.KS		KS															
-state.KY		KY															
-state.LA		LA															
-state.ME		ME															
-state.MD		MD															
-state.MA		MA															
-state.MI		MI															
-state.MN		MN															
-state.MS		MS															
-state.MO		MO															
-state.MT		MT															
-state.NE		NE															
-state.NV		NV															
-state.NH		NH															
-state.NJ		NJ															
-state.NM		NM															
-state.NY		NY															
-state.NC		NC															
-state.ND		ND															
-state.OH		OH															
-state.OK		OK															
-state.OR		OR															
-state.PA		PA															
-state.RI		RI															
-state.SC		SC															
-state.SD		SD															
-state.TN		TN															
-state.TX		TX															
-state.UT		UT															
-state.VT		VT															
-state.VA		VA															
-state.WA		WA															
-state.WV		WV															
-state.WI		WI															
-state.WY		WY															
+state-abbreviation.Ala.	State abbreviation (appears on map)	Ala.															
+state-abbreviation.Alaska		Alaska															
+state-abbreviation.Ariz.		Ariz.															
+state-abbreviation.Ark.		Ark.															
+state-abbreviation.Calif.		Calif.															
+state-abbreviation.Colo.		Colo.															
+state-abbreviation.Conn.		Conn.															
+state-abbreviation.Del.		Del.															
+state-abbreviation.D.C.		D.C.															
+state-abbreviation.Fla.		Fla.															
+state-abbreviation.Ga.		Ga.															
+state-abbreviation.Hawaii		Hawaii															
+state-abbreviation.Idaho		Idaho															
+state-abbreviation.Ill.		Ill.															
+state-abbreviation.Ind.		Ind.															
+state-abbreviation.Iowa		Iowa															
+state-abbreviation.Kans.		Kans.															
+state-abbreviation.Ky.		Ky.															
+state-abbreviation.La.		La.															
+state-abbreviation.Maine		Maine															
+state-abbreviation.Md.		Md.															
+state-abbreviation.Mass.		Mass.															
+state-abbreviation.Mich.		Mich.															
+state-abbreviation.Minn.		Minn.															
+state-abbreviation.Miss.		Miss.															
+state-abbreviation.Mo.		Mo.															
+state-abbreviation.Mont.		Mont.															
+state-abbreviation.Nebr.		Nebr.															
+state-abbreviation.Nev.		Nev.															
+state-abbreviation.N.H.		N.H.															
+state-abbreviation.N.J.		N.J.															
+state-abbreviation.N.M.		N.M.															
+state-abbreviation.N.Y.		N.Y.															
+state-abbreviation.N.C.		N.C.															
+state-abbreviation.N.D.		N.D.															
+state-abbreviation.Ohio		Ohio															
+state-abbreviation.Okla.		Okla.															
+state-abbreviation.Ore.		Ore.															
+state-abbreviation.Pa.		Pa.															
+state-abbreviation.R.I.		R.I.															
+state-abbreviation.S.C.		S.C.															
+state-abbreviation.S.D.		S.D.															
+state-abbreviation.Tenn.		Tenn.															
+state-abbreviation.Tex.		Tex.															
+state-abbreviation.Utah		Utah															
+state-abbreviation.Vt.		Vt.															
+state-abbreviation.Va.		Va.															
+state-abbreviation.Wash.		Wash.															
+state-abbreviation.W.Va.		W.Va.															
+state-abbreviation.Wis.		Wis.															
+state-abbreviation.Wyo.		Wyo.															
 state.Alabama	Full state name	Alabama															
 state.Alaska		Alaska															
 state.Arizona		Arizona															
@@ -126,6 +126,9 @@ banner.House		House
 banner.See full results	Link to English-only results page. It should end in " »"	See full results »															
 banner.34 seats up for re-election		34 seats up for re-election															
 banner.All 435 seats up for re-election		All 435 seats up for re-election															
-h5.Cartogram	Tab for Cartogram map mode	SIZED BY # OF ELECTORAL VOTES															
-h5.Geography	Tab for Geography map mode	MAP OF US															
+h5.Cartogram	Tab for Cartogram map mode	ELECTORAL VOTES															
+h5.Geography	Tab for Geography map mode	GEOGRAPHY															
 electoral.blurb		TK The country's 538 electors all vote according to their state's color. The candidate with 270 electors wins.															
+legend.header	Header for Legend	POLLS															
+legend.open	Text to represent open state	Open															
+map.switch message	Text for map toggle on splash	View Map As															
