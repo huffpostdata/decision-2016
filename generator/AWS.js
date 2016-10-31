@@ -21,7 +21,7 @@ class AWS {
 
   upload_assets(assets) {
     const keys = Object.keys(assets)
-    return keys.reduce((p, key) => p.then(() => this.upload_asset(key, assets[key])), Promise.accept())
+    return Promise.all(keys.map(key => this.upload_asset(key, assets[key])))
   }
 
   upload_redirect(key, path) {
@@ -53,7 +53,7 @@ class AWS {
 
   upload_pages(pages) {
     const keys = Object.keys(pages)
-    return keys.reduce((p, key) => p.then(() => this.upload_page(key, pages[key])), Promise.accept())
+    return Promise.all(keys.map(key => this.upload_page(key, pages[key])))
   }
 
   upload_assets_and_pages(assets, pages) {

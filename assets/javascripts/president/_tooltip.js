@@ -7,34 +7,41 @@ var toolTip = (function() {
     this.stateSummary = targ.querySelector('.state-summary');
     this.candidates = targ.querySelector('.candidates');
 
-    this.setText = function(stateEl) {
-      var stateId = stateEl.getAttribute('class').split(/ /, 1)[0];
-      var dataRef = this.raceData[stateId];
-      if (stateId !== 'mesh') {
-        var stateName = dataRef.name;
-        var nElVotes = dataRef.nElectoralVotes;
-        this.stateName.textContent = stateName;
-        this.stateSummary.textContent = 'The candidate that wins the popular vote will win all ' + nElVotes + ' of ' + stateName + '\'s electoral votes';
-      }
+    this.positionTooltip = function(stateEl, stateId){
+      var that = this
+      this.setText(stateEl, stateId, function(){
+        that.tooltip.style.display = 'block';
+        var mapHeight = document.querySelector('.map').offsetHeight;
+        var mapWidth = document.querySelector('.map').offsetWidth;
+        var boundBox = stateEl.getBBox();
+        var scaleDown = mapWidth > mapHeight ? mapWidth / 1294 : mapHeight / 800;
+        var xPos = Math.floor((boundBox.x + boundBox.width / 2) * scaleDown);
+        var yPos = Math.floor((boundBox.y + boundBox.height / 4) * scaleDown);
+        var width = parseFloat(that.tooltip.offsetWidth);
+        var height = parseFloat(that.tooltip.offsetHeight);
+        var offsetX = width / 2;
+        var offsetY = height;
+        that.tooltip.style.left = xPos - offsetX + 'px';// - offsetX + 'px';
+        that.tooltip.style.top = yPos - offsetY + 'px';
+      })
     }
 
-    this.positionTooltip = function(stateEl){
-      var mapHeight = document.querySelector('.map').offsetHeight;
-      var mapWidth = document.querySelector('.map').offsetWidth;
-      var boundBox = stateEl.getBBox();
-      var scaleDown = mapWidth > mapHeight ? mapWidth / 1294 : mapHeight / 800;
-      var xPos = Math.floor((boundBox.x + boundBox.width / 2) * scaleDown);
-      var yPos = Math.floor((boundBox.y + boundBox.height / 2) * scaleDown);
-      var width = parseFloat(this.tooltip.offsetWidth);
-      var height = parseFloat(this.tooltip.offsetHeight);
-      var offsetX = (xPos + width) > mapWidth ? ((xPos + width) - mapWidth) : 0;
-      var offsetY = (yPos + height) > mapHeight ? ((yPos + height) - mapHeight) : 0;
-      this.tooltip.style.left = xPos + 'px';// - offsetX + 'px';
-      this.tooltip.style.top = yPos - offsetY + 'px';
+    this.setText = function(stateEl, stateId, callback) {
+      var that = this
+      this.buildTable(stateEl, stateId, function() {
+        var dataRef = that.raceData[stateId];
+        if (stateId !== 'mesh') {
+          var stateName = dataRef.name;
+          var nElVotes = dataRef.nElectoralVotes;
+          that.stateName.textContent = stateName;
+          that.stateSummary.textContent = 'The candidate that wins the popular vote will win all ' + nElVotes + ' of ' + stateName + '\'s electoral votes';
+        }
+      })
+      callback();
     }
 
-    this.buildTable = function(stateEl) {
-      var stateId = stateEl.getAttribute('class').split(/ /, 1)[0];
+
+    this.buildTable = function(stateEl, stateId, callback) {
       var dataRef = this.raceData[stateId];
       if (stateId !== 'mesh') {
         var candidates = dataRef.candidates;
@@ -57,6 +64,7 @@ var toolTip = (function() {
         resultStr += '</tbody></table>';
         table.innerHTML = resultStr;
       }
+      callback();
     }
 
     this.setData = function(data) {
@@ -67,14 +75,11 @@ var toolTip = (function() {
     }
 
     this.handleMouseover = function(targ, mapRef) {
-      var bothCarto = mapRef.classList.contains('geography') && targ.parentElement.classList.contains('states');
-      var bothGeo = mapRef.classList.contains('cartogram') && targ.parentElement.classList.contains('president-cartogram');
+      var bothCarto = mapRef.classList.contains('cartogram') && targ.parentElement.classList.contains('cartogram');
+      var bothGeo = mapRef.classList.contains('geography') && targ.parentElement.classList.contains('geography');
       if (bothCarto || bothGeo) {
-        var stateId = targ.getAttribute('class').split(/ /, 1)[0];
-        this.tooltip.style.display = 'block';
-        this.positionTooltip(targ);
-        this.setText(targ);
-        this.buildTable(targ);
+        var stateId = targ.getAttribute('data-race-id').split(/ /, 1)[0];
+        this.positionTooltip(targ, stateId);
       }
     }
 
