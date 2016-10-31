@@ -63,6 +63,9 @@ if (electoralPlacement) {
   ]);
 
   var electoralBars = electoral.querySelector('.bars');
+  var electoralTitle = document.querySelector('.electoral-title');
+  var electoralBlurb = document.querySelector('.electoral-blurb');
+
   var areaWidth = electoral.offsetWidth;
   var areaHeight = electoral.offsetHeight;
 
@@ -79,11 +82,13 @@ if (electoralPlacement) {
   var tFace = electoral.querySelector('.face'+tMod);
 
   var cBubble = electoral.querySelector('.bubble'+cMod);
-  var cBubbleText = cBubble.querySelector('.bubble__votes');
+  var cBubbleName = cBubble.querySelector('.bubble__candidate');
+  var cBubbleVotes = cBubble.querySelector('.bubble__votes');
   var cBubbleHandle = electoral.querySelector('.bubble-handle--clinton');
 
   var tBubble = electoral.querySelector('.bubble'+tMod);
-  var tBubbleText = tBubble.querySelector('.bubble__votes');
+  var tBubbleName = tBubble.querySelector('.bubble__candidate');
+  var tBubbleVotes = tBubble.querySelector('.bubble__votes');
   var tBubbleHandle = electoral.querySelector('.bubble-handle--trump');
 
   var bubbleMaxWidth = 200;
@@ -96,6 +101,8 @@ if (electoralPlacement) {
   var winCondition = 270;
   var titleFont = '"ProximaNovaCond-Extrabld", "Helvetica Neue", "Helvetica", Arial, sans-serif';
 
+  var finishBubble = electoral.querySelector('.finish-bubble');
+
   function percentToPixel(percent) {
     return electoral.offsetWidth * (percent/100);
   }
@@ -104,15 +111,19 @@ if (electoralPlacement) {
     return val/totalVotes*100;
   }
 
-  function normalizeData(data) {
+  function normalizeData(data, i18n) {
+    var format = new window.Intl.NumberFormat(i18n.locale).format;
+
     return {
       clinton: {
         electoral: data.nClintonElectoralVotes,
-        popular: data.nClinton
+        electoral_display: format(data.nClintonElectoralVotes),
+        popular: data.nClinton,
       },
       trump: {
         electoral: data.nTrumpElectoralVotes,
-        popular: data.nTrump
+        electoral_display: format(data.nTrumpElectoralVotes),
+        popular: data.nTrump,
       },
       winner: data.winner
     };
@@ -130,8 +141,6 @@ if (electoralPlacement) {
 
     var cBubblePosition = bubblePosition(cBarPosition, cBubbleSize.width, collision.clinton);
     var tBubblePosition = bubblePosition(tBarPosition, tBubbleSize.width, collision.trump);
-
-    // var cNameSize = nameSize(cBubbleSize.height);
 
     var cHandlePosition = handlePosition(cBarPosition, cBubbleSize.width, collision.clinton);
     var tHandlePosition = handlePosition(tBarPosition, tBubbleSize.width, collision.trump);
@@ -305,12 +314,12 @@ if (electoralPlacement) {
     }
   }
 
-  function bubbles(d, c, t) {
+  function bubbles(d, c, t, i18n) {
     cBubble.style.left = c.bubble.position;
     cBubble.style.width = c.bubble.width;
     cBubble.style.height = c.bubble.height;
     cBubble.style.fontSize = c.bubble.height;
-    cBubbleText.innerHTML = d.clinton.electoral;
+    cBubbleVotes.innerHTML = d.clinton.electoral_display;
     cBubbleHandle.style.left = c.bubble.handle;
     cBubbleHandle.setAttribute('data-handle', c.bubble.handleModifier);
 
@@ -318,16 +327,18 @@ if (electoralPlacement) {
     tBubble.style.width = t.bubble.width;
     tBubble.style.height = t.bubble.height;
     tBubble.style.fontSize = t.bubble.height;
-    tBubbleText.innerHTML = d.trump.electoral;
+    tBubbleVotes.innerHTML = d.trump.electoral_display;
     tBubbleHandle.style.right = t.bubble.handle;
     tBubbleHandle.setAttribute('data-handle', t.bubble.handleModifier);
   }
 
-  function bars(d, c, t) {
+  function bars(d, c, t, i18n) {
     cBar.style.width = c.barPosition; 
-    cBarText.innerHTML = d.clinton.popular.toLocaleString() + ' POPULAR VOTES';
+    cBarText.innerHTML = i18n.t('counts.n Popular Votes', d.clinton.popular).toUpperCase();
+    // d.clinton.popular_display + ' POPULAR VOTES';
     tBar.style.width = t.barPosition;
-    tBarText.innerHTML = d.trump.popular.toLocaleString() + ' POPULAR VOTES';
+    // tBarText.innerHTML = d.trump.popular_display + ' POPULAR VOTES';
+    tBarText.innerHTML = i18n.t('counts.n Popular Votes', d.trump.popular).toUpperCase();
   }
 
   function faces(c, t) {
@@ -342,22 +353,37 @@ if (electoralPlacement) {
     tFace.style.backgroundImage = "url("+t.face.image+")";
   }
 
-  function updateThings(data) {
+  function updateThings(data, i18n) {
     var clintonPercent = percentOfVotes(data.clinton.electoral);
     var trumpPercent = percentOfVotes(data.trump.electoral);
     var newState = nextState(data, clintonPercent, trumpPercent);
 
-    bubbles(data, newState.clinton, newState.trump);
-    bars(data, newState.clinton, newState.trump);
+    bubbles(data, newState.clinton, newState.trump, i18n);
+    bars(data, newState.clinton, newState.trump, i18n);
     faces(newState.clinton, newState.trump);
+  }
+
+  function updateStaticContent(i18n) {
+    electoralTitle.innerHTML = i18n.t('h2.Electoral Votes').toUpperCase();
+    electoralBlurb.innerHTML = i18n.t('electoral.blurb');
+    cBubbleName.innerHTML = i18n.t('name.clinton').toUpperCase();
+    tBubbleName.innerHTML = i18n.t('name.trump').toUpperCase();
+    finishBubble.innerHTML = i18n.t('counts.270 to win');
   }
 }
 
 module.exports = {
+  update: function(data, i18n) {
+    if(electoralPlacement) {
+      var normalData = normalizeData(data, i18n);
+      updateThings(normalData, i18n);
+    }
+  },
   render: function(data, i18n) {
     if(electoralPlacement) {
-      var normalData = normalizeData(data);
-      updateThings(normalData);
+      var normalData = normalizeData(data, i18n);
+      updateStaticContent(i18n);
+      updateThings(normalData, i18n);
     }
   }
 }
