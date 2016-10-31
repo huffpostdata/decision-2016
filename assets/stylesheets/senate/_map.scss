@@ -1,32 +1,21 @@
-body.house #map {
+body.senate #map {
   text {
+    text-anchor: middle;
+    alignment-baseline: middle;
     font-family: $header-font-family;
     font-weight: bold;
     font-size: 22px;
   }
 
-  path.district-mesh {
-    stroke-width: 1px;
-  }
-
-  path.state-mesh {
+  path.mesh {
     stroke-width: 3px;
   }
 
-  path.underlay {
-    fill: $background;
-    stroke: $very-muted-color;
-    stroke-width: 1px;
-  }
-
+  path { fill: $very-very-muted-color; } // TK delete me! Figure out all the class names
   path.dem-win { fill: $dem-color; }
   path.dem-lead { fill: $dem-lead-color; }
   path.gop-win { fill: $gop-color; }
   path.gop-lead { fill: $gop-lead-color; }
-  path.lib-win { fill: $lib-color; }
-  path.lib-lead { fill: $lib-lead-color; }
-  path.grn-win { fill: $grn-color; }
-  path.grn-lead { fill: $grn-lead-color; }
   path.other-win { fill: $other-color; }
   path.other-lead { fill: $other-lead-color; }
   path.tossup { fill: $tossup-color; }

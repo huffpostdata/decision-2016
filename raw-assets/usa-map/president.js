@@ -2,11 +2,9 @@
 
 'use strict'
 
-const Canvas = require('canvas')
 const debug = require('debug')('president')
 const fs = require('fs')
 const dims = require('./lib/dims')
-const drawGeojsonOntoCanvas = require('./lib/drawGeojsonOntoCanvas')
 const loadStatesGeojson = require('./lib/loadStatesGeojson')
 const pathDBuilder = require('./lib/pathDBuilder')
 const CartogramData = require('./lib/PresidentCartogram')
@@ -53,11 +51,19 @@ const StateCodeToAbbreviation = fs.readFileSync(`${__dirname}/../../app/google-s
   .reduce(((s, row) => { s[row[0]] = row[2]; return s }), {})
 
 function stateSquaresToTexts(stateSquares) {
-  function squareCX(axy) { // "center-X"
-    return Math.round(dims.Accuracy * (axy.x + Math.sqrt(axy.a) * 15 / 2))
+  function squareCX(raceId) { // "center-X"
+    const axy = stateSquares[raceId]
+    switch (raceId) {
+      case 'ME': return 1260
+      case 'AK': return 63
+      case 'HI': return 260
+      case 'NE': return 448
+      default: return Math.round(dims.Accuracy * (axy.x + Math.sqrt(axy.a) * 15 / 2))
+    }
   }
 
-  function squareCY(axy) { // "center-Y"
+  function squareCY(raceId) { // "center-Y"
+    const axy = stateSquares[raceId]
     return Math.round(dims.Accuracy * (axy.y + Math.sqrt(axy.a) * 15 / 2))
   }
 
@@ -66,15 +72,14 @@ function stateSquaresToTexts(stateSquares) {
       // "NY" => "N.Y."
       return StateCodeToAbbreviation[raceId]
     } else {
-      // "ME1" => "1"
-      return raceId.slice(2)
+      return ''
     }
   }
 
   return Object.keys(stateSquares)
     .map(raceId => {
       const square = stateSquares[raceId]
-      return `<text x="${squareCX(square)}" y="${squareCY(square)}">${text(raceId)}</text>`
+      return `<text x="${squareCX(raceId)}" y="${squareCY(raceId)}">${text(raceId)}</text>`
     })
     .join('')
 }
@@ -115,44 +120,5 @@ function writePresidentSvg(states) {
   fs.writeFileSync(outFile, outBuffer)
 }
 
-function writePresidentThumbnails(states) {
-  debug('Generating president thumbnail PNGs')
-
-  const canvas = new Canvas(dims.Width, dims.Height)
-  const ctx = canvas.getContext('2d')
-
-  ctx.fillStyle = 'black'
-  ctx.strokeStyle = 'white'
-  ctx.lineWidth = 3
-  ctx.beginPath()
-  drawGeojsonOntoCanvas(ctx, states.features)
-  ctx.fill()
-  ctx.stroke()
-
-  const thumbWidth = Math.ceil(dims.Width / dims.Accuracy / 2)
-  const thumbHeight = Math.ceil(dims.Height / dims.Accuracy / 2)
-
-  const canvas2 = new Canvas(thumbWidth, thumbHeight)
-  const ctx2 = canvas2.getContext('2d')
-  ctx2.drawImage(canvas, 0, 0, dims.Width, dims.Height, 0, 0, thumbWidth, thumbHeight)
-
-  const buf = canvas2.toBuffer()
-  fs.writeFileSync(`${__dirname}/../../assets/maps/president-usa-thumbnail.png`, buf)
-
-  ctx2.clearRect(0, 0, thumbWidth, thumbHeight)
-  ctx2.fillStyle = 'black'
-  ctx2.beginPath()
-  Object.keys(CartogramData).forEach(stateCode => {
-    const square = CartogramData[stateCode]
-    const s = Math.sqrt(square.a) * 15 / 2
-    ctx2.rect(square.x / 2, square.y / 2, s, s)
-  })
-  ctx2.fill()
-
-  const buf2 = canvas2.toBuffer()
-  fs.writeFileSync(`${__dirname}/../../assets/maps/president-cartogram-thumbnail.png`, buf2)
-}
-
 const states = loadStatesGeojson()
 writePresidentSvg(states)
-writePresidentThumbnails(states)

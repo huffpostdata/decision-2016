@@ -224,7 +224,7 @@ describe('ApData', () => {
           { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem', winner: false },
           { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop', winner: true },
           { name: 'Johnson', fullName: 'Gary Johnson', n: 3456, partyId: 'lib', winner: false },
-          { name: 'Er', fullName: 'Oth Er', n: 4567, partyId: 'oth', winner: false }
+          { name: 'Er', fullName: 'Oth Er', n: 4567, partyId: 'other', winner: false }
         ])
       })
 
@@ -432,4 +432,271 @@ describe('ApData', () => {
       })
     }) // with sample data
   }) // #houseSummary
+
+  describe('#senateRaces', () => {
+    describe('with sample data', () => {
+      const races = new Array(34).fill(null).map(() => Object.assign({}, {
+        reportingUnits: [
+          {
+            statePostal: 'AK',
+            stateName: 'Alaska',
+            precinctsReporting: 12,
+            precinctsTotal: 34,
+            candidates: [
+              { last: 'SomeDem', party: 'Dem', voteCount: 123 },
+              { last: 'SomeGop', party: 'GOP', voteCount: 123 },
+              { last: 'SomeoneElse', party: 'Grn', voteCount: 123 }
+            ]
+          }
+        ]
+      }))
+
+      function go(apRaces) {
+        const apData = new ApData({
+          findSenateRaces() { return apRaces }
+        }, null)
+        return apData.senateRaces()
+      }
+
+      it('should have n=100', () => {
+        expect(go(races).length).to.eq(100)
+      })
+
+      it('should set seatClass on prior races', () => {
+        expect(go(races)[0].seatClass).to.eq('1')
+      })
+
+      it('should set seatClass=3 on current races', () => {
+        expect(go(races)[50].seatClass).to.eq('3')
+      })
+
+      it('should have 34 non-prior races', () => {
+        const actual = go(races).filter(r => r.className !== 'dem-prior' && r.className !== 'gop-prior')
+        expect(actual.length).to.eq(34)
+      })
+
+      it('should have race IDs like "AKS3", etc.', () => {
+        const actual = go(races)
+        expect(actual[0].id).to.eq('CAS1') // a prior race
+        expect(actual[50].id).to.eq('AKS3') // a current race -- all our mock races are Alaska :)
+      })
+
+      it('should set name to the state name', () => {
+        const actual = go(races)
+        expect(actual[0].name).to.eq('California') // a prior race
+        expect(actual[50].name).to.eq('Alaska') // a current race
+      })
+
+      it('should set nPrecincts and nPrecinctsReporting', () => {
+        const actual = go(races)
+        expect(actual[50].nPrecincts).to.eq(34)
+        expect(actual[50].nPrecinctsReporting).to.eq(12)
+
+        // priors have no precinct counts
+        expect(actual[0].hasOwnProperty('nPrecincts')).to.eq(false)
+        expect(actual[0].hasOwnProperty('nPrecinctsReporting')).to.eq(false)
+      })
+
+      it('should set className=dem-prior, sorted first', () => {
+        const actual = go(races)[35]
+        expect(actual.winner).to.eq('dem')
+        expect(actual.className).to.eq('dem-prior')
+      })
+
+      it('should set className=dem-win, sorted second', () => {
+        const races2 = JSON.parse(JSON.stringify(races))
+        races2[0].reportingUnits[0].candidates[0].winner = 'X'
+        const actual = go(races2)[36]
+        expect(actual.winner).to.eq('dem')
+        expect(actual.className).to.eq('dem-win')
+      })
+
+      it('should set className=dem-lead, sorted third', () => {
+        const races2 = JSON.parse(JSON.stringify(races))
+        races2[0].reportingUnits[0].candidates[0].winner = 'X' // this race should appear _before_ ours
+        races2[1].reportingUnits[0].candidates[0].voteCount = 124 // top count
+        const actual = go(races2)[37]
+        expect(actual.winner).to.eq(null)
+        expect(actual.className).to.eq('dem-lead')
+      })
+
+      it('should set className=tossup', () => {
+        const actual = go(races)[36]
+        expect(actual.winner).to.eq(null)
+        expect(actual.className).to.eq('tossup')
+      })
+
+      it('should set className=gop-lead', () => {
+        const races2 = JSON.parse(JSON.stringify(races))
+        races2[0].reportingUnits[0].candidates[1].voteCount = 124 // top count
+        races2[1].reportingUnits[0].candidates[1].winner = 'X' // this should appear _after_ ours
+        const actual = go(races2)[68]
+        expect(actual.winner).to.eq(null)
+        expect(actual.className).to.eq('gop-lead')
+      })
+
+      it('should set className=gop-win', () => {
+        const races2 = JSON.parse(JSON.stringify(races))
+        races2[0].reportingUnits[0].candidates[1].winner = 'X'
+        const actual = go(races2)[69]
+        expect(actual.winner).to.eq('gop')
+        expect(actual.className).to.eq('gop-win')
+      })
+
+      it('should set className=gop-prior', () => {
+        const actual = go(races)[70]
+        expect(actual.winner).to.eq('gop')
+        expect(actual.className).to.eq('gop-prior')
+      })
+
+      it('should have one candidate as "winner" on prior races', () => {
+        expect(go(races)[70].candidates).to.deep.eq([{
+          fullName: 'Jeff Sessions',
+          name: 'Sessions',
+          partyId: 'gop'
+        }])
+      })
+
+      it('should set Bernie Sanders to party="ind" and className="dem-prior"', () => {
+        const actual = go(races)[30]
+        expect(actual.id).to.eq('VTS1') // Making sure we're on the right one
+        expect(actual.winner).to.eq('dem')
+        expect(actual.candidates[0].partyId).to.eq('ind')
+      })
+
+      it('should set winner="dem" and className="dem-win" on CA race that has two Dem candidates', () => {
+        const races2 = JSON.parse(JSON.stringify(races))
+        races2[0].reportingUnits[0].statePostal = 'CA' // mark it so we can check we have the right one
+        races2[0].reportingUnits[0].candidates.length = 2 // just two candidates
+        races2[0].reportingUnits[0].candidates[1].party = 'Dem'
+
+        const actual = go(races2)[36]
+        expect(actual.id).to.eq('CAS3')
+        expect(actual.winner).to.eq('dem')
+        expect(actual.className).to.eq('dem-win')
+      })
+    })
+  })
+
+  describe('#houseRaces', () => {
+    describe('with sample data', () => {
+      function build(winner) {
+        return {
+          seatNum: '2',
+          reportingUnits: [
+            {
+              statePostal: 'AK',
+              stateName: 'Alaska',
+              candidates: [
+                { last: 'SomeDem', party: 'Dem', voteCount: 123, winner: (winner === 'Dem' ? 'X' : '') },
+                { last: 'SomeGop', party: 'GOP', voteCount: 123, winner: (winner === 'GOP' ? 'X' : '') },
+                { last: 'SomeoneElse', party: 'Grn', voteCount: 123, winner: '' }
+              ]
+            }
+          ]
+        }
+      }
+      const dems = new Array(80).fill(null).map((_, i) => build('Dem'))
+      const gops = new Array(100).fill(null).map((_, i) => build('GOP'))
+      const tossup = new Array(255).fill(null).map((_, i) => build())
+
+      function houseRaces(dems, gops, tossup) {
+        const apData = new ApData({
+          findHouseRaces() {
+            return dems.concat(...gops).concat(...tossup)
+          }
+        }, null)
+        return apData.houseRaces()
+      }
+
+      it('should have n=435', () => {
+        expect(houseRaces(dems, gops, tossup).length).to.eq(435)
+      })
+
+      it('should set className=dem-win, sorted first', () => {
+        // We're testing two things: the sort and the class name
+        // That's because the sort order depends on the class name
+        const newDems = JSON.parse(JSON.stringify(dems))
+        newDems[3].seatNum = '1' // another sort-order helper
+        newDems[3].reportingUnits[0].candidates[0] = {
+          last: 'SomeDem', party: 'Dem', voteCount: 2001, winner: 'X'
+        }
+        expect(houseRaces(newDems, gops, tossup)[0].className).to.eq('dem-win')
+      })
+
+      it('should set className=gop-win, sorted last', () => {
+        const newGops = JSON.parse(JSON.stringify(gops))
+        newGops[1].seatNum = '3' // another sort-order helper
+        newGops[1].reportingUnits[0].candidates[1] = {
+          last: 'SomeGop', party: 'GOP', voteCount: 2002, winner: 'X'
+        }
+
+        expect(houseRaces(dems, newGops, tossup)[434].className).to.eq('gop-win')
+      })
+
+      it('should set className=dem-lead, sorted after dem-win', () => {
+        const newDems = JSON.parse(JSON.stringify(dems))
+        for (const dem of newDems) {
+          dem.reportingUnits[0].candidates[0].winner = 'X'
+        }
+        newDems[3].reportingUnits[0].candidates[0].voteCount = 124 // everyone else has 123
+        newDems[3].reportingUnits[0].candidates[0].winner = ''
+        newDems[3].seatNum = '12'
+
+        const actual = houseRaces(newDems, gops, tossup)[newDems.length - 1]
+        expect(actual.id).to.eq('AK12')
+        expect(actual.className).to.eq('dem-lead')
+      })
+
+      it('should set className=gop-lead, sorted before gop-win', () => {
+        const newGops = JSON.parse(JSON.stringify(gops))
+        for (const gop of newGops) {
+          gop.reportingUnits[0].candidates[1].winner = 'X'
+        }
+        newGops[3].reportingUnits[0].candidates[1].voteCount = 124 // everyone else has 123
+        newGops[3].reportingUnits[0].candidates[1].winner = ''
+        newGops[3].seatNum = '1'
+
+        const actual = houseRaces(dems, newGops, tossup)[435 - newGops.length]
+        expect(actual.id).to.eq('AK01')
+        expect(actual.className).to.eq('gop-lead')
+      })
+
+      it('should set a name based on seatNum', () => {
+        const newDems = JSON.parse(JSON.stringify(dems))
+        newDems[0].seatNum = '1'
+        expect(houseRaces(newDems, gops, tossup)[0].name).to.eq('Alaska District 1')
+      })
+
+      it('should set a name of "At Large"', () => {
+        const newDems = JSON.parse(JSON.stringify(dems))
+        newDems[0].description = 'Alaska at large'
+        newDems[0].seatNum = '1'
+        expect(houseRaces(newDems, gops, tossup)[0].name).to.eq('Alaska At Large')
+      })
+
+      it('should set nPrecincts and nPrecinctsReporting', () => {
+        const newDems = JSON.parse(JSON.stringify(dems))
+        newDems[0].seatNum = '1'
+        newDems[0].reportingUnits[0].precinctsReporting = 12
+        newDems[0].reportingUnits[0].precinctsTotal = 34
+        const actual = houseRaces(newDems, gops, tossup)[0]
+
+        expect(actual.nPrecincts).to.eq(34)
+        expect(actual.nPrecinctsReporting).to.eq(12)
+      })
+
+      it('should set winner="dem" on race that has two Dem candidates', () => {
+        const newDems = JSON.parse(JSON.stringify(dems))
+        newDems[0].reportingUnits[0].stateName = 'AAA'
+        newDems[0].reportingUnits[0].candidates.length = 2
+        newDems[0].reportingUnits[0].candidates[0].winner = ''
+        newDems[0].reportingUnits[0].candidates[1].party = 'Dem'
+        const actual = houseRaces(newDems, gops, tossup)
+        expect(actual[0].winner).to.eq('dem')
+        expect(actual[0].className).to.eq('dem-win')
+        expect(actual[0].candidates[0].winner).to.eq(false)
+      })
+    })
+  })
 }) // ApData

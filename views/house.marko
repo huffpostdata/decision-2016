@@ -1,6 +1,4 @@
-
 <!DOCTYPE html>
-
 html lang="en"
   head
     meta charset="utf-8"
@@ -21,13 +19,12 @@ html lang="en"
         .map
           $!{data.helpers.partial('house/_map')}
         .map-info
-          $!{data.helpers.partial('president/_map-switcher')}
+          $!{data.helpers.partial('house/_map-switcher')}
           $!{data.helpers.partial('dashboard/_changelog')}
 
     $!{data.helpers.partial('dashboard/_recirc')}
     $!{data.helpers.partial('_footer')}
 
-    <!-- TK "house.js", not "president.js" -->
     script src="${data.path_to_asset('javascript', 'javascripts/house.js')}" data-json="${JSON.stringify(data.model)}"
     script src="${data.path_to_asset('digest', 'javascripts/social.js')}"
     script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"

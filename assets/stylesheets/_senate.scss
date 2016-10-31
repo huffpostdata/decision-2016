@@ -1,0 +1,7 @@
+@import 'senate/_summary';
+@import 'senate/_map';
+@import 'senate/_map-switcher';
+
+body.senate {
+  @include dashboard-body();
+}
