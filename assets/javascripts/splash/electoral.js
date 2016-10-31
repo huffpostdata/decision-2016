@@ -94,13 +94,9 @@ if (electoralPlacement) {
   var bubbleMaxWidth = 200;
   var bubbleMaxHeight = 140;
 
-  var imageMaxWidth = 300;
   var imageMaxHeight = electoralBars.offsetTop;
 
   var totalVotes = 538;
-  var winCondition = 270;
-  var titleFont = '"ProximaNovaCond-Extrabld", "Helvetica Neue", "Helvetica", Arial, sans-serif';
-
   var finishBubble = electoral.querySelector('.finish-bubble');
 
   function percentToPixel(percent) {
@@ -334,11 +330,11 @@ if (electoralPlacement) {
 
   function bars(d, c, t, i18n) {
     cBar.style.width = c.barPosition; 
-    cBarText.innerHTML = i18n.t('counts.n Popular Votes', d.clinton.popular).toUpperCase();
+    cBarText.textContent = i18n.t('counts.n Popular Votes', d.clinton.popular);
     // d.clinton.popular_display + ' POPULAR VOTES';
     tBar.style.width = t.barPosition;
     // tBarText.innerHTML = d.trump.popular_display + ' POPULAR VOTES';
-    tBarText.innerHTML = i18n.t('counts.n Popular Votes', d.trump.popular).toUpperCase();
+    tBarText.textContent = i18n.t('counts.n Popular Votes', d.trump.popular);
   }
 
   function faces(c, t) {
@@ -364,11 +360,11 @@ if (electoralPlacement) {
   }
 
   function updateStaticContent(i18n) {
-    electoralTitle.innerHTML = i18n.t('h2.Electoral Votes').toUpperCase();
-    electoralBlurb.innerHTML = i18n.t('electoral.blurb');
-    cBubbleName.innerHTML = i18n.t('name.clinton').toUpperCase();
-    tBubbleName.innerHTML = i18n.t('name.trump').toUpperCase();
-    finishBubble.innerHTML = i18n.t('counts.270 to win');
+    electoralTitle.textContent = i18n.t('h2.Electoral Votes');
+    electoralBlurb.textContent = i18n.t('electoral.blurb');
+    cBubbleName.textContent = i18n.t('name.clinton');
+    tBubbleName.textContent = i18n.t('name.trump');
+    finishBubble.textContent = i18n.t('counts.270 to win');
   }
 }
 
