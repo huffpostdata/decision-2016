@@ -7,8 +7,7 @@ var toolTip = (function() {
     this.stateSummary = targ.querySelector('.state-summary');
     this.candidates = targ.querySelector('.candidates');
 
-    this.setText = function(stateEl) {
-      var stateId = stateEl.getAttribute('class').split(/ /, 1)[0];
+    this.setText = function(stateEl, stateId) {
       var dataRef = this.raceData[stateId];
       if (stateId !== 'mesh') {
         var stateName = dataRef.name;
@@ -33,8 +32,7 @@ var toolTip = (function() {
       this.tooltip.style.top = yPos - offsetY + 'px';
     }
 
-    this.buildTable = function(stateEl) {
-      var stateId = stateEl.getAttribute('class').split(/ /, 1)[0];
+    this.buildTable = function(stateEl, stateId) {
       var dataRef = this.raceData[stateId];
       if (stateId !== 'mesh') {
         var candidates = dataRef.candidates;
@@ -67,14 +65,14 @@ var toolTip = (function() {
     }
 
     this.handleMouseover = function(targ, mapRef) {
-      var bothCarto = mapRef.classList.contains('geography') && targ.parentElement.classList.contains('states');
-      var bothGeo = mapRef.classList.contains('cartogram') && targ.parentElement.classList.contains('president-cartogram');
+      var bothCarto = mapRef.classList.contains('cartogram') && targ.parentElement.classList.contains('cartogram');
+      var bothGeo = mapRef.classList.contains('geography') && targ.parentElement.classList.contains('geography');
       if (bothCarto || bothGeo) {
-        var stateId = targ.getAttribute('class').split(/ /, 1)[0];
+        var stateId = targ.getAttribute('data-race-id').split(/ /, 1)[0];
         this.tooltip.style.display = 'block';
         this.positionTooltip(targ);
-        this.setText(targ);
-        this.buildTable(targ);
+        this.setText(targ, stateId);
+        this.buildTable(targ, stateId);
       }
     }
 
