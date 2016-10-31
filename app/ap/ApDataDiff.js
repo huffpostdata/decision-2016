@@ -71,7 +71,7 @@ function findLeads(id1, date, races1, races2) {
   const Quarters1 = {}
   for (const race of races1) {
     ClassNames1[race.id] = race.className
-    Quarters1[race.id] = Math.floor(race.nPrecintsReporting / race.nPrecincts * 4)
+    Quarters1[race.id] = Math.floor(race.nPrecinctsReporting / race.nPrecincts * 4)
   }
 
   const ret = []
