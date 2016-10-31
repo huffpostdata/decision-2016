@@ -27,7 +27,7 @@ window.decision2016_init = function(data) {
 
   function doRefresh(json) {
     electionMap.update(json.races, i18n);
-    electoral.render(json.summaries.president, i18n);
+    electoral.update(json.summaries.president, i18n);
     battlegrounds.update(data.battlegrounds);
     seats.updateSenate(json.summaries.senate);
     seats.updateHouse(json.summaries.house);
