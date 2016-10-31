@@ -2,8 +2,9 @@ function readInt(s) { return s === '' ? null : parseInt(s, 10); }
 function writeInt(i) { return i === null ? '' : String(i); }
 var IntType = { read: readInt, write: writeInt };
 
+function readDate(s) { return new Date(Date.parse(s)); }
 function writeDate(d) { return d.toISOString(); }
-var DateType = { read: Date.parse, write: writeDate };
+var DateType = { read: readDate, write: writeDate };
 
 function readString(s) { return s === '' ? null : s; }
 function writeString(s) { return s || ''; }
@@ -43,8 +44,12 @@ function ChangelogEntry() {
   }
 }
 
-ChangelogEntry.prototype.fromTsvLine = function(tsv) {
+ChangelogEntry.fromTsvLine = function(tsv) {
   return new ChangelogEntry(tsv.split(/\t/));
+};
+
+ChangelogEntry.parseAll = function(text) {
+  return text.split(/\n/).map(ChangelogEntry.fromTsvLine);
 };
 
 ChangelogEntry.prototype.toTsvLine = function() {
