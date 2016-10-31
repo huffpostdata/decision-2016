@@ -1,6 +1,7 @@
 #election_seats{
-  width: $right-column-width;
-  padding: 20px 50px;
+  max-width: 280px;
+  width: 100%;
+  margin: 20px auto;
   box-sizing: border-box;
 
   .bar {
