@@ -1,11 +1,9 @@
 #battlegrounds {
-  border: 1px solid $border-color;
-  width: $right-column-width;
+  width: 375px;
 
   table {
     border-collapse: collapse;
     border-spacing: 0;
-    margin: 20px;
   }
   thead {
     color: $header-color;
@@ -14,6 +12,7 @@
       border-left: 1px dashed $border-color;
       border-bottom: 1px solid $hard-line;
       text-align: center;
+      font-weight: normal;
       &:nth-child(1) {
         text-align: left;
         border-left: none;
@@ -23,6 +22,7 @@
   tbody {
     tr {
       border-bottom: 1px solid $border-color;
+      vertical-align: middle;
       &:last-child {
         border-bottom: none;
       }
@@ -37,11 +37,13 @@
       }
       &.dem {
         .percent--winner {
+          color: #000;
           background-color: $dem-color;
         }
       }
       &.gop {
         .percent--winner {
+          color: #000;
           background-color: $gop-color;
         }
       }
@@ -64,21 +66,33 @@
       }
 
       &.percent {
+        font-family: $header-font-family;
+        padding: 0;
+        font-size: 20px;
+        color: #666;
         &.gop {
           background: $gop-lead-color;
         }
         &.dem {
           background: $dem-lead-color
         }
+        &--district {
+          font-family: $body-font-family;
+          font-weight: normal;
+          font-size: 16px;
+        }
       }
       .state{
+        font-family: $header-font-family;
         text-transform: uppercase;
-        font-size: 12px;
+        font-size: 16px;
         text-align: left;
       }
       .votes {
         display: block;
-        font-size: 10px;
+        font-size: 12px;
+        color: $header-color;
+        font-weight: normal;
       }
       &:nth-child(1) {
         border-left: none;

@@ -32,14 +32,14 @@ function getHeader () {
   var thDemHeadshot = document.createElement("th");
   var thGopHeadshot = document.createElement("th");
   var thPrecincts = document.createElement("th");
-  var demHeadshot = new Image(50, 50);
-  var gopHeadshot = new Image(50, 50);
+  var demHeadshot = new Image();
+  var gopHeadshot = new Image();
 
   thBlurb.setAttribute("colspan", 2);
   thBlurb.innerHTML = "States win which no single candidate or party has a guarantee in securing the majority of electoral votes";
 
-  demHeadshot.src = "http://www.placekitten.com/50/50";
-  gopHeadshot.src = "https://www.placecage.com/50/50";
+  demHeadshot.src = battlegroundsImages.clinton;
+  gopHeadshot.src = battlegroundsImages.trump;
   thDemHeadshot.appendChild(demHeadshot);
   thGopHeadshot.appendChild(gopHeadshot);
 
@@ -83,7 +83,7 @@ function paintRow(data) {
   gopPercent.setAttribute("class", "percent");
   gopPercent.innerHTML = data.gopPercent + "%";
 
-  districtPercent.setAttribute("class", "percent");
+  districtPercent.setAttribute("class", "percent percent--district");
   districtPercent.innerHTML = data.percentPrecinctsReporting + "%";
 
   row.setAttribute("data-state", data.abbr);
@@ -92,7 +92,7 @@ function paintRow(data) {
     row.setAttribute("class", data.winner);
     var winner;
     winner = (data.winner === "dem") ? demPercent : gopPercent;
-    winner.className += "--winner";
+    winner.className += " percent--winner";
   }
 
   row.appendChild(stateIcon);

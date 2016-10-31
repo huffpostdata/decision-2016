@@ -1,0 +1,20 @@
+@import 'splash';
+@import 'proxima-nova-condensed-extra-bold';
+
+.decision-iframe__splash {
+  width: 1170px;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 350px;
+  margin: 0 auto;
+  padding: 0;
+
+  &__left {
+    flex: 1 0 650px;
+  }
+
+  &__right {
+    padding-left: 30px;
+    flex: 1 0 350px;
+  }
+}
