@@ -33,6 +33,10 @@ html lang="en"
           happy: "${data.url_to_asset('digest', 'images/splash/trump-happy.jpg')}"
         }
       };
+      var battlegroundsImages = {
+        clinton: "${data.url_to_asset('digest', 'images/splash/clinton-battlegrounds.jpg')}",
+        trump: "${data.url_to_asset('digest', 'images/splash/trump-battlegrounds.jpg')}",
+      };
       var markoMap = $!{JSON.stringify(data.helpers.partial('president/_map'))};
       var markoMapSwitcher = $!{JSON.stringify(data.helpers.partial('splash/_map-switcher'))};
 

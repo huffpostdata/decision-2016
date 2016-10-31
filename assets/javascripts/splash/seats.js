@@ -23,7 +23,7 @@ function setUpHouse(data) {
   bar.childNodes[431].classList.add("space");
   bar.childNodes[440].classList.add("space");
 
-  house_seats.innerHTML = '<a href="'+electionBaseUrl+'/house" target="_blank" id="house-link"></a>';
+  house_seats.innerHTML = '<a href="'+electionBaseUrl+'/house" target="_blank" id="house-link" class="seats-link"></a>';
   var linkWrapper = document.getElementById('house-link');
   linkWrapper.appendChild(h2);
   linkWrapper.appendChild(sub);
@@ -69,7 +69,7 @@ function setUpSenate(data) {
 
   bar.innerHTML = repeatBoxes(MAX_SENATE_GRID, "box");
 
-  senate_seats.innerHTML = '<a href="'+electionBaseUrl+'/senate" target="_blank" id="senate-link"></a>';
+  senate_seats.innerHTML = '<a href="'+electionBaseUrl+'/senate" target="_blank" id="senate-link" class="seats-link"></a>';
   var linkWrapper = document.getElementById('senate-link');
   linkWrapper.appendChild(h2);
   linkWrapper.appendChild(sub);
