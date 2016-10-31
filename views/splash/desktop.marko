@@ -5,16 +5,18 @@ html lang="en"
     meta charset="utf-8"
     title - Splash Page Test
     meta name="viewport" content="width=device-width, initial-scale=1"
-    link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/splash.css')}"
+    link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/splash-desktop.css')}"
   body
-    p - This is a test splash page! here are the divs
-    #election-splash-refresh
-    #electoral_votes
-    #election_map
-    #battlegrounds
-    #election_seats
-      #house_seats
-      #senate_seats
+    .decision-iframe__splash
+      #election-splash-refresh
+      .decision-iframe__splash__left
+        #electoral_votes
+        #election_map
+      .decision-iframe__splash__right
+        #battlegrounds
+        #election_seats
+          #house_seats
+          #senate_seats
 
     script
       ---
