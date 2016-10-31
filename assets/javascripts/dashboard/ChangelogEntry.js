@@ -43,15 +43,15 @@ function ChangelogEntry() {
   }
 }
 
-ChangelogEntry.fromTsvLine = function(tsv) {
+ChangelogEntry.prototype.fromTsvLine = function(tsv) {
   return new ChangelogEntry(tsv.split(/\t/));
 };
 
-ChangelogEntry.toTsvLine = function() {
+ChangelogEntry.prototype.toTsvLine = function() {
   var _this = this;
   return Fields
-    .map(function(field) { return field.write(_this[field.key]); })
-    .join(/\t/);
+    .map(function(field) { return field.type.write(_this[field.key]); })
+    .join('\t');
 };
 
 module.exports = ChangelogEntry;
