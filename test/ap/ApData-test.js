@@ -100,7 +100,6 @@ describe('ApData', () => {
             officeID: 'P',
             reportingUnits: [ {
               statePostal: row[2],
-              stateName: row[4],
               electTotal: +row[3],
               candidates: [
                 // Funny "winner" pick: 0-8 votes: Trump, 11+ votes: Clinton; rest: tossup
@@ -122,7 +121,6 @@ describe('ApData', () => {
             reportingUnits: [ {
               level: 'state',
               statePostal: row[2],
-              stateName: row[4],
               statePostal: row[2],
               electTotal: (row[2] === 'ME' ? 4 : 5),
             } ]
@@ -131,9 +129,7 @@ describe('ApData', () => {
 
         districtRaces[districtRaces.length - 1].reportingUnits.push({
           level: 'district',
-          stateName: row[4],
           statePostal: row[2],
-          // no stateName
           electTotal: +row[3],
           reportingunitID: row[1].slice(2),
           reportingunitName: row[0].length === 2 ? 'At Large' : `District ${row[0].slice(2)}`,
@@ -174,12 +170,12 @@ describe('ApData', () => {
       it('should split ME races properly', () => {
         const me = races[19]
         expect(me.name).to.eq('Maine At Large')
-        expect(me.regionName).to.eq('Maine')
+        expect(me.stateName).to.eq('Maine')
         expect(me.nElectoralVotes).to.eq(2)
 
         const me1 = races[20]
         expect(me1.name).to.eq('Maine District 1')
-        expect(me1.regionName).to.eq('Maine')
+        expect(me1.stateName).to.eq('Maine')
         expect(me1.nElectoralVotes).to.eq(1)
       })
 
@@ -439,7 +435,6 @@ describe('ApData', () => {
         reportingUnits: [
           {
             statePostal: 'AK',
-            stateName: 'Alaska',
             precinctsReporting: 12,
             precinctsTotal: 34,
             candidates: [
@@ -586,7 +581,6 @@ describe('ApData', () => {
           reportingUnits: [
             {
               statePostal: 'AK',
-              stateName: 'Alaska',
               candidates: [
                 { last: 'SomeDem', party: 'Dem', voteCount: 123, winner: (winner === 'Dem' ? 'X' : '') },
                 { last: 'SomeGop', party: 'GOP', voteCount: 123, winner: (winner === 'GOP' ? 'X' : '') },
@@ -688,7 +682,7 @@ describe('ApData', () => {
 
       it('should set winner="dem" on race that has two Dem candidates', () => {
         const newDems = JSON.parse(JSON.stringify(dems))
-        newDems[0].reportingUnits[0].stateName = 'AAA'
+        newDems[0].reportingUnits[0].statePostal = 'AL' // so it sorts first
         newDems[0].reportingUnits[0].candidates.length = 2
         newDems[0].reportingUnits[0].candidates[0].winner = ''
         newDems[0].reportingUnits[0].candidates[1].party = 'Dem'
