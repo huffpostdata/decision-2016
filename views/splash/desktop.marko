@@ -41,5 +41,5 @@ html lang="en"
       $!{data.asset_contents('javascript', 'javascripts/splash.js')}
 
       var model = $!{JSON.stringify(data.model)};
-      window.decision2016_init(model);
+      window.decision2016_init(model, model.showRightRail);
       ---
