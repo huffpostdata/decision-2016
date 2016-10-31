@@ -1,3 +1,39 @@
 #changelog {
-  height: 10rem; background: $TK-code-this-component;
+  font-size: .85rem;
+
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: block;
+    position: relative;
+    padding-left: 2.5rem;
+    margin-bottom: .5rem;
+  }
+
+  time {
+    color: $muted-color;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  span.leader {
+    font-weight: bold;
+  }
+
+  .dem-win { color: $dem-color; }
+  .dem-lead { color: $dem-lead-color; }
+  .gop-win { color: $gop-color; }
+  .gop-lead { color: $gop-lead-color; }
+  .lib-win { color: $lib-color; }
+  .lib-lead { color: $lib-lead-color; }
+  .grn-win { color: $grn-color; }
+  .grn-lead { color: $grn-lead-color; }
+  .other-win { color: $other-color; }
+  .other-lead { color: $other-lead-color; }
+  .tossup { color: $tossup-color; }
 }

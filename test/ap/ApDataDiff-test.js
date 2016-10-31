@@ -231,4 +231,6 @@ describe('ApDataDiff', () => {
     )
     expect(d.map(r => r.changeType)).to.deep.eq([ 'win' ])
   })
+
+  it('should omit "start" events for Montana when asked for just Senate results')
 })
