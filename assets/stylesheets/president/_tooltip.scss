@@ -3,9 +3,10 @@
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 300px;
+  width: 230px;
   height: auto;
   pointer-events: none;
+  border: 1px solid #bdbdbd;
   background-color: rgb(255, 255, 255);
   .inner {
     position: relative;
@@ -38,7 +39,17 @@
       border-right: 10px solid transparent;
       border-top: 10px solid #fff;
       bottom: -10px;
-      left: 140px;
+      left: 105px;
+    }
+    .arrow-border {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 11px solid transparent;
+      border-right: 11px solid transparent;
+      border-top: 11px solid #bdbdbd;
+      bottom: -11px;
+      left: 104px;
     }
   }
 }
