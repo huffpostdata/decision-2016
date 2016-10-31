@@ -5,15 +5,9 @@ $bar-position: $bar-height*1.5;
 $base-index: 1000;
 $transition-speed: 1s;
 
-@mixin img-wh($w, $h) {
-  $max-width: 300;
-  width: #{$max-width}px;
-  height: #{($h/$w) * $max-width}px;
-}
-
 #electoral_votes {
-  width: 100%;
-  max-width: $container-width;
+  width: $container-width;
+  margin: 0 auto;
   background: #ffffff;
   position: relative;
   box-sizing: border-box;
