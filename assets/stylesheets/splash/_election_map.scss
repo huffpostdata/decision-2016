@@ -3,4 +3,74 @@
   width: $left-column-width;
   margin: 0 auto;
   overflow: hidden;
+  display: flex;
+  .switch__message {
+    text-align: center;
+  }
+  .map__wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .legend {
+    background-color: $light-smoke;
+    padding: 15px 30px;
+    text-align: center;
+    dt {
+      font-size: 0.8rem;
+      margin-top: 15px;
+    }
+    dd {
+      margin: 0;
+      .legend-icon {
+        display: block;
+      }
+    }
+    &__header {
+      border-bottom: 3px solid $charcoal;
+      padding-bottom: 5px;
+      margin: 0;
+      font-size: 1rem;
+    }
+    &-icon {
+      background-color: $poll-open;
+      display: inline-block;
+      border: 1px solid #fff;
+      height: 20px;
+      width: 40px;
+      margin: 0 auto;
+      &.open {
+        background-color: $tossup-color;
+      }
+      &.dem {
+        background-color: $dem-color;
+      }
+      &.gop {
+        background-color: $gop-color;
+      }
+      &.no-data{
+        background-color: $other-color;
+      }
+    }
+    &__results {
+      width: 90px;
+      .resultsBtn {
+        margin: 0 auto;
+        background-color: $charcoal;
+        color: $light-smoke;
+        width: 70px;
+        height: 70px;
+        padding: 10px;
+        border-radius: 45px;
+        border: none;
+        text-align: center;
+        font-family: $body-font-family;
+        display: block;
+        text-decoration: none;
+          .resultsTxt {
+            margin-top: 16px;
+          }
+      }
+    }
+  }
 }
