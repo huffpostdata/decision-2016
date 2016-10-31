@@ -315,7 +315,7 @@ if (electoralPlacement) {
     cBubble.style.width = c.bubble.width;
     cBubble.style.height = c.bubble.height;
     cBubble.style.fontSize = c.bubble.height;
-    cBubbleVotes.innerHTML = d.clinton.electoral_display;
+    cBubbleVotes.textContent = d.clinton.electoral_display;
     cBubbleHandle.style.left = c.bubble.handle;
     cBubbleHandle.setAttribute('data-handle', c.bubble.handleModifier);
 
@@ -323,7 +323,7 @@ if (electoralPlacement) {
     tBubble.style.width = t.bubble.width;
     tBubble.style.height = t.bubble.height;
     tBubble.style.fontSize = t.bubble.height;
-    tBubbleVotes.innerHTML = d.trump.electoral_display;
+    tBubbleVotes.textContent = d.trump.electoral_display;
     tBubbleHandle.style.right = t.bubble.handle;
     tBubbleHandle.setAttribute('data-handle', t.bubble.handleModifier);
   }
@@ -331,9 +331,7 @@ if (electoralPlacement) {
   function bars(d, c, t, i18n) {
     cBar.style.width = c.barPosition; 
     cBarText.textContent = i18n.t('counts.n Popular Votes', d.clinton.popular);
-    // d.clinton.popular_display + ' POPULAR VOTES';
     tBar.style.width = t.barPosition;
-    // tBarText.innerHTML = d.trump.popular_display + ' POPULAR VOTES';
     tBarText.textContent = i18n.t('counts.n Popular Votes', d.trump.popular);
   }
 
