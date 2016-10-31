@@ -17,18 +17,39 @@
     p {
       font-size: 12px;
     }
+
+    .state-name{
+      margin: 0px;
+    }
+
     table {
+      th {
+        font-size: 12px;
+        text-align: left;
+        &.vote-pct,
+        &.vote-ct {
+          font-weight: 300;
+        }
+        &.cd {
+          font-weight: 700;
+        }
+      }
       position: relative;
-      width: 180px;
+      width: 100%;
       .name {
         font-size: 12px;
       }
       .vote-count {
         font-size: 12px;
+        text-align: center;
       }
       .vote-div {
         width: 100%;
         position: relative;
+        display: inline-block;
+        span {
+          font-size: 11px;
+        }
       }
     }
     .arrow-down {

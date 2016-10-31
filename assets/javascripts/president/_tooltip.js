@@ -48,13 +48,26 @@ var toolTip = (function() {
         var votesTotal = dataRef.nVotes;
         var table = this.tooltip.querySelector('.c-table');
         var iterLimit = candidates.length <= 5 ? candidates.length : 5;
-        var htmlInject = ['<table>', '<thead>', '<tr>', '<th></th>', '<th></th>', '<th></th>', '</tr>', '</thead><tbody>']
+        var htmlInject = ['<table>', '<thead>', '<tr>',
+          '<th class="cd">President</th>',
+          '<th class="vote-ct">Votes</th>',
+          '<th class="vote-pct">Percent</th>',
+          '</tr>', '</thead><tbody>']
         for (var i = 0; i < iterLimit; i++) {
           var name = candidates[i].name;
           var votes = candidates[i].n;
           var pct = (votes / votesTotal) * 100;
           var count = '' + candidates[i].n;
-          tableStr =['<tr>', '<td class="name" style="width: 25%;">' + name + '</td>', '<td class="vote-bar" style="width: 50%;">', '<div class="vote-div">', '<div style="width: ' + pct + '%; background-color: blue; height: 10px;"></div>', '</div>', '</td>', '<td class="vote-count" style="width: 25%;">' + count + '</td>', '</tr>'];
+          tableStr =['<tr>',
+            '<td class="name" style="width: 30%;">' + name + '</td>',
+            '<td class="vote-bar" style="width: 50%;">',
+              '<div class="vote-div">',
+                '<div style="width: ' + pct + '%; background-color: blue; height: 10px;"></div>',
+                '<span style="position: absolute; top: 0px; left: ' + (pct + 2) + '%;">' + count + '</span>',
+              '</div>',
+            '</td>',
+            '<td class="vote-count" style="width: 20%;">' + Math.floor(pct) + '%</td>',
+            '</tr>'];
           htmlInject = htmlInject.concat(tableStr);
         }
         resultStr = '';

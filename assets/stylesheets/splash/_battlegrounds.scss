@@ -1,5 +1,7 @@
 #battlegrounds {
-  width: 375px;
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
 
   table {
     border-collapse: collapse;
@@ -64,6 +66,9 @@
         height: 40px;
 
       }
+      &.state-icon {
+        padding: 0;
+      }
 
       &.percent {
         font-family: $header-font-family;
@@ -119,8 +124,25 @@
       padding-top: 100px;
     }
   }
+
 }
 
+@media (max-width: 1030px) {
+  #battlegrounds {
+    tbody tr td {
+      padding: 0 3px;
+      &.percent {
+        font-size: 16px;
+        &--district {
+          font-size: 14px;
+        }
+      }
+      .state {
+        font-size: 14px;
+      }
+    }
+  }
+}
 #column1 {
   width: 60%;
 }
