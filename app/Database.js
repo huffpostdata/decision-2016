@@ -55,6 +55,9 @@ function invertTranslations(translations) {
   return Phrases;
 }
 
+// This list is still up in the air?
+const SHOW_RIGHT_RAIL = ['en', 'en-CA', 'fr-CA'];
+
 module.exports = class Database {
   constructor() {
     const google_docs = new GoogleDocs(read_config('google-docs'))
@@ -135,8 +138,9 @@ module.exports = class Database {
 
     this.translatedSplash = []
     Object.keys(translations).forEach(locale => {
-      const localeObj = { locale: locale, phrases: translations[locale] }
-      this.translatedSplash.push(Object.assign({}, this.splash, { locale: locale, i18n: localeObj }))
+      const i18n = { locale: locale, phrases: translations[locale] }
+      const showRightRail = { showRightRail: SHOW_RIGHT_RAIL.includes(locale) }
+      this.translatedSplash.push(Object.assign({}, this.splash, showRightRail, { locale: locale, i18n: i18n }))
 
       if (locale === 'en') {
         this.splash.i18n.phrases = translations[locale]
