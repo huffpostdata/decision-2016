@@ -139,8 +139,8 @@ module.exports = class Database {
     this.translatedSplash = []
     Object.keys(translations).forEach(locale => {
       const i18n = { locale: locale, phrases: translations[locale] }
-      const hideRightRail = { hideRightRail: !SHOW_RIGHT_RAIL.includes(locale) }
-      this.translatedSplash.push(Object.assign({}, this.splash, hideRightRail, { locale: locale, i18n: i18n }))
+      const showRightRail = { showRightRail: SHOW_RIGHT_RAIL.includes(locale) }
+      this.translatedSplash.push(Object.assign({}, this.splash, showRightRail, { locale: locale, i18n: i18n }))
 
       if (locale === 'en') {
         this.splash.i18n.phrases = translations[locale]

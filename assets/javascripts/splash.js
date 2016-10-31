@@ -15,14 +15,16 @@ function buildI18n(options) {
   });
 }
 
-window.decision2016_init = function(data, hideRightRail) {
-  hideRightRail = hideRightRail || false;
+window.decision2016_init = function(data, showRightRail) {
+  if (typeof showRightRail === "undefined") {
+    showRightRail = true;
+  }
   var i18n = buildI18n(data.i18n);
 
   refreshButton.render();
   electoral.render(data.president, i18n);
   electionMap.render(data.races, i18n);
-  if (!hideRightRail) {
+  if (showRightRail) {
     battlegrounds.render(data.battlegrounds, i18n);
     seats.renderHouse(data.house, i18n);
     seats.renderSenate(data.senate, i18n);
@@ -31,7 +33,7 @@ window.decision2016_init = function(data, hideRightRail) {
   function doRefresh(json) {
     electionMap.update(json.races, i18n);
     electoral.update(json.summaries.president, i18n);
-    if (!hideRightRail) {
+    if (showRightRail) {
       battlegrounds.update(data.battlegrounds);
       seats.updateSenate(json.summaries.senate);
       seats.updateHouse(json.summaries.house);
