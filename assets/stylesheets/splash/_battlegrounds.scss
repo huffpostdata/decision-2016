@@ -28,9 +28,6 @@
       &:last-child {
         border-bottom: none;
       }
-      .state-icon img {
-        border: 3px solid $border-color;
-      }
       &.gop .state-icon img {
         border: 3px solid $gop-color;
       }
@@ -87,7 +84,7 @@
           font-size: 16px;
         }
       }
-      .state{
+      .state-name {
         font-family: $header-font-family;
         text-transform: uppercase;
         font-size: 16px;
@@ -125,6 +122,18 @@
     }
   }
 
+  .state {
+    font-size: 30px;
+    color: #aaa;
+    
+  }
+  .gop .state {
+    color: $gop-color;
+  }
+
+  .dem .state {
+    color: $dem-color;
+  }
 }
 
 @media (max-width: 1030px) {

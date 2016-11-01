@@ -433,6 +433,10 @@ module.exports = class ApData {
    *       dem: uint number of Dem winners
    *       gop: uint number of Gop winners
    *       ... [ see parties.tsv for a list of what could happen ]
+   *     },
+   *     popular: {
+   *      dem: uint number of votes for Democrats
+   *      gop: uint number of votes for Republicans
    *     }
    *   }
    */
@@ -445,10 +449,14 @@ module.exports = class ApData {
     }
 
     let nWins = 0
-    let wins = {}
+    const wins = {}
+    const popular = { dem: 0, gop: 0 }
 
     for (const race of races) {
       for (const candidate of race.reportingUnits[0].candidates) {
+        if (candidate.party === 'Dem') popular.dem += candidate.voteCount
+        if (candidate.party === 'GOP') popular.gop += candidate.voteCount
+
         if (candidate.winner === 'X') {
           nWins += 1
           const partyId = candidate.party.toLowerCase()
@@ -461,7 +469,8 @@ module.exports = class ApData {
     return {
       total: NRaces,
       tossup: NRaces - nWins,
-      wins: wins
+      wins: wins,
+      popular: popular
     }
   }
 
