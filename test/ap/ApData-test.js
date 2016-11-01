@@ -256,9 +256,9 @@ describe('ApData', () => {
     describe('with sample data', () => {
       function build(winner) {
         return { reportingUnits: [ { statePostal: 'AK', candidates: [
-          { last: 'SomeDem', party: 'Dem', winner: (winner === 'Dem' ? 'X' : '') },
-          { last: 'SomeGop', party: 'GOP', winner: (winner === 'GOP' ? 'X' : '') },
-          { last: 'SomeoneElse', party: 'Grn', winner: '' }
+          { voteCount: 123, last: 'SomeDem', party: 'Dem', winner: (winner === 'Dem' ? 'X' : '') },
+          { voteCount: 123, last: 'SomeGop', party: 'GOP', winner: (winner === 'GOP' ? 'X' : '') },
+          { voteCount: 123, last: 'SomeoneElse', party: 'Grn', winner: '' }
         ]}]}
       }
       const dems = new Array(8).fill(null).map((_, i) => build('Dem'))
@@ -374,7 +374,25 @@ describe('ApData', () => {
       expect(() => apData.senateSummary()).to.throw(Error)
     })
 
-    it('should total popular votes')
+    it('should total popular votes', () => {
+      const races = new Array(34).fill(null).map((_, i) => {
+        return { reportingUnits: [ { candidates: [
+          { last: 'SomeDem', party: 'Dem', voteCount: i * 3 },
+          { last: 'SomeGop', party: 'GOP', voteCount: i * 4 },
+          { last: 'Other', party: 'Oth', voteCount: 111 }
+        ]}]}
+      })
+
+      const apData = new ApData({
+        findSenateRaces() { return races }
+      }, null)
+      const summary = apData.senateSummary()
+
+      expect(summary.popular).to.deep.eq({
+        dem: 561 * 3,
+        gop: 561 * 4
+      })
+    })
   }) // #senateSummary
 
   describe('#houseSummary', () => {
