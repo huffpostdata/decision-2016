@@ -21,7 +21,7 @@ $transition-speed: 1s;
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 10px 5px;
+    padding: 0 10px 10px;
   }
   .electoral-title {
     font-family: $header-font-family;
@@ -33,7 +33,7 @@ $transition-speed: 1s;
   }
   .electoral-blurb {
     flex: 1 1 auto;
-    font-size: 14px;
+    font-size: 12px;
     color: #9c9c9c;
   }
   .electoral-content {
@@ -72,6 +72,20 @@ $transition-speed: 1s;
     width: 80px;
     height: 56px;
     transition: width $transition-speed ease, height $transition-speed ease, left $transition-speed ease, right $transition-speed ease;
+    &__label {
+      transition: opacity $transition-speed/2 ease;
+      transition-delay: 1s;
+      border: 1px solid;
+      position: absolute;
+      top: 0;
+      left: -1px;
+      font-size: .15em;
+      line-height: 1em;
+      display: block;
+      opacity: 0;
+      text-align: center;
+      background: #ececec;
+    }
     &__candidate {
       transition: font-size $transition-speed ease;
       color: #000;
@@ -97,6 +111,9 @@ $transition-speed: 1s;
       border: 1px solid $dem-color;
       color: $dem-color;
       background: #cfd4ea;
+      .bubble__label {
+        border-bottom: 1px solid $dem-color;
+      }
     }
     &--trump {
       right: 40px;
@@ -104,6 +121,9 @@ $transition-speed: 1s;
       border: 1px solid $gop-color;
       color: $gop-color;
       background: #f8dad8;
+      .bubble__label {
+        border-bottom: 1px solid $gop-color;
+      }
     }
   }
   .bubble-handle {
