@@ -104,7 +104,11 @@ function organize_features (key, features) {
     if (!featuresByState.hasOwnProperty(stateCode)) {
       featuresByState[stateCode] = {'land': [], 'counties': [], 'districts': [], 'subcounties': []}
     }
-    featuresByState[stateCode][key].push(feature)
+    if (fipsToState[stateCode] === 'AK' && key === 'counties') {
+      //do nothing
+    } else {
+      featuresByState[stateCode][key].push(feature)
+    }
   }
 }
 
@@ -368,19 +372,18 @@ const render_state_svg = (state_code, feature_set, options, callback) => {
 
   data.push(render_state_path(path, topology))
 
-  if (state_code === 'AK') {
-    data.push(render_g_element(path, topology, topology.objects.districts, 'districts'))
-    data.push(render_mesh_path(path, topology, 'districts'));
-  }
-  else if (topology.objects.subcounties && topology.objects.subcounties.geometries) {
+  if (topology.objects.subcounties && topology.objects.subcounties.geometries) {
     data.push(render_g_element(path, topology, topology.objects.subcounties.geometries, 'subcounties'))
     data.push(render_mesh_path(path, topology, 'subcounties'))
     data.push(render_g_element(path, topology, topology.objects.districts.geometries, 'districts'))
     data.push(render_mesh_path(path, topology, 'districts'))
   }
-  else{
+  else if (topology.objects.counties && topology.objects.counties.geometries){
     data.push(render_g_element(path, topology, topology.objects.counties.geometries, 'geos'))
     data.push(render_mesh_path(path, topology, 'counties'))
+    data.push(render_g_element(path, topology, topology.objects.districts.geometries, 'districts'))
+    data.push(render_mesh_path(path, topology, 'districts'))
+  } else {
     data.push(render_g_element(path, topology, topology.objects.districts.geometries, 'districts'))
     data.push(render_mesh_path(path, topology, 'districts'))
   }
