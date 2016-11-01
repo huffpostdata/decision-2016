@@ -50,6 +50,18 @@
     vertical-align: -.25rem;
   }
 
+  span.won {
+    &::after {
+      content: '';
+      display: inline-block;
+      font-size: 1rem;
+      width: 1.125rem;
+      height: 1rem;
+      line-height: 1;
+      background: asset-url('digest', 'images/dashboard/win-confetti.svg') no-repeat right center;
+    }
+  }
+
   span.state, span.leader { color: $tossup-color; }
   .dem-win span.state, .dem-win span.leader { color: $dem-color; }
   span.leader.dem-lead { color: $dem-color; }

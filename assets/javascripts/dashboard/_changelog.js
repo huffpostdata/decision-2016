@@ -51,7 +51,7 @@ function leadHtml(entry) {
 }
 
 function winHtml(entry) {
-  return liHtml(entry, [ leaderHtml(entry) , ' won ', raceHtml(entry) ]);
+  return liHtml(entry, [ leaderHtml(entry) , ' <span class="won">won</span> ', raceHtml(entry) ]);
 }
 
 function entryHtml(entry) {
