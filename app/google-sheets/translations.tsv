@@ -1,65 +1,89 @@
 id	notes	en	en-CA	en-GB	en-IN	ar-SA	de-DE	el-GR	es	es-MX	fr	fr-CA	fr-MB	it	ja	ko	pt-BR
-h2.Electoral Votes	Title above photos of Clinton and Trump	Electoral Votes															
-name.clinton		Clinton															
-name.trump		Trump															
-h2.Senate Seats	Title above senate chart	Senate Seats															
-h2.House Seats	Title above house chart	House Seats															
-h2.Battleground States	Title above battleground-state charts	Battleground States															
-legend.win	Tiny text in map legend: the "Win" in "Win/Lead"	Win															
+banner.34 seats up for re-election		34 seats up for re-election															
+banner.All 435 seats up for re-election		All 435 seats up for re-election															
+banner.House		House															
+banner.President	Header on below-splash frame	President															
+banner.See full results	Link to English-only results page. It should end in " »"	See full results »															
+banner.Senate	Header on below-splash frame	Senate															
+battleground.blurb	text under battlegrounds title	States that indicate the national balance of power															
+battleground.precincts		Precincts Reporting															
+counts.270 to win		270 Electoral Votes Needed To Win															
+counts.n Electoral Votes	PLURALIZED number of electors pledged to the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Electoral Vote |||| %{smart_count} Electoral Votes															
+counts.n Popular Votes	PLURALIZED number of humans who voted for the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Popular Vote |||| %{smart_count} Popular Votes															
+counts.Precincts Reporting	A table header	Precincts Reporting															
+electoral.blurb		The country's 538 electors vote according to their states' colors. The candidate with 270 electors wins.	The country's 538 electors vote according to their states' colours. The candidate with 270 electors wins.	The country's 538 electors vote according to their states' colours. The candidate with 270 electors wins.													
+electoral.winner	Winner label for Electoral Bars	WINNER!															
+h2.Battleground States	Title above battleground-state charts	BATTLEGROUND STATES															
+h2.Electoral Votes	Title above photos of Clinton and Trump	ELECTORAL VOTES															
+h2.House Seats	Title above house chart	HOUSE SEATS															
+h2.Senate Seats	Title above senate chart	SENATE SEATS															
+h5.Cartogram	Tab for Cartogram map mode	ELECTORAL VOTES															
+h5.Geography	Tab for Geography map mode	GEOGRAPHY															
+legend.header	Header for Legend	POLLS															
 legend.lead	Tiny text in map legend: the "Lead" in "Win/Lead"	Lead															
 legend.not yet reporting		Not yet reporting															
+legend.open	Text to represent open state	Open															
+legend.win	Tiny text in map legend: the "Win" in "Win/Lead"	Win															
 linkout.See Full Results	Link to the main dashboard (the main dashboard is only English)	See Full Results															
-state.AL	Two-letter state code	AL															
-state.AK		AK															
-state.AZ		AZ															
-state.AR		AR															
-state.CA		CA															
-state.CO		CO															
-state.CT		CT															
-state.DE		DE															
-state.DC		DC															
-state.FL		FL															
-state.GA		GA															
-state.HI		HI															
-state.ID		ID															
-state.IL		IL															
-state.IN		IN															
-state.IA		IA															
-state.KS		KS															
-state.KY		KY															
-state.LA		LA															
-state.ME		ME															
-state.MD		MD															
-state.MA		MA															
-state.MI		MI															
-state.MN		MN															
-state.MS		MS															
-state.MO		MO															
-state.MT		MT															
-state.NE		NE															
-state.NV		NV															
-state.NH		NH															
-state.NJ		NJ															
-state.NM		NM															
-state.NY		NY															
-state.NC		NC															
-state.ND		ND															
-state.OH		OH															
-state.OK		OK															
-state.OR		OR															
-state.PA		PA															
-state.RI		RI															
-state.SC		SC															
-state.SD		SD															
-state.TN		TN															
-state.TX		TX															
-state.UT		UT															
-state.VT		VT															
-state.VA		VA															
-state.WA		WA															
-state.WV		WV															
-state.WI		WI															
-state.WY		WY															
+map.switch message	Text for map toggle on splash	View Map As															
+name.clinton	names used in electoral votes graph	CLINTON															
+name.trump	names used in electoral votes graph	TRUMP															
+party.dem		Democrats															
+party.gop		Republicans															
+refresh.countdown		Refreshing in %{smart_count} second… |||| Refreshing in %{smart_count} seconds…															
+refresh.error countdown		Failed last refresh. Refreshing in %{smart_count} second… |||| Failed last refresh. Refreshing in %{smart_count} seconds…															
+refresh.refreshing		Refreshing…															
+state-abbreviation.Ala.	State abbreviation (appears on map)	Ala.															
+state-abbreviation.Alaska		Alaska															
+state-abbreviation.Ariz.		Ariz.															
+state-abbreviation.Ark.		Ark.															
+state-abbreviation.Calif.		Calif.															
+state-abbreviation.Colo.		Colo.															
+state-abbreviation.Conn.		Conn.															
+state-abbreviation.D.C.		D.C.															
+state-abbreviation.Del.		Del.															
+state-abbreviation.Fla.		Fla.															
+state-abbreviation.Ga.		Ga.															
+state-abbreviation.Hawaii		Hawaii															
+state-abbreviation.Idaho		Idaho															
+state-abbreviation.Ill.		Ill.															
+state-abbreviation.Ind.		Ind.															
+state-abbreviation.Iowa		Iowa															
+state-abbreviation.Kans.		Kans.															
+state-abbreviation.Ky.		Ky.															
+state-abbreviation.La.		La.															
+state-abbreviation.Maine		Maine															
+state-abbreviation.Mass.		Mass.															
+state-abbreviation.Md.		Md.															
+state-abbreviation.Mich.		Mich.															
+state-abbreviation.Minn.		Minn.															
+state-abbreviation.Miss.		Miss.															
+state-abbreviation.Mo.		Mo.															
+state-abbreviation.Mont.		Mont.															
+state-abbreviation.N.C.		N.C.															
+state-abbreviation.N.D.		N.D.															
+state-abbreviation.N.H.		N.H.															
+state-abbreviation.N.J.		N.J.															
+state-abbreviation.N.M.		N.M.															
+state-abbreviation.N.Y.		N.Y.															
+state-abbreviation.Nebr.		Nebr.															
+state-abbreviation.Nev.		Nev.															
+state-abbreviation.Ohio		Ohio															
+state-abbreviation.Okla.		Okla.															
+state-abbreviation.Ore.		Ore.															
+state-abbreviation.Pa.		Pa.															
+state-abbreviation.R.I.		R.I.															
+state-abbreviation.S.C.		S.C.															
+state-abbreviation.S.D.		S.D.															
+state-abbreviation.Tenn.		Tenn.															
+state-abbreviation.Tex.		Tex.															
+state-abbreviation.Utah		Utah															
+state-abbreviation.Va.		Va.															
+state-abbreviation.Vt.		Vt.															
+state-abbreviation.W.Va.		W.Va.															
+state-abbreviation.Wash.		Wash.															
+state-abbreviation.Wis.		Wis.															
+state-abbreviation.Wyo.		Wyo.															
 state.Alabama	Full state name	Alabama															
 state.Alaska		Alaska															
 state.Arizona		Arizona															
@@ -111,21 +135,3 @@ state.Washington		Washington
 state.West Virginia		West Virginia															
 state.Wisconsin		Wisconsin															
 state.Wyoming		Wyoming															
-counts.n Popular Votes	PLURALIZED number of humans who voted for the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Popular Vote |||| %{smart_count} Popular Votes															
-counts.n Electoral Votes	PLURALIZED number of electors pledged to the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Electoral Vote |||| %{smart_count} Electoral Votes				ﻭﻻ ﺹﻮﺗ |||| ﺹﻮﺗ ﻭﺎﺣﺩ |||| ﺹﻮﺗﺎﻧ |||| %{smart_count} ﺄﺻﻭﺎﺗ |||| %{smart_count} ﺹﻮﺗ |||| %{smart_count} ﺹﻭ											
-party.dem		Democrats															
-party.gop		Republicans															
-counts.Precincts Reporting	A table header	Precincts Reporting															
-counts.270 to win		270 Electoral Votes Needed To Win															
-refresh.countdown		Refreshing in %{smart_count} second… |||| Refreshing in %{smart_count} seconds…															
-refresh.error countdown		Failed last refresh. Refreshing in %{smart_count} second… |||| Failed last refresh. Refreshing in %{smart_count} seconds…															
-refresh.refreshing		Refreshing…															
-banner.President	Header on below-splash frame	President															
-banner.Senate	Header on below-splash frame	Senate															
-banner.House		House															
-banner.See full results	Link to English-only results page. It should end in " »"	See full results »															
-banner.34 seats up for re-election		34 seats up for re-election															
-banner.All 435 seats up for re-election		All 435 seats up for re-election															
-h5.Cartogram	Tab for Cartogram map mode	SIZED BY # OF ELECTORAL VOTES															
-h5.Geography	Tab for Geography map mode	MAP OF US															
-electoral.blurb		TK The country's 538 electors all vote according to their state's color. The candidate with 270 electors wins.															

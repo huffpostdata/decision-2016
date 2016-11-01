@@ -29,6 +29,7 @@ function detect_content_type(path) {
     case 'ico': return 'image/x-icon'
     case 'tsv': return 'text/tab-separated-values; charset=utf-8'
     case 'txt': return 'text/plain; charset=utf-8'
+    case 'woff': return 'application/font-woff'
     default: throw new Error(`We do not understand the file extension ".${ext}". Maybe code logic for it?`)
   }
 }
