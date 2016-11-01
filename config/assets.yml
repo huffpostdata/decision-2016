@@ -20,3 +20,6 @@ digest:
   -
     pattern: maps/**/*.{png,svg}
     max_age: 8640000000
+  -
+    pattern: fonts/**/*.woff
+    max_age: 8640000000

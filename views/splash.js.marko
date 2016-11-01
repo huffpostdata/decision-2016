@@ -22,6 +22,7 @@ var battlegroundsImages = {
 };
 var markoMap = $!{JSON.stringify(data.helpers.partial('president/_map'))};
 var markoMapSwitcher = $!{JSON.stringify(data.helpers.partial('splash/_map-switcher'))};
+var markoLegend = $!{JSON.stringify(data.helpers.partial('splash/_legend'))};
 style.textContent = $!{JSON.stringify(data.asset_contents('scss', 'stylesheets/splash.css').toString('utf-8'))};
 document.head.appendChild(style);
 
