@@ -154,6 +154,9 @@ module.exports = class AssetCompiler {
                 case 'image/svg+xml':
                   return new sass.types.String(`url('data:image/svg+xml;base64,${asset.data.toString('base64')}')`)
                   break
+                case 'application/font-woff':
+                  return new sass.types.String(`url('data:application/font-woff;base64,${asset.data.toString('base64')}')`)
+                  break
                 default:
                   throw new Error(`Don't know how to encode a ${asset.content_type} as a CSS URL. Write code here?`)
               }
