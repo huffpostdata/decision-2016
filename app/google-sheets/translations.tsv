@@ -5,7 +5,7 @@ banner.House		House
 banner.President	Header on below-splash frame	President															
 banner.See full results	Link to English-only results page. It should end in " »"	See full results »															
 banner.Senate	Header on below-splash frame	Senate															
-battleground.blurb	text under battlegrounds title	These are the states that will decide the election.															
+battleground.blurb	text under battlegrounds title	States that indicate the national balance of power															
 battleground.precincts		Precincts Reporting															
 counts.270 to win		270 Electoral Votes Needed To Win															
 counts.n Electoral Votes	PLURALIZED number of electors pledged to the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Electoral Vote |||| %{smart_count} Electoral Votes															

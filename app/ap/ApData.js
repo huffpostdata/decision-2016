@@ -358,6 +358,10 @@ module.exports = class ApData {
    *     totals: {
    *       dem: uint total number of senators who say they'll caucus with Democrats in 2017
    *       gop: uint total number of senators who say they'll caucus with Republicans in 2017
+   *     },
+   *     popular: {
+   *      dem: uint total number of votes for senators who say they'll caucus with Democrats in 2017
+   *      gop: uint total number of votes for senators who say they'll caucus with Republicans in 2017
    *     }
    *   }
    *
@@ -372,30 +376,38 @@ module.exports = class ApData {
 
     const wins = { dem: 0, gop: 0 }
     const totals = { dem: NDemPrior, gop: NGopPrior }
+    const popular = { dem: 0, gop: 0 }
 
     const races = this.reportingUnitElections.findSenateRaces()
     if (races.length != NRaces) {
       throw new Error(`URGENT: expected ${NRaces} Senate races; got ${races.length}`)
     }
     for (const race of races) {
-      if (apRaceToStateCode(race) === 'CA') {
-        // CA is a race between a Democrat and a Democrat
-        wins.dem += 1
-        totals.dem += 1
-      } else {
+      let foundWin = false
+
+      if (race.reportingUnits && race.reportingUnits.length > 0) { // if AP is reporting votes
         for (const candidate of race.reportingUnits[0].candidates) {
+          if (candidate.party === 'Dem') popular.dem += candidate.voteCount
+          if (candidate.party === 'GOP') popular.gop += candidate.voteCount
+
           if (candidate.winner === 'X') {
+            foundWin = true
+
             if (candidate.party !== 'Dem' && candidate.party !== 'GOP') {
               throw new Error(`URGENT: a Senate winner is from party ${candidate.party} but we only handle "Dem" and "GOP"`)
             }
 
             const partyId = candidate.party.toLowerCase()
-            if (!wins.hasOwnProperty(partyId)) wins[partyId] = 0
-            if (!totals.hasOwnProperty(partyId)) totals[partyId] = 0
             wins[partyId] += 1
             totals[partyId] += 1
           }
         }
+      }
+
+      if (!foundWin && apRaceToStateCode(race) === 'CA') {
+        // CA is a race between a Democrat and a Democrat
+        wins.dem += 1
+        totals.dem += 1
       }
     }
 
@@ -405,6 +417,7 @@ module.exports = class ApData {
       priors: { dem: NDemPrior, gop: NGopPrior },
       wins: wins,
       totals: totals,
+      popular: popular
     }
   }
 
@@ -420,6 +433,10 @@ module.exports = class ApData {
    *       dem: uint number of Dem winners
    *       gop: uint number of Gop winners
    *       ... [ see parties.tsv for a list of what could happen ]
+   *     },
+   *     popular: {
+   *      dem: uint number of votes for Democrats
+   *      gop: uint number of votes for Republicans
    *     }
    *   }
    */
@@ -432,10 +449,14 @@ module.exports = class ApData {
     }
 
     let nWins = 0
-    let wins = {}
+    const wins = {}
+    const popular = { dem: 0, gop: 0 }
 
     for (const race of races) {
       for (const candidate of race.reportingUnits[0].candidates) {
+        if (candidate.party === 'Dem') popular.dem += candidate.voteCount
+        if (candidate.party === 'GOP') popular.gop += candidate.voteCount
+
         if (candidate.winner === 'X') {
           nWins += 1
           const partyId = candidate.party.toLowerCase()
@@ -448,7 +469,8 @@ module.exports = class ApData {
     return {
       total: NRaces,
       tossup: NRaces - nWins,
-      wins: wins
+      wins: wins,
+      popular: popular
     }
   }
 
