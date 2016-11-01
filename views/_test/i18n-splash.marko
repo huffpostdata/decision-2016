@@ -5,6 +5,12 @@ html lang="en"
     meta charset="utf-8"
     title - Embed code generator
     meta name="viewport" content="width=device-width, initial-scale=1"
+    style
+      ---
+      ul.locales { list-style: none; margin: 0; padding: 0; }
+      ul.locales li { display: inline; padding: 1rem; }
+      #bar-preview, #preview { width: 940px; padding: 1rem; }
+      ---
   body
     p - Click a locale to see its embed code:
     ul.locales
@@ -12,12 +18,16 @@ html lang="en"
         li.${object.locale === 'en' ? 'selected' : ''}
           a href="#${object.locale}" - ${object.locale}
 
+    #bar-preview
+
     #preview
 
     script
       ---
       var preview = document.getElementById('preview');
+      var barPreview = document.getElementById('bar-preview');
       var urlTemplate = $!{JSON.stringify(data.url_to('splash/:locale', 'LOCALE'))};
+      var barUrlTemplate = $!{JSON.stringify(data.url_to('splash-bar/:locale', 'LOCALE'))};
 
       document.addEventListener('click', function(ev) {
         if (ev.target.tagName !== 'A') return;
@@ -30,9 +40,14 @@ html lang="en"
         var locale = window.location.hash.slice(1) || 'en';
 
         var embedCode = '<iframe width="940" height="700" style="border:0" src="' + urlTemplate.replace('LOCALE', locale) + '"></iframe>';
-        var html = '<h2>Embed code</h2><pre></pre><h2>Preview</h2>' + embedCode;
+        var html = '<h1>During-election full-splash embed code</h1><pre></pre><h3>Preview</h3>' + embedCode;
         preview.innerHTML = html;
         preview.querySelector('pre').textContent = embedCode;
+
+        var barEmbedCode = '<iframe width="940" height="200" style="border:0" src="' + barUrlTemplate.replace('LOCALE', locale) + '"></iframe>';
+        var barHtml = '<h1>Post-election results embed code</h1><pre></pre><h3>Preview</h3>' + barEmbedCode;
+        barPreview.innerHTML = barHtml;
+        barPreview.querySelector('pre').textContent = barEmbedCode;
       }
 
       window.addEventListener('hashchange', refreshFromHash);
