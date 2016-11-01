@@ -447,6 +447,26 @@ describe('ApData', () => {
         expect(() => apData.houseSummary()).to.throw(Error)
       })
     }) // with sample data
+
+    it('should total the popular vote', () => {
+      const races = new Array(435).fill(null).map((_, i) => {
+        return { reportingUnits: [ { candidates: [
+          { last: 'SomeDem', party: 'Dem', voteCount: i * 3 },
+          { last: 'SomeGop', party: 'GOP', voteCount: i * 4 },
+          { last: 'SomeoneElse', party: 'Grn', winner: '' }
+        ]}]}
+      })
+
+      const apData = new ApData({
+        findHouseRaces() { return races }
+      }, null)
+      const summary = apData.houseSummary()
+
+      expect(summary.popular).to.deep.eq({
+        dem: 283185,
+        gop: 377580
+      })
+    })
   }) // #houseSummary
 
   describe('#senateRaces', () => {
