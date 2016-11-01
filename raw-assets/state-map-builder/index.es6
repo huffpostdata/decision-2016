@@ -368,7 +368,11 @@ const render_state_svg = (state_code, feature_set, options, callback) => {
 
   data.push(render_state_path(path, topology))
 
-  if (topology.objects.subcounties && topology.objects.subcounties.geometries) {
+  if (state_code === 'AK') {
+    data.push(render_g_element(path, topology, topology.objects.districts, 'districts'))
+    data.push(render_mesh_path(path, topology, 'districts'));
+  }
+  else if (topology.objects.subcounties && topology.objects.subcounties.geometries) {
     data.push(render_g_element(path, topology, topology.objects.subcounties.geometries, 'subcounties'))
     data.push(render_mesh_path(path, topology, 'subcounties'))
     data.push(render_g_element(path, topology, topology.objects.districts.geometries, 'districts'))
@@ -481,8 +485,6 @@ const jsts_union = (jsts_geometries) => {
 // # Each Feature has "geo_id" and "name" properties.
 const grok_input_intersected_features = (input_features, jsts_state_multipolygon) => {
   const ret = []
-  for (let feat in jsts_state_multipolygon) {
-  }
 
   for (let feature of input_features) {
     const p = feature.properties
@@ -556,84 +558,84 @@ const render_all_states = (callback) => {
 //  load from pre-downloaded files
 //    far from the best way to do this
 
-// const mapData = require('./DataFiles.es6')
-// const matching = {'USLand': 'statesp010g.shp', 'CongressionalDistricts': 'tl_2016_us_cd115.shp', 'Counties': 'tl_2016_us_county.shp', 'NESubCounty': 'tl_2016_25_cousub.shp'}
-// const filesArr = ['USLand', 'CongressionalDistricts', 'Counties', 'NESubCounty']
-// const retObj = {}
-//
-// const getFile = (obj, filename, path) => {
-//   return new Promise((resolve, reject) => {
-//     geo_loader.load_features(obj, path)
-//       .then((result) => resolve([filename, result]))
-//   })
-// }
-// const setRet = (arr) => {
-//   return new Promise((resolve, reject) => {
-//     retObj[arr[0]] = arr[1]
-//       resolve(retObj)
-//   })
-// }
-//
-// const checkEnd = (check, dArr) => {
-//   return new Promise((resolve, reject) => {
-//     if (check == 4) {
-//       resolve((dArr) => {
-//         organize(dArr)
-//           .then(render_all_states(err => {if (err) throw err}))
-//       })
-//     }
-//   })
-// }
-//
-// const base_url = `${__dirname}/input/`
-// getFile(mapData['USLand'], 'USLand', base_url + matching['USLand'])
-//   .then(setRet)
-//   .then(() => {
-//     return getFile(mapData['CongressionalDistricts'], 'CongressionalDistricts', base_url + matching['CongressionalDistricts'])
-//   })
-//     .then(setRet)
-//   .then(() => {
-//     return getFile(mapData['Counties'], 'Counties', base_url + matching['Counties'])
-//   })
-//     .then(setRet)
-//   .then(() => {
-//     return getFile(mapData['NESubCounty'], 'NESubCounty', base_url + matching['NESubCounty'])
-//   })
-//     .then(setRet)
-//   .then((result) => {
-//       organize_features('land', result.USLand)
-//       return result
-//     })
-//     .then((result) => {
-//       organize_features('counties', result.Counties)
-//       return result
-//     })
-//     .then((result) => {
-//       organize_features('districts', result.CongressionalDistricts)
-//       return result
-//     })
-//     .then((result) => {
-//       organize_subcounty_features(25, result.NESubCounty)
-//       return result
-//     })
-//     .then(()=>render_all_states(err => {if (err) throw err}))
+const mapData = require('./DataFiles.es6')
+const matching = {'USLand': 'statesp010g.shp', 'CongressionalDistricts': 'tl_2016_us_cd115.shp', 'Counties': 'tl_2016_us_county.shp', 'NESubCounty': 'tl_2016_25_cousub.shp'}
+const filesArr = ['USLand', 'CongressionalDistricts', 'Counties', 'NESubCounty']
+const retObj = {}
+
+const getFile = (obj, filename, path) => {
+  return new Promise((resolve, reject) => {
+    geo_loader.load_features(obj, path)
+      .then((result) => resolve([filename, result]))
+  })
+}
+const setRet = (arr) => {
+  return new Promise((resolve, reject) => {
+    retObj[arr[0]] = arr[1]
+      resolve(retObj)
+  })
+}
+
+const checkEnd = (check, dArr) => {
+  return new Promise((resolve, reject) => {
+    if (check == 4) {
+      resolve((dArr) => {
+        organize(dArr)
+          .then(render_all_states(err => {if (err) throw err}))
+      })
+    }
+  })
+}
+
+const base_url = `${__dirname}/input/`
+getFile(mapData['USLand'], 'USLand', base_url + matching['USLand'])
+  .then(setRet)
+  .then(() => {
+    return getFile(mapData['CongressionalDistricts'], 'CongressionalDistricts', base_url + matching['CongressionalDistricts'])
+  })
+    .then(setRet)
+  .then(() => {
+    return getFile(mapData['Counties'], 'Counties', base_url + matching['Counties'])
+  })
+    .then(setRet)
+  .then(() => {
+    return getFile(mapData['NESubCounty'], 'NESubCounty', base_url + matching['NESubCounty'])
+  })
+    .then(setRet)
+  .then((result) => {
+      organize_features('land', result.USLand)
+      return result
+    })
+    .then((result) => {
+      organize_features('counties', result.Counties)
+      return result
+    })
+    .then((result) => {
+      organize_features('districts', result.CongressionalDistricts)
+      return result
+    })
+    .then((result) => {
+      organize_subcounty_features(25, result.NESubCounty)
+      return result
+    })
+    .then(()=>render_all_states(err => {if (err) throw err}))
 
 // Download shapefiles and build
-geo_loader.load_all_features()
-  .then((result) => {
-    organize_features('land', result.USLand)
-    return result
-  })
-  .then((result) => {
-    organize_features('counties', result.Counties)
-    return result
-  })
-  .then((result) => {
-    organize_features('districts', result.CongressionalDistricts)
-    return result
-  })
-  .then((result) => {
-    organize_subcounty_features(33, result.NESubCounty)
-    return result
-  })
-  .then(()=>render_all_states(err => {if (err) throw err}))
+// geo_loader.load_all_features()
+//   .then((result) => {
+//     organize_features('land', result.USLand)
+//     return result
+//   })
+//   .then((result) => {
+//     organize_features('counties', result.Counties)
+//     return result
+//   })
+//   .then((result) => {
+//     organize_features('districts', result.CongressionalDistricts)
+//     return result
+//   })
+//   .then((result) => {
+//     organize_subcounty_features(33, result.NESubCounty)
+//     return result
+//   })
+//   .then(()=>render_all_states(err => {if (err) throw err}))
