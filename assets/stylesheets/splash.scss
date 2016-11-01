@@ -1,5 +1,8 @@
 @import '_variables';
 @import '_map';
+
+// hacky thing to make state fonts work on HP splash
+@font-face { font-family: 'States'; src: asset-as-url('digest', 'fonts/States.woff') format('woff'); }
 @import '_font-states';
 
 @import 'splash/_variables';
