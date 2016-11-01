@@ -7,10 +7,10 @@
     width: 1%; // 100 seats, so each is worth 1%
   }
 
-  li.dem-prior { background: $dem-prior-color; }
+  li.dem-prior { background: $very-very-muted-color; }
   li.dem-win { background: $dem-color; }
   li.dem-lead { background: $dem-lead-color; }
-  li.gop-prior { background: $gop-prior-color; }
+  li.gop-prior { background: $very-very-muted-color; }
   li.gop-win { background: $gop-color; }
   li.gop-lead { background: $gop-lead-color; }
   li.tossup { background: $tossup-color; }
