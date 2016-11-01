@@ -1,3 +1,20 @@
 #house-summary {
-  height: 10rem; background: $TK-code-this-component;
+  @include dashboard-summary();
+
+  .total-dem .image { background-image: asset-url('digest', 'images/dashboard/dem.svg'); }
+  .total-gop .image { background-image: asset-url('digest', 'images/dashboard/gop.svg'); }
+
+  li {
+    width: 100% * 1/435;
+  }
+
+  li.dem-win { background: $dem-color; }
+  li.dem-lead { background: $dem-lead-color; }
+  li.lib-win { background: $lib-color; }
+  li.lib-lead { background: $lib-lead-color; }
+  li.grn-win { background: $grn-color; }
+  li.grn-lead { background: $grn-lead-color; }
+  li.gop-win { background: $gop-color; }
+  li.gop-lead { background: $gop-lead-color; }
+  li.tossup { background: $tossup-color; }
 }

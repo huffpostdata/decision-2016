@@ -1,9 +1,9 @@
 #map-switcher.cartogram
   .switch__message - View Map As
-  .switch
-    .geography.tab
+  .switch data-beacon="{\"p\":{\"mlid\": \"map_switcher\"}}"
+    .geography.tab.bN data-beacon="{\"p\":{\"lnid\": \"tab_geography\"}}"
       a.tab__link href='#'
         h5 - MAP OF US
-    .cartogram.tab
+    .cartogram.tab data-beacon="{\"p\":{\"lnid\": \"tab_cartogram\"}}"
       a.tab__link href='#'
         h5 - SIZED BY # OF ELECTORAL VOTES

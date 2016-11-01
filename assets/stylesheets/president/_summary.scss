@@ -1,5 +1,5 @@
 #president-summary {
-  @include wide-width();
+  @include dashboard-summary();
 
   margin-top: 2rem;
 
@@ -147,6 +147,9 @@
     transform: scale(1, 1.25);
     box-shadow: 0px 0px 1px #000;
   }
+
+  .total-clinton .image { background-image: asset-url('digest', 'images/dashboard/clinton-bust.jpg'); }
+  .total-trump .image { background-image: asset-url('digest', 'images/dashboard/trump-bust.jpg'); }
 
   li.clinton-win { background: $dem-color; }
   li.clinton-lead { background: $dem-lead-color; }

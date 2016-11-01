@@ -2,3 +2,27 @@ var summary=data.model.summaries.house
 var races=data.model.races
 
 #house-summary
+  .inner
+    .total-dem
+      .image
+      h3 - Democrats
+      strong - ${summary.wins.dem}
+      <!-- TK handle singular -->
+      span - seats
+    .total-gop
+      .image
+      h3 - Republicans
+      strong - ${summary.wins.gop}
+      <!-- TK handle singular -->
+      span - seats
+    .middle - 218 to win control
+    ol.races
+      for(race in races)
+        li.${race.className} data-race-id="${race.id}"
+    .popular-votes
+      .dem-popular-votes
+        strong - ${data.helpers.formatInt(summary.popular.dem)}
+        -  votes
+      .gop-popular-votes
+        strong - ${data.helpers.formatInt(summary.popular.gop)}
+        -  votes

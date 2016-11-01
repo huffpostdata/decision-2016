@@ -1,20 +1,17 @@
 // TODO: Shouldn't be here
 var battleground;
 var tableBody;
-var i18n;
 
-function setUpTable(_i18n) {
-  i18n = _i18n;
-
+function setUpTable(i18n) {
   var h2 = document.createElement("h2");
   var table = document.createElement("table");
   var tableHead = document.createElement("thead");
   tableBody = document.createElement("tbody");
 
-  h2.innerHTML = i18n.t('h2.Battleground States')
+  h2.textContent = i18n.t('h2.Battleground States')
   h2.setAttribute("class", "module__header");
 
-  tableHead.appendChild(getHeader());
+  tableHead.appendChild(getHeader(i18n));
 
   table.appendChild(tableHead);
   table.appendChild(tableBody);
@@ -26,7 +23,7 @@ function setUpTable(_i18n) {
 
 }
 
-function getHeader () {
+function getHeader (i18n) {
   var tr = document.createElement("tr");
   var thBlurb = document.createElement("th");
   var thDemHeadshot = document.createElement("th");
@@ -36,14 +33,14 @@ function getHeader () {
   var gopHeadshot = new Image();
 
   thBlurb.setAttribute("colspan", 2);
-  thBlurb.innerHTML = "States win which no single candidate or party has a guarantee in securing the majority of electoral votes";
+  thBlurb.textContent = i18n.t('battleground.blurb');
 
   demHeadshot.src = battlegroundsImages.clinton;
   gopHeadshot.src = battlegroundsImages.trump;
   thDemHeadshot.appendChild(demHeadshot);
   thGopHeadshot.appendChild(gopHeadshot);
 
-  thPrecincts.innerHTML = "Precincts Reporting";
+  thPrecincts.textContent = i18n.t('battleground.precincts');
 
   tr.appendChild(thBlurb);
   tr.appendChild(thDemHeadshot);
@@ -53,9 +50,8 @@ function getHeader () {
   return tr;
 }
 
-function paintRow(data) {
+function paintRow(data, i18n, formatPercent) {
   // console.debug("painting a happy row", data);
-  var imgIcon = document.createElement('img');
   var row = document.createElement('tr');
   var stateIcon = document.createElement('td');
   var stateInfo = document.createElement('td');
@@ -65,28 +61,25 @@ function paintRow(data) {
   var gopPercent = document.createElement('td');
   var districtPercent = document.createElement('td');
 
-  imgIcon.src = "https://unsplash.it/40/?random";
   stateIcon.setAttribute("class", "state-icon");
+  stateIcon.innerHTML = '<span class="state" data-state-id="'+data.abbr.toUpperCase()+'"></span>';
 
-  stateName.setAttribute("class", "state");
-  stateName.innerHTML = data.state;
+  stateName.setAttribute("class", "state-name");
+  stateName.textContent = i18n.t('state.' + data.state);
 
   stateVotes.setAttribute("class", "votes gop");
   stateVotes.textContent = i18n.t('counts.n Electoral Votes', data.nElectoralVotes);
 
-  stateIcon.appendChild(imgIcon);
   stateInfo.appendChild(stateName);
   stateInfo.appendChild(stateVotes);
 
   demPercent.setAttribute("class", "percent");
-  demPercent.innerHTML = data.demPercent + "%";
+  demPercent.textContent = formatPercent(data.demPercent/100);
   gopPercent.setAttribute("class", "percent");
-  gopPercent.innerHTML = data.gopPercent + "%";
+  gopPercent.textContent = formatPercent(data.gopPercent/100);
 
   districtPercent.setAttribute("class", "percent percent--district");
-  districtPercent.innerHTML = data.percentPrecinctsReporting + "%";
-
-  row.setAttribute("data-state", data.abbr);
+  districtPercent.textContent = formatPercent(data.percentPrecinctsReporting/100);
 
   if (data.called && typeof data.winner != 'undefined') {
     row.setAttribute("class", data.winner);
@@ -105,11 +98,12 @@ function paintRow(data) {
 }
 
 module.exports = {
-  update: function(data) {
+  update: function(data, i18n) {
+    var formatPercent = new Intl.NumberFormat(i18n.local, { style: 'percent' }).format;
     tableBody.innerHTML = "";
 
     for(var i = 0; i < data.length; i++) {
-      var row = paintRow(data[i]);
+      var row = paintRow(data[i], i18n, formatPercent);
       tableBody.appendChild(row);
     }
   },
@@ -118,7 +112,7 @@ module.exports = {
 
     if (battleground) {
       setUpTable(i18n);
-      this.update(data);
+      this.update(data, i18n);
     }
   }
 };

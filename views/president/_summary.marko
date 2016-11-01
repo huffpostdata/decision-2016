@@ -10,12 +10,12 @@ var races=data.model.races
       <!-- number of electoral votes can be 0, 3 or higher -- never 1 -->
       <!-- TK i18n: other languages can't use this shortcut -->
       span - electoral votes
+    .middle - 270 to win
     .total-trump
       .image
       h3 - Trump
       strong - ${summary.nTrumpElectoralVotes}
       span - electoral votes
-    .middle - 270 to win
     ol.races
       for(race in races)
         li.${race.className} style="width: ${100 * race.nElectoralVotes / summary.nElectoralVotes}%" data-race-id="${race.id}"
