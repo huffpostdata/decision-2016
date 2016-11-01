@@ -2,6 +2,8 @@
 
 'use strict'
 
+process.env.NODE_ICU_DATA = 'node_modules/full-icu'
+
 const chokidar = require('chokidar')
 const read_config = require('./read_config')
 const fork = require('child_process').fork

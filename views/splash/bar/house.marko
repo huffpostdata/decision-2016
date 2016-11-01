@@ -1,0 +1,13 @@
+var t=data.helpers.buildTranslateFunction(data.model.i18n)
+
+a#house target="_top" href="${data.url_to('house')}"
+  h2 - ${t('banner.House')}
+  p.count - ${t('banner.All 435 seats up for re-election')}
+
+  ol.races
+    for(race in data.model.houseRaces | status-var=loop)
+      if([ 8, 16, 24, 411, 419, 427 ].indexOf(loop.getIndex()) != -1)
+        li.space
+      li.${race.className}
+
+  p.details - ${t('banner.See full results')}

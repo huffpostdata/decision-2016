@@ -96,6 +96,7 @@ Here's how we set up our "staging" server:
 
     BASE_URL=... \
     S3_BUCKET=... \
+    NODE_ICU_DATA=node_modules/full-icu \
     generator/upload.js
     ```
 4. On the server, `chmod +x /opt/decision-2016/.git/hooks/post-receive`

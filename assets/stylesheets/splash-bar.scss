@@ -1,0 +1,53 @@
+@import '_proxima-nova-condensed-extra-bold';
+@import '_variables';
+@import 'splash/_variables';
+
+@import 'splash/bar/_president';
+@import 'splash/bar/_senate';
+@import 'splash/bar/_house';
+
+body {
+  margin: 0 auto;
+  padding: 0;
+  width: 940px;
+  font-family: $body-font-family;
+}
+
+.columns {
+  display: -webkit-flex;
+  display: flex;
+  width: 940px;
+  margin: 0 auto;
+
+  &>* {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+  }
+}
+
+.column-president {
+  padding-right: 1rem;
+}
+
+.column-senate {
+  padding: 0 1rem;
+  border-left: 1px solid $color;
+}
+
+.column-house {
+  width: 250px;
+  border-left: 1px solid $color;
+  padding-left: 1rem;
+}
+
+h2 {
+  font-family: $header-font-family;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+p.details {
+  font-size: .85rem;
+  font-style: italic;
+  text-decoration: underline;
+}

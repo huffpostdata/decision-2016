@@ -1,0 +1,19 @@
+var t=data.helpers.buildTranslateFunction(data.model.i18n)
+var formatInt=(new Intl.NumberFormat(data.model.i18n.locale).format)
+var summary=data.model.summaries.president
+
+a#president target="_top" href="${data.url_to('president')}"
+  .map-and-title
+    h2 - ${t('banner.President')}
+    .map - $!{data.helpers.tinyPresidentMap(data.model.presidentRaces)}
+
+  .electoral-votes
+    h3 - ${t('h2.Electoral Votes')}
+    .clinton.${summary.winner == 'clinton' ? 'winner' : ''}
+      strong - ${formatInt(summary.nClintonElectoralVotes)}
+      .popular - ${t('counts.n Popular Votes', summary.nClinton)}
+    .trump.${summary.winner == 'trump' ? 'winner' : ''}
+      strong - ${formatInt(summary.nTrumpElectoralVotes)}
+      .popular - ${t('counts.n Popular Votes', summary.nTrump)}
+
+    p.details - ${t('banner.See full results')}

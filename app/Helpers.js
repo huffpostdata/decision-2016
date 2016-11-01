@@ -1,5 +1,7 @@
 'use strict'
 
+const fs = require('fs')
+const Polyglot = require('node-polyglot')
 const formatInt = require('../assets/javascripts/common/formatInt')
 const PageContext = require('../generator/PageContext')
 
@@ -19,6 +21,25 @@ class Helpers {
 
   formatInt(i) {
     return formatInt(i)
+  }
+
+  buildTranslateFunction(i18n) {
+    const polyglot = new Polyglot({
+      phrases: i18n.phrases,
+      locale: i18n.locale,
+      numberFormat: new Intl.NumberFormat(i18n.locale).format
+    })
+    return (...args) => polyglot.t(...args)
+  }
+
+  tinyPresidentMap(presidentRaces) {
+    const idToClass = {}
+    for (const race of presidentRaces) {
+      idToClass[race.id] = race.className
+    }
+
+    return fs.readFileSync(`${__dirname}/../raw-assets/usa-map/president-tiny.svg`, 'utf-8')
+      .replace(/class="(\w\w)"/g, (_, id) => `class="${idToClass[id]}"`)
   }
 
   // Changes 'Written by [Adam Hooper]' to 'Written by <a href="..."></a>'
