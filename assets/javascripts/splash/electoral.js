@@ -82,17 +82,20 @@ if (electoralPlacement) {
   var tFace = electoral.querySelector('.face'+tMod);
 
   var cBubble = electoral.querySelector('.bubble'+cMod);
+  var cBubbleLabel = cBubble.querySelector('.bubble__label');
   var cBubbleName = cBubble.querySelector('.bubble__candidate');
   var cBubbleVotes = cBubble.querySelector('.bubble__votes');
   var cBubbleHandle = electoral.querySelector('.bubble-handle--clinton');
 
   var tBubble = electoral.querySelector('.bubble'+tMod);
+  var tBubbleLabel = tBubble.querySelector('.bubble__label');
   var tBubbleName = tBubble.querySelector('.bubble__candidate');
   var tBubbleVotes = tBubble.querySelector('.bubble__votes');
   var tBubbleHandle = electoral.querySelector('.bubble-handle--trump');
 
+  var bubbleRatio = 1.4/2;
   var bubbleMaxWidth = 200;
-  var bubbleMaxHeight = 140;
+  var bubbleMaxHeight = bubbleRatio * bubbleMaxWidth;
 
   var imageMaxHeight = electoralBars.offsetTop;
 
@@ -133,6 +136,9 @@ if (electoralPlacement) {
     var cBubbleSize = bubbleSize(cPer);
     var tBubbleSize = bubbleSize(tPer);
 
+    var cBubbleLabelSize = labelSize(cPer);
+    var tBubbleLabelSize = labelSize(tPer);
+
     var collision = getCollision(cBarPosition, tBarPosition, cBubbleSize.width, tBubbleSize.width);
 
     var cBubblePosition = bubblePosition(cBarPosition, cBubbleSize.width, collision.clinton);
@@ -159,6 +165,9 @@ if (electoralPlacement) {
           handleModifier: cHandlePosition.modifier,
           width: cBubbleSize.width+'px',
           height: cBubbleSize.height+'px',
+          label: data.winner === 'clinton' ? 1 : 0,
+          labelWidth: cBubbleLabelSize.width+'px',
+          labelHeight: cBubbleLabelSize.height+'px',
         },
         face: {
           image: cImage.src,
@@ -176,6 +185,9 @@ if (electoralPlacement) {
           handleModifier: tHandlePosition.modifier,
           width: tBubbleSize.width+'px',
           height: tBubbleSize.height+'px',
+          label: data.winner === 'trump' ? 1 : 0,
+          labelWidth: tBubbleLabelSize.width+'px',
+          labelHeight: tBubbleLabelSize.height+'px',
         },
         face: {
           image: tImage.src,
@@ -221,6 +233,14 @@ if (electoralPlacement) {
     return {
       clinton: cCollision,
       trump: tCollision,
+    }
+  }
+
+  function labelSize(percent) {
+    var percentRange = Math.max(0.4, Math.min(percent/50, 1));
+    return {
+      width: bubbleMaxWidth * percentRange,
+      height: 22 * percentRange,
     }
   }
 
@@ -318,6 +338,10 @@ if (electoralPlacement) {
     cBubbleVotes.textContent = d.clinton.electoral_display;
     cBubbleHandle.style.left = c.bubble.handle;
     cBubbleHandle.setAttribute('data-handle', c.bubble.handleModifier);
+    cBubbleLabel.style.opacity = c.bubble.label;
+    cBubbleLabel.style.width = c.bubble.labelWidth;
+    cBubbleLabel.style.height = c.bubble.labelHeight;
+    cBubbleLabel.style.top = '-'+c.bubble.labelHeight;
 
     tBubble.style.right = t.bubble.position;
     tBubble.style.width = t.bubble.width;
@@ -326,6 +350,10 @@ if (electoralPlacement) {
     tBubbleVotes.textContent = d.trump.electoral_display;
     tBubbleHandle.style.right = t.bubble.handle;
     tBubbleHandle.setAttribute('data-handle', t.bubble.handleModifier);
+    tBubbleLabel.style.opacity = t.bubble.label;
+    tBubbleLabel.style.width = t.bubble.labelWidth;
+    tBubbleLabel.style.height = t.bubble.labelHeight;
+    tBubbleLabel.style.top = '-'+t.bubble.labelHeight;
   }
 
   function bars(d, c, t, i18n) {
@@ -363,6 +391,8 @@ if (electoralPlacement) {
     cBubbleName.textContent = i18n.t('name.clinton');
     tBubbleName.textContent = i18n.t('name.trump');
     finishBubble.textContent = i18n.t('counts.270 to win');
+    cBubbleLabel.textContent = i18n.t('electoral.winner');
+    tBubbleLabel.textContent = i18n.t('electoral.winner');
   }
 }
 

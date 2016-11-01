@@ -3,14 +3,14 @@ var house_seats;
 var MAX_HOUSE_GRID = 49*9; // Each column is 9 boxes tall by 49 wide
 var MAX_SENATE_GRID = 25*4; // Each column is 4 boxes tall by 25 wide
 
-function setUpHouse(data) {
+function setUpHouse(data, i18n) {
   var h2 = document.createElement('h2');
   var bar = document.createElement('div');
   var sub = document.createElement('div');
   var boxOffset = MAX_HOUSE_GRID - data.total;
 
   h2.setAttribute('class', 'module__header');
-  h2.innerHTML = "HOUSE SEATS";
+  h2.textContent = i18n.t('h2.House Seats');
 
   bar.setAttribute("class", "bar bar-house");
 
@@ -56,14 +56,15 @@ function updateHouseSeats(data) {
   }
 }
 
-function setUpSenate(data) {
+function setUpSenate(data, i18n) {
   var h2 = document.createElement("h2");
   var bar = document.createElement('div');
   var sub = document.createElement('div');
 
   h2.setAttribute('class', 'module__header');
-  h2.innerHTML = "SENATE SEATS";
-  sub.innerHTML = "Thirty up for grabs";
+  h2.textContent = i18n.t('h2.Senate Seats');
+  sub.setAttribute('class', 'senate-seats-blurb');
+  sub.textContent = i18n.t('banner.34 seats up for re-election');
 
   bar.setAttribute("class", "bar bar-senate");
 
@@ -114,21 +115,21 @@ module.exports = {
   updateHouse: function(data) {
     updateHouseSeats(data);
   },
-  renderHouse: function(data) {
+  renderHouse: function(data, i18n) {
     house_seats = window.document.getElementById('house_seats');
     if (house_seats) {
-      setUpHouse(data);
+      setUpHouse(data, i18n);
       this.updateHouse(data);
     }
   },
   updateSenate: function(data) {
     updateSenateSeats(data);
   },
-  renderSenate: function(data) {
+  renderSenate: function(data, i18n) {
     senate_seats = window.document.getElementById('senate_seats');
 
     if (senate_seats) {
-      setUpSenate(data);
+      setUpSenate(data, i18n);
       this.updateSenate(data);
     }
   }

@@ -22,4 +22,10 @@
       flex: 0 0 auto;
     }
   }
+
+  p.explanation {
+    @include page-width();
+    font-family: $body-font-family;
+    line-height: 1.5;
+  }
 }
