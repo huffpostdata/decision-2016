@@ -44,18 +44,24 @@
     margin: 0;
     padding: 0;
 
+    &__message {
+      text-align: center;
+      font-weight: bold;
+      padding: 10px 0;
+    }
+
     .tab {
       width: 100%;
       &__link {
         font-family: $header-font-family;
         font-weight: bold;
         padding: 5px 10px;
-        color: $very-muted-color;
+        color: $muted-color;
         text-align: center;
         text-decoration: none;
         text-transform: uppercase;
         &:hover {
-          color: $accent;
+          color: $color;
         }
         &--active {
           color: $color;
