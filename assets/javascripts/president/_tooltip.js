@@ -1,4 +1,6 @@
 var toolTip = (function() {
+
+//element object and methods
   var element = {};
 
   element.init = function(targ) {
@@ -7,23 +9,47 @@ var toolTip = (function() {
     this.stateSummary = targ.querySelector('.state-summary');
     this.candidates = targ.querySelector('.candidates');
 
-    this.positionTooltip = function(stateEl, stateId){
-      var that = this
-      this.setText(stateEl, stateId, function(){
-        that.tooltip.style.display = 'block';
-        var mapHeight = document.querySelector('.map').offsetHeight;
-        var mapWidth = document.querySelector('.map').offsetWidth;
-        var boundBox = stateEl.getBBox();
-        var scaleDown = mapWidth > mapHeight ? mapWidth / 1294 : mapHeight / 800;
-        var xPos = Math.floor((boundBox.x + boundBox.width / 2) * scaleDown);
-        var yPos = Math.floor((boundBox.y + boundBox.height / 4) * scaleDown);
-        var width = parseFloat(that.tooltip.offsetWidth);
-        var height = parseFloat(that.tooltip.offsetHeight);
-        var offsetX = width / 2;
-        var offsetY = height;
-        that.tooltip.style.left = xPos - offsetX + 'px';
-        that.tooltip.style.top = yPos - offsetY + 'px';
-      })
+    this.northEast = ['NH','VT','MA','RI','CT','NJ','DE','MD','DC'];
+    this.northEastLocs = {};
+
+    this.positionTooltip = function(stateEl, stateId, isNE){
+      var that = this;
+      var isNE = isNE || false;
+      var mapHeight = document.querySelector('.map').offsetHeight;
+      var mapWidth = document.querySelector('.map').offsetWidth;
+      var scaleDown = mapWidth / 1294;
+      var boundBox = stateEl.getBBox();
+      var width;
+      var height;
+      var offsetX;
+      var offsetY;
+      var xPos;
+      var yPos;
+      if (!isNE) {
+        this.setText(stateEl, stateId, function(){
+          that.tooltip.style.display = 'block'; //set display before getting h/w
+          width = parseFloat(that.tooltip.offsetWidth);
+          height = parseFloat(that.tooltip.offsetHeight);
+          xPos = Math.floor((boundBox.x + boundBox.width / 2) * scaleDown);
+          yPos = Math.floor((boundBox.y + boundBox.height / 4) * scaleDown);
+          offsetX = width / 2;
+          offsetY = height;
+          that.tooltip.style.left = xPos - offsetX + 'px';
+          that.tooltip.style.top = yPos - offsetY + 'px';
+        })
+      } else {
+        this.setText(stateEl, stateId, function(){
+          that.tooltip.style.display = 'block';
+          width = parseFloat(that.tooltip.offsetWidth);
+          height = parseFloat(that.tooltip.offsetHeight);
+          xPos = Math.floor((boundBox.x + boundBox.width) * scaleDown);
+          yPos = Math.floor((boundBox.y + boundBox.height) * scaleDown);
+          offsetX = (width / 2) + 20;
+          offsetY = height + 30;
+          that.tooltip.style.left = xPos - offsetX + 'px';
+          that.tooltip.style.top = yPos - offsetY + 'px';
+        })
+      }
     }
 
     this.setText = function(stateEl, stateId, callback) {
@@ -88,14 +114,25 @@ var toolTip = (function() {
     }
 
     this.handleMouseover = function(targ, mapRef) {
+      var testing = mapRef.querySelectorAll('[data-race-id]')
+      var redirect = function(checkId) {
+      }
       var stateId = targ.getAttribute('data-race-id').split(/ /, 1)[0];
       var bothCarto = mapRef.classList.contains('cartogram') &&
           targ.parentElement.classList.contains('cartogram');
       var bothGeo = mapRef.classList.contains('geography') &&
           targ.parentElement.classList.contains('geography');
-      if (bothCarto || bothGeo) {
+      if (bothCarto) {
         highlight(stateId);
         this.positionTooltip(targ, stateId);
+      } else if (bothGeo) {
+        if (!this.northEast.includes(stateId)) {
+          highlight(stateId);
+          this.positionTooltip(targ, stateId);
+        } else {
+          highlight(stateId);
+          this.positionTooltip(this.northEastLocs[stateId], stateId, true);
+        }
       }
     }
 
@@ -104,9 +141,26 @@ var toolTip = (function() {
       resetHighlights();
     }
 
+    setNortheast();
     setListeners();
   }
 
+  function setNortheast() {
+    setTimeout(function() {
+      var regEx = /[a-zA-Z]/g
+      for (var i = 0; i < element.northEast.length; i++) {
+        var stateEls = document.getElementById('map').querySelectorAll('[data-race-id]');
+        for (var j = 0; j < stateEls.length; j++) {
+          var notBox = stateEls[j].getAttribute('d').match(regEx).length > 5;
+          if (stateEls[j].getAttribute('data-race-id') === element.northEast[i] && notBox) {
+            element.northEastLocs[element.northEast[i]] = stateEls[j];
+          }
+        }
+      }
+    }, 10) // this shouldn't require a timeout
+  }
+
+//  helping functions
   function hasClass (el, checkClass) {
     return !!el.className.match( checkClass ) //match returns null, return true/false;
   }
