@@ -8,19 +8,19 @@ function dateHtml(date) {
 }
 
 function raceHtml(entry) {
-  return '<span class="race" data-race-id="' + entry.raceId + '">' + entry.raceName + '</span>';
+  return '<span class="race" data-race-id="' + entry.raceId + '">' + stateHtml(entry) + entry.raceName + '</span>';
 }
 
 function stateHtml(entry) {
-  return '<span class="state" data-state-id="' + entry.stateId + '">' + entry.stateName + '</span>';
+  return '<span class="state" data-state-id="' + entry.raceId.slice(0, 2) + '"></span>';
 }
 
 function liHtml(entry, contents) {
-  return '<li id="change-' + entry + '">' + dateHtml(entry.date) + ' ' + contents.join('') + '</li>';
+  return '<li id="change-' + entry.id + '" class="' + (entry.partyId || 'no-party') + '">' + dateHtml(entry.date) + ' ' + contents.join('') + '</li>';
 }
 
 function startHtml(entry) {
-  return liHtml(entry, [ stateHtml(entry), ' began counting votes' ]);
+  return liHtml(entry, [ stateHtml(entry), entry.stateName, ' began counting votes' ]);
 }
 
 function leaderHtml(entry) {

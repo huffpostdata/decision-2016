@@ -12,18 +12,28 @@
     position: relative;
     padding-left: 2.5rem;
     margin-bottom: .5rem;
+    line-height: 1.5;
   }
 
   time {
     color: $muted-color;
     position: absolute;
-    top: 0;
+    top: .2rem;
     left: 0;
   }
 
   span.leader {
     font-weight: bold;
   }
+
+  span.state {
+    font-size: 1rem;
+    vertical-align: -.2rem;
+  }
+
+  span.state { color: $tossup-color; }
+  li.dem span.state { color: $dem-color; }
+  li.gop span.state { color: $gop-color; }
 
   .dem-win { color: $dem-color; }
   .dem-lead { color: $dem-lead-color; }
