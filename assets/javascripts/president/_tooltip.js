@@ -21,7 +21,7 @@ var toolTip = (function() {
         var height = parseFloat(that.tooltip.offsetHeight);
         var offsetX = width / 2;
         var offsetY = height;
-        that.tooltip.style.left = xPos - offsetX + 'px';// - offsetX + 'px';
+        that.tooltip.style.left = xPos - offsetX + 'px';
         that.tooltip.style.top = yPos - offsetY + 'px';
       })
     }
@@ -88,18 +88,54 @@ var toolTip = (function() {
     }
 
     this.handleMouseover = function(targ, mapRef) {
-      var bothCarto = mapRef.classList.contains('cartogram') && targ.parentElement.classList.contains('cartogram');
-      var bothGeo = mapRef.classList.contains('geography') && targ.parentElement.classList.contains('geography');
+      var stateId = targ.getAttribute('data-race-id').split(/ /, 1)[0];
+      var bothCarto = mapRef.classList.contains('cartogram') &&
+          targ.parentElement.classList.contains('cartogram');
+      var bothGeo = mapRef.classList.contains('geography') &&
+          targ.parentElement.classList.contains('geography');
       if (bothCarto || bothGeo) {
-        var stateId = targ.getAttribute('data-race-id').split(/ /, 1)[0];
+        highlight(stateId);
         this.positionTooltip(targ, stateId);
       }
     }
 
     this.handleMouseout = function() {
       this.tooltip.style.display = 'none';
+      resetHighlights();
     }
+
     setListeners();
+  }
+
+  function hasClass (el, checkClass) {
+    return !!el.className.match( checkClass ) //match returns null, return true/false;
+  }
+
+  function appendClass(el, className) {
+    if (!hasClass(el, className)) el.className += " " + className;
+  }
+
+  function removeClass(el, className) {
+    if (hasClass(el, className)) {
+      var regEx = new RegExp('(\\s|^)' + className + '(\\s|$)')
+      el.className = el.className.replace(regEx, ' ')
+    }
+  }
+
+  function highlight(stateId) {
+    var raceEls = document.getElementById('president-summary').querySelectorAll('li');
+    for (var i = 0; i < raceEls.length; i++) {
+      if (raceEls[i].getAttribute('data-race-id') == stateId) {
+        appendClass(raceEls[i], 'active');
+      }
+    }
+  }
+
+  function resetHighlights() {
+    var raceEls = document.querySelectorAll('li');
+    for (var i = 0; i < raceEls.length; i++) {
+      removeClass(raceEls[i], 'active');
+    }
   }
 
   function setListeners() {

@@ -135,6 +135,17 @@
     flex: 1 1 auto;
     height: 2rem;
     box-sizing: border-box;
+    margin-top: 0rem;
+    box-shadow: 0px 0px 0px #000;
+    transition-property: transform box-shadow;
+    transition-duration: .15s;
+    transition-timing-function: ease-out;
+  }
+
+  li.active {
+    z-index: 1;
+    transform: scale(1, 1.25);
+    box-shadow: 0px 0px 1px #000;
   }
 
   li.clinton-win { background: $dem-color; }
