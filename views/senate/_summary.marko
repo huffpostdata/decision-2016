@@ -1,2 +1,28 @@
+var summary=data.model.summaries.senate
+var races=data.model.races
+
 #senate-summary
-  - TK senate summary
+  .inner
+    .total-dem
+      .image
+      h3 - Democrats
+      strong - ${summary.totals.dem}
+      <!-- number of seats is >30 for both parties -->
+      span - seats
+    .total-gop
+      .image
+      h3 - Republicans
+      strong - ${summary.totals.gop}
+      <!-- number of seats is >30 for both parties -->
+      span - seats
+    .middle - 50 to tie (VP breaks tie)
+    ol.races
+      for(race in races)
+        li.${race.className} data-race-id="${race.id}"
+    .popular-votes
+      .dem-popular-votes
+        strong - ${data.helpers.formatInt(summary.popular.dem)}
+        -  votes
+      .gop-popular-votes
+        strong - ${data.helpers.formatInt(summary.popular.gop)}
+        -  votes

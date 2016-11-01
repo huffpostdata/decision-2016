@@ -29,3 +29,146 @@
     line-height: 1.5;
   }
 }
+
+@mixin dashboard-summary() {
+  @include wide-width();
+
+  margin-top: 2rem;
+
+  .inner {
+    position: relative;
+    padding-top: 5rem; // space for images
+    padding-bottom: 2rem; // space for "270 to win" etc
+  }
+
+  .inner>[class^=total-] {
+    position: absolute;
+    width: 50%;
+    height: 5rem;
+    top: 0;
+    text-transform: uppercase;
+    line-height: 1;
+
+    h3 {
+      font-size: 1.5rem;
+      font-family: $header-font-family;
+      margin: 0;
+    }
+
+    span {
+      font-size: 0.75rem;
+
+      @media (min-width: $page-width) {
+        font-size: 1rem;
+      }
+    }
+
+    strong {
+      display: block;
+      font-size: 2rem;
+      padding-top: .25rem;
+      font-family: $header-font-family;
+    }
+
+    .electoral-votes {
+      font-size: .75rem;
+      font-family: $body-font-family;
+
+      @media (min-width: $page-width) {
+        display: block;
+        font-size: .85rem;
+      }
+    }
+
+    .image {
+      display: none;
+      position: absolute;
+      bottom: 0;
+      width: 5rem;
+      height: 5rem;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center bottom;
+
+      @media (min-width: $page-width) {
+        display: block;
+      }
+    }
+  }
+
+  .popular-votes {
+    height: 1rem;
+    font-size: .85rem;
+    line-height: 1rem;
+    position: relative;
+    padding-top: .25rem;
+    color: $muted-color;
+
+    &>:last-child {
+      position: absolute;
+      right: 0;
+      top: .25rem;
+    }
+  }
+
+  .inner>[class^=total]:first-child {
+    padding-left: 0rem;
+    text-align: left;
+    left: 0;
+    .image { left: 0; /* and set background-image */ }
+    @media (min-width: $page-width) {
+      padding-left: 6rem;
+    }
+    strong { color: $dem-color; }
+  }
+
+  .inner>[class^=total-]:not(:first-child) {
+    padding-right: 0rem;
+    text-align: right;
+    right: 0;
+    .image { right: 0; /* and set background-image */ }
+    @media (min-width: $page-width) {
+      padding-right: 6rem;
+    }
+    strong { color: $gop-color; }
+  }
+
+  .middle {
+    position: absolute;
+    width: 100%;
+    bottom: 1rem;
+    left: 0;
+    text-align: center;
+    font-size: .85rem;
+    line-height: 1;
+    text-transform: uppercase;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      margin-left: -.5px;
+      left: 50%;
+      width: 0;
+      height: 5.5rem;
+      bottom: 1rem;
+      border-left: 1px solid $color;
+    }
+  }
+
+  ol.races {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: -webkit-flex;
+    display: flex;
+  }
+
+  li {
+    display: block;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    height: 2rem;
+    box-sizing: border-box;
+  }
+}
