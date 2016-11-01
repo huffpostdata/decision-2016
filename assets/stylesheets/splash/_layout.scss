@@ -3,38 +3,6 @@
     display: flex;
     flex-flow: row;
   }
-  .legend {
-    background-color: $border-color;
-    font-size: 10px;
-    &-icon {
-      background-color: $poll-open;
-      display: inline-block;
-      border: 1px solid #fff;
-      height: 20px;
-      width: 40px;
-      &.closed {
-        background-color: $poll-closed;
-      }
-      &.open {
-        background-color: $poll-open;
-      }
-      &.dem {
-        background-color: $dem-lead-color;
-        &.win {
-          background-color: $dem-color;
-        }
-      }
-      &.gop {
-        background-color: $gop-lead-color;
-        &.win {
-          background-color: $gop-color;
-        }
-      }
-      &.no-data{
-        background-color: $poll-not-reported;
-      }
-    }
-  }
   .a-page__content__splash__right {
     .module__header {
       border-bottom: 1px solid #ececec;
