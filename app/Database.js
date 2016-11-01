@@ -156,5 +156,12 @@ module.exports = class Database {
         this.splash.i18n.phrases = translations[locale]
       }
     })
+
+    this.translatedSplashBar = this.translatedSplash.map(x => Object.assign({
+      summaries: summaries,
+      houseRaces: houseRaces,
+      senateRaces: senateRaces,
+      presidentRaces: presidentRaces
+    }, x))
   }
 }

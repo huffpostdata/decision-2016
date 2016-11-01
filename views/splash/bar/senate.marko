@@ -1,0 +1,11 @@
+var t=data.helpers.buildTranslateFunction(data.model.i18n)
+
+a#senate target="_top" href="${data.url_to('senate')}"
+  h2 - ${t('banner.Senate')}
+  p.count - ${t('banner.34 seats up for re-election')}
+
+  ol.races
+    for(race in data.model.senateRaces)
+      li.${race.className}
+
+  p.details - ${t('banner.See full results')}

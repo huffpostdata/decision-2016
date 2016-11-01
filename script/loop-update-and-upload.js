@@ -2,6 +2,9 @@
 
 'use strict'
 
+if (process.env.NODE_ICU_DATA !== 'node_modules/full-icu') {
+  throw new Error("You must set NODE_ICU_DATA=node_modules/full-icu before starting Node because i18n won't work otherwise")
+}
 if (!process.env.AP_API_KEY) {
   throw new Error("You must set the AP_API_KEY environment variable")
 }
