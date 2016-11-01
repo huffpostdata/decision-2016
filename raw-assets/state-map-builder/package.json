@@ -20,8 +20,10 @@
     "request": "^2.76.0",
     "shapefile": "^0.5.7",
     "simple-get": "^2.3.0",
+    "svg2ttf": "^4.0.2",
     "tar": "^2.2.1",
     "tar-fs": "^1.14.0",
-    "topojson": "^1.6.27"
+    "topojson": "^1.6.27",
+    "ttf2woff": "^2.0.1"
   }
 }
