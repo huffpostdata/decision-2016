@@ -358,6 +358,10 @@ module.exports = class ApData {
    *     totals: {
    *       dem: uint total number of senators who say they'll caucus with Democrats in 2017
    *       gop: uint total number of senators who say they'll caucus with Republicans in 2017
+   *     },
+   *     popular: {
+   *      dem: uint total number of votes for senators who say they'll caucus with Democrats in 2017
+   *      gop: uint total number of votes for senators who say they'll caucus with Republicans in 2017
    *     }
    *   }
    *
@@ -405,6 +409,7 @@ module.exports = class ApData {
       priors: { dem: NDemPrior, gop: NGopPrior },
       wins: wins,
       totals: totals,
+      popular: { dem: 0, gop: 0 }
     }
   }
 

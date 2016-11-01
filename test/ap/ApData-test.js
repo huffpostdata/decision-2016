@@ -373,6 +373,8 @@ describe('ApData', () => {
       })
       expect(() => apData.senateSummary()).to.throw(Error)
     })
+
+    it('should total popular votes')
   }) // #senateSummary
 
   describe('#houseSummary', () => {
