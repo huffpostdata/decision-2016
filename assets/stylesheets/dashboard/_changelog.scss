@@ -1,6 +1,15 @@
 #changelog {
   font-size: .85rem;
 
+  h3 {
+    font-family: $header-font-family;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    margin: 2rem 0 0;
+    border-bottom: 1px solid $color;
+  }
+
   ol {
     list-style: none;
     margin: 0;
@@ -10,40 +19,46 @@
   li {
     display: block;
     position: relative;
-    padding-left: 2.5rem;
+    padding-left: 2rem;
     margin-bottom: .5rem;
     line-height: 1.5;
+    border-top: 1px solid $very-very-muted-color;
+    padding-top: .5rem;
+    &:first-child { border-top: 0; }
   }
 
   time {
+    display: block;
     color: $muted-color;
-    position: absolute;
-    top: .2rem;
-    left: 0;
+    font-size: .7rem;
   }
 
   span.leader {
     font-weight: bold;
   }
 
-  span.state {
-    font-size: 1rem;
-    vertical-align: -.2rem;
+  span.race {
+    font-weight: bold;
   }
 
-  span.state { color: $tossup-color; }
-  li.dem span.state { color: $dem-color; }
-  li.gop span.state { color: $gop-color; }
+  span.state {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1.5rem;
+    vertical-align: -.25rem;
+  }
 
-  .dem-win { color: $dem-color; }
-  .dem-lead { color: $dem-lead-color; }
-  .gop-win { color: $gop-color; }
-  .gop-lead { color: $gop-lead-color; }
-  .lib-win { color: $lib-color; }
-  .lib-lead { color: $lib-lead-color; }
-  .grn-win { color: $grn-color; }
-  .grn-lead { color: $grn-lead-color; }
-  .other-win { color: $other-color; }
-  .other-lead { color: $other-lead-color; }
-  .tossup { color: $tossup-color; }
+  span.state, span.leader { color: $tossup-color; }
+  .dem-win span.state, .dem-win span.leader { color: $dem-color; }
+  span.leader.dem-lead { color: $dem-color; }
+  .gop-win span.state, .gop-win span.leader { color: $gop-color; }
+  span.leader.gop-lead { color: $gop-color; }
+  .lib-win span.state, .lib-win span.leader { color: $lib-color; }
+  span.leader.lib-lead { color: $lib-color; }
+  .grn-win span.state, .grn-win span.leader { color: $grn-color; }
+  span.leader.grn-lead { color: $grn-color; }
+  .bfa-win span.state, .bfa-win span.leader { color: $bfa-color; }
+  span.leader.bfa-lead { color: $bfa-color; }
 }

@@ -88,6 +88,8 @@ module.exports = class Database {
 
     const senateRaces = apData.senateRaces()
 
+    const NChangeLogEntries = 5
+
     this.splash = {
       president: summaries.president,
       races: presidentRaces,
@@ -109,21 +111,21 @@ module.exports = class Database {
       metadata: new PageMetadata('president', {}), // TK
       summaries: summaries,
       races: presidentRaces,
-      changelog: changelog.president.slice(0, 10).map(e => e.toTsvLine()).join('\n')
+      changelog: changelog.president.slice(0, NChangeLogEntries).map(e => e.toTsvLine()).join('\n')
     }
 
     this.senate = {
       metadata: new PageMetadata('senate', {}), // TK
       summaries: summaries,
       races: senateRaces,
-      changelog: changelog.senate.slice(0, 10).map(e => e.toTsvLine()).join('\n')
+      changelog: changelog.senate.slice(0, NChangeLogEntries).map(e => e.toTsvLine()).join('\n')
     }
 
     this.house = {
       metadata: new PageMetadata('house', {}), // TK
       summaries: summaries,
       races: houseRaces,
-      changelog: changelog.house.slice(0, 10).map(e => e.toTsvLine()).join('\n')
+      changelog: changelog.house.slice(0, NChangeLogEntries).map(e => e.toTsvLine()).join('\n')
     }
 
     this.presidentAsBuffer = Buffer.from(JSON.stringify({

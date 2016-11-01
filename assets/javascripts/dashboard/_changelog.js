@@ -1,14 +1,29 @@
 var ChangelogEntry = require('./ChangelogEntry');
 
+function getSystemTimeZoneAbbreviation() {
+  var s = new Date().toString();
+  var m = /\(([^)]+)\)/.exec(s);
+  return m ? m[1] : '';
+}
+
+var tz = getSystemTimeZoneAbbreviation();
+
 function dateHtml(date) {
-  var h = String(date.getHours() % 12);
-  if (h === '0') h = '12';
+  var h = date.getHours();
+  var ampm;
+  if (h < 12) {
+    ampm = 'AM';
+    h = h === 0 ? '12' : String(h);
+  } else {
+    ampm = 'PM';
+    h = h === 12 ? '12' : String(h - 12);
+  }
   var mm = String(100 + date.getMinutes()).slice(1);
-  return '<time datetime="' + date.toISOString() + '">' + h + ':' + mm + '</time>';
+  return '<time datetime="' + date.toISOString() + '">' + h + ':' + mm + ' ' + ampm + ' ' + tz + '</time>';
 }
 
 function raceHtml(entry) {
-  return '<span class="race" data-race-id="' + entry.raceId + '">' + stateHtml(entry) + entry.raceName + '</span>';
+  return '<span class="race" data-race-id="' + entry.raceId + '">' + entry.raceName + '</span>';
 }
 
 function stateHtml(entry) {
@@ -16,7 +31,7 @@ function stateHtml(entry) {
 }
 
 function liHtml(entry, contents) {
-  return '<li id="change-' + entry.id + '" class="' + (entry.partyId || 'no-party') + '">' + dateHtml(entry.date) + ' ' + contents.join('') + '</li>';
+  return '<li id="change-' + entry.id + '" class="' + (entry.partyId ? (entry.partyId + '-' + entry.changeType) : 'start') + '">' + stateHtml(entry) + contents.join('') + dateHtml(entry.date) + '</li>';
 }
 
 function startHtml(entry) {
@@ -32,7 +47,7 @@ function percentHtml(entry) {
 }
 
 function leadHtml(entry) {
-  return liHtml(entry, [ leaderHtml(entry) + ' led ', raceHtml(entry) + ' after ', percentHtml(entry), ' of the vote was counted' ]);
+  return liHtml(entry, [ leaderHtml(entry) + ' led ', raceHtml(entry) + ' after ', percentHtml(entry), ' of votes were counted' ]);
 }
 
 function winHtml(entry) {
