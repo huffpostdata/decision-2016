@@ -2,19 +2,26 @@
 @import 'proxima-nova-condensed-extra-bold';
 
 .decision-iframe__splash {
-  width: 1170px;
+  box-sizing: border-box;
+  font-family: $body-font-family;
+  min-width: 980px;
+  max-width: 1070px;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   min-height: 350px;
   margin: 0 auto;
   padding: 0;
 
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+
   &__left {
-    flex: 1 0 650px;
+    flex: 0 0 665px;
   }
 
   &__right {
     padding-left: 30px;
-    flex: 1 0 350px;
+    flex: 1 1 375px;
   }
 }
