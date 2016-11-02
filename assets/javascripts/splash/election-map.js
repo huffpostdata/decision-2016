@@ -1,5 +1,4 @@
 var Map = require('../dashboard/_map');
-var i18n;
 
 var mapEl;
 var mapSwitcherEl;
@@ -29,7 +28,13 @@ module.exports = {
       electionMap.querySelector('.legend__header').innerHTML = _i18n.t('legend.header');
       electionMap.querySelector('.resultsTxt').innerHTML = _i18n.t('linkout.See Full Results');
 
-      map = new Map({ el: mapEl, switchEl: mapSwitcherEl, racesJson: data });
+      map = new Map({ el: mapEl, switchEl: mapSwitcherEl, racesJson: data, onLoad: function (svg) {
+        var paths = svg.querySelectorAll("text");
+        for (i = 0; i < paths.length; i++) {
+          path = paths[i];
+          path.textContent = _i18n.t('state-abbreviation.' + path.textContent);
+        }
+      }});
     }
   },
   update: function(data, _i18n) {
