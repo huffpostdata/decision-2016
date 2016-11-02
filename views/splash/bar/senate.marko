@@ -5,9 +5,9 @@ a#senate target="_top" href="${data.url_to('senate')}"
   p.count - ${t('banner.34 seats up for re-election')}
 
   .legend
-    .dem - ${t('counts.n Dem', data.model.summaries.senate.wins.dem)}
+    .dem - ${t('counts.n Dem', data.model.summaries.senate.totals.dem)}
     .balance - $!{t('banner.Balance of power')}
-    .gop - ${t('counts.n GOP', data.model.summaries.senate.wins.gop)}
+    .gop - ${t('counts.n GOP', data.model.summaries.senate.totals.gop)}
 
   ol.races
     for(race in data.model.senateRaces)
