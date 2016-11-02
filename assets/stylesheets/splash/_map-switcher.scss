@@ -1,18 +1,15 @@
 #map-switcher {
   @include map-switcher();
+  padding: 0;
 
   h5 {
     font-weight: bold;
-    // font-size: 1.4rem;
     white-space: nowrap;
-    margin-top: 10px;
+    margin-top: 12px;
   }
 
   .geography ,
   .cartogram {
-    .tab__link {
-      display: flex;
-    }
     a::before {
       border: none;
       order: 2;
@@ -21,11 +18,11 @@
   }
 
   .geography a::before {
-    background-image: asset-url('digest', 'maps/president-geography-thumbnail.png');
+    background-image: asset-as-url('digest', 'maps/president-geography-thumbnail.png');
   }
 
   .cartogram a::before {
-    background-image: asset-url('digest', 'maps/president-cartogram-thumbnail.png');
+    background-image: asset-as-url('digest', 'maps/president-cartogram-thumbnail.png');
   }
 
   &.cartogram .tab.cartogram,
@@ -33,9 +30,6 @@
     border: 2px solid $color;
     .tab__link {
       color: $color;
-      h5 {
-        margin-top: 8px;
-      }
     }
   }
   .switch {
@@ -51,18 +45,18 @@
     }
 
     .tab {
+      border: 2px solid #fff;
       width: 100%;
       &__link {
+        display: flex;
+        justify-content: space-around;
         font-family: $header-font-family;
         font-weight: bold;
         padding: 5px 10px;
         color: $muted-color;
         text-align: center;
         text-decoration: none;
-        text-transform: uppercase;
-        &:hover {
-          color: $color;
-        }
+        &:hover,
         &--active {
           color: $color;
         }
