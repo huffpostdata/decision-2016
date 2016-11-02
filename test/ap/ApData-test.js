@@ -194,7 +194,7 @@ describe('ApData', () => {
         expect(race.nVotesThird).to.eq(3456)
       })
 
-      it('should count nPrecincts and nPrecinctsReporting', () => {
+      it('should count fractionReporting', () => {
         const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
         Object.assign(reportingUnitRaces2.find(r => r.reportingUnits[0].statePostal === 'CA').reportingUnits[0], {
           precinctsReporting: 106,
@@ -520,14 +520,12 @@ describe('ApData', () => {
         expect(actual[50].name).to.eq('Alaska') // a current race
       })
 
-      it('should set nPrecincts and nPrecinctsReporting', () => {
+      it('should set fractionReporting', () => {
         const actual = go(races)
-        expect(actual[50].nPrecincts).to.eq(34)
-        expect(actual[50].nPrecinctsReporting).to.eq(12)
+        expect(actual[50].fractionReporting).to.eq(12 / 34)
 
         // priors have no precinct counts
-        expect(actual[0].hasOwnProperty('nPrecincts')).to.eq(false)
-        expect(actual[0].hasOwnProperty('nPrecinctsReporting')).to.eq(false)
+        expect(actual[0].hasOwnProperty('fractionReporting')).to.eq(false)
       })
 
       it('should set className=dem-prior, sorted first', () => {
@@ -707,15 +705,14 @@ describe('ApData', () => {
         expect(houseRaces(newDems, gops, tossup)[0].name).to.eq('Alaska At Large')
       })
 
-      it('should set nPrecincts and nPrecinctsReporting', () => {
+      it('should set fractionReporting', () => {
         const newDems = JSON.parse(JSON.stringify(dems))
         newDems[0].seatNum = '1'
         newDems[0].reportingUnits[0].precinctsReporting = 12
         newDems[0].reportingUnits[0].precinctsTotal = 34
         const actual = houseRaces(newDems, gops, tossup)[0]
 
-        expect(actual.nPrecincts).to.eq(34)
-        expect(actual.nPrecinctsReporting).to.eq(12)
+        expect(actual.fractionReporting).to.eq(12 / 34)
       })
 
       it('should set winner="dem" on race that has two Dem candidates', () => {

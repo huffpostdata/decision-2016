@@ -43,7 +43,7 @@ function leaderHtml(entry) {
 }
 
 function percentHtml(entry) {
-  return Math.round(entry.nPrecinctsReporting / entry.nPrecincts * 100) + '%';
+  return Math.round(100 * entry.fractionReporting) + '%';
 }
 
 function leadHtml(entry) {
