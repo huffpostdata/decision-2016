@@ -71,7 +71,6 @@ module.exports = class Database {
       president: apData.presidentSummary(),
       senate: apData.senateSummary(),
       house: apData.houseSummary(),
-      battlegrounds: battlegrounds,  
     }
 
     const presidentRaces = apData.presidentRaces()

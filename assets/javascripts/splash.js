@@ -25,7 +25,7 @@ window.decision2016_init = function(data, showRightRail) {
   electoral.render(data.president, i18n);
   electionMap.render(data.races, i18n);
   if (showRightRail) {
-    battlegrounds.render({ 'states': data.battlegrounds, 'races': data.races }, i18n);
+    battlegrounds.render({ 'battlegrounds': data.battlegrounds, 'races': data.races }, i18n);
     seats.renderHouse(data.house, i18n);
     seats.renderSenate(data.senate, i18n);
   }
@@ -34,7 +34,7 @@ window.decision2016_init = function(data, showRightRail) {
     electionMap.update(json.races, i18n);
     electoral.update(json.summaries.president, i18n);
     if (showRightRail) {
-      battlegrounds.update({ 'states': json.summaries.battlegrounds, 'races': json.races }, i18n);
+      battlegrounds.update({ 'battlegrounds': data.battlegrounds, 'races': json.races }, i18n);
       seats.updateSenate(json.summaries.senate);
       seats.updateHouse(json.summaries.house);
     }

@@ -40,6 +40,9 @@ function paintRow(data, i18n, formatPercent) {
   var gopPercent = document.createElement('td');
   var districtPercent = document.createElement('td');
 
+  var votesClintonAsPercentage = data.nVotes ? data.nVotesClinton/data.nVotes : 0;
+  var votesTrumpAsPercentage = data.nVotes ? data.nVotesTrump/data.nVotes : 0;
+
   stateIcon.setAttribute("class", "state-icon");
   stateIcon.innerHTML = '<span class="state" data-state-id="'+data.id+'"></span>';
 
@@ -53,12 +56,13 @@ function paintRow(data, i18n, formatPercent) {
   stateInfo.appendChild(stateVotes);
 
   demPercent.setAttribute("class", "percent percent--clinton");
-  demPercent.textContent = formatPercent(data.nVotesClinton/data.nVotes);
   gopPercent.setAttribute("class", "percent percent--trump");
-  gopPercent.textContent = formatPercent(data.nVotesTrump/data.nVotes);
+
+  demPercent.textContent = formatPercent(votesClintonAsPercentage);
+  gopPercent.textContent = formatPercent(votesTrumpAsPercentage);
 
   districtPercent.setAttribute("class", "percent percent--district");
-  districtPercent.textContent = formatPercent(data.nPrecinctsReporting/data.nPrecincts);
+  districtPercent.textContent = formatPercent(data.fractionReporting);
 
   row.setAttribute('class', data.className);
 
@@ -72,13 +76,14 @@ function paintRow(data, i18n, formatPercent) {
 }
 
 function getBattlegroundData(data) {
+  var idToRace = {}; 
   var battlegroundData = [];
-  for(var i = 0; i < data.states.length; i++) {
-    function findRaceData(race) {
-      return race.id === data.states[i];
-    }
-    battlegroundData.push(data.races.find(findRaceData));
-  }
+  data.races.forEach(function(race) { 
+    idToRace[race.id] = race; 
+  });
+  data.battlegrounds.forEach(function(state) {
+    battlegroundData.push(idToRace[state]);
+  });
   return battlegroundData;
 }
 
