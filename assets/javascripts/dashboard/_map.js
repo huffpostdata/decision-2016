@@ -356,7 +356,7 @@ Map.prototype._setSvg = function(xml) {
     } // otherwise do nothing
   });
 
-  if(this.onLoad) { this.onLoad(svg) }
+  if(this.onLoad) { this.onLoad() }
 };
 
 Map.prototype.update = function(racesJson) {
