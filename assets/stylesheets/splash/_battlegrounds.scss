@@ -10,16 +10,36 @@
   thead {
     color: $header-color;
     font-size: 12px;
+
     tr th {
       border-left: 1px dashed $border-color;
       border-bottom: 1px solid $hard-line;
       text-align: center;
       font-weight: normal;
       &:nth-child(1) {
-        text-align: left;
         border-left: none;
       }
     }
+
+    th.trump::before, th.clinton::before {
+      content: '';
+      display: inline-block;
+      width: 30px;
+      height: 40px;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    th.clinton::before {
+      background-image: asset-as-url('digest', 'images/splash/clinton-head.png');
+    }
+
+    th.trump::before {
+      background-image: asset-as-url('digest', 'images/splash/trump-head.png');
+    }
+
+    th.blurb { text-align: left; }
   }
   tbody {
     tr {

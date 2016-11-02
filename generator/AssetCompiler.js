@@ -151,12 +151,12 @@ module.exports = class AssetCompiler {
             'asset-as-url($type, $key)': (type, key) => {
               const asset = this.get_asset(type.getValue(), key.getValue())
               switch (asset.content_type) {
-                case 'image/svg+xml':
-                  return new sass.types.String(`url('data:image/svg+xml;base64,${asset.data.toString('base64')}')`)
-                  break
                 case 'application/font-woff':
                   return new sass.types.String(`url('data:application/font-woff;base64,${asset.data.toString('base64')}')`)
-                  break
+                case 'image/png':
+                  return new sass.types.String(`url('data:image/png;base64,${asset.data.toString('base64')}')`)
+                case 'image/svg+xml':
+                  return new sass.types.String(`url('data:image/svg+xml;base64,${asset.data.toString('base64')}')`)
                 default:
                   throw new Error(`Don't know how to encode a ${asset.content_type} as a CSS URL. Write code here?`)
               }
