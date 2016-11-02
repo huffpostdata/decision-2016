@@ -3,6 +3,7 @@ var Map = require('./dashboard/_map');
 var nav = require('./dashboard/_nav');
 var summary = require('./senate/_summary');
 var refresh = require('./common/_refresh');
+var tooltip = require('./senate/_tooltip');
 
 var initialJson = JSON.parse(document.querySelector('script[data-json]').getAttribute('data-json'));
 
@@ -24,11 +25,16 @@ var navEl = document.querySelector('nav');
 var updateNav = nav(navEl);
 updateNav(initialJson.summaries);
 
+var tooltipEl = document.getElementById('tooltip');
+var toolTip = tooltip(tooltipEl);
+toolTip.setData(initialJson.races);
+
 function doRefresh(json) {
   changelog.update(json);
   updateSummary(json);
   map.update(json.races);
   updateNav(json.summaries);
+  toolTip.setData(json.races);
 }
 
 var refreshEl = document.getElementById('refresh');

@@ -1,5 +1,5 @@
 #election_map {
-  height: 500px;
+  height: 450px;
   width: $left-column-width;
   margin: 0 auto;
   overflow: hidden;
@@ -13,9 +13,11 @@
     width: 100%;
   }
   .legend {
-    background-color: $light-smoke;
-    padding: 15px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     text-align: center;
+    padding: 30px 0;
     dt {
       font-size: 0.8rem;
       margin-top: 15px;
@@ -52,14 +54,19 @@
         background-color: $other-color;
       }
     }
+    &__polls{
+      background-color: $light-smoke;
+      padding: 15px 30px;
+    }
     &__results {
+      margin: 0 auto;
       width: 90px;
       .resultsBtn {
         margin: 0 auto;
         background-color: $charcoal;
         color: $light-smoke;
-        width: 70px;
-        height: 70px;
+        width: 90px;
+        height: 90px;
         padding: 10px;
         border-radius: 45px;
         border: none;

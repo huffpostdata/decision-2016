@@ -7,7 +7,6 @@ var toolTip = (function() {
     this.tooltip = targ;
     this.stateName = targ.querySelector('.state-name');
     this.stateSummary = targ.querySelector('.state-summary');
-    this.candidates = targ.querySelector('.candidates');
 
     this.northEast = ['NH','VT','MA','RI','CT','NJ','DE','MD','DC'];
     this.northEastLocs = {};

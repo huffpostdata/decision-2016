@@ -2,6 +2,10 @@
 
 'use strict'
 
+if (process.env.NODE_ICU_DATA !== 'node_modules/full-icu') {
+  throw new Error("You must set NODE_ICU_DATA=node_modules/full-icu before starting Node because i18n won't work otherwise")
+}
+
 const withLockfile = require('./lockfile')
 
 const App = require('./App')

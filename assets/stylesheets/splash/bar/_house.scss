@@ -1,0 +1,57 @@
+#house {
+  text-decoration: none;
+  color: $color;
+
+  ol.races {
+    width: 245px;
+    height: 45px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 19px;
+      border-top: 1px solid $color;
+      width: 5px;
+      left: 119px;
+      border-left: 1px solid $color;
+      height: 35px;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      border-bottom: 1px solid $color;
+      width: 5px;
+      left: 119px;
+      border-right: 1px solid $color;
+      height: 29px;
+    }
+  }
+
+  li {
+    box-sizing: border-box;
+    width: 5px;
+    height: 5px;
+    border-right: 1px solid $background;
+    border-bottom: 1px solid $background;
+  }
+
+  li { background-color: $tossup-color; }
+  li.space { opacity: 0; }
+  li.dem-win { background-color: $dem-color; }
+  li.gop-win { background-color: $gop-color; }
+  li.lib-win { background-color: $lib-color; }
+  li.grn-win { background-color: $grn-color; }
+  li.bfa-win { background-color: $bfa-color; }
+}

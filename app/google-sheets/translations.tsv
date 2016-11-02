@@ -1,137 +1,137 @@
-id	notes	en	en-CA	en-GB	en-IN	ar-SA	de-DE	el-GR	es	es-MX	fr	fr-CA	fr-MB	it	ja	ko	pt-BR
-banner.34 seats up for re-election		34 seats up for re-election															
-banner.All 435 seats up for re-election		All 435 seats up for re-election															
-banner.House		House															
-banner.President	Header on below-splash frame	President															
-banner.See full results	Link to English-only results page. It should end in " »"	See full results »															
-banner.Senate	Header on below-splash frame	Senate															
-battleground.blurb	text under battlegrounds title	States that indicate the national balance of power															
-battleground.precincts		Precincts Reporting															
-counts.270 to win		270 Electoral Votes Needed To Win															
-counts.n Electoral Votes	PLURALIZED number of electors pledged to the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Electoral Vote |||| %{smart_count} Electoral Votes															
-counts.n Popular Votes	PLURALIZED number of humans who voted for the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Popular Vote |||| %{smart_count} Popular Votes															
-counts.Precincts Reporting	A table header	Precincts Reporting															
-electoral.blurb		The country's 538 electors vote according to their states' colors. The candidate with 270 electors wins.	The country's 538 electors vote according to their states' colours. The candidate with 270 electors wins.	The country's 538 electors vote according to their states' colours. The candidate with 270 electors wins.													
-electoral.winner	Winner label for Electoral Bars	WINNER!															
-h2.Battleground States	Title above battleground-state charts	BATTLEGROUND STATES															
-h2.Electoral Votes	Title above photos of Clinton and Trump	ELECTORAL VOTES															
-h2.House Seats	Title above house chart	HOUSE SEATS															
-h2.Senate Seats	Title above senate chart	SENATE SEATS															
-h5.Cartogram	Tab for Cartogram map mode	ELECTORAL VOTES															
-h5.Geography	Tab for Geography map mode	GEOGRAPHY															
-legend.header	Header for Legend	POLLS															
-legend.lead	Tiny text in map legend: the "Lead" in "Win/Lead"	Lead															
-legend.not yet reporting		Not yet reporting															
-legend.open	Text to represent open state	Open															
-legend.win	Tiny text in map legend: the "Win" in "Win/Lead"	Win															
-linkout.See Full Results	Link to the main dashboard (the main dashboard is only English)	See Full Results															
-map.switch message	Text for map toggle on splash	View Map As															
-name.clinton	names used in electoral votes graph	CLINTON															
-name.trump	names used in electoral votes graph	TRUMP															
-party.dem		Democrats															
-party.gop		Republicans															
-refresh.countdown		Refreshing in %{smart_count} second… |||| Refreshing in %{smart_count} seconds…															
-refresh.error countdown		Failed last refresh. Refreshing in %{smart_count} second… |||| Failed last refresh. Refreshing in %{smart_count} seconds…															
-refresh.refreshing		Refreshing…															
-state-abbreviation.Ala.	State abbreviation (appears on map)	Ala.															
-state-abbreviation.Alaska		Alaska															
-state-abbreviation.Ariz.		Ariz.															
-state-abbreviation.Ark.		Ark.															
-state-abbreviation.Calif.		Calif.															
-state-abbreviation.Colo.		Colo.															
-state-abbreviation.Conn.		Conn.															
-state-abbreviation.D.C.		D.C.															
-state-abbreviation.Del.		Del.															
-state-abbreviation.Fla.		Fla.															
-state-abbreviation.Ga.		Ga.															
-state-abbreviation.Hawaii		Hawaii															
-state-abbreviation.Idaho		Idaho															
-state-abbreviation.Ill.		Ill.															
-state-abbreviation.Ind.		Ind.															
-state-abbreviation.Iowa		Iowa															
-state-abbreviation.Kans.		Kans.															
-state-abbreviation.Ky.		Ky.															
-state-abbreviation.La.		La.															
-state-abbreviation.Maine		Maine															
-state-abbreviation.Mass.		Mass.															
-state-abbreviation.Md.		Md.															
-state-abbreviation.Mich.		Mich.															
-state-abbreviation.Minn.		Minn.															
-state-abbreviation.Miss.		Miss.															
-state-abbreviation.Mo.		Mo.															
-state-abbreviation.Mont.		Mont.															
-state-abbreviation.N.C.		N.C.															
-state-abbreviation.N.D.		N.D.															
-state-abbreviation.N.H.		N.H.															
-state-abbreviation.N.J.		N.J.															
-state-abbreviation.N.M.		N.M.															
-state-abbreviation.N.Y.		N.Y.															
-state-abbreviation.Nebr.		Nebr.															
-state-abbreviation.Nev.		Nev.															
-state-abbreviation.Ohio		Ohio															
-state-abbreviation.Okla.		Okla.															
-state-abbreviation.Ore.		Ore.															
-state-abbreviation.Pa.		Pa.															
-state-abbreviation.R.I.		R.I.															
-state-abbreviation.S.C.		S.C.															
-state-abbreviation.S.D.		S.D.															
-state-abbreviation.Tenn.		Tenn.															
-state-abbreviation.Tex.		Tex.															
-state-abbreviation.Utah		Utah															
-state-abbreviation.Va.		Va.															
-state-abbreviation.Vt.		Vt.															
-state-abbreviation.W.Va.		W.Va.															
-state-abbreviation.Wash.		Wash.															
-state-abbreviation.Wis.		Wis.															
-state-abbreviation.Wyo.		Wyo.															
-state.Alabama	Full state name	Alabama															
-state.Alaska		Alaska															
-state.Arizona		Arizona															
-state.Arkansas		Arkansas															
-state.California		California															
-state.Colorado		Colorado															
-state.Connecticut		Connecticut															
-state.Delaware		Delaware															
-state.District of Columbia		District of Columbia															
-state.Florida		Florida															
-state.Georgia		Georgia															
-state.Hawaii		Hawaii															
-state.Idaho		Idaho															
-state.Illinois		Illinois															
-state.Indiana		Indiana															
-state.Iowa		Iowa															
-state.Kansas		Kansas															
-state.Kentucky		Kentucky															
-state.Louisiana		Louisiana															
-state.Maine		Maine															
-state.Maryland		Maryland															
-state.Massachusetts		Massachusetts															
-state.Michigan		Michigan															
-state.Minnesota		Minnesota															
-state.Mississippi		Mississippi															
-state.Missouri		Missouri															
-state.Montana		Montana															
-state.Nebraska		Nebraska															
-state.Nevada		Nevada															
-state.New Hampshire		New Hampshire															
-state.New Jersey		New Jersey															
-state.New Mexico		New Mexico															
-state.New York		New York															
-state.North Carolina		North Carolina															
-state.North Dakota		North Dakota															
-state.Ohio		Ohio															
-state.Oklahoma		Oklahoma															
-state.Oregon		Oregon															
-state.Pennsylvania		Pennsylvania															
-state.Rhode Island		Rhode Island															
-state.South Carolina		South Carolina															
-state.South Dakota		South Dakota															
-state.Tennessee		Tennessee															
-state.Texas		Texas															
-state.Utah		Utah															
-state.Vermont		Vermont															
-state.Virginia		Virginia															
-state.Washington		Washington															
-state.West Virginia		West Virginia															
-state.Wisconsin		Wisconsin															
-state.Wyoming		Wyoming															
+id	notes	en	en-AU	en-CA	en-GB	en-IN	ar-SA	de-DE	el-GR	es	es-MX	fr	fr-CA	fr-MB	it	ja	ko	pt-BR
+banner.34 seats up for re-election		34 races									Los 34 escaños en juego para reelección					34改選議席		
+banner.All 435 seats up for re-election		435 races									Los 435 escaños en juego para reelección					全435改選議席		
+banner.House		House									Cámara					下院		
+banner.President	Header on below-splash frame	President									Presidente					大統領		
+banner.See full results	Link to English-only results page. It should end in " »"	See full results »									Ver todos los resultados					全結果を見る »		
+banner.Senate	Header on below-splash frame	Senate									Senado					上院		
+battleground.blurb	text under battlegrounds title	These are the states that will decide the election.									Estos son los estados que decidirán la elección					激戦州		
+battleground.precincts		Precincts Reporting									Recintos electorales					選挙区からのレポート		
+counts.270 to win		270 Electoral Votes Needed To Win									Se requieren 270 votos para ganar					当選に必要な選挙人数（270）		
+counts.n Electoral Votes	PLURALIZED number of electors pledged to the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Electoral Vote |||| %{smart_count} Electoral Votes														選挙人投票		
+counts.n Popular Votes	PLURALIZED number of humans who voted for the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Popular Vote |||| %{smart_count} Popular Votes														一般投票		
+counts.Precincts Reporting	A table header	Precincts Reporting									Recintos electorales							
+electoral.blurb		The country's 538 electors vote according to their states' colors. The candidate with 270 electors wins.	The country's 538 electors vote according to their states' colours. The candidate with 270 electors wins.	The country's 538 electors vote according to their states' colours. The candidate with 270 electors wins.	The country's 538 electors vote according to their states' colours. The candidate with 270 electors wins.						Los 538 electores del país votan de acuerdo al color del estado. El candidato con 270 electores gana.							
+electoral.winner	Winner label for Electoral Bars	WINNER!									¡GANADOR!/¡GANADORA!							
+h2.Battleground States	Title above battleground-state charts	BATTLEGROUND STATES									Estados en disputa							
+h2.Electoral Votes	Title above photos of Clinton and Trump	ELECTORAL VOTES									Voto electoral							
+h2.House Seats	Title above house chart	HOUSE SEATS	Please change to "number of" instead of "amount of"								Escaños de la Cámara							
+h2.Senate Seats	Title above senate chart	SENATE SEATS	Please change to "number of" instead of "amount of"								Escaños del Senado							
+h5.Cartogram	Tab for Cartogram map mode	ELECTORAL VOTES									Voto electoral							
+h5.Geography	Tab for Geography map mode	GEOGRAPHY									Mapa geográfico							
+legend.header	Header for Legend	POLLS									Encuestas							
+legend.lead	Tiny text in map legend: the "Lead" in "Win/Lead"	Lead									Delantera							
+legend.not yet reporting		Not yet reporting									Aún no informan							
+legend.open	Text to represent open state	Open									Abierto							
+legend.win	Tiny text in map legend: the "Win" in "Win/Lead"	Win									Vencedor/Ganador							
+linkout.See Full Results	Link to the main dashboard (the main dashboard is only English)	See Full Results									Ver todos los resultados							
+map.switch message	Text for map toggle on splash	View Map As									Ver mapa como							
+name.clinton	names used in electoral votes graph	CLINTON									CLINTON							
+name.trump	names used in electoral votes graph	TRUMP									TRUMP							
+party.dem		Democrats									Demócratas							
+party.gop		Republicans									Republicanos							
+refresh.countdown		Refreshing in %{smart_count} second… |||| Refreshing in %{smart_count} seconds…																
+refresh.error countdown		Failed last refresh. Refreshing in %{smart_count} second… |||| Failed last refresh. Refreshing in %{smart_count} seconds…																
+refresh.refreshing		Refreshing…									Actualizando...							
+state-abbreviation.Ala.	State abbreviation (appears on map)	Ala.														アラバマ州		
+state-abbreviation.Alaska		Alaska														アラスカ州		
+state-abbreviation.Ariz.		Ariz.														アリゾナ州		
+state-abbreviation.Ark.		Ark.														アーカンソー州		
+state-abbreviation.Calif.		Calif.														カリフォルニア州		
+state-abbreviation.Colo.		Colo.														コロラド州		
+state-abbreviation.Conn.		Conn.														コネチカット州		
+state-abbreviation.D.C.		D.C.														ワシントンD.C.		
+state-abbreviation.Del.		Del.														デラウェア州		
+state-abbreviation.Fla.		Fla.														フロリダ州		
+state-abbreviation.Ga.		Ga.														ジョージア州		
+state-abbreviation.Hawaii		Hawaii														ハワイ州		
+state-abbreviation.Idaho		Idaho														アイダホ州		
+state-abbreviation.Ill.		Ill.														イリノイ州		
+state-abbreviation.Ind.		Ind.														インディアナ州		
+state-abbreviation.Iowa		Iowa														アイオワ州		
+state-abbreviation.Kans.		Kans.														カンザス州		
+state-abbreviation.Ky.		Ky.														ケンタッキー州		
+state-abbreviation.La.		La.														ルイジアナ州		
+state-abbreviation.Maine		Maine																
+state-abbreviation.Mass.		Mass.																
+state-abbreviation.Md.		Md.																
+state-abbreviation.Mich.		Mich.																
+state-abbreviation.Minn.		Minn.																
+state-abbreviation.Miss.		Miss.																
+state-abbreviation.Mo.		Mo.																
+state-abbreviation.Mont.		Mont.																
+state-abbreviation.N.C.		N.C.																
+state-abbreviation.N.D.		N.D.																
+state-abbreviation.N.H.		N.H.																
+state-abbreviation.N.J.		N.J.																
+state-abbreviation.N.M.		N.M.																
+state-abbreviation.N.Y.		N.Y.																
+state-abbreviation.Nebr.		Nebr.																
+state-abbreviation.Nev.		Nev.																
+state-abbreviation.Ohio		Ohio																
+state-abbreviation.Okla.		Okla.																
+state-abbreviation.Ore.		Ore.																
+state-abbreviation.Pa.		Pa.																
+state-abbreviation.R.I.		R.I.																
+state-abbreviation.S.C.		S.C.																
+state-abbreviation.S.D.		S.D.																
+state-abbreviation.Tenn.		Tenn.																
+state-abbreviation.Tex.		Tex.																
+state-abbreviation.Utah		Utah																
+state-abbreviation.Va.		Va.																
+state-abbreviation.Vt.		Vt.																
+state-abbreviation.W.Va.		W.Va.																
+state-abbreviation.Wash.		Wash.																
+state-abbreviation.Wis.		Wis.																
+state-abbreviation.Wyo.		Wyo.																
+state.Alabama	Full state name	Alabama																
+state.Alaska		Alaska																
+state.Arizona		Arizona																
+state.Arkansas		Arkansas																
+state.California		California																
+state.Colorado		Colorado																
+state.Connecticut		Connecticut																
+state.Delaware		Delaware																
+state.District of Columbia		District of Columbia																
+state.Florida		Florida																
+state.Georgia		Georgia																
+state.Hawaii		Hawaii																
+state.Idaho		Idaho																
+state.Illinois		Illinois																
+state.Indiana		Indiana																
+state.Iowa		Iowa																
+state.Kansas		Kansas																
+state.Kentucky		Kentucky																
+state.Louisiana		Louisiana																
+state.Maine		Maine																
+state.Maryland		Maryland																
+state.Massachusetts		Massachusetts																
+state.Michigan		Michigan																
+state.Minnesota		Minnesota																
+state.Mississippi		Mississippi																
+state.Missouri		Missouri																
+state.Montana		Montana																
+state.Nebraska		Nebraska																
+state.Nevada		Nevada																
+state.New Hampshire		New Hampshire																
+state.New Jersey		New Jersey																
+state.New Mexico		New Mexico																
+state.New York		New York																
+state.North Carolina		North Carolina																
+state.North Dakota		North Dakota																
+state.Ohio		Ohio																
+state.Oklahoma		Oklahoma																
+state.Oregon		Oregon																
+state.Pennsylvania		Pennsylvania																
+state.Rhode Island		Rhode Island																
+state.South Carolina		South Carolina																
+state.South Dakota		South Dakota																
+state.Tennessee		Tennessee																
+state.Texas		Texas																
+state.Utah		Utah																
+state.Vermont		Vermont																
+state.Virginia		Virginia																
+state.Washington		Washington																
+state.West Virginia		West Virginia																
+state.Wisconsin		Wisconsin																
+state.Wyoming		Wyoming																

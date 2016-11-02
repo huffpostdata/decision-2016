@@ -9,6 +9,7 @@ scss:
   dashboard.css: stylesheets/dashboard.scss
   splash.css: stylesheets/splash.scss
   splash-desktop.css: stylesheets/splash-desktop.scss
+  splash-bar.css: stylesheets/splash-bar.scss
 
 digest:
   -
