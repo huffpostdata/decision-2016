@@ -3,7 +3,7 @@ var Map = require('./dashboard/_map');
 var nav = require('./dashboard/_nav');
 var refresh = require('./common/_refresh');
 var summary = require('./president/_summary');
-var tooltip = require('./president/_tooltip');
+var Tooltip = require('./president/_tooltip');
 
 var initialJson = JSON.parse(document.querySelector('script[data-json]').getAttribute('data-json'));
 
@@ -26,16 +26,18 @@ var summaryEl = document.getElementById('president-summary');
 var updateSummary = summary(summaryEl);
 updateSummary(initialJson);
 
-var tooltipEl = document.getElementById('tooltip');
-var toolTip = tooltip(tooltipEl);
-toolTip.setData(initialJson.races);
+var tooltip = new Tooltip({
+  el: document.getElementById('tooltip'),
+  mapEl: mapEl,
+  races: initialJson.races
+});
 
 function doRefresh(json) {
   map.update(json.races);
   changelog.update(json);
   updateNav(json.summaries);
   updateSummary(json);
-  toolTip.setData(json.races);
+  tooltip.setData(json.races);
 }
 
 var refreshEl = document.getElementById('refresh');

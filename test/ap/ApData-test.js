@@ -121,7 +121,6 @@ describe('ApData', () => {
             reportingUnits: [ {
               level: 'state',
               statePostal: row[2],
-              statePostal: row[2],
               electTotal: (row[2] === 'ME' ? 4 : 5),
             } ]
           })
@@ -209,18 +208,19 @@ describe('ApData', () => {
       it('should format candidates', () => {
         const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
         const apJson = reportingUnitRaces2[0]
+        apJson.reportingUnits[0].statePostal = 'AL' // sort early
         apJson.reportingUnits[0].candidates = [
           { party: 'Dem', first: 'Hillary', last: 'Clinton', voteCount: 1234 },
-          { party: 'GOP', first: 'Donald', last: 'Trump', voteCount: 2345, winner: 'X' },
-          { party: 'Lib', first: 'Gary', last: 'Johnson', voteCount: 3456 },
+          { party: 'GOP', first: 'Donald', last: 'Trump', voteCount: 2345 },
+          { party: 'Lib', first: 'Gary', last: 'Johnson', voteCount: 3456, winner: 'X' },
           { party: 'Oth', first: 'Oth', last: 'Er', voteCount: 4567 }
         ]
         const candidates = go(reportingUnitRaces2, districtRaces)[0].candidates
         expect(candidates).to.deep.eq([
+          { name: 'Johnson', fullName: 'Gary Johnson', n: 3456, partyId: 'lib', winner: true },
+          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop', winner: false },
           { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem', winner: false },
-          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop', winner: true },
-          { name: 'Johnson', fullName: 'Gary Johnson', n: 3456, partyId: 'lib', winner: false },
-          { name: 'Er', fullName: 'Oth Er', n: 4567, partyId: 'other', winner: false }
+          { name: 'Other', n: 4567, partyId: 'other', winner: false }
         ])
       })
 

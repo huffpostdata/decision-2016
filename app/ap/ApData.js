@@ -89,7 +89,10 @@ function compareRaces(a, b) {
   // 2. Sort by state name
   if (a.stateName !== b.stateName) return a.stateName.localeCompare(b.stateName)
 
-  // 3. Sort by seat number/class (be careful: "3" should come _after_ "20")
+  // 3. Sort by race name ("Maine At Large" < "Maine District 2")
+  if (a.name !== b.name) return a.name.localeCompare(b.name)
+
+  // 4. Sort by seat number/class (be careful: "3" should come _after_ "20")
   return a.id.localeCompare(b.id)
 }
 
@@ -107,7 +110,7 @@ function apCandidatesToCandidates(apCandidates) {
 
   if (nOther !== 0) {
     // "Other" comes last, always. It can't be the leader.
-    ret.push({ name: 'Other', party: 'other', n: nOther, winner: false })
+    ret.push({ name: 'Other', partyId: 'other', n: nOther, winner: false })
   }
 
   return ret
@@ -144,16 +147,8 @@ function senateRaceClassName(race) {
   }
 }
 
-function houseRaceClassName(race) {
-  if (race.winner) return `${race.winner}-win`
-
-  // Assume candidates are sorted
-  if (race.candidates[0].n === race.candidates[1].n) {
-    return 'tossup'
-  } else {
-    return `${race.candidates[0].partyId}-lead`
-  }
-}
+const presidentRaceClassName = senateRaceClassName
+const houseRaceClassName = senateRaceClassName
 
 /**
  * A rollup of all the data Associated Pres gives us.
@@ -261,36 +256,32 @@ module.exports = class ApData {
   presidentRaces() {
     let ret = []
 
-    function addCandidatesToRace(race, apCandidates) {
-      let n = 0
-      let nClinton = 0
-      let nTrump = 0
-      let nThird = 0
-      let winner = null
+    function postprocessRace(race) {
+      race.className = presidentRaceClassName(race)
 
-      let candidates = []
-      for (const c of apCandidates) {
-        n += c.voteCount
+      let wroteThird = false
+      for (const candidate of race.candidates) {
+        race.nVotes += candidate.n
 
-        if (c.last === 'Clinton') {
-          nClinton += c.voteCount
-        } else if (c.last === 'Trump') {
-          nTrump += c.voteCount
-        } else if (c.voteCount > nThird) {
-          nThird = c.voteCount
+        switch (candidate.name) {
+          case 'Clinton':
+            race.nVotesClinton = candidate.n
+            if (candidate.winner) race.winner = 'clinton'
+            break
+          case 'Trump':
+            race.nVotesTrump = candidate.n
+            if (candidate.winner) race.winner = 'trump'
+            break
+          default:
+            if (!wroteThird) {
+              // This is the leading third-party candidate, because candidates
+              // are ordered.
+              race.nVotesThird = candidate.n
+              if (candidate.winner) race.winner = candidate.name.toLowerCase()
+              wroteThird = true
+            }
         }
-
-        if (c.winner === 'X') winner = c.last.toLowerCase()
-
-        candidates.push(apCandidateToCandidate(c))
       }
-
-      race.nVotes = n
-      race.nVotesClinton = nClinton
-      race.nVotesTrump = nTrump
-      race.nVotesThird = nThird
-      race.candidates = candidates
-      race.winner = winner
     }
 
     for (const apRace of this.reportingUnitElections.findPresidentRaces()) {
@@ -305,10 +296,13 @@ module.exports = class ApData {
         stateName: stateName,
         nElectoralVotes: state.electTotal,
         nPrecinctsReporting: state.precinctsReporting,
-        nPrecincts: state.precinctsTotal
+        nPrecincts: state.precinctsTotal,
+        candidates: apCandidatesToCandidates(state.candidates),
+        nVotes: 0,
+        winner: null
       }
+      postprocessRace(race)
 
-      addCandidatesToRace(race, state.candidates)
       ret.push(race)
     }
 
@@ -325,15 +319,18 @@ module.exports = class ApData {
           stateName: stateName,
           nElectoralVotes: ru.electTotal,
           nPrecinctsReporting: ru.precinctsReporting,
-          nPrecincts: ru.precinctsTotal
+          nPrecincts: ru.precinctsTotal,
+          candidates: apCandidatesToCandidates(ru.candidates),
+          nVotes: 0,
+          winner: null
         }
+        postprocessRace(race)
 
-        addCandidatesToRace(race, ru.candidates)
         ret.push(race)
       }
     }
 
-    ret.sort((a, b) => a.name.localeCompare(b.name)) // it just so happens "At large" < "District 1"
+    ret.sort(compareRaces)
     return ret
   }
 
