@@ -47,7 +47,7 @@ function Tooltip(options) {
       var candidate = candidates[i];
       var name = candidate.name;
       var votes = candidate.n;
-      var pct = (votes / votesTotal) * 100;
+      var pct = votesTotal === 0 ? 0 : 100 * (votes / votesTotal);
       var count = '' + candidate.n;
       htmlInject.push(['<tr>',
         '<td class="name" style="width: 30%;">' + name + '</td>',
@@ -57,7 +57,7 @@ function Tooltip(options) {
             '<span style="position: absolute; top: 0px; left: ' + (pct + 2) + '%;">' + count + '</span>',
           '</div>',
         '</td>',
-        '<td class="vote-count" style="width: 20%;">' + Math.floor(pct) + '%</td>',
+        '<td class="vote-count" style="width: 20%;">' + Math.round(pct) + '%</td>',
         '</tr>'].join(''));
     }
     htmlInject.push('</tbody></table>');
