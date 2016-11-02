@@ -1,6 +1,7 @@
 @import 'senate/_summary';
 @import 'senate/_map';
 @import 'senate/_map-switcher';
+@import 'senate/_tooltip';
 
 body.senate {
   @include dashboard-body();
