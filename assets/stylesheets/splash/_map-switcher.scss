@@ -10,18 +10,19 @@
 
   .geography ,
   .cartogram {
-    .tab__link {
-      display: flex;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: right;
-      background-origin: content-box;
-    }
     a::before {
       border: none;
       order: 2;
       padding: 0 10px;
     }
+  }
+
+  .geography a::before {
+    background-image: asset-as-url('digest', 'maps/president-geography-thumbnail.png');
+  }
+
+  .cartogram a::before {
+    background-image: asset-as-url('digest', 'maps/president-cartogram-thumbnail.png');
   }
 
   &.cartogram .tab.cartogram,
@@ -47,16 +48,15 @@
       border: 2px solid #fff;
       width: 100%;
       &__link {
+        display: flex;
+        justify-content: space-around;
         font-family: $header-font-family;
         font-weight: bold;
         padding: 5px 10px;
         color: $muted-color;
         text-align: center;
         text-decoration: none;
-        text-transform: uppercase;
-        &:hover {
-          color: $color;
-        }
+        &:hover,
         &--active {
           color: $color;
         }
