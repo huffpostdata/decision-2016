@@ -1,14 +1,13 @@
-.a-page__content__splash--advanced {
+.a-page__content__splash--advanced, .decision-iframe__splash {
   .wrapper {
     display: flex;
     flex-flow: row;
   }
-  .a-page__content__splash__right {
-    .module__header {
-      border-bottom: 1px solid #ececec;
-      padding-bottom: 10px;
-      margin: 10px 0;
-      text-align: center;
-    }
+  .module__header {
+    font-family: $header-font-family;
+    border-bottom: 1px solid #ececec;
+    padding-bottom: 10px;
+    margin: 10px 0;
+    text-align: center;
   }
 }
