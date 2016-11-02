@@ -8,7 +8,7 @@ nav {
     display: -webkit-flex;
     display: flex;
 
-    border-bottom: 1px solid $very-muted-color;
+    //border-bottom: 1px solid black;
     box-sizing: border-box;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -16,7 +16,7 @@ nav {
 
   li {
     display: block;
-    border: 1px solid $very-muted-color;
+    border: 1px solid black;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     position: relative;
@@ -24,12 +24,14 @@ nav {
 
     &.current {
       border-bottom-color: $background;
-      box-shadow: -1px -1px 1px $very-very-muted-color;
+
+    
     }
     &:not(.current) {
-      opacity: .3;
+      opacity: .5;
+      border: 1px solid $background;
       background-color: $very-very-muted-color;
-      &:hover { opacity: .5; }
+      &:hover { opacity: .7; }
     }
   }
 
