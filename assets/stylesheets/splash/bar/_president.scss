@@ -4,9 +4,6 @@
   display: -webkit-flex;
   display: flex;
 
-  .map-and-title {
-  }
-
   svg {
     width: 200px;
     height: 124px;
@@ -19,12 +16,19 @@
 
   .electoral-votes {
     margin-right: -.5rem; // ".clinton" and ".trump" add .5rem padding
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
 
     h3 {
       font-family: $body-font-family;
       font-size: 1rem;
+      font-weight: bold;
       margin: 0;
       line-height: 1.75;
+      -webkit-flex: 1 1 auto;
+      flex: 1 1 auto;
     }
 
     .clinton, .trump {

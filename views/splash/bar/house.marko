@@ -4,6 +4,11 @@ a#house target="_top" href="${data.url_to('house')}"
   h2 - ${t('banner.House')}
   p.count - ${t('banner.All 435 seats up for re-election')}
 
+  .legend
+    .dem - ${t('counts.n Dem', data.model.summaries.house.wins.dem)}
+    .balance - $!{t('banner.Balance of power')}
+    .gop - ${t('counts.n GOP', data.model.summaries.house.wins.gop)}
+
   ol.races
     for(race in data.model.houseRaces | status-var=loop)
       if([ 8, 16, 24, 411, 419, 427 ].indexOf(loop.getIndex()) != -1)

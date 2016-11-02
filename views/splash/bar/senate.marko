@@ -4,6 +4,11 @@ a#senate target="_top" href="${data.url_to('senate')}"
   h2 - ${t('banner.Senate')}
   p.count - ${t('banner.34 seats up for re-election')}
 
+  .legend
+    .dem - ${t('counts.n Dem', data.model.summaries.senate.wins.dem)}
+    .balance - $!{t('banner.Balance of power')}
+    .gop - ${t('counts.n GOP', data.model.summaries.senate.wins.gop)}
+
   ol.races
     for(race in data.model.senateRaces)
       li.${race.className}

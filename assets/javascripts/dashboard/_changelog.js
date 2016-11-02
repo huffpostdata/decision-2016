@@ -27,7 +27,7 @@ function raceHtml(entry) {
 }
 
 function stateHtml(entry) {
-  return '<span class="state" data-state-id="' + entry.raceId.slice(0, 2) + '"></span>';
+  return '<span class="state" data-state-id="' + entry.stateId + '"></span>';
 }
 
 function liHtml(entry, contents) {

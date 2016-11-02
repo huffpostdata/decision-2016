@@ -1,6 +1,33 @@
 #house {
   text-decoration: none;
   color: $color;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+
+  p.count {
+    margin: 0;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+  }
+
+  .legend {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+    padding-bottom: .25rem;
+
+    .balance {
+      font-size: .85rem;
+      font-style: italic;
+      color: $muted-color;
+      text-align: center;
+      -webkit-flex: 1 1 auto;
+      flex: 1 1 auto;
+    }
+  }
 
   ol.races {
     width: 245px;
@@ -54,4 +81,6 @@
   li.lib-win { background-color: $lib-color; }
   li.grn-win { background-color: $grn-color; }
   li.bfa-win { background-color: $bfa-color; }
+  .legend .dem { color: $dem-color; }
+  .legend .gop { color: $gop-color; }
 }

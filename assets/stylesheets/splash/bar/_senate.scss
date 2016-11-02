@@ -1,12 +1,40 @@
 #senate {
   text-decoration: none;
   color: $color;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+
+  p.count {
+    margin: 0;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+  }
+
+  .legend {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+    padding-bottom: .25rem;
+
+    .balance {
+      font-size: .85rem;
+      font-style: italic;
+      color: $muted-color;
+      text-align: center;
+      -webkit-flex: 1 1 auto;
+      flex: 1 1 auto;
+    }
+  }
 
   ol.races {
     width: 250px;
     height: 40px;
     margin: 0;
     padding: 0;
+    padding-bottom: 5px; // match height of House races, so graphics align
     list-style: none;
     display: -webkit-flex;
     display: flex;
@@ -51,4 +79,6 @@
   li.space { opacity: 0; }
   li.dem-win, li.dem-prior { background-color: $dem-color; }
   li.gop-win, li.gop-prior { background-color: $gop-color; }
+  .legend .dem { color: $dem-color; }
+  .legend .gop { color: $gop-color; }
 }
