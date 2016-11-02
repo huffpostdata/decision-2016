@@ -42,9 +42,9 @@
       &.winner::before {
         content: '✔';
         position: absolute;
-        font-size: 1.5rem;
-        left: -.25rem;
-        top: .75rem;
+        font-size: .8rem;
+        left: .2rem;
+        top: .85rem;
         z-index: 1;
       }
 
@@ -74,7 +74,7 @@
 
     .popular {
       font-size: .75rem;
-      line-height: 1rem;
+      line-height: .9rem;
       padding-left: .5rem;
       color: $muted-color;
     }

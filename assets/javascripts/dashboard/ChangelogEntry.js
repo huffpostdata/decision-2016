@@ -2,6 +2,10 @@ function readInt(s) { return s === '' ? null : parseInt(s, 10); }
 function writeInt(i) { return i === null ? '' : String(i); }
 var IntType = { read: readInt, write: writeInt };
 
+function readDouble(s) { return s === '' ? null : parseFloat(s); }
+function writeDouble(d) { return d === '' ? '' : String(d); }
+var DoubleType = { read: readDouble, write: writeDouble };
+
 function readDate(s) { return new Date(Date.parse(s)); }
 function writeDate(d) { return d.toISOString(); }
 var DateType = { read: readDate, write: writeDate };
@@ -19,8 +23,7 @@ var Fields = [
   { key: 'raceId', type: StringType },
   { key: 'candidateName', type: StringType },
   { key: 'partyId', type: StringType },
-  { key: 'nPrecinctsReporting', type: IntType },
-  { key: 'nPrecincts', type: IntType }
+  { key: 'fractionReporting', type: DoubleType }
 ];
 
 /**

@@ -67,8 +67,8 @@
 </g>
 <g id="wv">
 	<g>
-		<rect x="455" y="179" width="12" height="12"/>
 		<rect x="442" y="179" width="12" height="12"/>
+		<rect x="455" y="179" width="12" height="12"/>
 		<rect x="455" y="192" width="12" height="12"/>
 	</g>
 </g>
@@ -86,16 +86,16 @@
 </g>
 <g id="wa">
 	<g>
-		<rect x="91" y="36.1" width="12" height="12"/>
-		<rect x="91" y="49" width="12" height="12"/>
-		<rect x="91" y="62" width="12" height="12"/>
-		<rect x="77.9" y="36.1" width="12" height="12"/>
-		<rect x="77.9" y="49" width="12" height="12"/>
-		<rect x="77.9" y="62" width="12" height="12"/>
-		<rect x="64.9" y="36.1" width="12" height="12"/>
-		<rect x="64.9" y="49" width="12" height="12"/>
-		<rect x="64.9" y="62" width="12" height="12"/>
 		<rect x="51.9" y="36.1" width="12" height="12"/>
+		<rect x="64.9" y="36.1" width="12" height="12"/>
+		<rect x="77.9" y="36.1" width="12" height="12"/>
+		<rect x="91" y="36.1" width="12" height="12"/>
+		<rect x="64.9" y="49" width="12" height="12"/>
+		<rect x="77.9" y="49" width="12" height="12"/>
+		<rect x="91" y="49" width="12" height="12"/>
+		<rect x="64.9" y="62" width="12" height="12"/>
+		<rect x="77.9" y="62" width="12" height="12"/>
+		<rect x="91" y="62" width="12" height="12"/>
 	</g>
 </g>
 <g id="vt">
@@ -169,16 +169,17 @@
 		<rect x="364" y="244" width="12" height="12"/>
 		<rect x="377" y="244" width="12" height="12"/>
 		<rect x="390" y="244" width="12" height="12"/>
+		<rect x="403" y="244" width="12" height="12"/>
+		<rect x="416" y="244" width="12" height="12"/>
 		<rect x="364" y="257" width="12" height="12"/>
 		<rect x="377" y="257" width="12" height="12"/>
 		<rect x="390" y="257" width="12" height="12"/>
-		<rect x="403.1" y="244.1" width="12" height="12"/>
-		<rect x="403.1" y="257.2" width="12" height="12"/>
-		<rect x="416" y="244.1" width="12" height="12"/>
+		<rect x="403" y="257" width="12" height="12"/>
+		
 	</g>
 </g>
 <g id="sd">
-	<rect x="247" y="101.1" width="12" height="12"/>
+	<rect x="247" y="101" width="12" height="12"/>
 </g>
 <g id="sc">
 	<g>
@@ -221,28 +222,25 @@
 </g>
 <g id="or">
 	<g>
-		<rect x="78.1" y="88" width="12" height="12"/>
-		<rect x="78.1" y="100.9" width="12" height="12"/>
-		<rect x="65.1" y="88" width="12" height="12"/>
-		<rect x="65.1" y="100.9" width="12" height="12"/>
 		<rect x="52.1" y="88" width="12" height="12"/>
+		<rect x="65.1" y="88" width="12" height="12"/>
+		<rect x="78.1" y="88" width="12" height="12"/>
+		<rect x="65.1" y="100.9" width="12" height="12"/>
+		<rect x="78.1" y="100.9" width="12" height="12"/>
+		
 	</g>
 </g>
 <g id="ok">
 	<g>
-		<rect x="312.8" y="257.1" width="12" height="12"/>
-		<rect x="312.8" y="270.1" width="12" height="12"/>
-		<rect x="299.8" y="257.1" width="12" height="12"/>
-		<rect x="299.8" y="270.1" width="12" height="12"/>
 		<rect x="286.8" y="257.1" width="12" height="12"/>
+		<rect x="299.8" y="257.1" width="12" height="12"/>
+		<rect x="312.8" y="257.1" width="12" height="12"/>
+		<rect x="299.8" y="270.1" width="12" height="12"/>
+		<rect x="312.8" y="270.1" width="12" height="12"/>
 	</g>
 </g>
 <g id="oh">
 	<g>
-		<rect x="377.2" y="166.1" width="12" height="12"/>
-		<rect x="390.2" y="166.1" width="12" height="12"/>
-		<rect x="403.2" y="166.1" width="12" height="12"/>
-		<rect x="416.2" y="166.1" width="12" height="12"/>
 		<rect x="377.2" y="127.3" width="12" height="12"/>
 		<rect x="390.2" y="127.3" width="12" height="12"/>
 		<rect x="403.2" y="127.3" width="12" height="12"/>
@@ -255,6 +253,10 @@
 		<rect x="390.2" y="153.3" width="12" height="12"/>
 		<rect x="403.2" y="153.3" width="12" height="12"/>
 		<rect x="416.2" y="153.3" width="12" height="12"/>
+		<rect x="377.2" y="166.1" width="12" height="12"/>
+		<rect x="390.2" y="166.1" width="12" height="12"/>
+		<rect x="403.2" y="166.1" width="12" height="12"/>
+		<rect x="416.2" y="166.1" width="12" height="12"/>
 	</g>
 </g>
 <g id="ny">
@@ -419,8 +421,8 @@
 		<rect x="533" y="179" width="12" height="12"/>
 		<rect x="546" y="179" width="12" height="12"/>
 		<rect x="559" y="179" width="12" height="12"/>
-		<rect x="533" y="191.9" width="12" height="12"/>
-		<rect x="546" y="191.9" width="12" height="12"/>
+		<rect x="533" y="192" width="12" height="12"/>
+		<rect x="546" y="192" width="12" height="12"/>
 	</g>
 </g>
 <g id="ma">
@@ -438,12 +440,12 @@
 </g>
 <g id="la">
 	<g>
-		<rect x="376.9" y="335" width="12" height="12"/>
-		<rect x="376.9" y="348" width="12" height="12"/>
-		<rect x="376.9" y="361" width="12" height="12"/>
 		<rect x="363.9" y="335" width="12" height="12"/>
+		<rect x="376.9" y="335" width="12" height="12"/>
 		<rect x="363.9" y="348" width="12" height="12"/>
+		<rect x="376.9" y="348" width="12" height="12"/>
 		<rect x="363.9" y="361" width="12" height="12"/>
+		<rect x="376.9" y="361" width="12" height="12"/>
 	</g>
 </g>
 <g id="ky">
@@ -466,15 +468,16 @@
 </g>
 <g id="in">
 	<g>
-		<rect x="351" y="166" width="12" height="12"/>
+		
 		<rect x="338" y="127" width="12" height="12"/>
 		<rect x="351" y="127" width="12" height="12"/>
-		<rect x="338" y="166" width="12" height="12"/>
 		<rect x="338" y="140" width="12" height="12"/>
 		<rect x="351" y="140" width="12" height="12"/>
-		<rect x="338" y="179.1" width="12" height="12"/>
 		<rect x="338" y="153" width="12" height="12"/>
 		<rect x="351" y="153" width="12" height="12"/>
+		<rect x="338" y="166" width="12" height="12"/>
+		<rect x="351" y="166" width="12" height="12"/>
+		<rect x="338" y="179" width="12" height="12"/>
 	</g>
 </g>
 <g id="il">
@@ -495,8 +498,8 @@
 		<rect x="286.1" y="166" width="12" height="12"/>
 		<rect x="299.1" y="166" width="12" height="12"/>
 		<rect x="312.1" y="166" width="12" height="12"/>
-		<rect x="273.1" y="179.1" width="12" height="12"/>
-		<rect x="286.1" y="179.1" width="12" height="12"/>
+		<rect x="273.1" y="179" width="12" height="12"/>
+		<rect x="286.1" y="179" width="12" height="12"/>
 	</g>
 </g>
 <g id="id">
@@ -597,55 +600,55 @@
 		<rect x="25.8" y="127" width="12" height="12"/>
 		<rect x="38.8" y="127" width="12" height="12"/>
 		<rect x="51.8" y="127" width="12" height="12"/>
-		<rect x="13.1" y="257.1" width="12" height="12"/>
-		<rect x="13.1" y="244" width="12" height="12"/>
-		<rect x="13.1" y="231" width="12" height="12"/>
 		<rect x="13.1" y="140" width="12" height="12"/>
 		<rect x="25.8" y="140" width="12" height="12"/>
 		<rect x="38.8" y="140" width="12" height="12"/>
 		<rect x="51.8" y="140" width="12" height="12"/>
-		<rect x="13.1" y="270.1" width="12" height="12"/>
-		<rect x="25.8" y="244" width="12" height="12"/>
-		<rect x="25.8" y="231" width="12" height="12"/>
 		<rect x="13.1" y="153" width="12" height="12"/>
 		<rect x="25.8" y="153" width="12" height="12"/>
 		<rect x="38.8" y="153" width="12" height="12"/>
 		<rect x="51.8" y="153" width="12" height="12"/>
-		<rect x="13.1" y="283.1" width="12" height="12"/>
-		<rect x="38.8" y="244" width="12" height="12"/>
-		<rect x="38.8" y="231" width="12" height="12"/>
 		<rect x="13.1" y="166" width="12" height="12"/>
 		<rect x="25.8" y="166" width="12" height="12"/>
 		<rect x="38.8" y="166" width="12" height="12"/>
 		<rect x="51.8" y="166" width="12" height="12"/>
-		<rect x="13.1" y="296.1" width="12" height="12"/>
-		<rect x="51.8" y="244" width="12" height="12"/>
-		<rect x="51.8" y="231" width="12" height="12"/>
 		<rect x="13.1" y="179" width="12" height="12"/>
 		<rect x="25.8" y="179" width="12" height="12"/>
 		<rect x="38.8" y="179" width="12" height="12"/>
 		<rect x="51.8" y="179" width="12" height="12"/>
-		<rect x="25.8" y="283.1" width="12" height="12"/>
-		<rect x="25.8" y="270.1" width="12" height="12"/>
-		<rect x="25.8" y="257.1" width="12" height="12"/>
 		<rect x="13.1" y="192" width="12" height="12"/>
 		<rect x="25.8" y="192" width="12" height="12"/>
 		<rect x="38.8" y="192" width="12" height="12"/>
 		<rect x="51.8" y="192" width="12" height="12"/>
-		<rect x="38.8" y="283.1" width="12" height="12"/>
-		<rect x="38.8" y="270.1" width="12" height="12"/>
-		<rect x="38.8" y="257.1" width="12" height="12"/>
 		<rect x="13.1" y="205" width="12" height="12"/>
 		<rect x="25.8" y="205" width="12" height="12"/>
 		<rect x="38.8" y="205" width="12" height="12"/>
 		<rect x="51.8" y="205" width="12" height="12"/>
-		<rect x="51.8" y="283.1" width="12" height="12"/>
-		<rect x="51.8" y="270.1" width="12" height="12"/>
-		<rect x="51.8" y="257.1" width="12" height="12"/>
 		<rect x="13.1" y="218" width="12" height="12"/>
 		<rect x="25.8" y="218" width="12" height="12"/>
 		<rect x="38.8" y="218" width="12" height="12"/>
 		<rect x="51.8" y="218" width="12" height="12"/>
+		<rect x="13.1" y="231" width="12" height="12"/>
+		<rect x="25.8" y="231" width="12" height="12"/>
+		<rect x="38.8" y="231" width="12" height="12"/>
+		<rect x="51.8" y="231" width="12" height="12"/>
+		<rect x="13.1" y="244" width="12" height="12"/>
+		<rect x="25.8" y="244" width="12" height="12"/>
+		<rect x="38.8" y="244" width="12" height="12"/>
+		<rect x="51.8" y="244" width="12" height="12"/>
+		<rect x="13.1" y="257.1" width="12" height="12"/>
+		<rect x="25.8" y="257.1" width="12" height="12"/>
+		<rect x="38.8" y="257.1" width="12" height="12"/>
+		<rect x="51.8" y="257.1" width="12" height="12"/>
+		<rect x="13.1" y="270.1" width="12" height="12"/>
+		<rect x="25.8" y="270.1" width="12" height="12"/>
+		<rect x="38.8" y="270.1" width="12" height="12"/>
+		<rect x="51.8" y="270.1" width="12" height="12"/>
+		<rect x="13.1" y="283.1" width="12" height="12"/>
+		<rect x="25.8" y="283.1" width="12" height="12"/>
+		<rect x="38.8" y="283.1" width="12" height="12"/>
+		<rect x="51.8" y="283.1" width="12" height="12"/>
+		<rect x="13.1" y="296.1" width="12" height="12"/>
 	</g>
 </g>
 <g id="az">
@@ -672,10 +675,10 @@
 <g id="al">
 	<g>
 		<rect x="403" y="283.1" width="12" height="12"/>
-		<rect x="403" y="296.1" width="12" height="12"/>
-		<rect x="403" y="309.1" width="12" height="12"/>
 		<rect x="416" y="283.1" width="12" height="12"/>
+		<rect x="403" y="296.1" width="12" height="12"/>
 		<rect x="416" y="296.1" width="12" height="12"/>
+		<rect x="403" y="309.1" width="12" height="12"/>
 		<rect x="416" y="309.1" width="12" height="12"/>
 		<rect x="403" y="322" width="12" height="12"/>
 	</g>

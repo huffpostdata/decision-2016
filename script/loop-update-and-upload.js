@@ -54,7 +54,7 @@ function writeChangelogEntries(apData1, apData2) {
   try {
     entries = fs.readFileSync(path, 'utf8').split(/\r?\n/)
   } catch (e) {
-    entries = [ 'id\tdate\tchangeType\tstateId\traceType\traceId\tcandidateName\tpartyId\tnPrecinctsReporting\tnPrecincts' ]
+    entries = [ 'id\tdate\tchangeType\tstateId\traceType\traceId\tcandidateName\tpartyId\tfractionReporting' ]
   }
 
   const newEntries = ApDataDiff.diff(entries.length, date, apData1, apData2).map(e => e.toTsvLine())

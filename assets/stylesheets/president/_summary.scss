@@ -79,7 +79,7 @@
   padding-left: 0rem;
     text-align: left;
     left: 0;
-    .image { left: 0; background-image: asset-url('digest', 'images/dashboard/clinton-bust.jpg'); }
+    .image { left: 0; background-image: asset-url('digest', 'images/dashboard/clinton-bust.png'); }
     @media (min-width: 600px) {
     padding-left: 6rem;
     }
@@ -91,7 +91,7 @@
   padding-right: 0rem;
     text-align: right;
     right: 0;
-    .image { right: 0; background-image: asset-url('digest', 'images/dashboard/trump-bust.jpg'); }
+    .image { right: 0; background-image: asset-url('digest', 'images/dashboard/trump-bust.png'); }
     @media (min-width: 600px) {
     padding-right: 6rem;
     }
@@ -136,27 +136,27 @@
     height: 2rem;
     box-sizing: border-box;
     margin-top: 0rem;
-    box-shadow: 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px #fff;
     transition-property: transform box-shadow;
-    transition-duration: .15s;
+    transition-duration: .1s;
     transition-timing-function: ease-out;
   }
 
   li.active {
     z-index: 1;
     transform: scale(1, 1.25);
-    box-shadow: 0px 0px 1px #000;
+    box-shadow: 0 0 0 1px $background;
   }
 
-  .total-clinton .image { background-image: asset-url('digest', 'images/dashboard/clinton-bust.jpg'); }
-  .total-trump .image { background-image: asset-url('digest', 'images/dashboard/trump-bust.jpg'); }
+  .total-clinton .image { background-image: asset-url('digest', 'images/dashboard/clinton-bust.png'); }
+  .total-trump .image { background-image: asset-url('digest', 'images/dashboard/trump-bust.png'); }
 
   li.clinton-win { background: $dem-color; }
   li.clinton-lead { background: $dem-lead-color; }
-  li.other-win { background: $other-color; }
-  li.other-lead { background: $other-lead-color; }
   li.trump-win { background: $gop-color; }
   li.trump-lead { background: $gop-lead-color; }
+  li.other-win { background: $other-color; }
+  li.other-lead { background: $other-lead-color; }
   li.tossup { background: $tossup-color; }
 
   .photo-credit {

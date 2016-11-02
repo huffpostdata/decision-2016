@@ -8,7 +8,7 @@ nav {
     display: -webkit-flex;
     display: flex;
 
-    border-bottom: 1px solid $muted-color;
+    border-bottom: 1px solid $very-muted-color;
     box-sizing: border-box;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -16,7 +16,7 @@ nav {
 
   li {
     display: block;
-    border: 1px solid $muted-color;
+    border: 1px solid $very-muted-color;
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     position: relative;
@@ -24,9 +24,11 @@ nav {
 
     &.current {
       border-bottom-color: $background;
+      box-shadow: -1px -1px 1px $very-very-muted-color;
     }
     &:not(.current) {
       opacity: .3;
+      background-color: $very-very-muted-color;
       &:hover { opacity: .5; }
     }
   }
@@ -44,6 +46,7 @@ nav {
     }
     line-height: 1;
     text-decoration: none;
+    &:hover { text-decoration: none; }
     // the <a> envelops everything, so a click goes to that page
     // the <h1> gets the same style
     width: 100%;
@@ -110,7 +113,6 @@ nav {
       position: absolute;
       text-transform: uppercase;
       font-size: .6rem;
-      border-top: 1px solid $muted-color;
       bottom: -.5rem;
       left: .5rem;
       right: .5rem;
@@ -124,10 +126,10 @@ nav {
       &::after { content: 'Win'; }
     }
     &.clinton-lead, &.clinton-win {
-      background-image: asset-url('digest', 'images/dashboard/clinton-bust.jpg');
+      background-image: asset-url('digest', 'images/dashboard/clinton-bust.png');
     }
     &.trump-lead, &.trump-win {
-      background-image: asset-url('digest', 'images/dashboard/trump-bust.jpg');
+      background-image: asset-url('digest', 'images/dashboard/trump-bust.png');
     }
     &.dem-lead, &.dem-win {
       background-image: asset-url('digest', 'images/dashboard/dem.svg');

@@ -7,7 +7,7 @@ function findStarts(id1, date, apData1, apData2) {
 
   for (const race of apData1.presidentRaces()) {
     if (race.id.length > 2) continue // Ignore "NE1", "NE2", etc
-    if (race.nPrecinctsReporting === 0) UnstartedRaces[race.id] = null
+    if (race.fractionReporting === 0) UnstartedRaces[race.id] = null
   }
 
   const ret = []
@@ -15,12 +15,12 @@ function findStarts(id1, date, apData1, apData2) {
 
   for (const race of apData2.presidentRaces()) {
     if (!UnstartedRaces.hasOwnProperty(race.id)) continue
-    if (race.nPrecinctsReporting > 0) {
+    if (race.fractionReporting > 0) {
       ret.push(new ChangelogEntry({
         id: id,
         date: date,
         changeType: 'start',
-        stateId: race.regionId
+        stateId: race.id.slice(0, 2)
       }))
       id += 1
     }
@@ -51,13 +51,12 @@ function findWins(id1, date, races1, races2) {
         id: id,
         date: date,
         changeType: 'win',
-        stateId: race.regionId,
+        stateId: race.id.slice(0, 2),
         raceType: raceIdToType(race.id),
         raceId: race.id,
         candidateName: race.candidates[0].name,
         partyId: race.candidates[0].partyId,
-        nPrecinctsReporting: race.nPrecinctsReporting,
-        nPrecincts: race.nPrecincts
+        fractionReporting: race.fractionReporting
       }))
     }
     id += 1
@@ -71,7 +70,7 @@ function findLeads(id1, date, races1, races2) {
   const Quarters1 = {}
   for (const race of races1) {
     ClassNames1[race.id] = race.className
-    Quarters1[race.id] = Math.floor(race.nPrecinctsReporting / race.nPrecincts * 4)
+    Quarters1[race.id] = Math.floor(race.fractionReporting / 0.25)
   }
 
   const ret = []
@@ -82,20 +81,19 @@ function findLeads(id1, date, races1, races2) {
     if (!(/-lead/.test(race.className))) continue
 
     // Only report races that go from 9%->10%+
-    const quarter = Math.floor(race.nPrecinctsReporting / race.nPrecincts * 4)
+    const quarter = Math.floor(race.fractionReporting / 0.25)
     if (quarter === Quarters1[race.id] || quarter === 0) continue
 
     ret.push(new ChangelogEntry({
       id: id,
       date: date,
       changeType: 'lead',
-      stateId: race.regionId,
+      stateId: race.id.slice(0, 2),
       raceType: raceIdToType(race.id),
       raceId: race.id,
       candidateName: race.candidates[0].name,
       partyId: race.candidates[0].partyId,
-      nPrecinctsReporting: race.nPrecinctsReporting,
-      nPrecincts: race.nPrecincts
+      fractionReporting: race.fractionReporting
     }))
     id += 1
   }
