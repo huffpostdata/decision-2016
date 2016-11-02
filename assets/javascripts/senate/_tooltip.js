@@ -9,7 +9,6 @@ var toolTip = (function() {
     this.precinctsReporting = targ.querySelector('.precincts-reporting');
 
     this.setData = function(data) {
-      console.log(data);
       this.raceData = {};
       for (var i = 0; i < data.length; i++) {
         this.raceData[data[i].id] = data[i];
