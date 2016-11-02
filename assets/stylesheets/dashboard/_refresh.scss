@@ -14,13 +14,18 @@
     font-size: .85rem;
     text-transform: uppercase;
     font-weight: bold;
-    line-height: 1.6rem;
-    border: 1px solid $very-muted-color;
+    color: black;
+    line-height: 1.5rem;
+    border: 1px solid darken($refresh-bg, 10);
     outline: none;
     cursor: pointer;
 
+     &:hover {
+      background-color: darken($refresh-bg, 10);
+    }
+
     &:active {
-      border-color: $muted-color;
+      background-color: darken($refresh-bg, 10);
     }
 
     &::before {
@@ -30,7 +35,7 @@
       height: 1.2rem;
       position: absolute;
       top: .3rem;
-      left: .3rem;
+      left: .4rem;
       background-image: asset-as-url('digest', 'images/common/refresh.svg');
       background-size: 100%;
     }
