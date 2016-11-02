@@ -3,6 +3,13 @@
 #election_map div[data-src] {
   @include animated-map();
 
+  text {
+    text-anchor: middle;
+    alignment-baseline: middle;
+    font-family: $header-font-family;
+    font-size: 30px;
+  }
+
   path.clinton-win { fill: $dem-color; }
   path.clinton-lead { fill: $tossup-color; }
   path.trump-win { fill: $gop-color; }
