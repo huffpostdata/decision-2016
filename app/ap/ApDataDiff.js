@@ -20,7 +20,7 @@ function findStarts(id1, date, apData1, apData2) {
         id: id,
         date: date,
         changeType: 'start',
-        stateId: race.regionId
+        stateId: race.id.slice(0, 2)
       }))
       id += 1
     }
@@ -51,7 +51,7 @@ function findWins(id1, date, races1, races2) {
         id: id,
         date: date,
         changeType: 'win',
-        stateId: race.regionId,
+        stateId: race.id.slice(0, 2),
         raceType: raceIdToType(race.id),
         raceId: race.id,
         candidateName: race.candidates[0].name,
@@ -89,7 +89,7 @@ function findLeads(id1, date, races1, races2) {
       id: id,
       date: date,
       changeType: 'lead',
-      stateId: race.regionId,
+      stateId: race.id.slice(0, 2),
       raceType: raceIdToType(race.id),
       raceId: race.id,
       candidateName: race.candidates[0].name,
