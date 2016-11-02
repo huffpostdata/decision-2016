@@ -46,6 +46,7 @@ nav {
     }
     line-height: 1;
     text-decoration: none;
+    &:hover { text-decoration: none; }
     // the <a> envelops everything, so a click goes to that page
     // the <h1> gets the same style
     width: 100%;

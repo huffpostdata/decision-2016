@@ -68,8 +68,10 @@
     color: inherit;
     position: relative;
     text-decoration: none;
+    
 
     &::before {
+      :first-child {border-radius: 10px 0px 0px 10px;}
       content: '';
       display: inline-block;
       width: 4.5rem;
@@ -102,18 +104,21 @@
 
   h5 {
     font-family: $body-font-family;
-    font-weight: normal;
+    font-weight: bold;
     text-transform: uppercase;
-    font-size: 1rem;
+    font-size: .75rem;
     text-align: center;
     margin: 0;
   }
 
   .text {
     position: absolute;
-    left: 0;
-    bottom: 0;
+    width: 10rem;
+    left: 2rem;
+    top: 6rem;
+    font-style: italic;
     font-size: .85rem;
+    line-height: .9rem;
     color: $muted-color;
   }
 }
