@@ -151,10 +151,10 @@
   .total-clinton .image { background-image: asset-url('digest', 'images/dashboard/clinton-bust.png'); }
   .total-trump .image { background-image: asset-url('digest', 'images/dashboard/trump-bust.png'); }
 
-  li.dem-win { background: $dem-color; }
-  li.dem-lead { background: $dem-lead-color; }
-  li.gop-win { background: $gop-color; }
-  li.gop-lead { background: $gop-lead-color; }
+  li.clinton-win { background: $dem-color; }
+  li.clinton-lead { background: $dem-lead-color; }
+  li.trump-win { background: $gop-color; }
+  li.trump-lead { background: $gop-lead-color; }
   li.other-win { background: $other-color; }
   li.other-lead { background: $other-lead-color; }
   li.tossup { background: $tossup-color; }
