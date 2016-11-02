@@ -23,6 +23,9 @@ module.exports = {
       mapSwitcherEl.querySelector('.cartogram > .tab__link h5').innerHTML = _i18n.t('h5.Cartogram');
       mapSwitcherEl.querySelector('.switch__message').innerHTML = _i18n.t('map.switch message');
 
+      mapSwitcherEl.querySelector('.geography > .tab__link').style.backgroundImage = "url("+mapSwitcherImages['geography']+")";
+      mapSwitcherEl.querySelector('.cartogram > .tab__link').style.backgroundImage = "url("+mapSwitcherImages['cartogram']+")";
+
       electionMap.querySelector('dt.open').innerHTML = _i18n.t('legend.open');
       electionMap.querySelector('dt.win').innerHTML = _i18n.t('legend.win');
       electionMap.querySelector('dt.not-yet-reported').innerHTML = _i18n.t('legend.not yet reporting');

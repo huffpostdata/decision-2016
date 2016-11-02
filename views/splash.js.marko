@@ -19,6 +19,11 @@ var electoralImages = {
 var markoMap = $!{JSON.stringify(data.helpers.partial('president/_map'))};
 var markoMapSwitcher = $!{JSON.stringify(data.helpers.partial('splash/_map-switcher'))};
 var markoLegend = $!{JSON.stringify(data.helpers.partial('splash/_legend'))};
+var mapSwitcherImages = {
+  geography: "${data.url_to_asset('digest', 'maps/president-geography-thumbnail.png')}",
+  cartogram: "${data.url_to_asset('digest', 'maps/president-cartogram-thumbnail.png')}"
+};
+
 style.textContent = $!{JSON.stringify(data.asset_contents('scss', 'stylesheets/splash.css').toString('utf-8'))};
 document.head.appendChild(style);
 
