@@ -15,7 +15,6 @@ function Tooltip(options) {
 
   function positionTooltip(ev) {
     var mapWidth = _this.mapEl.offsetWidth;
-    _this.tooltip.style.display = 'block'; //set display before getting h/w
     var width = parseFloat(_this.tooltip.offsetWidth);
     var height = parseFloat(_this.tooltip.offsetHeight);
     var xPos = Math.floor(ev.pageX - width / 2);
@@ -85,6 +84,7 @@ function Tooltip(options) {
     var raceId = ev.target.getAttribute('data-race-id');
     highlight(raceId);
     buildTable(raceId);
+    _this.tooltip.style.display = 'block'; //set display before getting h/w
     positionTooltip(ev);
   }
 
