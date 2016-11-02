@@ -7,8 +7,8 @@ html lang="en"
     meta name="viewport" content="width=device-width, initial-scale=1"
     link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/splash-desktop.css')}"
   body
+    #election-splash-refresh
     .decision-iframe__splash
-      #election-splash-refresh
       .decision-iframe__splash__left
         #electoral_votes
         #election_map
@@ -34,10 +34,6 @@ html lang="en"
           sad: "${data.url_to_asset('digest', 'images/splash/trump-sad.jpg')}",
           happy: "${data.url_to_asset('digest', 'images/splash/trump-happy.jpg')}"
         }
-      };
-      var battlegroundsImages = {
-        clinton: "${data.url_to_asset('digest', 'images/splash/clinton-battlegrounds.jpg')}",
-        trump: "${data.url_to_asset('digest', 'images/splash/trump-battlegrounds.jpg')}",
       };
       var markoMap = $!{JSON.stringify(data.helpers.partial('president/_map'))};
       var markoMapSwitcher = $!{JSON.stringify(data.helpers.partial('splash/_map-switcher'))};

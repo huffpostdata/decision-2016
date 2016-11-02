@@ -11,7 +11,14 @@ function setUpTable(i18n) {
   h2.textContent = i18n.t('h2.Battleground States')
   h2.setAttribute("class", "module__header");
 
-  tableHead.appendChild(getHeader(i18n));
+  tableHead.innerHTML = [
+    '<tr>',
+      '<th class="blurb" colspan="2">', i18n.t('battleground.blurb'), '</th>', // TK escapeHtml
+      '<th class="clinton"></th>',
+      '<th class="trump"></th>',
+      '<th class="precincts">', i18n.t('battleground.precincts'), '</th>', // TK escapeHtml
+    '</tr>'
+  ].join('');
 
   table.appendChild(tableHead);
   table.appendChild(tableBody);
@@ -20,34 +27,6 @@ function setUpTable(i18n) {
 
   battleground.appendChild(h2);
   battleground.appendChild(table);
-
-}
-
-function getHeader (i18n) {
-  var tr = document.createElement("tr");
-  var thBlurb = document.createElement("th");
-  var thDemHeadshot = document.createElement("th");
-  var thGopHeadshot = document.createElement("th");
-  var thPrecincts = document.createElement("th");
-  var demHeadshot = new Image();
-  var gopHeadshot = new Image();
-
-  thBlurb.setAttribute("colspan", 2);
-  thBlurb.textContent = i18n.t('battleground.blurb');
-
-  demHeadshot.src = battlegroundsImages.clinton;
-  gopHeadshot.src = battlegroundsImages.trump;
-  thDemHeadshot.appendChild(demHeadshot);
-  thGopHeadshot.appendChild(gopHeadshot);
-
-  thPrecincts.textContent = i18n.t('battleground.precincts');
-
-  tr.appendChild(thBlurb);
-  tr.appendChild(thDemHeadshot);
-  tr.appendChild(thGopHeadshot);
-  tr.appendChild(thPrecincts);
-
-  return tr;
 }
 
 function paintRow(data, i18n, formatPercent) {
