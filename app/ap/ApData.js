@@ -236,8 +236,7 @@ module.exports = class ApData {
    *     name: 'California',
    *     stateName: 'California',
    *     nElectoralVotes: 55,
-   *     nPrecintsReporting: 102,
-   *     nPrecincts: 243,
+   *     fractionReporting: 0.32,
    *     winner: null, // or 'clinton' or 'trump' or 'mcmullin' or 'johnson'
    *     nVotes: 1234, // total votes cast
    *     nVotesClinton: 612,
@@ -488,8 +487,7 @@ module.exports = class ApData {
    *     {
    *       id: 'AKS3',
    *       name: 'Alaska',
-   *       nPrecinctsReporting: 102,
-   *       nPrecincts: 243,
+   *       fractionReporting: 0.355,
    *       winner: 'dem',
    *       candidates: [
    *        { name: 'Smith', partyId: 'dem', n: 13001, winner: true },
@@ -510,8 +508,7 @@ module.exports = class ApData {
         name: stateName,
         stateName: stateName,
         seatClass: '3',
-        nPrecincts: ru.precinctsTotal,
-        nPrecinctsReporting: ru.precinctsReporting,
+        fractionReporting: ru.precinctsTotal === 0 ? 0 : ru.precinctsReporting / ru.precinctsTotal,
         candidates: apCandidatesToCandidates(ru.candidates)
       }
       ret.winner = raceWinner(ret)
@@ -537,8 +534,7 @@ module.exports = class ApData {
    *     {
    *       id: 'AK01',
    *       name: 'Alaska At Large',
-   *       nPrecinctsReporting: 102,
-   *       nPrecincts: 243,
+   *       fractionReporting: 0.341,
    *       winner: 'dem',
    *       candidates: [
    *        { name: 'Smith', partyId: 'dem', n: 13001, winner: true },
@@ -550,7 +546,6 @@ module.exports = class ApData {
    *   ]
    */
   houseRaces() {
-    // TK NEED UNIT TESTS
     const ret = this.reportingUnitElections.findHouseRaces().map(apRace => {
       const ru = apRace.reportingUnits[0]
       const stateName = StateCodeToStateName[ru.statePostal]
@@ -560,8 +555,7 @@ module.exports = class ApData {
         stateName: stateName,
         name: / at large/i.test(apRace.description) ? `${stateName} At Large` : `${stateName} District ${apRace.seatNum}`,
         candidates: apCandidatesToCandidates(ru.candidates),
-        nPrecinctsReporting: ru.precinctsReporting,
-        nPrecincts: ru.precinctsTotal
+        fractionReporting: ru.precinctsTotal === 0 ? 1 : ru.precinctsReporting / ru.precinctsTotal
       }
       race.winner = raceWinner(race)
       race.className = houseRaceClassName(race)

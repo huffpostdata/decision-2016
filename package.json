@@ -12,6 +12,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "autoprefixer": "^6.5.1",
     "aws-sdk": "^2.3.5",
     "browser-pack": "^6.0.1",
     "csv-parse": "^1.0.4",
@@ -23,7 +24,8 @@
     "marko": "^3.1.6",
     "module-deps": "^4.0.7",
     "node-polyglot": "github:adamhooper/polyglot.js#for-decision-2016",
-    "node-sass": "^3.5.3"
+    "node-sass": "^3.5.3",
+    "postcss": "^5.2.5"
   },
   "devDependencies": {
     "chai": "^3.5.0",

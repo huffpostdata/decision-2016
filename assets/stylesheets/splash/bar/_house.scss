@@ -1,21 +1,16 @@
 #house {
   text-decoration: none;
   color: $color;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
 
   p.count {
     margin: 0;
-    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
   }
 
   .legend {
-    display: -webkit-flex;
     display: flex;
-    -webkit-align-items: flex-end;
     align-items: flex-end;
     padding-bottom: .25rem;
 
@@ -25,7 +20,6 @@
       font-style: italic;
       color: $muted-color;
       text-align: center;
-      -webkit-flex: 1 1 auto;
       flex: 1 1 auto;
     }
   }
@@ -36,11 +30,8 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    display: -webkit-flex;
     display: flex;
-    -webkit-flex-direction: column;
     flex-direction: column;
-    -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
     position: relative;
 

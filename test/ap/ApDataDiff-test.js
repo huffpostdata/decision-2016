@@ -9,8 +9,7 @@ describe('ApDataDiff', () => {
     return {
       id: raceId,
       regionId: raceId.slice(0, 2),
-      nPrecinctsReporting: percentReporting,
-      nPrecincts: 100,
+      fractionReporting: percentReporting / 100,
       className: className,
       candidates: [ leader ]
     };
@@ -120,8 +119,7 @@ describe('ApDataDiff', () => {
       raceId: 'NY',
       candidateName: 'Clinton',
       partyId: 'dem',
-      nPrecinctsReporting: 2,
-      nPrecincts: 100
+      fractionReporting: 0.02
     })])
   })
 
@@ -175,8 +173,7 @@ describe('ApDataDiff', () => {
       raceId: 'NYS3',
       candidateName: 'Smith',
       partyId: 'dem',
-      nPrecinctsReporting: 2,
-      nPrecincts: 100
+      fractionReporting: 0.02
     })])
   })
 
@@ -195,8 +192,7 @@ describe('ApDataDiff', () => {
       raceId: 'NY03',
       candidateName: 'Smith',
       partyId: 'dem',
-      nPrecinctsReporting: 2,
-      nPrecincts: 100
+      fractionReporting: 0.02
     })])
   })
 
@@ -215,8 +211,7 @@ describe('ApDataDiff', () => {
       raceId: 'NY',
       candidateName: 'Clinton',
       partyId: 'dem',
-      nPrecinctsReporting: 26,
-      nPrecincts: 100
+      fractionReporting: 0.26
     })])
   })
 

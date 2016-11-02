@@ -14,15 +14,12 @@ body {
 }
 
 .columns {
-  display: -webkit-flex;
   display: flex;
   width: 940px;
   margin: 0 auto;
 
   &>* {
-    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
-    display: -webkit-flex;
     display: flex;
   }
 }

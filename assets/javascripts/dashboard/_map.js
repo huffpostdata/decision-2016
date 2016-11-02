@@ -280,6 +280,7 @@ function Map(options) {
   this.switchEl = options.switchEl;
   if (!options.racesJson) throw new Error('Missing "racesJson", an Array');
   this.racesJson = options.racesJson;
+  this.onLoad = options.onLoad;
 
   this.raceIdToPaths = null;
 
@@ -354,6 +355,8 @@ Map.prototype._setSvg = function(xml) {
       _this.showGeography();
     } // otherwise do nothing
   });
+
+  if(this.onLoad) { this.onLoad() }
 };
 
 Map.prototype.update = function(racesJson) {

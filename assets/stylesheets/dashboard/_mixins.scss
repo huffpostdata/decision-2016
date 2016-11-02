@@ -3,22 +3,18 @@
     @include wide-width();
     margin-top: 3rem;
 
-    display: -webkit-flex;
     display: flex;
-    -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
 
     .map {
       position: relative;
       min-width: 30rem;
-      -webkit-flex: 1 1 auto;
       flex: 1 1 auto;
     }
 
     .map-info {
       width: 15rem;
       margin-left: 1rem;
-      -webkit-flex: 0 0 auto;
       flex: 0 0 auto;
     }
   }
@@ -162,13 +158,11 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    display: -webkit-flex;
     display: flex;
   }
 
   li {
     display: block;
-    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     height: 2rem;
     box-sizing: border-box;

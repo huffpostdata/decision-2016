@@ -44,14 +44,11 @@ html, body {
 body {
   margin: 0;
   padding: 0;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
 }
 
 main {
-  -webkit-flex: 1 0 auto;
   flex: 1 0 auto;
 }
 

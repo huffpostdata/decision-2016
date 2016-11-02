@@ -4,6 +4,8 @@ const crypto = require('crypto')
 const glob = require('glob')
 const fs = require('fs')
 const sass = require('node-sass')
+const postcss = require('postcss')
+const autoprefixer = require('autoprefixer')
 const mdeps = require('module-deps')
 const browserPack = require('browser-pack')
 
@@ -12,6 +14,14 @@ function md5sum(string) {
   hash.update(string)
   return hash.digest('hex')
 }
+
+function doPostcss(css) {
+  return doPostcss.processor.process(css).content
+}
+doPostcss.processor = postcss([ autoprefixer({
+  remove: false,
+  browsers: [ 'IE >= 10', 'safari >= 8', 'chrome >= 44', 'firefox >= 43' ]
+}) ])
 
 function detect_content_type(path) {
   const m = /\.(\w+)$/.exec(path)
@@ -171,6 +181,8 @@ module.exports = class AssetCompiler {
         e.message = e.formatted
         throw e
       }
+
+      css = doPostcss(css)
 
       out[key] = new Asset(key, css, { content_type: 'text/css; charset=utf-8', max_age: 8640000000 }) // far-future expires
     }
