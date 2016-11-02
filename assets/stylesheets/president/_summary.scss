@@ -136,7 +136,7 @@
     height: 2rem;
     box-sizing: border-box;
     margin-top: 0rem;
-    box-shadow: 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px #fff;
     transition-property: transform box-shadow;
     transition-duration: .15s;
     transition-timing-function: ease-out;
@@ -145,7 +145,7 @@
   li.active {
     z-index: 1;
     transform: scale(1, 1.25);
-    box-shadow: 0px 0px 1px #000;
+    border: 1px solid #fff;
   }
 
   .total-clinton .image { background-image: asset-url('digest', 'images/dashboard/clinton-bust.jpg'); }
