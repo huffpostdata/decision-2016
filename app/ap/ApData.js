@@ -33,7 +33,8 @@ function apCandidateToCandidate(apJson) {
     fullName: `${apJson.first} ${apJson.last}`,
     partyId: validParty(apJson.party),
     n: apJson.voteCount,
-    winner: (apJson.winner === 'X')
+    winner: (apJson.winner === 'X'),
+    incumbent: apJson.incumbent === true
   }
 }
 
@@ -110,7 +111,7 @@ function apCandidatesToCandidates(apCandidates) {
 
   if (nOther !== 0) {
     // "Other" comes last, always. It can't be the leader.
-    ret.push({ name: 'Other', partyId: 'other', n: nOther, winner: false })
+    ret.push({ name: 'Other', partyId: 'other', n: nOther, winner: false, incumbent: false })
   }
 
   return ret
@@ -136,6 +137,15 @@ function raceWinner(race) {
   return null
 }
 
+function presidentRaceClassName(race) {
+  // Assume candidates are sorted
+  const leader = race.candidates[0].name.toLowerCase()
+
+  if (race.candidates[0].winner) return `${leader}-win`
+  if (race.candidates[0].n !== race.candidates[1].n) return `${leader}-lead`
+  return 'tossup'
+}
+
 function senateRaceClassName(race) {
   if (race.winner) return `${race.winner}-win`
 
@@ -147,7 +157,6 @@ function senateRaceClassName(race) {
   }
 }
 
-const presidentRaceClassName = senateRaceClassName
 const houseRaceClassName = senateRaceClassName
 
 /**
@@ -295,8 +304,7 @@ module.exports = class ApData {
         name: stateName,
         stateName: stateName,
         nElectoralVotes: state.electTotal,
-        nPrecinctsReporting: state.precinctsReporting,
-        nPrecincts: state.precinctsTotal,
+        fractionReporting: state.precinctsReporting === 0 ? 0 : state.precinctsReporting / state.precinctsTotal,
         candidates: apCandidatesToCandidates(state.candidates),
         nVotes: 0,
         winner: null
@@ -318,8 +326,7 @@ module.exports = class ApData {
           name: `${stateName} ${ru.reportingunitName}`,
           stateName: stateName,
           nElectoralVotes: ru.electTotal,
-          nPrecinctsReporting: ru.precinctsReporting,
-          nPrecincts: ru.precinctsTotal,
+          fractionReporting: state.precinctsReporting === 0 ? 0 : state.precinctsReporting / state.precinctsTotal,
           candidates: apCandidatesToCandidates(ru.candidates),
           nVotes: 0,
           winner: null
