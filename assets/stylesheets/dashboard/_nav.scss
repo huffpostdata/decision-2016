@@ -5,7 +5,6 @@ nav {
     display: block;
     padding: 0;
     list-style: none;
-    display: -webkit-flex;
     display: flex;
 
     border-bottom: 1px solid $very-muted-color;
@@ -17,7 +16,6 @@ nav {
   li {
     display: block;
     border: 1px solid $very-muted-color;
-    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     position: relative;
     margin-bottom: -1px; // bottom border goes on _top_ of tab-bar bottom
@@ -66,12 +64,10 @@ nav {
     padding-top: .25rem;
     height: .25rem;
     padding-bottom: .25rem;
-    display: -webkit-flex;
     display: flex;
 
     &>* {
       height: .25rem;
-      -webkit-flex: 1 1 auto;
       flex: 1 1 auto;
     }
     .clinton, .dem { background: $dem-color; }

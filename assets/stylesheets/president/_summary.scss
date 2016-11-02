@@ -125,13 +125,11 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    display: -webkit-flex;
     display: flex;
   }
 
   li {
     display: block;
-    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     height: 2rem;
     box-sizing: border-box;
