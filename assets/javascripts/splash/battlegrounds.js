@@ -41,31 +41,26 @@ function paintRow(data, i18n, formatPercent) {
   var districtPercent = document.createElement('td');
 
   stateIcon.setAttribute("class", "state-icon");
-  stateIcon.innerHTML = '<span class="state" data-state-id="'+data.abbr.toUpperCase()+'"></span>';
+  stateIcon.innerHTML = '<span class="state" data-state-id="'+data.id+'"></span>';
 
   stateName.setAttribute("class", "state-name");
-  stateName.textContent = i18n.t('state.' + data.state);
+  stateName.textContent = i18n.t('state.' + data.name);
 
-  stateVotes.setAttribute("class", "votes gop");
+  stateVotes.setAttribute("class", "votes");
   stateVotes.textContent = i18n.t('counts.n Electoral Votes', data.nElectoralVotes);
 
   stateInfo.appendChild(stateName);
   stateInfo.appendChild(stateVotes);
 
-  demPercent.setAttribute("class", "percent");
-  demPercent.textContent = formatPercent(data.demPercent/100);
-  gopPercent.setAttribute("class", "percent");
-  gopPercent.textContent = formatPercent(data.gopPercent/100);
+  demPercent.setAttribute("class", "percent percent--clinton");
+  demPercent.textContent = formatPercent(data.nVotesClinton/data.nVotes);
+  gopPercent.setAttribute("class", "percent percent--trump");
+  gopPercent.textContent = formatPercent(data.nVotesTrump/data.nVotes);
 
   districtPercent.setAttribute("class", "percent percent--district");
-  districtPercent.textContent = formatPercent(data.percentPrecinctsReporting/100);
+  districtPercent.textContent = formatPercent(data.nPrecinctsReporting/data.nPrecincts);
 
-  if (data.called && typeof data.winner != 'undefined') {
-    row.setAttribute("class", data.winner);
-    var winner;
-    winner = (data.winner === "dem") ? demPercent : gopPercent;
-    winner.className += " percent--winner";
-  }
+  row.setAttribute('class', data.className);
 
   row.appendChild(stateIcon);
   row.appendChild(stateInfo);
@@ -76,22 +71,39 @@ function paintRow(data, i18n, formatPercent) {
   return row;
 }
 
+function getBattlegroundData(data) {
+  var battlegroundData = [];
+  for(var i = 0; i < data.states.length; i++) {
+    function findRaceData(race) {
+      return race.id === data.states[i];
+    }
+    battlegroundData.push(data.races.find(findRaceData));
+  }
+  return battlegroundData;
+}
+
+function updateData(data, i18n) {
+  var formatPercent = new Intl.NumberFormat(i18n.local, { style: 'percent' }).format;
+  tableBody.innerHTML = "";
+
+  for(var i = 0; i < data.length; i++) {
+    var row = paintRow(data[i], i18n, formatPercent);
+    tableBody.appendChild(row);
+  }
+}
+
 module.exports = {
   update: function(data, i18n) {
-    var formatPercent = new Intl.NumberFormat(i18n.local, { style: 'percent' }).format;
-    tableBody.innerHTML = "";
-
-    for(var i = 0; i < data.length; i++) {
-      var row = paintRow(data[i], i18n, formatPercent);
-      tableBody.appendChild(row);
-    }
+    var battlegroundData = getBattlegroundData(data);
+    updateData(battlegroundData, i18n);
   },
   render: function(data, i18n) {
     battleground = window.document.getElementById('battlegrounds');
+    var battlegroundData = getBattlegroundData(data);
 
     if (battleground) {
       setUpTable(i18n);
-      this.update(data, i18n);
+      updateData(battlegroundData, i18n);
     }
   }
 };

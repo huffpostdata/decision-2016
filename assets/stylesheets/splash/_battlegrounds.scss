@@ -48,24 +48,6 @@
       &:last-child {
         border-bottom: none;
       }
-      &.gop .state-icon img {
-        border: 3px solid $gop-color;
-      }
-      &.dem .state-icon img {
-        border: 3px solid $dem-color;
-      }
-      &.dem {
-        .percent--winner {
-          color: #000;
-          background-color: $dem-color;
-        }
-      }
-      &.gop {
-        .percent--winner {
-          color: #000;
-          background-color: $gop-color;
-        }
-      }
     }
     tr td {
       height: 50px;
@@ -91,7 +73,7 @@
         font-family: $header-font-family;
         padding: 0;
         font-size: 20px;
-        color: #666;
+        color: #000;
         &.gop {
           background: $gop-lead-color;
         }
@@ -99,6 +81,7 @@
           background: $dem-lead-color
         }
         &--district {
+          color: #666;
           font-family: $body-font-family;
           font-weight: normal;
           font-size: 16px;
@@ -147,12 +130,22 @@
     color: #aaa;
     
   }
-  .gop .state {
-    color: $gop-color;
+  .trump-win {
+    .state {
+      color: $gop-color;
+    }
+    .percent--trump {
+      background-color: $gop-color;
+    }
   }
 
-  .dem .state {
-    color: $dem-color;
+  .clinton-win {
+    .state {
+      color: $dem-color;
+    }
+    .percent--clinton {
+      background-color: $dem-color;
+    }
   }
 }
 
