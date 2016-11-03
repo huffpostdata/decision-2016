@@ -1,6 +1,44 @@
 #tooltip{
+  display: none;
   position: absolute;
-  width: 250px;
+  z-index: 1;
+  width: 230px;
   height: auto;
+  pointer-events: none;
+  border: 1px solid #bdbdbd;
   background-color: #fff;
+  .inner {
+    position: relative;
+    display: block;
+    padding: 5px;
+    margin: auto;
+    width: 100%;
+  }
+
+  .state-name {
+    margin: 0px;
+  }
+
+  table{
+    th {
+      font-size: 12px;
+      text-align: left;
+      &.vote-pct,
+      &.vote-ct {
+        font-weight: 300;
+      }
+      &.cd {
+        font-weight: 700;
+      }
+    }
+    position: relative;
+    width: 100%;
+    .name {
+      font-size: 12px;
+    }
+    .vote-count {
+      font-size: 12px;
+      text-align: center;
+    }
+  }
 }
