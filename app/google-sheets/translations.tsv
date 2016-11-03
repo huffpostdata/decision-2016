@@ -12,8 +12,8 @@ electoral.blurb		The country's 538 electors vote according to their states' colo
 electoral.winner	Winner label for Electoral Bars	WINNER!					الفائز!  \\\ الفائزة! 	Gewinner	ΝΙΚΗΤΗΣ!	¡HA GANADO!	¡GANÓ!	VAINQUEUR			VINCITORE!	WINNER!	승리!	VENCEU! 
 h2.Battleground States	Title above battleground-state charts	BATTLEGROUND STATES					الولايات الحاسمة	Wahlentscheidende Staaten	ΠΟΛΙΤΕΙΕΣ-ΚΛΕΙΔΙΑ 	Estados decisivos	Estados en disputa	ÉTATS DÉCISIFS			STATI DECISIVI	激戦州	격전 주	Estados decisivos
 h2.Electoral Votes	Title above photos of Clinton and Trump	ELECTORAL VOTES					الأصوات الناخبة	Wahlmännerstimmen	ΕΚΛΕΚΤΟΡΙΚΕΣ ΨΗΦΟΙ	Votos electorales	Voto electoral	GRANDS ÉLECTEURS			GRANDI ELETTORI	選挙人の投票	선거인단 투표	Votos eleitorais
-banner.House Seats	Title above house chart	HOUSE SEATS	Please change to "number of" instead of "amount of"				مقاعد مجلس النواب	Sitze im Repräsentantenhaus	EΔΡΕΣ ΣΤΗ ΒΟΥΛΗ ΤΩΝ ΑΝΤΙΠΡΟΣΩΠΩΝ	Asientos en la Cámara de Representantes	Escaños de la Cámara	SIÈGES À LA CHAMBRE DES REPRÉSENTANTS			SEGGI ALLA CAMERA	下院の議席数	하원 의석	Assentos na Câmara
-banner.Senate Seats	Title above senate chart	SENATE SEATS	Please change to "number of" instead of "amount of"				مقاعد مجلس الشيوخ	Sitze im Senat	ΕΔΡΕΣ ΣΤΗ ΓΕΡΟΥΣΙΑ	Asientos en el Senado	Escaños del Senado	SIÈGES AU SÉNAT			SEGGI AL SENATO	上院の議席数	상원 의석	Assentos no Senado
+h5.House Seats	Title above house chart	HOUSE SEATS	Please change to "number of" instead of "amount of"				مقاعد مجلس النواب	Sitze im Repräsentantenhaus	EΔΡΕΣ ΣΤΗ ΒΟΥΛΗ ΤΩΝ ΑΝΤΙΠΡΟΣΩΠΩΝ	Asientos en la Cámara de Representantes	Escaños de la Cámara	SIÈGES À LA CHAMBRE DES REPRÉSENTANTS			SEGGI ALLA CAMERA	下院の議席数	하원 의석	Assentos na Câmara
+h5.Senate Seats	Title above senate chart	SENATE SEATS	Please change to "number of" instead of "amount of"				مقاعد مجلس الشيوخ	Sitze im Senat	ΕΔΡΕΣ ΣΤΗ ΓΕΡΟΥΣΙΑ	Asientos en el Senado	Escaños del Senado	SIÈGES AU SÉNAT			SEGGI AL SENATO	上院の議席数	상원 의석	Assentos no Senado
 h5.Cartogram	Tab for Cartogram map mode	ELECTORAL VOTES					الأصوات الناخبة	Wahlmännerstimmen	ΕΚΛΕΚΤΟΡΙΚΕΣ ΨΗΦΟΙ	Votos electorales	Voto electoral	GRANDS ÉLECTEURS			GRANDI ELETTORI	選挙人の投票	선거인단 투표	Votos eleitorais
 h5.Geography	Tab for Geography map mode	GEOGRAPHY					خريطة جغرافية للنتائج	Karte der Resultate	ΧΑΡΤΗΣ ΑΠΟΤΕΛΕΣΜΑΤΩΝ	Mapa de resultados	Mapa de resultados	CARTE DES RÉSULTATS			CARTA DEI RISULTATI	マップ	지도	Mapa dos resultados
 legend.header	Header for Legend	POLLS					استطلاعات الرأي	Wahllokale	ΔΗΜΟΣΚΟΠΗΣΕΙΣ	Colegio electoral	Colegio electoral	BUREAUX DE VOTE			Collegio elettorale	得票状況	여론 조사	Colégios eleitorais
@@ -46,7 +46,7 @@ state-abbreviation.Idaho		Idaho					آيداهو								Idaho	Idaho	아이다호
 state-abbreviation.Ill.		Ill.					إلينو.								Ill.	Ill.	일리노이	
 state-abbreviation.Ind.		Ind.					إند.								Ind.	Ind.	인디애나	
 state-abbreviation.Iowa		Iowa					آيوا								Iowa	Iowa	아이오와	
-state-abbreviation.Kans.		Kans.					كانز.								Kans.	Kans.	캔자스	
+state-abbreviation.Kansas		Kansas					كانز.								Kans.	Kans.	캔자스	
 state-abbreviation.Ky.		Ky.					كنتا.								Ky.	Ky.	켄터키	
 state-abbreviation.La.		La.					لويز.								La.	La.	루이지애나	
 state-abbreviation.Maine		Maine					مين								Maine	Maine	메인	
@@ -73,7 +73,7 @@ state-abbreviation.R.I.		R.I.					رودآ.								R.I.	R.I.	로드 아일랜드
 state-abbreviation.S.C.		S.C.					كارو-ج.				C. Sur	C.Sud			S.C.	S.C.	사우스 캐롤라이나	C. do Sul
 state-abbreviation.S.D.		S.D.					داكو-ج.				D Sur	D.Sud			S.D.	S.D.	사우스 다코타	D. do Sul
 state-abbreviation.Tenn.		Tenn.					تنس.								Tenn.	Tenn.	테네시	
-state-abbreviation.Tex.		Tex.					تكس.								Tex.	Tex.	텍사스	
+state-abbreviation.Texas		Texas					تكس.								Tex.	Tex.	텍사스	
 state-abbreviation.Utah		Utah					يوتا								Utah	Utah	유타	
 state-abbreviation.Va.		Va.					فيرج.								Va.	Va.	버지니아	
 state-abbreviation.Vt.		Vt.					فيرم.								Vt.	Vt.	버몬트	
