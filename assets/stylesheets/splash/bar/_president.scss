@@ -14,7 +14,6 @@
   path.mesh { stroke: $background; fill: none; stroke-width: 5px; }
 
   .electoral-votes {
-    margin-right: -.5rem; // ".clinton" and ".trump" add .5rem padding
     display: flex;
     flex-direction: column;
 

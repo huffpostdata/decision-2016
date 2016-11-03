@@ -42,6 +42,10 @@ function compareCandidates(a, b) {
   // Winner comes first
   if (a.winner !== b.winner) return (a.winner ? 0 : 1) - (b.winner ? 0 : 1)
 
+  return compareCandidatesIgnoreWinner(a, b)
+}
+
+function compareCandidatesIgnoreWinner(a, b) {
   // Then Person with most votes comes first
   if (a.n !== b.n) return b.n - a.n
 
@@ -146,6 +150,13 @@ function presidentRaceClassName(race) {
   return 'tossup'
 }
 
+function presidentGeoClassName(race) {
+  if (race.candidates.length === 1) return `${race.candidates[0].partyId}-win`
+  if (race.candidates[0].n === race.candidates[1].n) return 'tossup'
+  if (race.fractionReporting === 1) return `${race.candidates[0].partyId}-win`
+  return `${race.candidates[0].partyId}-lead`
+}
+
 function senateRaceClassName(race) {
   if (race.winner) return `${race.winner}-win`
 
@@ -158,6 +169,119 @@ function senateRaceClassName(race) {
 }
 
 const houseRaceClassName = senateRaceClassName
+
+function postprocessPresidentRace(race) {
+  let wroteThird = false
+  for (const candidate of race.candidates) {
+    race.nVotes += candidate.n
+
+    switch (candidate.name) {
+      case 'Clinton':
+        race.nVotesClinton = candidate.n
+        if (candidate.winner) race.winner = 'clinton'
+        break
+      case 'Trump':
+        race.nVotesTrump = candidate.n
+        if (candidate.winner) race.winner = 'trump'
+        break
+      default:
+        if (!wroteThird) {
+          // This is the leading third-party candidate, because candidates
+          // are ordered.
+          race.nVotesThird = candidate.n
+          if (candidate.winner) race.winner = candidate.name.toLowerCase()
+          wroteThird = true
+        }
+    }
+  }
+}
+
+function countRaceVotes(race) {
+  let ret = 0
+  for (const candidate of race.candidates) {
+    ret += candidate.n
+  }
+  return ret
+}
+
+function apRaceToPresidentRace(apRace) {
+  const state = apRace.reportingUnits[0]
+  const stateName = StateCodeToStateName[state.statePostal]
+  const race = {
+    id: state.statePostal,
+    regionId: state.statePostal,
+    name: stateName,
+    stateName: stateName,
+    nElectoralVotes: state.electTotal,
+    fractionReporting: state.precinctsReporting === 0 ? 0 : state.precinctsReporting / state.precinctsTotal,
+    candidates: apCandidatesToCandidates(state.candidates),
+    nVotes: 0,
+    winner: null
+  }
+  race.className = presidentRaceClassName(race)
+  postprocessPresidentRace(race)
+
+
+  return race
+}
+
+function apRaceToSenateRace(apRace) {
+  const ru = apRace.reportingUnits[0]
+  const stateName = StateCodeToStateName[ru.statePostal]
+
+  const ret = {
+    id: `${ru.statePostal}S3`,
+    name: stateName,
+    stateName: stateName,
+    seatClass: '3',
+    fractionReporting: ru.precinctsTotal === 0 ? 0 : ru.precinctsReporting / ru.precinctsTotal,
+    candidates: apCandidatesToCandidates(ru.candidates)
+  }
+  ret.winner = raceWinner(ret)
+  ret.className = senateRaceClassName(ret)
+  ret.nVotes = countRaceVotes(ret)
+
+  return ret
+}
+
+function apRaceToHouseRace(apRace) {
+  const ru = apRace.reportingUnits[0]
+  const stateName = StateCodeToStateName[ru.statePostal]
+
+  const race = {
+    id: `${ru.statePostal}${String(100 + +apRace.seatNum).slice(1)}`,
+    stateName: stateName,
+    name: / at large/i.test(apRace.description) ? `${stateName} At Large` : `${stateName} District ${apRace.seatNum}`,
+    candidates: apCandidatesToCandidates(ru.candidates),
+    fractionReporting: ru.precinctsTotal === 0 ? 1 : ru.precinctsReporting / ru.precinctsTotal
+  }
+  race.winner = raceWinner(race)
+  race.className = houseRaceClassName(race)
+
+  return race
+}
+
+function apRaceToGeos(apRace) {
+  const ret = []
+
+  for (const ru of apRace.reportingUnits.slice(1)) {
+    const geo = {
+      id: ru.fipsCode, // TK New England states need apId (or whatever we did during primaries)
+      name: ru.reportingunitName,
+      fractionReporting: ru.precinctsReportingPct / 100,
+      candidates: apCandidatesToCandidates(ru.candidates)
+    }
+    // AP's "winner" call propagates _down_ to each geo. That's fine, but we
+    // shouldn't sort that way.
+    geo.candidates.sort(compareCandidatesIgnoreWinner)
+
+    geo.className = presidentGeoClassName(geo)
+
+    ret.push(geo)
+  }
+
+  return ret
+}
 
 /**
  * A rollup of all the data Associated Pres gives us.
@@ -264,52 +388,9 @@ module.exports = class ApData {
   presidentRaces() {
     let ret = []
 
-    function postprocessRace(race) {
-      race.className = presidentRaceClassName(race)
-
-      let wroteThird = false
-      for (const candidate of race.candidates) {
-        race.nVotes += candidate.n
-
-        switch (candidate.name) {
-          case 'Clinton':
-            race.nVotesClinton = candidate.n
-            if (candidate.winner) race.winner = 'clinton'
-            break
-          case 'Trump':
-            race.nVotesTrump = candidate.n
-            if (candidate.winner) race.winner = 'trump'
-            break
-          default:
-            if (!wroteThird) {
-              // This is the leading third-party candidate, because candidates
-              // are ordered.
-              race.nVotesThird = candidate.n
-              if (candidate.winner) race.winner = candidate.name.toLowerCase()
-              wroteThird = true
-            }
-        }
-      }
-    }
-
     for (const apRace of this.reportingUnitElections.findPresidentRaces()) {
-      const state = apRace.reportingUnits[0]
-      const stateName = StateCodeToStateName[state.statePostal]
-      if (state.statePostal === 'ME' || state.statePostal === 'NE') continue;
-
-      const race = {
-        id: state.statePostal,
-        regionId: state.statePostal,
-        name: stateName,
-        stateName: stateName,
-        nElectoralVotes: state.electTotal,
-        fractionReporting: state.precinctsReporting === 0 ? 0 : state.precinctsReporting / state.precinctsTotal,
-        candidates: apCandidatesToCandidates(state.candidates),
-        nVotes: 0,
-        winner: null
-      }
-      postprocessRace(race)
-
+      const race = apRaceToPresidentRace(apRace)
+      if (race.id === 'ME' || race.id === 'NE') continue // because we'll handle them from "districts"
       ret.push(race)
     }
 
@@ -330,7 +411,8 @@ module.exports = class ApData {
           nVotes: 0,
           winner: null
         }
-        postprocessRace(race)
+        race.className = presidentRaceClassName(race)
+        postprocessPresidentRace(race)
 
         ret.push(race)
       }
@@ -499,24 +581,7 @@ module.exports = class ApData {
    *   ]
    */
   senateRaces() {
-    const races = this.reportingUnitElections.findSenateRaces().map(apRace => {
-      const ru = apRace.reportingUnits[0]
-      const stateName = StateCodeToStateName[ru.statePostal]
-
-      const ret = {
-        id: `${ru.statePostal}S3`,
-        name: stateName,
-        stateName: stateName,
-        seatClass: '3',
-        fractionReporting: ru.precinctsTotal === 0 ? 0 : ru.precinctsReporting / ru.precinctsTotal,
-        candidates: apCandidatesToCandidates(ru.candidates)
-      }
-      ret.winner = raceWinner(ret)
-      ret.className = senateRaceClassName(ret)
-
-      return ret
-    })
-
+    const races = this.reportingUnitElections.findSenateRaces().map(apRaceToSenateRace)
     const priorRaces = SenatePriorSeats
 
     const ret = priorRaces.concat(races)
@@ -546,24 +611,55 @@ module.exports = class ApData {
    *   ]
    */
   houseRaces() {
-    const ret = this.reportingUnitElections.findHouseRaces().map(apRace => {
-      const ru = apRace.reportingUnits[0]
-      const stateName = StateCodeToStateName[ru.statePostal]
-
-      const race = {
-        id: `${ru.statePostal}${String(100 + +apRace.seatNum).slice(1)}`,
-        stateName: stateName,
-        name: / at large/i.test(apRace.description) ? `${stateName} At Large` : `${stateName} District ${apRace.seatNum}`,
-        candidates: apCandidatesToCandidates(ru.candidates),
-        fractionReporting: ru.precinctsTotal === 0 ? 1 : ru.precinctsReporting / ru.precinctsTotal
-      }
-      race.winner = raceWinner(race)
-      race.className = houseRaceClassName(race)
-
-      return race
-    })
-
+    const ret = this.reportingUnitElections.findHouseRaces().map(apRaceToHouseRace)
     ret.sort(compareRaces)
+    return ret
+  }
+
+  /**
+   * Returns:
+   *
+   *   { // regionId to everything
+   *     AL: {
+   *       president: {
+   *         summary:
+   *       },
+   *     },
+   *     CA: { ... },
+   *     ...
+   *   } // regionId to everything
+   */
+  allRaceDetails() {
+    const ret = {}
+
+    for (const apRace of this.reportingUnitElections.findPresidentRaces()) {
+      // We're ignoring the "district" races: we want ME and NE reportingUnits
+      const race = apRaceToPresidentRace(apRace)
+
+      ret[race.id] = {
+        president: {
+          race: race,
+          geos: apRaceToGeos(apRace)
+        },
+        house: []
+      }
+    }
+
+    for (const apRace of this.reportingUnitElections.findSenateRaces()) {
+      const race = apRaceToSenateRace(apRace)
+      const stateId = race.id.slice(0, 2)
+
+      ret[stateId].senate = {
+        race: race,
+        geos: apRaceToGeos(apRace)
+      }
+    }
+
+    for (const apRace of this.reportingUnitElections.findHouseRaces()) {
+      const race = apRaceToHouseRace(apRace)
+      const stateId = race.id.slice(0, 2)
+      ret[stateId].house.push(race)
+    }
 
     return ret
   }

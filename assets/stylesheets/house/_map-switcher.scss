@@ -2,10 +2,10 @@ body.house #map-switcher {
   @include map-switcher();
 
   .geography a::before {
-    background-image: asset-url('digest', 'maps/house-geography-thumbnail.png');
+   // background-image: asset-url('digest', 'maps/house-geography-thumbnail.png');
   }
 
   .cartogram a::before {
-    background-image: asset-url('digest', 'maps/house-cartogram-thumbnail.png');
+   // background-image: asset-url('digest', 'maps/house-cartogram-thumbnail.png');
   }
 }

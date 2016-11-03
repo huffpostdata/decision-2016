@@ -135,6 +135,21 @@ module.exports = class Database {
       changelog: this.house.changelog
     }))
 
+    const regionIdToRaces = apData.allRaceDetails()
+    this.regions = Object.keys(regionIdToRaces).map(regionId => {
+      const metadata = new PageMetadata(`state/${regionId}`, {
+        // TK
+        social_image: 'president-social.jpg' // TK is this okay?
+      })
+      metadata.url_route = [ 'state/:id', regionId ]
+      return {
+        id: regionId,
+        metadata: metadata,
+        races: regionIdToRaces[regionId],
+        jsonBuffer: Buffer.from(JSON.stringify(regionIdToRaces[regionId]), 'utf8')
+      }
+    })
+
     this.translatedSplash = []
     Object.keys(translations).forEach(locale => {
       const i18n = { locale: locale, phrases: translations[locale] }

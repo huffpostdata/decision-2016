@@ -8,8 +8,25 @@
 
     .map {
       position: relative;
-      min-width: 30rem;
+      min-width: 90%;
       flex: 1 1 auto;
+      margin-top: 1.5rem;
+
+     @media (min-width: 450px) {
+       margin-top: 5rem;
+       min-width: 30rem;
+      }
+
+    }
+
+    .map-switcher {
+      margin: 0 auto;
+      z-index: 1;
+
+      @media (min-width: 450px) {
+        position: absolute;
+      z-index: 1;
+      }
     }
 
     .map-info {

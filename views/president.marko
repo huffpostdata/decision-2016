@@ -1,6 +1,4 @@
-
 <!DOCTYPE html>
-
 html lang="en"
   head
     meta charset="utf-8"
@@ -20,10 +18,11 @@ html lang="en"
       p.explanation - Voters in each state decide how their state's <em>electors</em> will vote. Most states are winner-take-all: whoever wins in California earns all 55 of its electoral-college votes.
 
       .map-and-map-info
+        .map-switcher
+          $!{data.helpers.partial('president/_map-switcher')}
         .map
           $!{data.helpers.partial('president/_map')}
         .map-info
-          $!{data.helpers.partial('president/_map-switcher')}
           $!{data.helpers.partial('dashboard/_changelog')}
 
     $!{data.helpers.partial('dashboard/_recirc')}

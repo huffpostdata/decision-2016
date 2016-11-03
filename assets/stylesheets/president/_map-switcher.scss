@@ -2,10 +2,10 @@ body.president #map-switcher {
   @include map-switcher();
 
   .geography a::before {
-    background-image: asset-url('digest', 'maps/president-geography-thumbnail.png');
+    //background-image: asset-url('digest', 'maps/president-geography-thumbnail.png');
   }
 
   .cartogram a::before {
-    background-image: asset-url('digest', 'maps/president-cartogram-thumbnail.png');
+    //background-image: asset-url('digest', 'maps/president-cartogram-thumbnail.png');
   }
 }

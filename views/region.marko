@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+html lang="en"
+  head
+    meta charset="utf-8"
+    title - ${data.model.name}: Election 2016
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/dashboard.css')}"
+    link rel="shortcut icon" type="image/x-icon" href="${data.path_to_asset('digest', 'images/favicon.ico')}"
+    $!{data.helpers.partial('_social-meta')}
+  body.region
+    $!{data.helpers.partial('dashboard/_header')}
+
+    section.region.president
+      header
+        h1 - ${data.model.name}
+        $!{data.helpers.partial('dashboard/_refresh')}
+
+      .columns
+        .left-column
+          select.race-type
+            option value="president" selected - President
+            if(data.model.races.senate)
+              option value="senate" - Senate
+            option value="house" - House
+            if(data.model.races.ballot)
+              option value="ballot" - Ballot Initiatives
+
+          .house-only
+            .district-map.house-map - $!{data.helpers.districtSvg(data.model.id)}
+
+          .president-only
+            $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'President', race: data.model.races.president.race })}
+
+          if(data.model.races.senate)
+            .senate-only
+              $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'Senator', race: data.model.races.senate.race })}
+
+        .right-column
+          .president-only
+            .geo-map.president-map - $!{data.helpers.geoSvg(data.model.id)}
+
+          if(data.model.races.senate)
+            .senate-only
+              .geo-map.senate-map - $!{data.helpers.geoSvg(data.model.id)}
+
+          .house-only
+            - TK house stuff
+
+          .ballot-only
+            - TK ballot stuff
+
+    $!{data.helpers.partial('_footer')}
+
+    script src="${data.path_to_asset('javascript', 'javascripts/region.js')}" data-json="${JSON.stringify(data.model.races)}"
+    script src="${data.path_to_asset('digest', 'javascripts/social.js')}"
+    script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"

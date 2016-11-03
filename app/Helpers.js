@@ -15,8 +15,10 @@ class Helpers {
     this.context = context
   }
 
-  partial(name) {
-    return this.context.render_template(name, this.context)
+  partial(name, newModel) {
+    let newContext = this.context
+    if (newModel) newContext = extend_context(this.context, { model: newModel })
+    return this.context.render_template(name, newContext)
   }
 
   formatInt(i) {
@@ -40,6 +42,14 @@ class Helpers {
 
     return fs.readFileSync(`${__dirname}/../raw-assets/usa-map/president-tiny.svg`, 'utf-8')
       .replace(/class="(\w\w)"/g, (_, id) => `class="${idToClass[id]}"`)
+  }
+
+  geoSvg(regionId) {
+    return fs.readFileSync(`${__dirname}/../raw-assets/state-map-builder/output/${regionId}.svg`, 'utf8')
+  }
+
+  districtSvg(regionId) {
+    return fs.readFileSync(`${__dirname}/../raw-assets/state-map-builder/output/${regionId}.svg`, 'utf8')
   }
 
   // Changes 'Written by [Adam Hooper]' to 'Written by <a href="..."></a>'
