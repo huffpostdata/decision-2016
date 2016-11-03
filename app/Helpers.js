@@ -25,6 +25,41 @@ class Helpers {
     return formatInt(i)
   }
 
+  /**
+   * 1 => "1st", 2 => "2nd".
+   *
+   * Works for anything below 1,000.
+   */
+  formatOrdinal(i) {
+    if (i >= 4 && i < 20) return `${i}th`
+    switch (i % 10) {
+      case 1: return `${i}st`
+      case 2: return `${i}nd`
+      case 3: return `${i}rd`
+      default: return `${i}th`
+    }
+  }
+
+  /**
+   * Returns the fraction as a percantage.
+   *
+   * Watch out. This is a bit "custom" -- if you're going to change the logic,
+   * make sure the current clients can keep things the way they've always been.
+   */
+  formatPercent(numerator, denominator) {
+    if (numerator === 0 || denominator === 0) return '';
+
+    return (100 * numerator / denominator).toFixed(0) + '%';
+  }
+
+  formatFractionReporting(fraction) {
+    if (fraction === 0) return '0%'
+    if (fraction === 1) return '100%'
+    if (fraction < 0.01) return '<1%'
+    if (fraction > 0.99) return '>99%'
+    return `${Math.round(fraction * 100)}%`
+  }
+
   buildTranslateFunction(i18n) {
     const polyglot = new Polyglot({
       phrases: i18n.phrases,

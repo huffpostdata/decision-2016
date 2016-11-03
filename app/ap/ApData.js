@@ -257,6 +257,11 @@ function apRaceToHouseRace(apRace) {
   }
   race.winner = raceWinner(race)
   race.className = houseRaceClassName(race)
+  race.nVotes = countRaceVotes(race)
+
+  race.dem = race.candidates.find(c => c.partyId === 'dem')
+  race.gop = race.candidates.find(c => c.partyId === 'gop')
+  race.third = race.candidates.find(c => c !== race.dem && c !== race.gop)
 
   return race
 }
@@ -641,7 +646,8 @@ module.exports = class ApData {
           race: race,
           geos: apRaceToGeos(apRace)
         },
-        house: []
+        house: [],
+        ballot: []
       }
     }
 
@@ -659,6 +665,11 @@ module.exports = class ApData {
       const race = apRaceToHouseRace(apRace)
       const stateId = race.id.slice(0, 2)
       ret[stateId].house.push(race)
+    }
+
+    for (const stateId of Object.keys(ret)) {
+      ret[stateId].house.sort((a, b) => a.id.localeCompare(b.id))
+      ret[stateId].ballot.sort((a, b) => a.id.localeCompare(b.id))
     }
 
     return ret
