@@ -88,7 +88,10 @@ function getBattlegroundData(data) {
 }
 
 function updateData(data, i18n) {
-  var formatPercent = new Intl.NumberFormat(i18n.local, { style: 'percent' }).format;
+  function formatPercentForIE10(number) {
+    return Math.round(number*100)/100 + '%';
+  }
+  var formatPercent = typeof Intl === 'object' ? new Intl.NumberFormat(i18n.local, { style: 'percent' }).format : formatPercentForIE10;
   tableBody.innerHTML = "";
 
   for(var i = 0; i < data.length; i++) {
