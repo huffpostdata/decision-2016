@@ -6,37 +6,35 @@
 @import 'splash/bar/_senate';
 @import 'splash/bar/_house';
 
-body {
+html, body {
   margin: 0 auto;
   padding: 0;
-  width: 940px;
+  width: 980px;
   font-family: $body-font-family;
 }
 
 .columns {
   display: flex;
-  width: 940px;
-  margin: 0 auto;
 
   &>* {
-    flex: 1 1 auto;
     display: flex;
   }
 }
 
 .column-president {
-  padding-right: 1rem;
+  flex: 1 1 auto;
+  padding-right: 1rem; // not 1.5rem -- the contents have padding
 }
 
 .column-senate {
-  padding: 0 1rem;
+  padding: 0 1.5rem;
   border-left: 1px solid $color;
 }
 
 .column-house {
   width: 250px;
   border-left: 1px solid $color;
-  padding-left: 1rem;
+  padding-left: 1.5rem;
 }
 
 h2 {

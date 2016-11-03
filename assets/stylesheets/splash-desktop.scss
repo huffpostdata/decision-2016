@@ -1,6 +1,11 @@
 @import 'splash';
 @import 'proxima-nova-condensed-extra-bold';
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 .decision-iframe__splash {
   box-sizing: border-box;
   font-family: $body-font-family;
