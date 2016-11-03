@@ -26,7 +26,7 @@ html lang="en"
               option value="ballot" - Ballot Initiatives
 
           .house-only
-            .district-map - $!{data.helpers.districtSvg(data.model.id)}
+            .district-map.house-map - $!{data.helpers.districtSvg(data.model.id)}
 
           .president-only
             $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'President', race: data.model.races.president.race })}
@@ -36,8 +36,12 @@ html lang="en"
               $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'Senator', race: data.model.races.senate.race })}
 
         .right-column
-          .president-only.senate-only
-            .geo-map - $!{data.helpers.geoSvg(data.model.id)}
+          .president-only
+            .geo-map.president-map - $!{data.helpers.geoSvg(data.model.id)}
+
+          if(data.model.races.senate)
+            .senate-only
+              .geo-map.senate-map - $!{data.helpers.geoSvg(data.model.id)}
 
           .house-only
             - TK house stuff

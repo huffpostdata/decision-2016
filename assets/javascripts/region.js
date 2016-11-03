@@ -5,7 +5,15 @@ var initialJson = JSON.parse(document.querySelector('script[data-json]').getAttr
 
 raceTypeSwitcher(document.querySelector('select.race-type'), document.querySelector('section.region'));
 
-var map = new GeoMap({
-  svg: document.querySelector('.geo-map svg'),
+var presidentMap = new GeoMap({
+  svg: document.querySelector('.president-map svg'),
   geos: initialJson.president.geos
 });
+
+var senateSvg = document.querySelector('.senate-map svg');
+if (senateSvg) {
+  var senateMap = new GeoMap({
+    svg: senateSvg,
+    geos: initialJson.senate.geos
+  });
+}
