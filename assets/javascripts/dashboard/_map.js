@@ -1,7 +1,3 @@
-classNameForRace = {
-  AllClassNames: [ 'dem-win', 'gop-win', 'dem-lead', 'gop-lead', 'tossup' ]
-};
-
 var TransitDuration = 200; // ms
 
 function Point(x, y, len) {

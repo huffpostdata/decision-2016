@@ -1,5 +1,6 @@
 var raceTypeSwitcher = require('./dashboard/_race-type-switcher');
 var GeoMap = require('./region/GeoMap');
+var DistrictMap = require('./region/DistrictMap');
 
 var initialJson = JSON.parse(document.querySelector('script[data-json]').getAttribute('data-json'));
 
@@ -17,3 +18,8 @@ if (senateSvg) {
     geos: initialJson.senate.geos
   });
 }
+
+var houseMap = new DistrictMap({
+  svg: document.querySelector('.house-map svg'),
+  races: initialJson.house
+});
