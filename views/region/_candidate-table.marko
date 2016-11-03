@@ -1,0 +1,20 @@
+var formatInt=(new Intl.NumberFormat('en').format)
+var formatPercent=(new Intl.NumberFormat('en', { style: 'percent' }).format)
+
+var race=data.model.race
+
+.candidate-table
+  table
+    thead
+      tr
+        th.name - ${data.model.candidateTh}
+        th.votes - Votes
+        th.percent - Percent
+    tbody
+      for(candidate in race.candidates)
+        tr.${candidate.partyId}.${candidate.winner ? 'win' : ''}
+          td.name - ${candidate.name}
+          td.votes - ${formatInt(candidate.n)}
+          td.percent - ${formatPercent(race.nVotes === 0 ? 0 : candidate.n / race.nVotes)}
+
+  p.percent-reporting - ${formatPercent(race.fractionReporting)} of votes counted

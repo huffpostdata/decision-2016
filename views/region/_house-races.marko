@@ -1,0 +1,22 @@
+var races=data.model.races.house
+
+table
+  thead
+    tr
+      th.district - District
+      th.dem - Dem
+      th.gop - GOP
+      th.third - 3rd
+      th.percent - % Reporting
+
+  tbody
+    for(race in races)
+      tr data-race-id="${race.id}"
+        td.district - ${data.helpers.formatOrdinal(+race.id.slice(2))}
+        td.dem
+          if(race.dem) - ${data.helpers.formatPercent(race.dem.n, race.nVotes)}
+        td.gop
+          if(race.gop) - ${data.helpers.formatPercent(race.gop.n, race.nVotes)}
+        td.third
+          if(race.third) - ${data.helpers.formatPercent(race.third.n, race.nVotes)}
+        td.percent - ${data.helpers.formatFractionReporting(race.fractionReporting)}
