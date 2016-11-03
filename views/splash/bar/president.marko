@@ -7,12 +7,12 @@ a#president target="_top" href="${data.url_to('president')}"
     h2 - ${t('banner.President')}
     .map - $!{data.helpers.tinyPresidentMap(data.model.presidentRaces)}
 
-  .electoral-votes
+  .electoral-votes.${summary.className}
     h3 - ${t('h2.Electoral Votes')}
-    .clinton.${summary.winner == 'clinton' ? 'winner' : ''}
+    .clinton
       strong - ${formatInt(summary.nClintonElectoralVotes)}
       .popular - ${t('counts.n Popular Votes', summary.nClinton)}
-    .trump.${summary.winner == 'trump' ? 'winner' : ''}
+    .trump
       strong - ${formatInt(summary.nTrumpElectoralVotes)}
       .popular - ${t('counts.n Popular Votes', summary.nTrump)}
 

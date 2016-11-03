@@ -59,6 +59,8 @@
     }
   }
 
+  &.dem-win .legend .dem::before, &.gop-win .legend .gop::after { content: '✔'; }
+
   li {
     box-sizing: border-box;
     width: 10px;

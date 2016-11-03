@@ -37,13 +37,9 @@ describe('ApData', () => {
       it('should count nTossupElectoralVotes', () => {
         expect(summary.nTossupElectoralVotes).to.eq(99)
       })
-
-      it('should default to winner=null', () => {
-        expect(summary.winner).to.eq(null)
-      })
     }) // with sample data
 
-    it('should call for Clinton', () => {
+    it('should set className=clinton-win', () => {
       const apData = new ApData({
         findUSPresidentRace() { return {
           reportingUnits: [ { candidates: [
@@ -53,7 +49,46 @@ describe('ApData', () => {
           ]}]
         }}
       }, null)
-      expect(apData.presidentSummary().winner).to.eq('clinton')
+      expect(apData.presidentSummary().className).to.eq('clinton-win')
+    })
+
+    it('should set className=clinton-lead', () => {
+      const apData = new ApData({
+        findUSPresidentRace() { return {
+          reportingUnits: [ { candidates: [
+            { last: 'Clinton', voteCount: 23456, electWon: 100, winner: '' },
+            { last: 'Trump', voteCount: 12345, electWon: 99, winner: '' },
+            { last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
+          ]}]
+        }}
+      }, null)
+      expect(apData.presidentSummary().className).to.eq('clinton-lead')
+    })
+
+    it('should set className=tossup', () => {
+      const apData = new ApData({
+        findUSPresidentRace() { return {
+          reportingUnits: [ { candidates: [
+            { last: 'Clinton', voteCount: 23456, electWon: 100, winner: '' },
+            { last: 'Trump', voteCount: 12345, electWon: 100, winner: '' },
+            { last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
+          ]}]
+        }}
+      }, null)
+      expect(apData.presidentSummary().className).to.eq('tossup')
+    })
+
+    it('should set className=trump-lead', () => {
+      const apData = new ApData({
+        findUSPresidentRace() { return {
+          reportingUnits: [ { candidates: [
+            { last: 'Clinton', voteCount: 23456, electWon: 99, winner: '' },
+            { last: 'Trump', voteCount: 12345, electWon: 100, winner: '' },
+            { last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
+          ]}]
+        }}
+      }, null)
+      expect(apData.presidentSummary().className).to.eq('trump-lead')
     })
 
     it('should call for Trump', () => {
@@ -66,7 +101,7 @@ describe('ApData', () => {
           ]}]
         }}
       }, null)
-      expect(apData.presidentSummary().winner).to.eq('trump')
+      expect(apData.presidentSummary().className).to.eq('trump-win')
     })
 
     it('should set nOtherElectoralVotes', () => {
@@ -391,6 +426,8 @@ describe('ApData', () => {
         gop: 561 * 4
       })
     })
+
+    it('should set className')
   }) // #senateSummary
 
   describe('#houseSummary', () => {
@@ -465,6 +502,8 @@ describe('ApData', () => {
         gop: 377580
       })
     })
+
+    it('should set className')
   }) // #houseSummary
 
   describe('#senateRaces', () => {
