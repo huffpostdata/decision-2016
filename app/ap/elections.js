@@ -116,6 +116,19 @@ class Elections {
 
     return ret
   }
+
+  /**
+   * Returns AP's JSON for ballot initiatives.
+   */
+  findBallotInitiativeRaces() {
+    const ret = []
+
+    for (const race of this.json.races) {
+      if (race.officeID === 'I') ret.push(race)
+    }
+
+    return ret
+  }
 }
 
 module.exports = {

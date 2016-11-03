@@ -2,6 +2,7 @@
 
 const fs = require('fs')
 const SenatePriorSeats = require('../SenatePriorSeats')
+const BallotInitiatives = require('../BallotInitiatives')
 
 const StateCodeToStateName = fs.readFileSync(`${__dirname}/../google-sheets/regions.tsv`, 'utf8')
   .split(/\r?\n/)
@@ -286,6 +287,40 @@ function apRaceToGeos(apRace) {
   }
 
   return ret
+}
+
+function apRaceToBallotInitiativeRace(apRace) {
+  const state = apRace.reportingUnits[0]
+  const id = `${state.statePostal}B${apRace.raceID}`
+
+  if (!BallotInitiatives.hasOwnProperty(id)) return null
+  const ballotInitiative = BallotInitiatives[id]
+
+  const apYay = state.candidates.find(c => c.party === 'Yes')
+  const apNay = state.candidates.find(c => c.party === 'No')
+
+  let nVotes = 0
+  for (const apCandidate of state.candidates) nVotes += apCandidate.voteCount
+
+  return {
+    id: id,
+    fractionReporting: state.precinctsReporting === 0 ? 0 : state.precinctsReporting / state.precinctsTotal,
+    nVotes: nVotes,
+    name: ballotInitiative.name,
+    description: ballotInitiative.description,
+    href: ballotInitiative.href,
+    yay: {
+      name: apYay.last,
+      winner: apYay.winner === 'X',
+      n: apYay.voteCount
+    },
+    nay: {
+      name: apNay.last,
+      winner: apNay.winner === 'X',
+      n: apNay.voteCount
+    },
+    className: apYay.winner === 'X' ? 'yay-win' : (apNay.winner === 'X' ? 'nay-win' : 'tossup')
+  }
 }
 
 /**
@@ -665,6 +700,13 @@ module.exports = class ApData {
       const race = apRaceToHouseRace(apRace)
       const stateId = race.id.slice(0, 2)
       ret[stateId].house.push(race)
+    }
+
+    for (const apRace of this.reportingUnitElections.findBallotInitiativeRaces()) {
+      const race = apRaceToBallotInitiativeRace(apRace)
+      if (!race) continue // we aren't covering this one
+      const stateId = race.id.slice(0, 2)
+      ret[stateId].ballot.push(race)
     }
 
     for (const stateId of Object.keys(ret)) {
