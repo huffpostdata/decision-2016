@@ -138,7 +138,5 @@ banner.House		HOUSE					مجلس النواب	Repräsentantenhaus	Βουλή τ�
 counts.n Dem	Not much space; appears on post-elections results bars	%{smart_count} DEM |||| %{smart_count} DEM					%{smart_count} ديمو |||| %{smart_count} ديمو	%{smart_count} DEM |||| %{smart_count} DEM			%{smart_count} DEM |||| %{smart_count} DEM				%{smart_count} DEM |||| %{smart_count} DEM	%{smart_count} 民主党 |||| %{smart_count} 民主党		%{smart_count} DEM |||| %{smart_count} DEM
 counts.n GOP		%{smart_count} GOP |||| %{smart_count} GOP					%{smart_count} جمهو|||| %{smart_count} جمهو	%{smart_count} GOP |||| %{smart_count} GOP			%{smart_count} REP|||| %{smart_count} REP				%{smart_count} REP|||| %{smart_count} REP	%{smart_count} 共和党 |||| %{smart_count} 共和党		%{smart_count} REP |||| %{smart_count} RED
 banner.Balance of power	Appears above post-elections results bars. Write "<br>" to line-wrap, if you need the space.	Balance<br>of power					توزع<br>السلطة				Balance<br>del poder				Distribuzione degli Stati	パワー<br>バランス		Distribuição dos Estados
-counts.House TK seats up for grabs		%{smart_count} seats up for grabs																
-counts.Senate TK seats up for grabs		%{smart_count} seats up for grabs																
-banner.Splash House Balance of Power		Seat will decide<br>balance of power																
-banner.Splash Senate Balance of Power		Balance of power<br>(decided by VP in a tie)																
+house.Balance of Power		Seat will decide<br>balance of power																
+senate.Balance of Power		Balance of power<br>(decided by VP in a tie)																
