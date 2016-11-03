@@ -15,8 +15,10 @@ class Helpers {
     this.context = context
   }
 
-  partial(name) {
-    return this.context.render_template(name, this.context)
+  partial(name, newModel) {
+    let newContext = this.context
+    if (newModel) newContext = extend_context(this.context, { model: newModel })
+    return this.context.render_template(name, newContext)
   }
 
   formatInt(i) {
