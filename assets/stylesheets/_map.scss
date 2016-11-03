@@ -67,34 +67,15 @@
     color: inherit;
     position: relative;
     text-decoration: none;
-
-   // &:hover { opacity: .7; }
-    
-
-    &::before {
-      content: '';
-      display: inline-block;
-      width: 4rem;
-      height: .5rem / $map-golden-ratio;
-      border: 1px solid black;
-      background-size: 4rem (4rem / $map-golden-ratio);
-      background-repeat: no-repeat;
-      background-position: center center;
-      padding: .1rem 1rem;
-    }
-  }
-
-.geography a::before {
-   border-radius: 10px 0px 0px 10px;
-   background-color: $very-very-muted-color;
-
-
-      
-  }
-
-.cartogram a::before {
-    border-radius: 0px 10px 10px 0px;
-    background-color: $very-very-muted-color;
+    content: '';
+        display: inline-block;
+        width: 7rem;
+        height: 1.35rem / $map-golden-ratio;
+        border: 1px solid black;
+        background-size: 7rem (7rem / $map-golden-ratio);
+        background-repeat: no-repeat;
+        background-position: center center;
+        padding: .3rem .3rem;
   }
 
   .cartogram, .geography {
@@ -106,7 +87,6 @@
 
   &.cartogram .cartogram, &.geography .geography {
     opacity: 1;
-    box-shadow: none;
     .text { display: block; }
   }
 
@@ -122,16 +102,18 @@
     font-family: $body-font-family;
     font-weight: bold;
     text-transform: uppercase;
-    font-size: .7rem;
+    font-size: .75rem;
+    line-height: .85rem;
     text-align: center;
-    margin: 0;
+    margin: auto;
+
   }
 
   .text {
     position: absolute;
-    width: 10rem;
-    left: 1rem;
-    top: 3rem;
+    width: 13rem;
+    left: 1.1rem;
+    top: 2.3rem;
     font-style: italic;
     font-size: .85rem;
     line-height: .9rem;

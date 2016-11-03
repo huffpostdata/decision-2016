@@ -1,6 +1,3 @@
-var formatInt=(new Intl.NumberFormat('en').format)
-var formatPercent=(new Intl.NumberFormat('en', { style: 'percent' }).format)
-
 <!DOCTYPE html>
 html lang="en"
   head
@@ -29,31 +26,22 @@ html lang="en"
               option value="ballot" - Ballot Initiatives
 
           .house-only
-            .district-map - $!{data.helpers.districtSvg(data.model.id)}
+            .district-map.house-map - $!{data.helpers.districtSvg(data.model.id)}
 
           .president-only
-            var race=data.model.races.president.race
-            table
-              thead
-                tr
-                  th.name - President
-                  th.votes - Votes
-                  th.percent - Percent
-              tbody
-                for(candidate in race.candidates)
-                  tr.${candidate.partyId}.${candidate.winner ? 'win' : ''}
-                    td.name - ${candidate.name}
-                    td.votes - ${formatInt(candidate.n)}
-                    td.percent - ${formatPercent(race.nVotes === 0 ? 0 : candidate.n / race.nVotes)}
+            $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'President', race: data.model.races.president.race })}
 
-            p.percent-reporting - ${formatPercent(race.fractionReporting)} of votes counted
-
-          .senate-only
-            - TK senate stuff
+          if(data.model.races.senate)
+            .senate-only
+              $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'Senator', race: data.model.races.senate.race })}
 
         .right-column
-          .president-only.senate-only
-            .geo-map - $!{data.helpers.geoSvg(data.model.id)}
+          .president-only
+            .geo-map.president-map - $!{data.helpers.geoSvg(data.model.id)}
+
+          if(data.model.races.senate)
+            .senate-only
+              .geo-map.senate-map - $!{data.helpers.geoSvg(data.model.id)}
 
           .house-only
             - TK house stuff
