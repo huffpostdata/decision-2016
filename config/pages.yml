@@ -11,6 +11,7 @@ splash.js:
   model: splash
   headers:
     Content-Type: application/javascript
+    Cache-Control: public, max-age=5
 
 splash/:locale:
   collection: translatedSplash
@@ -36,12 +37,31 @@ _test/splash/i18n:
 
 president:
   model: president
+  headers:
+    Cache-Control: public, max-age=5
 
 senate:
   model: senate
+  headers:
+    Cache-Control: public, max-age=5
 
 house:
   model: house
+  headers:
+    Cache-Control: public, max-age=5
+
+state/:id:
+  collection: regions
+  template: region
+  headers:
+    Cache-Control: public, max-age=5
+
+state/:id.json:
+  collection: regions
+  blob: jsonBuffer
+  headers:
+    Content-Type: application/json
+    Cache-Control: public, max-age=5
 
 president.json:
   model: presidentAsBuffer

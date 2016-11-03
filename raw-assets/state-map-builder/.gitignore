@@ -1,6 +1,5 @@
 input/*
 !input/readme.txt
-output/*.svg
 output/tiny/*.svg
 node_modules
 npm-debug.log

@@ -42,6 +42,14 @@ class Helpers {
       .replace(/class="(\w\w)"/g, (_, id) => `class="${idToClass[id]}"`)
   }
 
+  geoSvg(regionId) {
+    return fs.readFileSync(`${__dirname}/../raw-assets/state-map-builder/output/${regionId}.svg`, 'utf8')
+  }
+
+  districtSvg(regionId) {
+    return fs.readFileSync(`${__dirname}/../raw-assets/state-map-builder/output/${regionId}.svg`, 'utf8')
+  }
+
   // Changes 'Written by [Adam Hooper]' to 'Written by <a href="..."></a>'
   format_authors(author) {
     function name_to_href(name) {

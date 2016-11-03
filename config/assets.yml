@@ -3,6 +3,7 @@ javascript:
   president.js: javascripts/president.js
   senate.js: javascripts/senate.js
   house.js: javascripts/house.js
+  region.js: javascripts/region.js
   splash/desktop.js: javascripts/splash/desktop.js
 
 scss:
