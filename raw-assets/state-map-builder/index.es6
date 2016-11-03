@@ -203,7 +203,7 @@ const compress_svg_path = (path) => {
 
   const flush = () => {
     if (current_line.instruction) {
-      out.push(`${current_line.instruction}${current_line.d}`)
+      out.push(`${current_line.instruction} ${current_line.d}`)
       current_line.instruction = current_line.d = null
     }
   }
@@ -239,7 +239,7 @@ const compress_svg_path = (path) => {
 
         last_point = point
         last_instruction = 'M'
-        out.push(`M${point[0]},${point[1]}`)
+        out.push(`M${point[0]} ${point[1]}`)
         break
 
       case 'L':
@@ -264,7 +264,7 @@ const compress_svg_path = (path) => {
             flush()
             let instruction = 'l'//last_instruction == 'l' ? ' ' : 'l'
             // last_instruction = 'l'
-            out.push(`${instruction}${dx},${dy}`)
+            out.push(`${instruction} ${dx} ${dy}`)
           }
         }
 
@@ -283,7 +283,7 @@ const compress_svg_path = (path) => {
   }
 
   flush()
-  return out.join('')
+  return out.join('\n')
 }
 
 const distance2 = (p1, p2) => {
@@ -294,6 +294,7 @@ const distance2 = (p1, p2) => {
 
 // Returns a <path class="state">
 const render_state_path = (path, topology) => {
+  console.log('rendering state path')
   // console.log(topology.objects.state)
   let d = path(topojson.feature(topology, topology.objects.state))
   d = compress_svg_path(d)
@@ -302,6 +303,7 @@ const render_state_path = (path, topology) => {
 
 // Returns a <path class="mesh">
 const render_mesh_path = (path, topology, key) => {
+  console.log('rendering mesh path')
   let type = null
   switch(key) {
     case ('counties'):
@@ -326,6 +328,7 @@ const render_mesh_path = (path, topology, key) => {
 
 // Returns a <g class="counties"> full of <path data-fips-int=..">
 const render_g_element = (path, topology, geometries, key, st_code) => {
+  console.log('rendering g element')
   const ret = [ `<g class="${key}">` ]
   let idBase = null
   let dataIdKey = null
@@ -347,7 +350,7 @@ const render_g_element = (path, topology, geometries, key, st_code) => {
 
   }
   ret.push('</g>')
-  return ret.join('')
+  return ret.join('\n')
 }
 
 const render_geo_svg = (state_code, feature_set, options, callback) => {
@@ -366,13 +369,12 @@ const render_geo_svg = (state_code, feature_set, options, callback) => {
     `<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" width=\"${width}\" height=\"${height}\" viewBox=\"0 0 ${width} ${height}\">`
   ]
   if (topology.objects.subcounties && topology.objects.subcounties.geometries) {
+    console.log('rendering subcounties')
     geo_data.push(render_g_element(path, topology, topology.objects.subcounties.geometries, 'geos', st_abbr))
-    geo_data.push(render_mesh_path(path, topology, 'geos'))
-  } else {
-    if (topology.objects.counties && topology.objects.counties.geometries) {
+    geo_data.push(render_mesh_path(path, topology, 'subcounties'))
+  } else if (topology.objects.counties && topology.objects.counties.geometries) {
       geo_data.push(render_g_element(path, topology, topology.objects.counties.geometries, 'geos', st_abbr))
       geo_data.push(render_mesh_path(path, topology, 'counties'))
-    }
   }
 
   const geo_data_string = geo_data.join('\n')
@@ -460,17 +462,23 @@ const grok_input_land_features = (input_land_features) => {
 
 const grok_input_geo_features = (input_geo_features) => {
   const ret = []
+
   for (let feature of input_geo_features) {
     const p = feature.properties
+    const geometry = geojson_geometry_to_jsts_geometry(feature.geometry)
 
-    ret.push(new JstsFeature(
-      geojson_geometry_to_jsts_geometry(feature.geometry),
-      {
-        'fips_string': p.GEOID,
-        'state': fipsToState[p.STATEFP],
-        'name': p.NAME || p.NAMELSAD
-      }
-    ))
+    if([ 'Polygon', 'MultiPolygon' ].indexOf(geometry.getGeometryType()) === -1)
+      throw new Error(`Unexpected geometry type ${geometry.getGeometryType()}: ` + JSON.stringify(geometry))
+
+    if (!geometry.isEmpty())
+      ret.push(new JstsFeature(
+        geometry,
+        {
+          'fips_string': p.GEOID,
+          'state': fipsToState[p.STATEFP],
+          'name': p.NAME || p.NAMELSAD
+        }
+      ))
   }
   return ret
 }
@@ -551,11 +559,13 @@ const render_state = (state_code, options, callback) => {
   const input_county_features = featuresByState[state_code]['counties']
   const input_subcounty_features = featuresByState[state_code]['subcounties']
 
+  if (fipsToState[state_code] === 'HI') { console.log(input_county_features)}
+
   const jsts_land_features = grok_input_land_features(input_land_features)
   const jsts_state_multipolygon = jsts_features_to_state_multipolygon(jsts_land_features)
   const jsts_district_features = grok_input_intersected_features(input_district_features, jsts_state_multipolygon)
-  const jsts_county_features = grok_input_geo_features(input_county_features, jsts_state_multipolygon)
-  const jsts_subcounty_features = grok_input_geo_features(input_subcounty_features, jsts_state_multipolygon)
+  const jsts_county_features = grok_input_intersected_features(input_county_features, jsts_state_multipolygon)
+  const jsts_subcounty_features = grok_input_intersected_features(input_subcounty_features, jsts_state_multipolygon)
 
   const feature_set = new StateFeatureSet(
     jsts_state_multipolygon,
@@ -566,11 +576,11 @@ const render_state = (state_code, options, callback) => {
 
   render_district_svg(state_code, feature_set, options, (err) => {
     if (err) return callback(err)
-    render_geo_svg(state_code, feature_set, options, (err) => {
-      if (err) return callback(err)
-    })
-    render_tiny_state_svg(state_code, jsts_state_multipolygon, {}, callback)
   })
+  render_geo_svg(state_code, feature_set, options, (err) => {
+    if (err) return callback(err)
+  })
+  render_tiny_state_svg(state_code, jsts_state_multipolygon, {}, callback)
 }
 
 const render_all_states = (callback) => {
