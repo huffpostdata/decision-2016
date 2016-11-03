@@ -203,7 +203,7 @@ const compress_svg_path = (path) => {
 
   const flush = () => {
     if (current_line.instruction) {
-      out.push(`${current_line.instruction} ${current_line.d}`)
+      out.push(`${current_line.instruction}${current_line.d}`)
       current_line.instruction = current_line.d = null
     }
   }
@@ -239,7 +239,7 @@ const compress_svg_path = (path) => {
 
         last_point = point
         last_instruction = 'M'
-        out.push(`M${point[0]} ${point[1]}`)
+        out.push(`M${point[0]},${point[1]}`)
         break
 
       case 'L':
@@ -264,7 +264,7 @@ const compress_svg_path = (path) => {
             flush()
             let instruction = 'l'//last_instruction == 'l' ? ' ' : 'l'
             // last_instruction = 'l'
-            out.push(`${instruction} ${dx} ${dy}`)
+            out.push(`${instruction}${dx},${dy}`)
           }
         }
 
@@ -283,7 +283,7 @@ const compress_svg_path = (path) => {
   }
 
   flush()
-  return out.join('\n')
+  return out.join('')
 }
 
 const distance2 = (p1, p2) => {
@@ -350,7 +350,7 @@ const render_g_element = (path, topology, geometries, key, st_code) => {
 
   }
   ret.push('</g>')
-  return ret.join('\n')
+  return ret.join('')
 }
 
 const render_geo_svg = (state_code, feature_set, options, callback) => {
@@ -377,7 +377,7 @@ const render_geo_svg = (state_code, feature_set, options, callback) => {
       geo_data.push(render_mesh_path(path, topology, 'counties'))
   }
 
-  const geo_data_string = geo_data.join('\n')
+  const geo_data_string = geo_data.join('')
 
   fs.writeFile(geo_output_filename, geo_data_string, callback)
 }
@@ -405,7 +405,7 @@ const render_district_svg = (state_code, feature_set, options, callback) => {
   dist_data.push(render_mesh_path(path, topology, 'districts'))
   dist_data.push('</svg>')
 
-  const dist_data_string = dist_data.join('\n')
+  const dist_data_string = dist_data.join('')
 
   fs.writeFile(dist_output_filename, dist_data_string, callback)
 }
@@ -431,7 +431,7 @@ const render_tiny_state_svg = (state_code, jsts_state_multipolygon, options, cal
     "</svg>"
   ]
 
-  const data_string = data.join('\n')
+  const data_string = data.join('')
   fs.writeFile(output_filename, data_string, callback)
 }
 
