@@ -111,17 +111,15 @@ if (electoralPlacement) {
   }
 
   function normalizeData(data, i18n) {
-    var format = new window.Intl.NumberFormat(i18n.locale).format;
-
     return {
       clinton: {
         electoral: data.nClintonElectoralVotes,
-        electoral_display: format(data.nClintonElectoralVotes),
+        electoral_display: i18n.numberFormat(data.nClintonElectoralVotes),
         popular: data.nClinton,
       },
       trump: {
         electoral: data.nTrumpElectoralVotes,
-        electoral_display: format(data.nTrumpElectoralVotes),
+        electoral_display: i18n.numberFormat(data.nTrumpElectoralVotes),
         popular: data.nTrump,
       },
       winner: data.winner

@@ -108,7 +108,11 @@ function updateSenateSeats(data) {
 }
 
 function repeatBoxes(times, css) {
-  return new Array(times).fill("<div class='" + css + "'></div>").join('');
+  var boxes = [];
+  for(var i=0; times > i; i ++) {
+    boxes.push('<div class="' + css + '"></div>');
+  }
+  return boxes.join('')
 }
 
 module.exports = {
