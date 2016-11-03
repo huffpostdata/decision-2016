@@ -6,12 +6,11 @@ function DistrictMap(options) {
 
   this.raceIdToPath = {};
 
-  var paths = this.svg.querySelectorAll('path[class^=district-]');
+  var paths = this.svg.querySelectorAll('path[data-race-id]');
   for (var i = 0; i < paths.length; i++) {
     var path = paths[i];
-    var raceId = window.location.pathname.slice(20, 22) + path.getAttribute('class').slice(11); // TK var raceId = path.getAttribute('data-race-id');
+    var raceId = path.getAttribute('data-race-id');
     this.raceIdToPath[raceId] = path;
-    console.log(path, raceId)
   }
 
   this.recolor();

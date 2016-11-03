@@ -6,10 +6,10 @@ function GeoMap(options) {
 
   this.geoIdToPath = {};
 
-  var paths = this.svg.querySelectorAll('path[class^=geo-]');
+  var paths = this.svg.querySelectorAll('path[data-geo-id]');
   for (var i = 0; i < paths.length; i++) {
     var path = paths[i];
-    var geoId = this.geos[0].id.slice(0, 2) + path.getAttribute('class').slice(4); // TK var geoId = path.getAttribute('data-geo-id');
+    var geoId = path.getAttribute('data-geo-id');
     this.geoIdToPath[geoId] = path;
   }
 
