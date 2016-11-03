@@ -604,7 +604,7 @@ module.exports = class ApData {
 
     var nWin = Math.ceil(NRaces / 2);
     const className = wins.dem >= nWin ? 'dem-win'
-      : (wins.gop > nWin ? 'gop-win'
+      : (wins.gop >= nWin ? 'gop-win'
         : (wins.dem > wins.gop ? 'dem-lead'
           : (wins.gop > wins.dem ? 'gop-lead' : 'tossup')));
 
@@ -612,7 +612,8 @@ module.exports = class ApData {
       total: NRaces,
       tossup: NRaces - nWins,
       wins: wins,
-      popular: popular
+      popular: popular,
+      className: className
     }
   }
 
