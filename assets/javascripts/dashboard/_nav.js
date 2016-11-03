@@ -12,22 +12,14 @@ function refreshEls(els, summaries) {
   setWidth(bars.clinton, summary.nClintonElectoralVotes, summary.nElectoralVotes);
   setWidth(bars.trump, summary.nTrumpElectoralVotes, summary.nElectoralVotes);
   setWidth(bars.tossup, summary.nTossupElectoralVotes, summary.nElectoralVotes);
-  els.president.image.className = 'image ' + (
-    summary.winner ? (summary.winner + '-win')
-    : (summary.nClintonElectoralVotes > summary.nTrumpElectoralVotes ? 'clinton-lead'
-      : (summary.nTrumpElectoralVotes > summary.nClintonElectoralVotes ? 'trump-lead' : '')));
+  els.president.image.className = 'image ' + summary.className;
 
   bars = els.senate.bars;
   summary = summaries.senate;
   setWidth(bars.dem, summary.totals.dem, summary.n);
   setWidth(bars.gop, summary.totals.gop, summary.n);
   setWidth(bars.tossup, summary.tossup, summary.n);
-  els.senate.image.className = 'image ' + (
-    summary.totals.dem > 50 ? 'dem-win'
-    : (summary.totals.gop > 50 ? 'gop-win'
-      : (summary.totals.dem > summary.totals.gop ? 'dem-lead'
-        : (summary.totals.gop > summary.totals.dem ? 'gop-lead'
-          : (summary.totals.dem === 50 ? 'tie' : 'tossup')))));
+  els.senate.image.className = 'image ' + summary.className;
 
   bars = els.house.bars;
   summary = summaries.house;
@@ -35,13 +27,7 @@ function refreshEls(els, summaries) {
   setWidth(bars.gop, summary.wins.gop, summary.total);
   setWidth(bars.tossup, summary.tossup, summary.total);
   setWidth(bars.other, summary.total - summary.tossup - summary.wins.dem - summary.wins.gop, summary.total);
-  var nWin = Math.ceil(summary.total / 2);
-  els.house.image.className = 'image ' + (
-    summary.wins.dem >= nWin ? 'dem-win'
-    : (summary.wins.gop > nWin ? 'gop-win'
-      : (summary.wins.dem > summary.wins.gop ? 'dem-lead'
-        : (summary.wins.gop > summary.wins.dem ? 'gop-lead'
-          : (summary.wins.tossup === 0 ? 'tie' : 'tossup')))));
+  els.house.image.className = 'image ' + summary.className;
 }
 
 /**
