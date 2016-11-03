@@ -22,7 +22,7 @@ nav {
     margin-bottom: -1px; // bottom border goes on _top_ of tab-bar bottom
 
     &.current {
-      border-bottom-color: $background;
+      border-bottom-color: black;
 
     
     }
@@ -125,10 +125,10 @@ nav {
       &::after { content: 'Win'; }
     }
     &.clinton-lead, &.clinton-win {
-      background-image: asset-url('digest', 'images/dashboard/clinton-bust.png');
+      background-image: asset-url('digest', 'images/dashboard/dem.svg');
     }
     &.trump-lead, &.trump-win {
-      background-image: asset-url('digest', 'images/dashboard/trump-bust.png');
+      background-image: asset-url('digest', 'images/dashboard/gop.svg');
     }
     &.dem-lead, &.dem-win {
       background-image: asset-url('digest', 'images/dashboard/dem.svg');

@@ -54,10 +54,10 @@
   padding: 0 1rem;
 
   .switch {
-    margin-top: .5rem;
+    margin-top: .2rem;
     display: inline-flex;
     position: relative;
-    padding-bottom: 2.5rem; // for .text
+    padding-bottom: 2rem; // for .text
 
     &>*:last-child { margin-left: -1px; }
   }
@@ -67,33 +67,38 @@
     color: inherit;
     position: relative;
     text-decoration: none;
+
+   // &:hover { opacity: .7; }
     
 
     &::before {
       content: '';
       display: inline-block;
-      width: 4.3rem;
-      height: 4.3rem / $map-golden-ratio;
+      width: 4rem;
+      height: .5rem / $map-golden-ratio;
       border: 1px solid black;
-      background-size: 4.5rem (4.5rem / $map-golden-ratio);
+      background-size: 4rem (4rem / $map-golden-ratio);
       background-repeat: no-repeat;
       background-position: center center;
-      padding: .5rem 1rem;
+      padding: .1rem 1rem;
     }
   }
 
 .geography a::before {
-   border-radius: 5px 0px 0px 5px;
+   border-radius: 10px 0px 0px 10px;
+   background-color: $very-very-muted-color;
+
+
       
   }
 
 .cartogram a::before {
-    border-radius: 0px 5px 5px 0px;
+    border-radius: 0px 10px 10px 0px;
+    background-color: $very-very-muted-color;
   }
 
   .cartogram, .geography {
     opacity: .3;
-    & a::before{box-shadow: inset 0 0 .2em $very-muted-color; }
     
     transition: opacity 200ms ease-in-out;
     .text { display: none; }
@@ -108,6 +113,7 @@
   h4 {
     font-family: $header-font-family;
     margin: 0;
+    font-size: .85rem;
     text-align: center;
     text-transform: uppercase;
   }
@@ -116,7 +122,7 @@
     font-family: $body-font-family;
     font-weight: bold;
     text-transform: uppercase;
-    font-size: .75rem;
+    font-size: .7rem;
     text-align: center;
     margin: 0;
   }
@@ -124,8 +130,8 @@
   .text {
     position: absolute;
     width: 10rem;
-    left: 1.9rem;
-    top: 6rem;
+    left: 1rem;
+    top: 3rem;
     font-style: italic;
     font-size: .85rem;
     line-height: .9rem;

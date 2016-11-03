@@ -49,7 +49,7 @@ const X0 = Math.round(0.5 * (dims.Width - NStatesWide * StateSize))
 const Y0 = Math.round(0.5 * (dims.Height - NStatesTall * StateSize))
 
 // stylistic parameter. 0 and StateSize make triangles; between them makes trapezoids
-const Slant = Math.floor(StateSize * 0.6)
+const Slant = Math.floor(StateSize * 0)
 const OffSlant = StateSize - Slant
 
 const Features = []
