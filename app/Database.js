@@ -80,10 +80,10 @@ module.exports = class Database {
     const NChangeLogEntries = 5
 
     this.splash = {
-      president: summaries.president,
+      summaries: summaries,
       races: presidentRaces,
-      senate: summaries.senate,
-      house: summaries.house,
+      senateRaces: senateRaces,
+      houseRaces: houseRaces,
       battlegrounds: battlegrounds,
       i18n: {
         locale: 'en',

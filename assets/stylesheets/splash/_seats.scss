@@ -1,92 +1,53 @@
+@import '../splash-bar';
+
 #election_seats{
-  max-width: 280px;
+  max-width: 250px;
   width: 100%;
   margin: 20px auto;
   box-sizing: border-box;
+  text-align: center;
 
-  .bar {
-    margin: 25px auto;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-
-    .middle {
-      height: calc(100% + 10px);
-      width: 3px;
-      margin-top: -5px;
-      margin-bottom: -5px;
-      background: #444;
-    }
-
-    .box {
-      box-sizing: border-box;
-      border: 1px solid white;
-      border-top: 0;
-      border-left: 0;
-      background: #ddd;
-
-      &.dem {
-        background-color: $dem-color;
-        &--priors {
-          background-color: $dem-lead-color;
-        }
-      }
-
-      &.gop {
-        background-color: $gop-color;
-        &--priors {
-          background-color: $gop-lead-color;
-        }
-      }
-
-      &.other {
-        background-color: $other-color;
-      }
-
-      &.tossup {
-        background-color: $tossup-color;
-      }
-
-
-      &.not-in-play {
-        opacity: .25;
-      }
-
-      &.space {
-        background: #fff;
-      }
-
-    }
-
-    &-senate {
-      width: 250px;
+  #house ol.races {
+    height: 55px;
+    margin: 0 auto;
+    &::before {
       height: 40px;
-
-      .box {
-        width: 10px;
-        height: 10px;
-      }
     }
+  }
 
-    &-house {
-      width: 245px;
-      height: 45px;
+  #senate {
+    border-bottom: 1px solid #999;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
 
-      .box {
-        width: 5px;
-        height: 5px;
+    ol.races {
+      height: 50px;
+      margin: 0 auto;
+      &::before {
+        height: 40px;
       }
     }
   }
 
-  .seats-link {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .senate-seats-blurb {
-    color: #aaa;
-    font-size: 12px;
-    text-align: center;
+  #house_seats a,
+  #senate_seats a{
+    h2,
+    .count,
+    .races,
+    .legend {
+      padding-bottom: .5rem;
+    }
+    .legend {
+      order: 5;
+      height: 3rem;
+      align-items: flex-start;
+      .balance {
+        font-size: 0.75rem;
+        align-self: flex-end;
+      }
+    }
+    .details {
+      display: none;
+    }
   }
 }
