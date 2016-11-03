@@ -20,7 +20,7 @@ html lang="en"
 
       .columns
         .left-column
-          select#race-type
+          select.race-type
             option value="president" selected - President
             if(data.model.races.senate)
               option value="senate" - Senate
@@ -29,7 +29,7 @@ html lang="en"
               option value="ballot" - Ballot Initiatives
 
           .house-only
-            #district-map - $!{data.helpers.districtSvg(data.model.id)}
+            .district-map - $!{data.helpers.districtSvg(data.model.id)}
 
           .president-only
             var race=data.model.races.president.race
@@ -53,7 +53,7 @@ html lang="en"
 
         .right-column
           .president-only.senate-only
-            #geo-map - $!{data.helpers.geoSvg(data.model.id)}
+            .geo-map - $!{data.helpers.geoSvg(data.model.id)}
 
           .house-only
             - TK house stuff
