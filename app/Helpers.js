@@ -43,11 +43,11 @@ class Helpers {
   }
 
   geoSvg(regionId) {
-    return fs.readFileSync(`${__dirname}/../raw-assets/state-map-builder/output/${regionId}.svg`, 'utf8')
+    return fs.readFileSync(`${__dirname}/../raw-assets/state-map-builder/output/geo-maps/${regionId}.svg`, 'utf8')
   }
 
   districtSvg(regionId) {
-    return fs.readFileSync(`${__dirname}/../raw-assets/state-map-builder/output/${regionId}.svg`, 'utf8')
+    return fs.readFileSync(`${__dirname}/../raw-assets/state-map-builder/output/district-maps/${regionId}.svg`, 'utf8')
   }
 
   // Changes 'Written by [Adam Hooper]' to 'Written by <a href="..."></a>'
