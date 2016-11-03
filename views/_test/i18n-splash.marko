@@ -39,12 +39,12 @@ html lang="en"
       function refreshFromHash() {
         var locale = window.location.hash.slice(1) || 'en';
 
-        var embedCode = '<iframe width="980" height="700" style="border:0" src="' + urlTemplate.replace('LOCALE', locale) + '"></iframe>';
+        var embedCode = '<iframe width="980" height="810" scrolling="no" style="border:0" src="' + urlTemplate.replace('LOCALE', locale) + '"></iframe>';
         var html = '<h1>During-election full-splash embed code</h1><pre></pre><h3>Preview</h3>' + embedCode;
         preview.innerHTML = html;
         preview.querySelector('pre').textContent = embedCode;
 
-        var barEmbedCode = '<iframe width="980" height="200" style="border:0" src="' + barUrlTemplate.replace('LOCALE', locale) + '"></iframe>';
+        var barEmbedCode = '<iframe width="980" height="200" scrolling="no" style="border:0" src="' + barUrlTemplate.replace('LOCALE', locale) + '"></iframe>';
         var barHtml = '<h1>Post-election results embed code</h1><pre></pre><h3>Preview</h3>' + barEmbedCode;
         barPreview.innerHTML = barHtml;
         barPreview.querySelector('pre').textContent = barEmbedCode;
