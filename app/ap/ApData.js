@@ -42,6 +42,10 @@ function compareCandidates(a, b) {
   // Winner comes first
   if (a.winner !== b.winner) return (a.winner ? 0 : 1) - (b.winner ? 0 : 1)
 
+  return compareCandidatesIgnoreWinner(a, b)
+}
+
+function compareCandidatesIgnoreWinner(a, b) {
   // Then Person with most votes comes first
   if (a.n !== b.n) return b.n - a.n
 
@@ -146,6 +150,13 @@ function presidentRaceClassName(race) {
   return 'tossup'
 }
 
+function presidentGeoClassName(race) {
+  if (race.candidates.length === 1) return `${race.candidates[0].partyId}-win`
+  if (race.candidates[0].n === race.candidates[1].n) return 'tossup'
+  if (race.fractionReporting === 1) return `${race.candidates[0].partyId}-win`
+  return `${race.candidates[0].partyId}-lead`
+}
+
 function senateRaceClassName(race) {
   if (race.winner) return `${race.winner}-win`
 
@@ -228,12 +239,19 @@ function apRaceToGeos(apRace) {
   const ret = []
 
   for (const ru of apRace.reportingUnits.slice(1)) {
-    ret.push({
+    const geo = {
       id: ru.fipsCode, // TK New England states need apId (or whatever we did during primaries)
       name: ru.reportingunitName,
       fractionReporting: ru.precinctsReportingPct / 100,
       candidates: apCandidatesToCandidates(ru.candidates)
-    })
+    }
+    // AP's "winner" call propagates _down_ to each geo. That's fine, but we
+    // shouldn't sort that way.
+    geo.candidates.sort(compareCandidatesIgnoreWinner)
+
+    geo.className = presidentGeoClassName(geo)
+
+    ret.push(geo)
   }
 
   return ret

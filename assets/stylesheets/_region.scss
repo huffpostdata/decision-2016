@@ -38,6 +38,20 @@ section.region {
     }
   }
 
+  path:not[class$=-mesh] { fill: $tossup-color; }
+  path.gop-win { fill: $gop-color; }
+  path.dem-win { fill: $dem-color; }
+  path.lib-win { fill: $lib-color; }
+  path.grn-win { fill: $grn-color; }
+  path.bfa-win { fill: $bfa-color; }
+  path.other-win { fill: $other-color; }
+  path.gop-lead { fill: $gop-lead-color; }
+  path.dem-lead { fill: $dem-lead-color; }
+  path.lib-lead { fill: $lib-lead-color; }
+  path.grn-lead { fill: $grn-lead-color; }
+  path.bfa-lead { fill: $bfa-lead-color; }
+  path.other-lead { fill: $other-lead-color; }
+
   .geo-map {
     // TK revisit once we finalize maps
     path.state, g.districts, path.districts-mesh { display: none; }
