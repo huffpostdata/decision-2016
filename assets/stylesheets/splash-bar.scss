@@ -23,7 +23,7 @@ html, body {
 
 .column-president {
   flex: 1 1 auto;
-  padding-right: 1.5rem;
+  padding-right: 1rem; // not 1.5rem -- the contents have padding
 }
 
 .column-senate {
