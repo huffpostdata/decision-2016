@@ -22,12 +22,12 @@ window.decision2016_init = function(data, showRightRail) {
   var i18n = buildI18n(data.i18n);
 
   refreshButton.render();
-  electoral.render(data.president, i18n);
+  electoral.render(data.summaries.president, i18n);
   electionMap.render(data.races, i18n);
   if (showRightRail) {
     battlegrounds.render({ 'battlegrounds': data.battlegrounds, 'races': data.races }, i18n);
-    seats.renderHouse(data.house, i18n);
-    seats.renderSenate(data.senate, i18n);
+    seats.renderHouse(data.summaries.house, i18n);
+    seats.renderSenate(data.summaries.senate, i18n);
   }
 
   function doRefresh(json) {
