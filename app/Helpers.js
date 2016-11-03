@@ -42,7 +42,11 @@ class Helpers {
       .replace(/class="(\w\w)"/g, (_, id) => `class="${idToClass[id]}"`)
   }
 
-  regionMap(regionId) {
+  geoSvg(regionId) {
+    return fs.readFileSync(`${__dirname}/../raw-assets/state-map-builder/output/${regionId}.svg`, 'utf8')
+  }
+
+  districtSvg(regionId) {
     return fs.readFileSync(`${__dirname}/../raw-assets/state-map-builder/output/${regionId}.svg`, 'utf8')
   }
 

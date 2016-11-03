@@ -1,0 +1,40 @@
+body.region section.region {
+  @include wide-width();
+}
+
+section.region {
+  *[class$=-only] { display: none; }
+  &.president .president-only { display: block; }
+  &.senate .senate-only { display: block; }
+  &.house .house-only { display: block; }
+  &.ballot .ballot-only { display: block; }
+
+  .columns {
+    @media (min-width: $min-desktop-width) {
+      display: flex;
+      .left-column { width: 20rem; }
+      .right-column { flex: 1 1 auto; }
+    }
+  }
+
+  #geo-map {
+    position: relative;
+    width: 100%;
+
+    &::before {
+      content: '';
+      display: block;
+      height: 0;
+      padding-bottom: 100% / $map-golden-ratio;
+    }
+
+    svg {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

@@ -10,10 +10,10 @@ html lang="en"
     link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/dashboard.css')}"
     link rel="shortcut icon" type="image/x-icon" href="${data.path_to_asset('digest', 'images/favicon.ico')}"
     $!{data.helpers.partial('_social-meta')}
-  body.president
+  body.region
     $!{data.helpers.partial('dashboard/_header')}
 
-    main
+    section.region.president
       header
         h1 - ${data.model.name}
         $!{data.helpers.partial('dashboard/_refresh')}
@@ -28,7 +28,10 @@ html lang="en"
             if(data.model.races.ballot)
               option value="ballot" - Ballot Initiatives
 
-          #left-president
+          .house-only
+            #district-map - $!{data.helpers.districtSvg(data.model.id)}
+
+          .president-only
             var race=data.model.races.president.race
             table
               thead
@@ -45,17 +48,18 @@ html lang="en"
 
             p.percent-reporting - ${formatPercent(race.fractionReporting)} of votes counted
 
-          #left-senate
-          #left-house
-          #left-ballot
+          .senate-only
+            - TK senate stuff
 
         .right-column
-          #right-president
-            $!{data.helpers.regionMap(data.model.id)}
+          .president-only.senate-only
+            #geo-map - $!{data.helpers.geoSvg(data.model.id)}
 
-          #right-senate
-          #right-house
-          #right-ballot
+          .house-only
+            - TK house stuff
+
+          .ballot-only
+            - TK ballot stuff
 
     $!{data.helpers.partial('_footer')}
 
