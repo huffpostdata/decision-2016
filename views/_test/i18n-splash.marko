@@ -44,7 +44,7 @@ html lang="en"
         preview.innerHTML = html;
         preview.querySelector('pre').textContent = embedCode;
 
-        var barEmbedCode = '<iframe width="980" height="200" scrolling="no" style="border:0" src="' + barUrlTemplate.replace('LOCALE', locale) + '"></iframe>';
+        var barEmbedCode = '<iframe width="980" height="170" scrolling="no" style="border:0" src="' + barUrlTemplate.replace('LOCALE', locale) + '"></iframe>';
         var barHtml = '<h1>Post-election results embed code</h1><pre></pre><h3>Preview</h3>' + barEmbedCode;
         barPreview.innerHTML = barHtml;
         barPreview.querySelector('pre').textContent = barEmbedCode;
