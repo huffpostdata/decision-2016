@@ -8,6 +8,10 @@ function apRaceToKey(apRaceJson) {
   return `${apRaceToStateCode(apRaceJson)}:${apRaceJson.raceID}`
 }
 
+function apReportingUnitToKey(apRaceJson, apReportingUnit) {
+  return `${apRaceToKey(apRaceJson)}-${apReportingUnit.level}-${apReportingUnit.reportingunitID}`
+}
+
 function apRaceToStateCode(apRaceJson) {
   return apRaceJson.statePostal || apRaceJson.reportingUnits[0].statePostal
 }
@@ -38,17 +42,38 @@ class Elections {
     newJson.nextrequest = json.nextrequest
 
     const keyToNewRace = {}
+    const keyToNewReportingUnit = {}
     for (const race of json.races) {
       keyToNewRace[apRaceToKey(race)] = race
+      for (const reportingUnit of (race.reportingUnits || [])) {
+        keyToNewReportingUnit[apReportingUnitToKey(race, reportingUnit)] = reportingUnit
+      }
     }
 
     const usedKeys = {}
     newJson.races = this.json.races.map(oldRace => {
       const key = apRaceToKey(oldRace)
       usedKeys[key] = null
-      return keyToNewRace.hasOwnProperty(key) ? keyToNewRace[key] : oldRace
+      if (keyToNewRace.hasOwnProperty(key)) {
+        // Use oldRace.reportingUnits as a template, and overwrite the
+        // _changed_ reportingUnits that AP just gave us.
+        const newReportingUnits = oldRace.reportingUnits.map(ru => {
+          const ruKey = apReportingUnitToKey(oldRace, ru)
+          if (keyToNewReportingUnit.hasOwnProperty(ruKey)) {
+            return keyToNewReportingUnit[ruKey]
+          } else {
+            // AP had no updates since oldReportingUnits.
+            return ru
+          }
+        })
+        return Object.assign({}, keyToNewRace[key], { reportingUnits: newReportingUnits })
+      } else {
+        return oldRace
+      }
     })
 
+    // Add races that weren't added before. (Was there some other bug that
+    // made it _look_ like AP added new races the night of? Dunno.)
     for (const key in keyToNewRace) {
       if (keyToNewRace.hasOwnProperty(key) && !usedKeys.hasOwnProperty(key)) {
         newJson.races.push(keyToNewRace[key])
