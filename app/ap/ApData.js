@@ -419,6 +419,10 @@ module.exports = class ApData {
       if (candidate.winner === 'X') winner = candidate.last.toLowerCase()
     }
 
+    // AP had an error in one test, so let's double-set this...
+    if (nClinton >= 270) winner = 'clinton'
+    if (nTrump >= 270) winner = 'trump'
+
     var className = winner ? `${winner}-win`
       : (nClinton > nTrump ? 'clinton-lead' : (nTrump > nClinton ? 'trump-lead' : 'tossup'));
 
