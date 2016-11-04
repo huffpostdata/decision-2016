@@ -257,6 +257,61 @@ describe('ApData', () => {
         ])
       })
 
+      it('should set Johnson, Stein and McMullin to lib, grn, and bfa if they are "Una"', () => {
+        const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
+        const apJson = reportingUnitRaces2.find(r => r.reportingUnits[0].statePostal === 'UT')
+        apJson.reportingUnits[0].candidates = [
+          { party: 'Dem', first: 'Hillary', last: 'Clinton', voteCount: 1234 },
+          { party: 'GOP', first: 'Donald', last: 'Trump', voteCount: 2345 },
+          { party: 'Una', first: 'Gary', last: 'Johnson', voteCount: 3456 },
+          { party: 'Una', first: 'Jill', last: 'Stein', voteCount: 3456 },
+          { party: 'Una', first: 'Evan', last: 'McMullin', voteCount: 3456 },
+          { party: 'Oth', first: 'Oth', last: 'Er', voteCount: 4567 }
+        ]
+        const candidates = go(reportingUnitRaces2, districtRaces).find(r => r.id === 'UT').candidates
+        expect(candidates).to.deep.eq([
+          { name: 'Johnson', fullName: 'Gary Johnson', n: 3456, partyId: 'lib', winner: false, incumbent: false },
+          { name: 'McMullin', fullName: 'Evan McMullin', n: 3456, partyId: 'bfa', winner: false, incumbent: false },
+          { name: 'Stein', fullName: 'Jill Stein', n: 3456, partyId: 'grn', winner: false, incumbent: false },
+          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop', winner: false, incumbent: false },
+          { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem', winner: false, incumbent: false },
+          { name: 'Other', n: 4567, partyId: 'other', winner: false, incumbent: false }
+        ])
+      })
+
+      it('should nix Evan McMullin in non-UT', () => {
+        const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
+        const apJson = reportingUnitRaces2.find(r => r.reportingUnits[0].statePostal === 'NM')
+        apJson.reportingUnits[0].candidates = [
+          { party: 'Dem', first: 'Hillary', last: 'Clinton', voteCount: 1234 },
+          { party: 'GOP', first: 'Donald', last: 'Trump', voteCount: 2345 },
+          { party: 'BFA', first: 'Evan', last: 'McMullin', voteCount: 3456 },
+          { party: 'Oth', first: 'Oth', last: 'Er', voteCount: 4567 }
+        ]
+        const candidates = go(reportingUnitRaces2, districtRaces).find(r => r.id === 'NM').candidates
+        expect(candidates).to.deep.eq([
+          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop', winner: false, incumbent: false },
+          { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem', winner: false, incumbent: false },
+          { name: 'Other', n: 4567+3456, partyId: 'other', winner: false, incumbent: false }
+        ])
+      })
+
+      it('should nix Evan McMullin in non-UT by creating "Other" if it does not exist', () => {
+        const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
+        const apJson = reportingUnitRaces2.find(r => r.reportingUnits[0].statePostal === 'NM')
+        apJson.reportingUnits[0].candidates = [
+          { party: 'Dem', first: 'Hillary', last: 'Clinton', voteCount: 1234 },
+          { party: 'GOP', first: 'Donald', last: 'Trump', voteCount: 2345 },
+          { party: 'BFA', first: 'Evan', last: 'McMullin', voteCount: 3456 },
+        ]
+        const candidates = go(reportingUnitRaces2, districtRaces).find(r => r.id === 'NM').candidates
+        expect(candidates).to.deep.eq([
+          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop', winner: false, incumbent: false },
+          { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem', winner: false, incumbent: false },
+          { name: 'Other', n: 3456, partyId: 'other', winner: false, incumbent: false }
+        ])
+      })
+
       it('should set the winner', () => {
         const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
         const apJson = reportingUnitRaces2.find(r => r.reportingUnits[0].statePostal === 'CA')
