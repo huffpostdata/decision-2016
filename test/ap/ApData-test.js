@@ -443,83 +443,86 @@ describe('ApData', () => {
   }) // #senateSummary
 
   describe('#houseSummary', () => {
-    describe('with sample data', () => {
-      function build(winner) {
-        return { reportingUnits: [ { candidates: [
-          { last: 'SomeDem', party: 'Dem', winner: (winner === 'Dem' ? 'X' : '') },
-          { last: 'SomeGop', party: 'GOP', winner: (winner === 'GOP' ? 'X' : '') },
-          { last: 'SomeoneElse', party: 'Grn', winner: '' }
-        ]}]}
-      }
-      const dems = new Array(80).fill(null).map((_, i) => build('Dem'))
-      const gops = new Array(100).fill(null).map((_, i) => build('GOP'))
-      const tossup = new Array(255).fill(null).map((_, i) => build())
+    const races = new Array(435).fill(null)
+      .map((_, i) => { return { id: 'AK01', candidates: [ { partyId: 'dem', n: 10 }, { partyId: 'gop', n: 11 } ]} })
+    for (const race of races.slice(0, 100)) race.className = 'dem-win'
+    for (const race of races.slice(100, 203)) race.className = 'dem-lead'
+    for (const race of races.slice(203, 250)) race.className = 'tossup'
+    for (const race of races.slice(250, 310)) race.className = 'gop-lead'
+    for (const race of races.slice(310, 435)) race.className = 'gop-win'
 
-      const apData = new ApData({
-        findHouseRaces() {
-          return dems.concat(...gops).concat(...tossup)
-        }
-      }, null)
-      const summary = apData.houseSummary()
+    function go(races) {
+      const apData = new ApData(null, null)
+      apData.houseRaces = function() { return races }
+      return apData.houseSummary()
+    }
 
-      it('should always have total=435', () => {
-        expect(summary.total).to.eq(435)
-      })
-
-      it('should set tossup correctly', () => {
-        expect(summary.tossup).to.eq(255)
-      })
-
-      it('should set wins', () => {
-        expect(summary.wins).to.deep.eq({ dem: 80, gop: 100 })
-      })
-
-      it('should report a GOP win', () => {
-        tossup[10].reportingUnits[0].candidates[2].party = 'Lib'
-        tossup[10].reportingUnits[0].candidates[2].winner = 'X'
-        const summary = apData.houseSummary()
-        expect(summary.wins).to.deep.eq({ dem: 80, gop: 100, lib: 1 })
-        expect(summary.tossup).to.eq(254)
-      })
-
-      it('should throw if there are not 34 races', () => {
-        const apData = new ApData({
-          findHouseRaces() {
-            const ret = dems.concat(...gops).concat(...tossup)
-            ret.pop()
-            return ret
-          }
-        }, null)
-
-        expect(() => apData.houseSummary()).to.throw(Error)
-      })
-    }) // with sample data
-
-    it('should total the popular vote', () => {
-      const races = new Array(435).fill(null).map((_, i) => {
-        return { reportingUnits: [ { candidates: [
-          { last: 'SomeDem', party: 'Dem', voteCount: i * 3 },
-          { last: 'SomeGop', party: 'GOP', voteCount: i * 4 },
-          { last: 'SomeoneElse', party: 'Grn', winner: '' }
-        ]}]}
-      })
-
-      const apData = new ApData({
-        findHouseRaces() { return races }
-      }, null)
-      const summary = apData.houseSummary()
-
-      expect(summary.popular).to.deep.eq({
-        dem: 283185,
-        gop: 377580
-      })
+    it('should always have total=435', () => {
+      expect(go(races).total).to.eq(435)
     })
 
-    it('should set className=dem-win')
-    it('should set className=dem-lead based on the className of each race')
-    it('should set className=tossup based on [?????]')
-    it('should set className=gop-lead based on the className of each race')
-    it('should set className=gop-win')
+    it('should set tossup correctly', () => {
+      expect(go(races).tossup).to.eq(210)
+    })
+
+    it('should set wins', () => {
+      expect(go(races).wins).to.deep.eq({ dem: 100, gop: 125 })
+    })
+
+    it('should ignore a "Lib" win', () => {
+      const races2 = JSON.parse(JSON.stringify(races))
+      races2[203].className = 'lib-win'
+      races2[204].className = 'grn-win'
+      races2[205].className = 'bfa-win'
+      races2[206].className = 'other-win'
+      expect(go(races2).wins).to.deep.eq({ dem: 100, gop: 125 })
+    })
+
+    it('should throw if there are not 435 races', () => {
+      const races2 = JSON.parse(JSON.stringify(races)).slice(1)
+      expect(() => go(races2)).to.throw(Error)
+    })
+
+    it('should total the popular vote', () => {
+      expect(go(races).popular).to.deep.eq({ dem: 4350, gop: 4785 })
+    })
+
+    it('should set className=dem-win if dems have 218 wins', () => {
+      const races2 = JSON.parse(JSON.stringify(races))
+      for (const race of races2.slice(0, 218)) race.className = 'dem-win'
+      expect(go(races2).className).to.eq('dem-win')
+      races2[217].className = 'dem-lead'
+      expect(go(races2).className).to.eq('dem-lead')
+    })
+
+    it('should set className=dem-lead if dems have more wins', () => {
+      const races2 = JSON.parse(JSON.stringify(races))
+      for (const race of races2.slice(0, 200)) race.className = 'dem-win'
+      for (const race of races2.slice(236, 435)) race.className = 'gop-win'
+      expect(go(races2).className).to.eq('dem-lead')
+    })
+
+    it('should set className=tossup if nDem==nGop', () => {
+      const races2 = JSON.parse(JSON.stringify(races))
+      for (const race of races2.slice(0, 200)) race.className = 'dem-win'
+      for (const race of races2.slice(235, 435)) race.className = 'gop-win'
+      expect(go(races2).className).to.eq('tossup')
+    })
+
+    it('should set className=gop-lead if gops have more wins', () => {
+      const races2 = JSON.parse(JSON.stringify(races))
+      for (const race of races2.slice(0, 200)) race.className = 'dem-win'
+      for (const race of races2.slice(234, 435)) race.className = 'gop-win'
+      expect(go(races2).className).to.eq('gop-lead')
+    })
+
+    it('should set className=gop-win', () => {
+      const races2 = JSON.parse(JSON.stringify(races))
+      for (const race of races2.slice(217, 435)) race.className = 'gop-win'
+      expect(go(races2).className).to.eq('gop-win')
+      races2[217].className = 'gop-lead'
+      expect(go(races2).className).to.eq('gop-lead')
+    })
   }) // #houseSummary
 
   describe('#senateRaces', () => {

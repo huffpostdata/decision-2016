@@ -621,7 +621,7 @@ module.exports = class ApData {
    *     wins: {
    *       dem: uint number of Dem winners
    *       gop: uint number of Gop winners
-   *       ... [ see parties.tsv for a list of what could happen ]
+   *       [ ... no other parties ]
    *     },
    *     popular: {
    *      dem: uint number of votes for Democrats
@@ -631,40 +631,41 @@ module.exports = class ApData {
    *   }
    */
   houseSummary() {
-    const NRaces = 435
-
-    const races = this.reportingUnitElections.findHouseRaces()
-    if (races.length != NRaces) {
-      throw new Error(`URGENT: expected ${NRaces} Senate races; got ${races.length}`)
-    }
-
-    let nWins = 0
-    const wins = {}
+    let n = 0
     const popular = { dem: 0, gop: 0 }
+    const wins = { dem: 0, gop: 0 }
 
-    for (const race of races) {
-      for (const candidate of race.reportingUnits[0].candidates) {
-        if (candidate.party === 'Dem') popular.dem += candidate.voteCount
-        if (candidate.party === 'GOP') popular.gop += candidate.voteCount
+    for (const race of this.houseRaces()) {
+      n += 1
 
-        if (candidate.winner === 'X') {
-          nWins += 1
-          const partyId = candidate.party.toLowerCase()
-          if (!wins.hasOwnProperty(partyId)) wins[partyId] = 0
-          wins[partyId] += 1
+      for (const candidate of race.candidates) {
+        if (popular.hasOwnProperty(candidate.partyId)) {
+          popular[candidate.partyId] += candidate.n
         }
+      }
+
+      switch (race.className) {
+        case 'dem-win':
+          wins.dem += 1
+          break
+        case 'gop-win':
+          wins.gop += 1
+          break
+        default: break
       }
     }
 
-    var nWin = Math.ceil(NRaces / 2);
+    if (n != 435) throw new Error(`URGENT: expected 435 House races; got ${n}`)
+
+    var nWin = Math.ceil(n / 2);
     const className = wins.dem >= nWin ? 'dem-win'
       : (wins.gop >= nWin ? 'gop-win'
         : (wins.dem > wins.gop ? 'dem-lead'
           : (wins.gop > wins.dem ? 'gop-lead' : 'tossup')));
 
     return {
-      total: NRaces,
-      tossup: NRaces - nWins,
+      total: n,
+      tossup: n - wins.dem - wins.gop,
       wins: wins,
       popular: popular,
       className: className
