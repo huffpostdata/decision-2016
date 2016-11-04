@@ -14,9 +14,15 @@ table
       tr data-race-id="${race.id}"
         td.district - ${data.helpers.formatOrdinal(+race.id.slice(2))}
         td.dem
-          if(race.dem) - ${data.helpers.formatPercent(race.dem.n, race.nVotes)}
+          if(race.dem)
+            .name - ${race.dem.name}
+            .percent - ${data.helpers.formatPercent(race.dem.n, race.nVotes)}
         td.gop
-          if(race.gop) - ${data.helpers.formatPercent(race.gop.n, race.nVotes)}
+          if(race.gop)
+            .name - ${race.gop.name}
+            .percent - ${data.helpers.formatPercent(race.gop.n, race.nVotes)}
         td.third
-          if(race.third) - ${data.helpers.formatPercent(race.third.n, race.nVotes)}
+          if(race.third)
+            .name - ${race.third.name}
+            .percent - ${data.helpers.formatPercent(race.third.n, race.nVotes)}
         td.percent - ${data.helpers.formatFractionReporting(race.fractionReporting)}

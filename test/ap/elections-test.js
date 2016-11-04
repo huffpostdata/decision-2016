@@ -86,20 +86,24 @@ describe('elections', () => {
           timestamp: 'bar',
           nextrequest: 'baz',
           races: [
-            { raceID: '0', statePostal: 'US' },
+            // We don't know what we _should_ do here....
+            { raceID: '0', statePostal: 'US', reportingUnits: [ { statePostal: 'US' } ] },
             { raceID: '1', reportingUnits: [ { statePostal: 'US' } ] }
           ]
         })
       })
 
-      it('should update from a race with no reportingUnits', () => {
+      it('should update just some reportingUnits when the others are unchanged', () => {
         const oldElections = new Elections({
           electionDate: 'foo',
           timestamp: 'bar',
           nextrequest: 'baz',
           races: [
-            { raceID: '0', statePostal: 'US' },
-            { raceID: '1', reportingUnits: [ { statePostal: 'US' } ] }
+            { raceID: '1', reportingUnits: [
+              { statePostal: 'US' },
+              { statePostal: 'US', reportingunitID: '10001', foo: 'bar' },
+              { statePostal: 'US', reportingunitID: '10002', foo: 'baz' },
+            ] }
           ]
         })
 
@@ -107,7 +111,12 @@ describe('elections', () => {
           electionDate: 'foo',
           timestamp: 'bar',
           nextrequest: 'baz',
-          races: [ { raceID: '0', reportingUnits: [ { statePostal: 'US' } ] } ]
+          races: [
+            { raceID: '1', reportingUnits: [
+              { statePostal: 'US' },
+              { statePostal: 'US', reportingunitID: '10002', foo: 'mar' },
+            ] }
+          ]
         })
 
         expect(newElections.json).to.deep.eq({
@@ -115,8 +124,11 @@ describe('elections', () => {
           timestamp: 'bar',
           nextrequest: 'baz',
           races: [
-            { raceID: '0', reportingUnits: [ { statePostal: 'US' } ] },
-            { raceID: '1', reportingUnits: [ { statePostal: 'US' } ] }
+            { raceID: '1', reportingUnits: [
+              { statePostal: 'US' },
+              { statePostal: 'US', reportingunitID: '10001', foo: 'bar' },
+              { statePostal: 'US', reportingunitID: '10002', foo: 'mar' },
+            ] }
           ]
         })
       })

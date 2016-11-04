@@ -37,7 +37,7 @@ function Tooltip(options) {
     var dataRef = _this.raceData[raceId];
     var candidates = dataRef.candidates;
     var votesTotal = dataRef.nVotes;
-    var table = _this.tooltip.querySelector('.c-table');
+    var table = _this.tooltip.querySelector('.candidate-table');
     var htmlInject = ['<table>', '<thead>', '<tr>',
       '<th class="cd">President</th>',
       '<th class="vote-ct">Votes</th>',
@@ -45,19 +45,19 @@ function Tooltip(options) {
       '</tr>', '</thead><tbody>'];
     for (var i = 0; i < candidates.length; i++) {
       var candidate = candidates[i];
+      console.log(candidate);
       var name = candidate.name;
       var votes = candidate.n;
       var pct = votesTotal === 0 ? 0 : 100 * (votes / votesTotal);
       var count = '' + candidate.n;
       htmlInject.push(['<tr>',
         '<td class="name" style="width: 30%;">' + name + '</td>',
-        '<td class="vote-bar" style="width: 50%;">',
-          '<div class="vote-div">',
-            '<div style="width: ' + pct + '%; background-color: blue; height: 10px;"></div>',
-            '<span style="position: absolute; top: 0px; left: ' + (pct + 2) + '%;">' + count + '</span>',
-          '</div>',
+        '<td class="votes" style="width: 50%;">',
+            '<div class="vote-bar ' + candidate.partyId + '" style="width: ' + pct + '%;">',
+              '<span class="vote-count">' + count + '</span>',
+            '</div',
         '</td>',
-        '<td class="vote-count" style="width: 20%;">' + Math.round(pct) + '%</td>',
+        '<td class="percent">' + Math.round(pct) + '%</td>',
         '</tr>'].join(''));
     }
     htmlInject.push('</tbody></table>');
