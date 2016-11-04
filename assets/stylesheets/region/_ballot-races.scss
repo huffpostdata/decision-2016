@@ -1,0 +1,47 @@
+.ballot-races {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  td {
+    padding: .25rem .5rem;
+    border-top: 1px solid $very-muted-color;
+    &:first-child { padding-left: 0; }
+    &:last-child { padding-right: 0; }
+  }
+
+  td.yay, td.nay {
+    white-space: nowrap;
+  }
+
+  h4 {
+    margin: 0;
+  }
+
+  small {
+    font-size: .85rem;
+  }
+
+  a {
+    font-size: .75rem;
+  }
+
+  .result {
+    padding: .25rem .5rem;
+
+    small {
+      text-transform: uppercase;
+      color: $muted-color;
+      font-size: .75rem;
+    }
+  }
+  tr.yay-win td.yay .result {
+    background-color: $yay-color;
+    &::before { content: '✔'; }
+  }
+  tr.nay-win td.nay .result {
+    background-color: $nay-color;
+    &::before { content: '✔'; }
+  }
+}

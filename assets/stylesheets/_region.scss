@@ -38,4 +38,7 @@ body.region {
   path.tossup { fill: $tossup-color; }
 }
 
+@import 'region/_president-race.scss';
+@import 'region/_senate-race.scss';
 @import 'region/_house-races.scss';
+@import 'region/_ballot-races.scss';

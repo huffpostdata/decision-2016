@@ -1,22 +1,25 @@
 var races=data.model.races.ballot
 
-table
-  thead
-    tr
-      th.question - Question
-      th.yay - Yes
-      th.nay - No
+.ballot-races
+  table
+    thead
+      tr
+        th.question - Question
+        th.yay - Yes
+        th.nay - No
 
-  tbody
-    for(race in races)
-      tr data-race-id="${race.id}" class="${race.className}"
-        td.question
-          h4 - ${race.name}
-          small - ${race.description}
-          a href="${race.href}" - details…
-        td.yay
-          strong - ${data.helpers.formatPercent(race.yay.n, race.nVotes)}
-          small - ${race.yay.name}
-        td.nay
-          strong - ${data.helpers.formatPercent(race.nay.n, race.nVotes)}
-          small - ${race.nay.name}
+    tbody
+      for(race in races)
+        tr data-race-id="${race.id}" class="${race.className}"
+          td.question
+            h4 - ${race.name}
+            small - ${race.description} 
+            a href="${race.href}" - details…
+          td.yay
+            .result
+              strong - ${data.helpers.formatPercent(race.yay.n, race.nVotes)} 
+              small - ${race.yay.name}
+          td.nay
+            .result
+              strong - ${data.helpers.formatPercent(race.nay.n, race.nVotes)} 
+              small - ${race.nay.name}
