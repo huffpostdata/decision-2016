@@ -61,6 +61,7 @@ function Tooltip(options) {
     var candidates = dataRef.candidates;
     var votesTotal = dataRef.nVotes;
     var table = _this.tooltip.querySelector('.candidate-table');
+    if (table === null) return; // DELETEME TK I was getting crashes on staging
     var cdType = null;
     var cdVotesAccessor = 'n';
     var cdNameAccessor = 'name';
