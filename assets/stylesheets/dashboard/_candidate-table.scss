@@ -4,6 +4,18 @@
   table {
     width: 100%;
     border-collapse: collapse;
+    &.trump-win,
+    &.gop-win {
+      tr.winner {
+        background-color: $gop-background;
+      }
+    }
+    &.clinton-win,
+    &.dem-win {
+      tr.winner {
+        background-color: $dem-background;
+      }
+    }
   }
   thead {
     border-bottom: 1px solid #bdbdbd;

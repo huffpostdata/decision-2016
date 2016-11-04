@@ -256,10 +256,10 @@ describe('ApData', () => {
         Object.assign(apJson, exampleJson)
         const candidates = go(reportingUnitRaces, districtRaces2).find(r => r.id === 'NE3').candidates
         expect(candidates).to.deep.eq([
-          { name: 'Trump', fullName: 'Donald Trump', n: 85167, partyId: 'gop', winner: true, incumbent: false },
-          { name: 'Clinton', fullName: 'Hillary Clinton', n: 85160, partyId: 'dem', winner: false, incumbent: false },
-          { name: 'Stein', fullName: 'Jill Stein', n: 16417, partyId: 'grn', winner: false, incumbent: false },
-          { name: 'Johnson', fullName: 'Gary Johnson', n: 16254, partyId: 'lib', winner: false, incumbent: false },
+          { name: 'Trump', fullName: 'Donald Trump', n: 85167, partyId: 'gop', winner: true },
+          { name: 'Clinton', fullName: 'Hillary Clinton', n: 85160, partyId: 'dem' },
+          { name: 'Stein', fullName: 'Jill Stein', n: 16417, partyId: 'grn' },
+          { name: 'Johnson', fullName: 'Gary Johnson', n: 16254, partyId: 'lib' },
         ])
       })
 
@@ -274,10 +274,10 @@ describe('ApData', () => {
         ]
         const candidates = go(reportingUnitRaces2, districtRaces)[13].candidates
         expect(candidates).to.deep.eq([
-          { name: 'Johnson', fullName: 'Gary Johnson', n: 3456, partyId: 'lib', winner: true, incumbent: false },
-          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop', winner: false, incumbent: false },
-          { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem', winner: false, incumbent: false },
-          { name: 'Other', n: 4567, partyId: 'other', winner: false, incumbent: false }
+          { name: 'Johnson', fullName: 'Gary Johnson', n: 3456, partyId: 'lib', winner: true },
+          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop' },
+          { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem' },
+          { name: 'Other', n: 4567, partyId: 'other' }
         ])
       })
 
@@ -294,12 +294,12 @@ describe('ApData', () => {
         ]
         const candidates = go(reportingUnitRaces2, districtRaces).find(r => r.id === 'UT').candidates
         expect(candidates).to.deep.eq([
-          { name: 'Johnson', fullName: 'Gary Johnson', n: 3456, partyId: 'lib', winner: false, incumbent: false },
-          { name: 'McMullin', fullName: 'Evan McMullin', n: 3456, partyId: 'bfa', winner: false, incumbent: false },
-          { name: 'Stein', fullName: 'Jill Stein', n: 3456, partyId: 'grn', winner: false, incumbent: false },
-          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop', winner: false, incumbent: false },
-          { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem', winner: false, incumbent: false },
-          { name: 'Other', n: 4567, partyId: 'other', winner: false, incumbent: false }
+          { name: 'Johnson', fullName: 'Gary Johnson', n: 3456, partyId: 'lib' },
+          { name: 'McMullin', fullName: 'Evan McMullin', n: 3456, partyId: 'bfa' },
+          { name: 'Stein', fullName: 'Jill Stein', n: 3456, partyId: 'grn' },
+          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop' },
+          { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem' },
+          { name: 'Other', n: 4567, partyId: 'other' }
         ])
       })
 
@@ -314,9 +314,9 @@ describe('ApData', () => {
         ]
         const candidates = go(reportingUnitRaces2, districtRaces).find(r => r.id === 'NM').candidates
         expect(candidates).to.deep.eq([
-          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop', winner: false, incumbent: false },
-          { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem', winner: false, incumbent: false },
-          { name: 'Other', n: 4567+3456, partyId: 'other', winner: false, incumbent: false }
+          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop' },
+          { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem' },
+          { name: 'Other', n: 4567+3456, partyId: 'other' }
         ])
       })
 
@@ -330,9 +330,9 @@ describe('ApData', () => {
         ]
         const candidates = go(reportingUnitRaces2, districtRaces).find(r => r.id === 'NM').candidates
         expect(candidates).to.deep.eq([
-          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop', winner: false, incumbent: false },
-          { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem', winner: false, incumbent: false },
-          { name: 'Other', n: 3456, partyId: 'other', winner: false, incumbent: false }
+          { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop' },
+          { name: 'Clinton', fullName: 'Hillary Clinton', n: 1234, partyId: 'dem' },
+          { name: 'Other', n: 3456, partyId: 'other' }
         ])
       })
 
@@ -725,7 +725,7 @@ describe('ApData', () => {
         expect(actual.candidates[0].partyId).to.eq('ind')
       })
 
-      it('should set winner="dem" and className="dem-win" on CA race that has two Dem candidates', () => {
+      it('should set className="dem-win" on CA race that has two Dem candidates', () => {
         const races2 = JSON.parse(JSON.stringify(races))
         races2[0].reportingUnits[0].statePostal = 'CA' // mark it so we can check we have the right one
         races2[0].reportingUnits[0].candidates.length = 2 // just two candidates
@@ -735,6 +735,35 @@ describe('ApData', () => {
         expect(actual.id).to.eq('CAS3')
         expect(actual.winner).to.eq('dem')
         expect(actual.className).to.eq('dem-win')
+      })
+
+      describe('fiddling with LA', () => {
+        function go2(laSenateRace) {
+          const races2 = JSON.parse(JSON.stringify(races))
+          races2[0] = laSenateRace
+          return go(races2).find(r => r.id === 'LAS3')
+        }
+
+        it('should set className="gop-win" when runoff between two gop leaders', () => {
+          // actual (truncated) AP_TEST=true data
+          const actual = go2({ "test": true, "raceID": "19932", "raceType": "General", "raceTypeID": "G", "officeID": "S", "officeName": "U.S. Senate", "numRunoff": 2, "national": true, "reportingUnits": [ { "statePostal": "LA", "stateName": "Louisiana", "level": "state", "lastUpdated": "2016-11-04T18:26:50.623Z", "precinctsReporting": 3904, "precinctsTotal": 3904, "precinctsReportingPct": 100, "candidates": [ { "first": "John", "last": "Kennedy", "party": "GOP", "candidateID": "24373", "polID": "21684", "ballotOrder": 13, "polNum": "19841", "voteCount": 178718, "winner": "R" }, { "first": "John", "last": "Fleming", "party": "GOP", "candidateID": "24375", "polID": "59669", "ballotOrder": 10, "polNum": "21353", "voteCount": 171272, "winner": "R" }, { "first": "Foster", "last": "Campbell", "abbrv": "Campbll", "party": "Dem", "candidateID": "24379", "polID": "21219", "ballotOrder": 3, "polNum": "19024", "voteCount": 134039 }]}]})
+
+          expect(actual.className).to.eq('gop-win')
+        })
+
+        it('should set className="gop-lead" when no runoff but two gop leaders', () => {
+          // edited AP test data
+          const actual = go2({ "test": true, "raceID": "19932", "raceType": "General", "raceTypeID": "G", "officeID": "S", "officeName": "U.S. Senate", "national": true, "reportingUnits": [ { "statePostal": "LA", "stateName": "Louisiana", "level": "state", "lastUpdated": "2016-11-04T18:26:50.623Z", "precinctsReporting": 3904, "precinctsTotal": 3904, "precinctsReportingPct": 100, "candidates": [ { "first": "John", "last": "Kennedy", "party": "GOP", "candidateID": "24373", "polID": "21684", "ballotOrder": 13, "polNum": "19841", "voteCount": 178718 }, { "first": "John", "last": "Fleming", "party": "GOP", "candidateID": "24375", "polID": "59669", "ballotOrder": 10, "polNum": "21353", "voteCount": 171272 }, { "first": "Foster", "last": "Campbell", "abbrv": "Campbll", "party": "Dem", "candidateID": "24379", "polID": "21219", "ballotOrder": 3, "polNum": "19024", "voteCount": 134039 }]}]})
+
+          expect(actual.className).to.eq('gop-lead')
+        })
+
+        it('should set className="tossup" when runoff between gop and dem', () => {
+          // edited AP_TEST=true data
+          const actual = go2({ "test": true, "raceID": "19932", "raceType": "General", "raceTypeID": "G", "officeID": "S", "officeName": "U.S. Senate", "numRunoff": 2, "national": true, "reportingUnits": [ { "statePostal": "LA", "stateName": "Louisiana", "level": "state", "lastUpdated": "2016-11-04T18:26:50.623Z", "precinctsReporting": 3904, "precinctsTotal": 3904, "precinctsReportingPct": 100, "candidates": [ { "first": "John", "last": "Kennedy", "party": "GOP", "candidateID": "24373", "polID": "21684", "ballotOrder": 13, "polNum": "19841", "voteCount": 178718, "winner": "R" }, { "first": "John", "last": "Fleming", "party": "Dem", "candidateID": "24375", "polID": "59669", "ballotOrder": 10, "polNum": "21353", "voteCount": 171272, "winner": "R" }, { "first": "Foster", "last": "Campbell", "abbrv": "Campbll", "party": "Dem", "candidateID": "24379", "polID": "21219", "ballotOrder": 3, "polNum": "19024", "voteCount": 134039 }]}]})
+
+          expect(actual.className).to.eq('tossup')
+        })
       })
     })
   })
@@ -854,7 +883,7 @@ describe('ApData', () => {
         const actual = houseRaces(newDems, gops, tossup)
         expect(actual[0].winner).to.eq('dem')
         expect(actual[0].className).to.eq('dem-win')
-        expect(actual[0].candidates[0].winner).to.eq(false)
+        expect(actual[0].candidates[0].winner === true).to.eq(false)
       })
     })
   })
