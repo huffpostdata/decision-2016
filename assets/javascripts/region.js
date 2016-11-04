@@ -1,10 +1,7 @@
-var raceTypeSwitcher = require('./dashboard/_race-type-switcher');
 var GeoMap = require('./region/GeoMap');
 var DistrictMap = require('./region/DistrictMap');
 
 var initialJson = JSON.parse(document.querySelector('script[data-json]').getAttribute('data-json'));
-
-raceTypeSwitcher(document.querySelector('select.race-type'), document.querySelector('section.region'));
 
 var presidentMap = new GeoMap({
   svg: document.querySelector('.president-map svg'),
