@@ -1,6 +1,7 @@
 var Changelog = require('./dashboard/_changelog');
 var Map = require('./dashboard/_map');
 var nav = require('./dashboard/_nav');
+var Tooltip = require('./dashboard/_tooltip');
 var refresh = require('./common/_refresh');
 var summary = require('./house/_summary');
 
@@ -24,11 +25,19 @@ var navEl = document.querySelector('nav');
 var updateNav = nav(navEl);
 updateNav(initialJson.summaries);
 
+var tooltip = new Tooltip({
+  el: document.getElementById('tooltip'),
+  mapEl: mapEl,
+  races: initialJson.races,
+  raceType: 'house'
+});
+
 function doRefresh(json) {
   changelog.update(json);
   map.update(json.races);
   updateNav(json.summaries);
   updateSummary(json);
+  tooltip.setData(json.races);
 }
 
 var refreshEl = document.getElementById('refresh');
