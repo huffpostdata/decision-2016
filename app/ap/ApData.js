@@ -41,19 +41,25 @@ function apCandidateToCandidate(apJson, options) {
 
   const winner = (options && options.lookAtElectWonNotWinner) ? !!(apJson.electWon) : (apJson.winner === 'X')
 
-  return {
+  const ret = {
     name: apJson.last,
     fullName: fullName,
     partyId: partyId,
     n: apJson.voteCount,
-    winner: winner,
-    incumbent: apJson.incumbent === true
   }
+  if (winner) ret.winner = true
+  if (apJson.incumbent === true) ret.incumbent = true
+  if (apJson.winner === 'R') ret.runoff = true
+
+  return ret
 }
 
 function compareCandidates(a, b) {
   // Winner comes first
   if (a.winner !== b.winner) return (a.winner ? 0 : 1) - (b.winner ? 0 : 1)
+
+  // Runoff-ers come first
+  if (a.runoff !== b.runoff) return (a.runoff ? 0 : 1) - (b.runoff ? 0 : 1)
 
   return compareCandidatesIgnoreWinner(a, b)
 }
@@ -129,7 +135,7 @@ function apCandidatesToCandidates(apCandidates, options) {
 
   if (nOther !== 0) {
     // "Other" comes last, always. It can't be the leader.
-    ret.push({ name: 'Other', partyId: 'other', n: nOther, winner: false, incumbent: false })
+    ret.push({ name: 'Other', partyId: 'other', n: nOther })
   }
 
   return ret
@@ -172,13 +178,22 @@ function presidentGeoClassName(race) {
 }
 
 function senateRaceClassName(race) {
+  // Assume candidates are sorted
   if (race.winner) return `${race.winner}-win`
 
-  // Assume candidates are sorted
-  if (race.candidates[0].n === race.candidates[1].n) {
+  const candidates = race.candidates
+  if (candidates[0].runoff && candidates[1].runoff) {
+    if (candidates[0].partyId === candidates[1].partyId) {
+      return `${candidates[0].partyId}-win`
+    } else {
+      return 'tossup'
+    }
+  }
+
+  if (candidates[0].n === candidates[1].n) {
     return 'tossup'
   } else {
-    return `${race.candidates[0].partyId}-lead`
+    return `${candidates[0].partyId}-lead`
   }
 }
 
@@ -196,9 +211,7 @@ function postprocessPresidentRace(race) {
       if (maybeOther.partyId === 'other') {
         race.candidates[race.candidates.length - 1].n += mcmullin.n
       } else {
-        race.candidates.push({
-          name: 'Other', partyId: 'other', n: mcmullin.n, winner: false, incumbent: false
-        })
+        race.candidates.push({ name: 'Other', partyId: 'other', n: mcmullin.n })
       }
     }
   }
