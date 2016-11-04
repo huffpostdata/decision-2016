@@ -44,8 +44,7 @@ function exit(err) {
 /**
  * Writes a new "data/changelog.tsv".
  */
-function writeChangelogEntries(apData1, apData2) {
-  const date = new Date()
+function writeChangelogEntries(apData1, apData2, date) {
   const timestamp = String(date - 0)
 
   const path = `${__dirname}/../data/changelog.tsv`
@@ -71,12 +70,12 @@ function writeChangelogEntries(apData1, apData2) {
  * @param apData Original ApData, from apFs.load()
  * @param reportingUnitOrDistrict "reportingUnit" or "district"
  */
-function update(apData, reportingUnitOrDistrict) {
+function update(apData, reportingUnitOrDistrict, date) {
   if ([ 'reportingUnit', 'district' ].indexOf(reportingUnitOrDistrict) === -1) {
     throw new Error(`reportingUnitOrDistrict must be "reportingUnit" or "district"; got "${reportingUnitOrDistrict}"`)
   }
 
-  const timestamp = String(new Date() - 0)
+  const timestamp = String(date - 0)
 
   const path = apFs[`${reportingUnitOrDistrict}Path`]
   fs.writeFileSync(`${path}-${timestamp}-pre`, fs.readFileSync(`${path}`))
@@ -104,10 +103,10 @@ function tick(callback) {
 
     const apData = apFs.load()
 
-    update(apData, 'reportingUnit')
-    update(apData, 'district')
-
-    writeChangelogEntries(apData, apFs.load())
+    const date = new Date() // date we started the operation
+    update(apData, 'reportingUnit', date)
+    update(apData, 'district', date)
+    writeChangelogEntries(apData, apFs.load(), date)
 
     debug(`Building App…`)
     App.build_output_from_scratch((err, output) => {

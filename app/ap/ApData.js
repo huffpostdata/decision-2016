@@ -29,10 +29,20 @@ function validParty(apPartyId) {
 }
 
 function apCandidateToCandidate(apJson) {
+  const fullName = `${apJson.first} ${apJson.last}`
+
+  // Nudge AP towards "lib", "grn" and "una" -- even if candidates are "Una"
+  // (for "unaffiliated").
+  const partyId = {
+    'Gary Johnson': 'lib',
+    'Jill Stein': 'grn',
+    'Evan McMullin': 'bfa',
+  }[fullName] || validParty(apJson.party)
+
   return {
     name: apJson.last,
-    fullName: `${apJson.first} ${apJson.last}`,
-    partyId: validParty(apJson.party),
+    fullName: fullName,
+    partyId: partyId,
     n: apJson.voteCount,
     winner: (apJson.winner === 'X'),
     incumbent: apJson.incumbent === true
@@ -106,8 +116,9 @@ function apCandidatesToCandidates(apCandidates) {
   const ret = []
   let nOther = 0
   for (const apCandidate of apCandidates) {
-    if (ValidParties.hasOwnProperty(apCandidate.party)) {
-      ret.push(apCandidateToCandidate(apCandidate))
+    const candidate = apCandidateToCandidate(apCandidate)
+    if (candidate.partyId !== 'other') {
+      ret.push(candidate)
     } else {
       nOther += apCandidate.voteCount
     }
@@ -172,6 +183,25 @@ function senateRaceClassName(race) {
 const houseRaceClassName = senateRaceClassName
 
 function postprocessPresidentRace(race) {
+  // Nix Evan McMullin in non-UT
+  if (race.id !== 'UT') {
+    const idx = race.candidates.findIndex(c => c.partyId === 'bfa')
+    const mcmullin = race.candidates[idx]
+    if (idx !== -1) {
+      const maybeOther = race.candidates[race.candidates.length - 1]
+      race.candidates.splice(idx, 1)
+
+      if (maybeOther.partyId === 'other') {
+        race.candidates[race.candidates.length - 1].n += mcmullin.n
+      } else {
+        race.candidates.push({
+          name: 'Other', partyId: 'other', n: mcmullin.n, winner: false, incumbent: false
+        })
+      }
+    }
+  }
+
+  // set race.nVotesClinton, race.nVotesTrump, race.nVotesThird
   let wroteThird = false
   for (const candidate of race.candidates) {
     race.nVotes += candidate.n
@@ -221,7 +251,6 @@ function apRaceToPresidentRace(apRace) {
   }
   race.className = presidentRaceClassName(race)
   postprocessPresidentRace(race)
-
 
   return race
 }
@@ -427,6 +456,11 @@ module.exports = class ApData {
    *     nElectoralVotes: 1,
    *     ... (the rest is all the same)
    *   }
+   *
+   * We set party IDs based on the candidate's name, NOT AP data (which often
+   * shows "Una" -- as in, "unaffiliated"). 'UT' gets an Evan McMullin (party
+   * ID 'bfa'). Other than that, we filter for Donald Trump ('gop'), Hillary
+   * Clinton ('dem'), Gary Johnson ('lib') and Jill Stein ('grn').
    */
   presidentRaces() {
     let ret = []
