@@ -25,8 +25,7 @@ function refreshEls(els, summaries) {
   summary = summaries.house;
   setWidth(bars.dem, summary.wins.dem, summary.total);
   setWidth(bars.gop, summary.wins.gop, summary.total);
-  setWidth(bars.tossup, summary.tossup, summary.total);
-  setWidth(bars.other, summary.total - summary.tossup - summary.wins.dem - summary.wins.gop, summary.total);
+  setWidth(bars.tossup, summary.total - summary.wins.dem - summary.wins.gop, summary.total);
   els.house.image.className = 'image ' + summary.className;
 }
 
@@ -39,7 +38,7 @@ module.exports = function nav(el) {
       bars: {
         clinton: el.querySelector('li.president .clinton'),
         trump: el.querySelector('li.president .trump'),
-        tossup: el.querySelector('li.president .tossup')
+        tossup: el.querySelector('li.president .tossup'),
       },
       image: el.querySelector('li.president .image')
     },
@@ -47,7 +46,7 @@ module.exports = function nav(el) {
       bars: {
         dem: el.querySelector('li.senate .dem'),
         gop: el.querySelector('li.senate .gop'),
-        tossup: el.querySelector('li.senate .tossup')
+        tossup: el.querySelector('li.senate .tossup'),
       },
       image: el.querySelector('li.senate .image')
     },
@@ -56,7 +55,6 @@ module.exports = function nav(el) {
         dem: el.querySelector('li.house .dem'),
         gop: el.querySelector('li.house .gop'),
         tossup: el.querySelector('li.house .tossup'),
-        other: el.querySelector('li.house .other')
       },
       image: el.querySelector('li.house .image')
     }
