@@ -28,7 +28,7 @@ function validParty(apPartyId) {
   return ValidParties[apPartyId] || 'other'
 }
 
-function apCandidateToCandidate(apJson) {
+function apCandidateToCandidate(apJson, options) {
   const fullName = `${apJson.first} ${apJson.last}`
 
   // Nudge AP towards "lib", "grn" and "una" -- even if candidates are "Una"
@@ -39,12 +39,14 @@ function apCandidateToCandidate(apJson) {
     'Evan McMullin': 'bfa',
   }[fullName] || validParty(apJson.party)
 
+  const winner = (options && options.lookAtElectWonNotWinner) ? !!(apJson.electWon) : (apJson.winner === 'X')
+
   return {
     name: apJson.last,
     fullName: fullName,
     partyId: partyId,
     n: apJson.voteCount,
-    winner: (apJson.winner === 'X'),
+    winner: winner,
     incumbent: apJson.incumbent === true
   }
 }
@@ -112,11 +114,11 @@ function compareRaces(a, b) {
   return a.id.localeCompare(b.id)
 }
 
-function apCandidatesToCandidates(apCandidates) {
+function apCandidatesToCandidates(apCandidates, options) {
   const ret = []
   let nOther = 0
   for (const apCandidate of apCandidates) {
-    const candidate = apCandidateToCandidate(apCandidate)
+    const candidate = apCandidateToCandidate(apCandidate, options)
     if (candidate.partyId !== 'other') {
       ret.push(candidate)
     } else {
@@ -484,7 +486,9 @@ module.exports = class ApData {
           stateName: stateName,
           nElectoralVotes: ru.electTotal,
           fractionReporting: state.precinctsReporting === 0 ? 0 : state.precinctsReporting / state.precinctsTotal,
-          candidates: apCandidatesToCandidates(ru.candidates),
+          // second-guess AP: it's NE/ME candidates are called state-wide, not
+          // per-district. electWon is set per-district.
+          candidates: apCandidatesToCandidates(ru.candidates, { lookAtElectWonNotWinner: true }),
           nVotes: 0,
           winner: null
         }
