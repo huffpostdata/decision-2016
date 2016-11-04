@@ -179,7 +179,6 @@ function Tooltip(options) {
     for (var i = 0; i < data.length; i++) {
       _this.raceData[data[i].id] = data[i];
     }
-    console.log(_this.raceData);
   }
 
   this.setData(options.races);

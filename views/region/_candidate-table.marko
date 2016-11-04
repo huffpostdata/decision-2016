@@ -14,9 +14,9 @@ var race=data.model.race
       for(candidate in race.candidates)
         tr.${candidate.partyId}.${candidate.winner ? 'win' : ''}
           td.name - ${candidate.name}
+          td.vote-count - ${formatInt(candidate.n)}
           td.votes
             div.vote-bar.${candidate.partyId}.${candidate.winner ? 'win' : ''} style={width: "${formatPercent(candidate.n / race.nVotes)}"}
-              span.vote-count - ${formatInt(candidate.n)}
           td.percent - ${formatPercent(race.nVotes === 0 ? 0 : candidate.n / race.nVotes)}
 
   p.percent-reporting - ${formatPercent(race.fractionReporting)} of votes counted
