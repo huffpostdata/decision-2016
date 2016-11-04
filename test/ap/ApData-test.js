@@ -239,6 +239,30 @@ describe('ApData', () => {
         expect(race.fractionReporting).to.eq(106/166)
       })
 
+      it('should set winner based on electWon, _not_ winner', () => {
+        const districtRaces2 = JSON.parse(JSON.stringify(districtRaces))
+
+        const exampleJson = {"statePostal":"NE","reportingunitName":"District 3","reportingunitID":"28008","level":"district","districtType":"CD","electTotal":1,"lastUpdated":"2016-11-04T18:30:07.957Z","precinctsReporting":682,"precinctsTotal":693,"precinctsReportingPct":98.41,"candidates":[{"first":"Hillary","last":"Clinton","party":"Dem","candidateID":"31580","polID":"1746","ballotOrder":2,"polNum":"29890","voteCount":85160,"electWon":0,"winner":"X"},{"first":"Donald","last":"Trump","party":"GOP","candidateID":"31489","polID":"8639","ballotOrder":1,"polNum":"29907","voteCount":85167,"electWon":1},{"first":"Jill","last":"Stein","party":"PEC","candidateID":"31594","polID":"895","ballotOrder":4,"polNum":"29968","voteCount":16417,"electWon":0},{"first":"Gary","last":"Johnson","party":"Lib","candidateID":"31497","polID":"31708","ballotOrder":3,"polNum":"29749","voteCount":16254,"electWon":0}]}
+
+        let apJson = null
+        for (const apRace of districtRaces2) {
+          for (const apRu of apRace.reportingUnits) {
+            if (apRu.statePostal === 'NE' && apRu.reportingunitName === 'District 3') {
+              apJson = apRu
+            }
+          }
+        }
+
+        Object.assign(apJson, exampleJson)
+        const candidates = go(reportingUnitRaces, districtRaces2).find(r => r.id === 'NE3').candidates
+        expect(candidates).to.deep.eq([
+          { name: 'Trump', fullName: 'Donald Trump', n: 85167, partyId: 'gop', winner: true, incumbent: false },
+          { name: 'Clinton', fullName: 'Hillary Clinton', n: 85160, partyId: 'dem', winner: false, incumbent: false },
+          { name: 'Stein', fullName: 'Jill Stein', n: 16417, partyId: 'grn', winner: false, incumbent: false },
+          { name: 'Johnson', fullName: 'Gary Johnson', n: 16254, partyId: 'lib', winner: false, incumbent: false },
+        ])
+      })
+
       it('should format candidates', () => {
         const reportingUnitRaces2 = JSON.parse(JSON.stringify(reportingUnitRaces))
         const apJson = reportingUnitRaces2.find(r => r.reportingUnits[0].statePostal === 'AL')
