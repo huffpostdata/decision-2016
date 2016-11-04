@@ -120,13 +120,17 @@ function Tooltip(options) {
   }
 
   function onMouseOver(ev) {
-    if (ev.target.tagName !== 'path' || /mesh$/.test(ev.target.className)) return;
+    if (ev.target.tagName !== 'path' || /mesh$/.test(ev.target.className)) {
+      return;
+    }
 
     var raceId = ev.target.getAttribute('data-race-id');
-    highlight(raceId);
-    buildTable(raceId, options.raceType);
-    _this.tooltip.style.display = 'block'; //set display before getting h/w
-    positionTooltip(ev);
+    if(!_this.raceData[raceId].seatClass || _this.raceData[raceId].seatClass === '3') {
+      highlight(raceId);
+      buildTable(raceId, options.raceType);
+      _this.tooltip.style.display = 'block'; //set display before getting h/w
+      positionTooltip(ev);
+    }
   }
 
   function onMouseOut(ev) {
@@ -140,7 +144,6 @@ function Tooltip(options) {
 
   this.setData = function(data) {
     _this.raceData = {};
-    console.log(_this.raceData);
     for (var i = 0; i < data.length; i++) {
       _this.raceData[data[i].id] = data[i];
     }
