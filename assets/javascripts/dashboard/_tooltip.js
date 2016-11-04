@@ -1,4 +1,5 @@
 
+var formatInt = require('../common/formatInt');
 function hasClass (el, checkClass) {
   return !!el.className.match( checkClass ) //match returns null, return true/false;
 }
@@ -27,44 +28,75 @@ function Tooltip(options) {
   function setText(raceId, raceType) {
     var dataRef = _this.raceData[raceId];
     var textEl = _this.tooltip.querySelector('.inner');
-    var stateName = dataRef.stateName;
-    var nElVotes = null;
-    var precinctsReporting = null;
+    var name = null
+    var summaryFigure = null;
     var htmlInject = null;
 
     switch(raceType) {
       case 'president':
-        nElVotes = dataRef.nElectoralVotes;
+        name = dataRef.stateName;
+        summaryFigure = dataRef.nElectoralVotes;
         // TK better sentence (NE1 and ME1 have one vote)
         htmlInject = [
-          '<h3 class="state-name">' + stateName + '</h3>',
+          '<h3 class="state-name">' + name + '</h3>',
           '<p class="state-summary">The candidate who wins the popular vote ',
-          'will win all ' + nElVotes + ' of ' + stateName + '\'s electoral votes</p>',
+          'will win all ' + summaryFigure + ' of ' + name + '\'s electoral votes</p>',
         ]
         break;
       case 'senate':
-        fractionReporting = dataRef.fractionReporting;
+        name = dataRef.stateName;
+        summaryFigure = dataRef.fractionReporting;
         htmlInject = [
-          '<h3 class="state-name">' + stateName + '</h3>',
-          '<p class="fraction-reporting">' + fractionReporting + '</p>'
+          '<h3 class="state-name">' + name + '</h3>',
+          '<p class="fraction-reporting">' + summaryFigure + '</p>'
         ]
         break;
       case 'house':
+        name = dataRef.name;
+        summaryFigure = dataRef.fractionReporting;
+        htmlInject = [
+          '<h3 class="state-name">' + name + '</h3>',
+          '<p class="fraction-reporting">' + summaryFigure + '</p>'
+        ]
         break;
     }
     textEl.innerHTML = htmlInject.join('');
   }
 
+  function setSingleCandidateHouseRace(data) {
+    var textEl = _this.tooltip.querySelector('.inner');
+    var table = _this.tooltip.querySelector('.candidate-table');
+    var candidate = data.candidates[0];
+    var cdParty = candidate.partyId;
+    var switchObj = {dem: 'Democrat', gop: 'Republican'};
+    var distName = data.name;
+    var name = candidate.fullName;
+    var injectHtml = [
+      '<h3>' + distName + '</h3>',
+      '<p>' + switchObj[cdParty] + ' ' + name + ' won the race uncontested'
+    ]
+    table.innerHTML = '';
+    textEl.innerHTML = injectHtml.join('');
+  }
+
   function buildTable(raceId, raceType) {
-    setText(raceId, raceType);
     var dataRef = _this.raceData[raceId];
+
+    if (raceType === 'house' && dataRef.candidates.length === 1) {
+      setSingleCandidateHouseRace(dataRef);
+      return
+    }
+
+    setText(raceId, raceType);
     var candidates = dataRef.candidates;
     var votesTotal = dataRef.nVotes;
     var table = _this.tooltip.querySelector('.candidate-table');
     if (table === null) return; // DELETEME TK I was getting crashes on staging
+
     var cdType = null;
     var cdVotesAccessor = 'n';
     var cdNameAccessor = 'name';
+
     var leadingCount = Math.max.apply(null, candidates.map(function(d) { return d[cdVotesAccessor]; }));
 
     switch(raceType) {
@@ -91,13 +123,15 @@ function Tooltip(options) {
     for (var i = 0; i < candidates.length; i++) {
       var candidate = candidates[i];
       var cdName = candidate[cdNameAccessor];
+      var incumbentSpan = candidate.incumbent === true ? ' <span class="incumbent">i</span>' : '';
       var cdVotes = candidate[cdVotesAccessor];
-      var cdVotesPct = votesTotal === 0 ? 0 : 100 * (cdVotes / leadingCount);
+      var cdVotesPct = votesTotal === 0 ? 0 : 100 * (cdVotes / votesTotal)
+      var voteBarWidth = votesTotal === 0 ? 0 : 100 * (cdVotes / leadingCount);
       htmlInject.push(['<tr>',
-        '<td class="name">' + cdName + '</td>',
-        '<td class="vote-count">' + cdVotes + '</td>',
+        '<td class="name">' + cdName + incumbentSpan +  '</td>',
+        '<td class="vote-count">' + formatInt(cdVotes) + '</td>',
         '<td class="votes">',
-          '<div class="vote-bar ' + candidate.partyId + '" style="width: ' + cdVotesPct + '%;"></div>',
+          '<div class="vote-bar ' + candidate.partyId + '" style="width: ' + voteBarWidth + '%;"></div>',
         '</td>',
         '<td class="percent">' + Math.round(cdVotesPct) + '%</td>',
         '</tr>'].join(''));
@@ -148,6 +182,7 @@ function Tooltip(options) {
     for (var i = 0; i < data.length; i++) {
       _this.raceData[data[i].id] = data[i];
     }
+    console.log(_this.raceData);
   }
 
   this.setData(options.races);

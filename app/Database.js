@@ -77,7 +77,7 @@ module.exports = class Database {
     const houseRaces = apData.houseRaces()
     const senateRaces = apData.senateRaces()
 
-    const NChangeLogEntries = 5
+    const NChangeLogEntries = 10
 
     this.splash = {
       summaries: summaries,

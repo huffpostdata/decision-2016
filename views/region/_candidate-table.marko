@@ -2,6 +2,7 @@ var formatInt=(new Intl.NumberFormat('en').format)
 var formatPercent=(new Intl.NumberFormat('en', { style: 'percent' }).format)
 
 var race=data.model.race
+var topVoteCount=(Math.max.apply(null, race.candidates.map(function(d){return d.n})))
 
 .candidate-table
   table
@@ -14,9 +15,9 @@ var race=data.model.race
       for(candidate in race.candidates)
         tr.${candidate.partyId}.${candidate.winner ? 'win' : ''}
           td.name - ${candidate.name}
+          td.vote-count - ${formatInt(candidate.n)}
           td.votes
-            div.vote-bar.${candidate.partyId}.${candidate.winner ? 'win' : ''} style={width: "${formatPercent(candidate.n / race.nVotes)}"}
-              span.vote-count - ${formatInt(candidate.n)}
+            div.vote-bar.${candidate.partyId}.${candidate.winner ? 'win' : ''} style={width: "${formatPercent(candidate.n / topVoteCount)}"}
           td.percent - ${formatPercent(race.nVotes === 0 ? 0 : candidate.n / race.nVotes)}
 
   p.percent-reporting - ${formatPercent(race.fractionReporting)} of votes counted
