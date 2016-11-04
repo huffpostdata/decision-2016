@@ -8,6 +8,7 @@ function setUpHouse(data, i18n) {
   house_seats.querySelector('h2').innerHTML = i18n.t('h2.House Seats');
   house_seats.querySelector('.count').innerHTML = i18n.t('banner.All 435 seats up for re-election');
   house_seats.querySelector('.balance').innerHTML = i18n.t('house.Balance of Power');
+  house_seats.querySelector('a').setAttribute("target", "_blank");
 }
 
 function updateHouseSeats(data) {
@@ -41,6 +42,7 @@ function setUpSenate(data, i18n) {
   senate_seats.querySelector('h2').innerHTML = i18n.t('h2.Senate Seats');
   senate_seats.querySelector('.count').innerHTML = i18n.t('banner.34 seats up for re-election');
   senate_seats.querySelector('.balance').innerHTML = i18n.t('senate.Balance of Power');
+  senate_seats.querySelector('a').setAttribute("target", "_blank");
 }
 
 function updateSenateSeats(data) {
