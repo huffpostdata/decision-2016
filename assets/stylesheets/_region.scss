@@ -37,3 +37,5 @@ body.region {
   path.other-lead { fill: $other-lead-color; }
   path.tossup { fill: $tossup-color; }
 }
+
+@import 'region/_house-races.scss';
