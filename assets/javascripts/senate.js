@@ -1,9 +1,9 @@
 var Changelog = require('./dashboard/_changelog');
 var Map = require('./dashboard/_map');
 var nav = require('./dashboard/_nav');
+var Tooltip = require('./dashboard/_tooltip');
 var summary = require('./senate/_summary');
 var refresh = require('./common/_refresh');
-var Tooltip = require('./senate/_tooltip');
 
 var initialJson = JSON.parse(document.querySelector('script[data-json]').getAttribute('data-json'));
 
@@ -28,7 +28,8 @@ updateNav(initialJson.summaries);
 var tooltip = new Tooltip({
   el: document.getElementById('tooltip'),
   mapEl: mapEl,
-  races: initialJson.races
+  races: initialJson.races,
+  raceType: 'senate'
 });
 
 function doRefresh(json) {

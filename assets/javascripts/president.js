@@ -1,9 +1,9 @@
 var Changelog = require('./dashboard/_changelog');
 var Map = require('./dashboard/_map');
 var nav = require('./dashboard/_nav');
+var Tooltip = require('./dashboard/_tooltip');
 var refresh = require('./common/_refresh');
 var summary = require('./president/_summary');
-var Tooltip = require('./president/_tooltip');
 
 var initialJson = JSON.parse(document.querySelector('script[data-json]').getAttribute('data-json'));
 
@@ -29,7 +29,8 @@ updateSummary(initialJson);
 var tooltip = new Tooltip({
   el: document.getElementById('tooltip'),
   mapEl: mapEl,
-  races: initialJson.races
+  races: initialJson.races,
+  raceType: 'president'
 });
 
 function doRefresh(json) {
