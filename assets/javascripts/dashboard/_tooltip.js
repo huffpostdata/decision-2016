@@ -123,12 +123,13 @@ function Tooltip(options) {
       var candidate = candidates[i];
       var cdName = candidate[cdNameAccessor];
       var cdVotes = candidate[cdVotesAccessor];
-      var cdVotesPct = votesTotal === 0 ? 0 : 100 * (cdVotes / leadingCount);
+      var cdVotesPct = votesTotal === 0 ? 0 : 100 * (cdVotes / votesTotal)
+      var voteBarWidth = votesTotal === 0 ? 0 : 100 * (cdVotes / leadingCount);
       htmlInject.push(['<tr>',
         '<td class="name">' + cdName + '</td>',
         '<td class="vote-count">' + cdVotes + '</td>',
         '<td class="votes">',
-          '<div class="vote-bar ' + candidate.partyId + '" style="width: ' + cdVotesPct + '%;"></div>',
+          '<div class="vote-bar ' + candidate.partyId + '" style="width: ' + voteBarWidth + '%;"></div>',
         '</td>',
         '<td class="percent">' + Math.round(cdVotesPct) + '%</td>',
         '</tr>'].join(''));
