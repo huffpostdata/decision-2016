@@ -3,7 +3,7 @@ function writeInt(i) { return i === null ? '' : String(i); }
 var IntType = { read: readInt, write: writeInt };
 
 function readDouble(s) { return s === '' ? null : parseFloat(s); }
-function writeDouble(d) { return d === '' ? '' : String(d); }
+function writeDouble(d) { return d === null ? '' : String(d); }
 var DoubleType = { read: readDouble, write: writeDouble };
 
 function readDate(s) { return new Date(Date.parse(s)); }
