@@ -482,7 +482,15 @@ describe('ApData', () => {
       })
     })
 
-    it('should set className')
+    it('should set className=dem-win')
+    it('should set className=dem-win when 50-50 and prez is called')
+    it('should set className=dem-lead based on the className of each race')
+    it('should set className=dem-lead when 50-50 and clinton leads prez race')
+    it('should set className=tossup when 50-50 and prez is tossup')
+    it('should set className=gop-lead when 50-50 and trump leads prez race')
+    it('should set className=gop-lead based on the className of each race')
+    it('should set className=gop-win when 50-50 and prez is called')
+    it('should set className=gop-win')
   }) // #senateSummary
 
   describe('#houseSummary', () => {
@@ -558,7 +566,11 @@ describe('ApData', () => {
       })
     })
 
-    it('should set className')
+    it('should set className=dem-win')
+    it('should set className=dem-lead based on the className of each race')
+    it('should set className=tossup based on [?????]')
+    it('should set className=gop-lead based on the className of each race')
+    it('should set className=gop-win')
   }) // #houseSummary
 
   describe('#senateRaces', () => {
