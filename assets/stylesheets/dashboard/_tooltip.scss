@@ -2,7 +2,7 @@
   display: none;
   position: absolute;
   z-index: 1;
-  width: 230px;
+  width: 300px;
   height: auto;
   pointer-events: none;
   border: 1px solid #bdbdbd;
@@ -10,66 +10,30 @@
   .inner {
     position: relative;
     display: block;
-    padding: 5px;
     margin: auto;
-    width: 100%;
+    // width: 100%;
     p {
       font-size: 12px;
     }
-
-    .state-name{
-      margin: 0px;
-    }
-
-    table {
-      th {
-        font-size: 12px;
-        text-align: left;
-        &.vote-pct,
-        &.vote-ct {
-          font-weight: 300;
-        }
-        &.cd {
-          font-weight: 700;
-        }
-      }
-      position: relative;
-      width: 100%;
-      .name {
-        font-size: 12px;
-      }
-      .vote-count {
-        font-size: 12px;
-        text-align: center;
-      }
-      .vote-div {
-        width: 100%;
-        position: relative;
-        display: inline-block;
-        span {
-          font-size: 11px;
-        }
-      }
-    }
-    .arrow-down {
-      position: absolute;
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-top: 10px solid #fff;
-      bottom: -10px;
-      left: 115px;
-    }
-    .arrow-border {
-      position: absolute;
-      width: 0;
-      height: 0;
-      border-left: 11px solid transparent;
-      border-right: 11px solid transparent;
-      border-top: 11px solid #bdbdbd;
-      bottom: -11px;
-      left: 114px;
-    }
+    // .arrow-down {
+    //   position: absolute;
+    //   width: 0;
+    //   height: 0;
+    //   border-left: 10px solid transparent;
+    //   border-right: 10px solid transparent;
+    //   border-top: 10px solid #fff;
+    //   bottom: -10px;
+    //   left: 115px;
+    // }
+    // .arrow-border {
+    //   position: absolute;
+    //   width: 0;
+    //   height: 0;
+    //   border-left: 11px solid transparent;
+    //   border-right: 11px solid transparent;
+    //   border-top: 11px solid #bdbdbd;
+    //   bottom: -11px;
+    //   left: 114px;
+    // }
   }
 }

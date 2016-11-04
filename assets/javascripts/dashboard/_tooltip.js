@@ -64,6 +64,7 @@ function Tooltip(options) {
     var cdType = null;
     var cdVotesAccessor = 'n';
     var cdNameAccessor = 'name';
+    var leadingCount = Math.max.apply(null, candidates.map(function(d) { return d[cdVotesAccessor]; }));
 
     switch(raceType) {
       case 'president':
@@ -81,22 +82,21 @@ function Tooltip(options) {
     }
 
     var htmlInject = ['<table>', '<thead>', '<tr>',
-      '<th class="cd">' + cdType + '</th>',
-      '<th class="vote-ct">VOTES</th>',
-      '<th class="vote-pct">PERCENT</th>',
+      '<th class="name">' + cdType + '</th>',
+      '<th class="votes" colspan="2">VOTES</th>',
+      '<th class="percent"></th>',
       '</tr>', '</thead><tbody>'];
 
     for (var i = 0; i < candidates.length; i++) {
       var candidate = candidates[i];
       var cdName = candidate[cdNameAccessor];
       var cdVotes = candidate[cdVotesAccessor];
-      var cdVotesPct = votesTotal === 0 ? 0 : 100 * (cdVotes / votesTotal);
+      var cdVotesPct = votesTotal === 0 ? 0 : 100 * (cdVotes / leadingCount);
       htmlInject.push(['<tr>',
         '<td class="name">' + cdName + '</td>',
+        '<td class="vote-count">' + cdVotes + '</td>',
         '<td class="votes">',
-            '<div class="vote-bar ' + candidate.partyId + '" style="width: ' + cdVotesPct + '%;">',
-              '<span class="vote-count">' + cdVotes + '</span>',
-            '</div',
+          '<div class="vote-bar ' + candidate.partyId + '" style="width: ' + cdVotesPct + '%;"></div>',
         '</td>',
         '<td class="percent">' + Math.round(cdVotesPct) + '%</td>',
         '</tr>'].join(''));
