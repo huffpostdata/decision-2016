@@ -27,7 +27,7 @@ module.exports = [
   { x: 599, y: 494, text: 'Okla.' },
   { x: 547, y: 607, text: 'Texas' },
   { x: 393, y: 510, text: 'N.M.' },
-  { x: 573, y: 407, text: 'Kan.' },
+  { x: 573, y: 407, text: 'Kansas' },
   { x: 558, y: 320, text: 'Neb.' },
   { x: 542, y: 235, text: 'S.D.' },
   { x: 545, y: 150, text: 'N.D.' },
