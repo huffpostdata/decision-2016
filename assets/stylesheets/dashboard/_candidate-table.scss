@@ -7,13 +7,13 @@
     &.trump-win,
     &.gop-win {
       tr.winner {
-        background-color: $gop-background;
+        background-color: lighten($gop-background, 5);
       }
     }
     &.clinton-win,
     &.dem-win {
       tr.winner {
-        background-color: $dem-background;
+        background-color: lighten($dem-background, 5);
       }
     }
   }
