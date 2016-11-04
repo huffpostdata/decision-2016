@@ -1,4 +1,10 @@
 #recirculation
+  h2 - Trending Politics Stories On The Huffington Post
+  <!-- placeholder, to set size -->
+  div
+    <a><div class="image"><img height="314" width="628" src="about:blank" alt=""></div><span></span></a>
+    <a><div class="image"><img height="314" width="628" src="about:blank" alt=""></div><span></span></a>
+    <a><div class="image"><img height="314" width="628" src="about:blank" alt=""></div><span></span></a>
 
 script
   ---
@@ -47,11 +53,8 @@ script
       var links = entries.map(buildLink);
 
       var container = document.getElementById('recirculation');
-      var h2 = document.createElement('h2');
-      h2.textContent = 'Trending Politics Stories On The Huffington Post';
-      container.appendChild(h2);
-      var div = document.createElement('div');
-      container.appendChild(div);
+      var div = container.querySelector('div');
+      div.innerHTML = '';
       links.forEach(function(link) {
         div.appendChild(link);
       });
