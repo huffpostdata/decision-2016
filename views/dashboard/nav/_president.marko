@@ -7,7 +7,7 @@ else
 
 .bar
   .clinton style="width: ${100 * summary.nClintonElectoralVotes / summary.nElectoralVotes}%"
-  .tossup style="width: ${100 * summary.nTossupElectoralVotes / summary.nElectoralVotes}%"
+  .tossup style="width: ${100 * (summary.nElectoralVotes - summary.nClintonElectoralVotes - summary.nTrumpElectoralVotes) / summary.nElectoralVotes}%"
   .trump style="width: ${100 * summary.nTrumpElectoralVotes / summary.nElectoralVotes}%"
 
-.image.${summary.winner ? (summary.winner + '-win') : (summary.nClintonElectoralVotes > summary.nTrumpElectoralVotes ? 'clinton-lead' : (summary.nTrumpElectoralVotes > summary.nClintonElectoralVotes ? 'trump-lead' : ''))}
+.image.${summary.className}
