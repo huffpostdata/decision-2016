@@ -1,4 +1,5 @@
 
+var formatInt = require('../common/formatInt');
 function hasClass (el, checkClass) {
   return !!el.className.match( checkClass ) //match returns null, return true/false;
 }
@@ -122,12 +123,13 @@ function Tooltip(options) {
     for (var i = 0; i < candidates.length; i++) {
       var candidate = candidates[i];
       var cdName = candidate[cdNameAccessor];
+      var incumbentSpan = candidate.incumbent === true ? ' <span class="incumbent">i</span>' : '';
       var cdVotes = candidate[cdVotesAccessor];
       var cdVotesPct = votesTotal === 0 ? 0 : 100 * (cdVotes / votesTotal)
       var voteBarWidth = votesTotal === 0 ? 0 : 100 * (cdVotes / leadingCount);
       htmlInject.push(['<tr>',
-        '<td class="name">' + cdName + '</td>',
-        '<td class="vote-count">' + cdVotes + '</td>',
+        '<td class="name">' + cdName + incumbentSpan +  '</td>',
+        '<td class="vote-count">' + formatInt(cdVotes) + '</td>',
         '<td class="votes">',
           '<div class="vote-bar ' + candidate.partyId + '" style="width: ' + voteBarWidth + '%;"></div>',
         '</td>',
@@ -180,6 +182,7 @@ function Tooltip(options) {
     for (var i = 0; i < data.length; i++) {
       _this.raceData[data[i].id] = data[i];
     }
+    console.log(_this.raceData);
   }
 
   this.setData(options.races);
