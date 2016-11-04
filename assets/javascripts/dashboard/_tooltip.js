@@ -114,7 +114,8 @@ function Tooltip(options) {
         break
     }
 
-    var htmlInject = ['<table>', '<thead>', '<tr>',
+    var htmlInject = ['<table class="' + dataRef.className + '">',
+      '<thead>', '<tr>',
       '<th class="name">' + cdType + '</th>',
       '<th class="votes" colspan="2">VOTES</th>',
       '<th class="percent"></th>',
@@ -122,12 +123,13 @@ function Tooltip(options) {
 
     for (var i = 0; i < candidates.length; i++) {
       var candidate = candidates[i];
+      var candidateWon = candidate.winner ? 'winner' : '';
       var cdName = candidate[cdNameAccessor];
       var incumbentSpan = candidate.incumbent === true ? ' <span class="incumbent">i</span>' : '';
       var cdVotes = candidate[cdVotesAccessor];
       var cdVotesPct = votesTotal === 0 ? 0 : 100 * (cdVotes / votesTotal)
       var voteBarWidth = votesTotal === 0 ? 0 : 100 * (cdVotes / leadingCount);
-      htmlInject.push(['<tr>',
+      htmlInject.push(['<tr class="' + candidateWon + '">',
         '<td class="name">' + cdName + incumbentSpan +  '</td>',
         '<td class="vote-count">' + formatInt(cdVotes) + '</td>',
         '<td class="votes">',
@@ -182,7 +184,6 @@ function Tooltip(options) {
     for (var i = 0; i < data.length; i++) {
       _this.raceData[data[i].id] = data[i];
     }
-    console.log(_this.raceData);
   }
 
   this.setData(options.races);

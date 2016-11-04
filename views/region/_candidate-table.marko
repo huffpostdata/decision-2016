@@ -5,7 +5,7 @@ var race=data.model.race
 var topVoteCount=(Math.max.apply(null, race.candidates.map(function(d){return d.n})))
 
 .candidate-table
-  table
+  table.${race.className}
     thead
       tr
         th.name - ${data.model.candidateTh}
@@ -13,11 +13,11 @@ var topVoteCount=(Math.max.apply(null, race.candidates.map(function(d){return d.
         th.percent - Percent
     tbody
       for(candidate in race.candidates)
-        tr.${candidate.partyId}.${candidate.winner ? 'win' : ''}
+        tr.${candidate.winner ? 'winner' : ''}
           td.name - ${candidate.name}
           td.vote-count - ${formatInt(candidate.n)}
           td.votes
-            div.vote-bar.${candidate.partyId}.${candidate.winner ? 'win' : ''} style={width: "${formatPercent(candidate.n / topVoteCount)}"}
+            div.vote-bar.${candidate.partyId} style={width: "${formatPercent(candidate.n / topVoteCount)}"}
           td.percent - ${formatPercent(race.nVotes === 0 ? 0 : candidate.n / race.nVotes)}
 
   p.percent-reporting - ${formatPercent(race.fractionReporting)} of votes counted
