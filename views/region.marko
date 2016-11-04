@@ -16,7 +16,7 @@ html lang="en"
       $!{data.helpers.partial('dashboard/_refresh')}
 
     section.president
-      h2 - President
+      h2.section-header - President
       .section-inner
         aside
           p - TK sentence
@@ -26,7 +26,7 @@ html lang="en"
 
     if(data.model.races.senate)
       section.senate
-        h2 - Senate
+        h2.section-header - Senate
         .section-inner
           aside
             p - TK sentence
@@ -35,21 +35,21 @@ html lang="en"
             .geo-map.senate-map - $!{data.helpers.geoSvg(data.model.id)}
 
     section.house
-      h2 - House
+      h2.section-header - House
       .section-inner
         aside
           p - TK sentence
-          p - TK percent reporting
+          p.percent-reporting - TK percent reporting
           .house-map - $!{data.helpers.districtSvg(data.model.id)}
         .section-main - $!{data.helpers.partial('region/_house-races')}
 
     if(data.model.races.ballot.length)
       section.ballot
-        h2 - Ballot Initiatives
+        h2.section-header - Ballot Initiatives
         .section-inner
           aside
             p - TK sentence
-            p - TK percent reporting
+            p.percent-reporting - TK percent reporting
           .section-main - $!{data.helpers.partial('region/_ballot-races')}
 
     $!{data.helpers.partial('_footer')}

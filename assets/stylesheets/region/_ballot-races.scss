@@ -5,10 +5,18 @@
   }
 
   td {
-    padding: .25rem .5rem;
-    border-top: 1px solid $very-muted-color;
+    padding: .5rem .5rem;
+    border-top: 1px solid $very-very-muted-color;
     &:first-child { padding-left: 0; }
     &:last-child { padding-right: 0; }
+  }
+
+  th {
+  &:first-child {text-align: left;}
+  text-align: center;
+  text-transform: uppercase;
+  padding: 5px 0;
+  border-bottom: 1px solid black;
   }
 
   td.yay, td.nay {
@@ -24,7 +32,9 @@
   }
 
   a {
-    font-size: .75rem;
+  text-transform: uppercase;
+  color:$gop-color;
+    font-size: .65rem;
   }
 
   .result {
@@ -36,12 +46,17 @@
       font-size: .75rem;
     }
   }
-  tr.yay-win td.yay .result {
-    background-color: $yay-color;
+  tr.yay-win td.yay .result  {
+    color: $background;
+    background-color: $grn-color;
     &::before { content: '✔'; }
+
+    small {color: $background;}
   }
   tr.nay-win td.nay .result {
-    background-color: $nay-color;
+    color: $background;
+    background-color: $other-color;
     &::before { content: '✔'; }
+    small {color: $background;}
   }
 }

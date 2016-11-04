@@ -10,7 +10,7 @@ var topVoteCount=(Math.max.apply(null, race.candidates.map(function(d){return d.
       tr
         th.name - ${data.model.candidateTh}
         th.votes - Votes
-        th.percent - Percent
+        th.percent - 
     tbody
       for(candidate in race.candidates)
         tr.${candidate.partyId}.${candidate.winner ? 'win' : ''}
