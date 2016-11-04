@@ -48,7 +48,6 @@ function apCandidateToCandidate(apJson, options) {
     partyId: partyId,
     n: n,
   }
-  if (ret.n * 0 !== 0) throw new Error(`ret: ${JSON.stringify(ret)}`)
   if (winner) ret.winner = true
   if (apJson.incumbent === true) ret.incumbent = true
   if (apJson.winner === 'R') ret.runoff = true
