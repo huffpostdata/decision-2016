@@ -61,6 +61,7 @@ function Tooltip(options) {
     var candidates = dataRef.candidates;
     var votesTotal = dataRef.nVotes;
     var table = _this.tooltip.querySelector('.candidate-table');
+    if (table === null) return; // DELETEME TK I was getting crashes on staging
     var cdType = null;
     var cdVotesAccessor = 'n';
     var cdNameAccessor = 'name';
@@ -140,7 +141,6 @@ function Tooltip(options) {
 
   this.setData = function(data) {
     _this.raceData = {};
-    console.log(_this.raceData);
     for (var i = 0; i < data.length; i++) {
       _this.raceData[data[i].id] = data[i];
     }
