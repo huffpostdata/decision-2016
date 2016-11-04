@@ -40,13 +40,15 @@ function apCandidateToCandidate(apJson, options) {
   }[fullName] || validParty(apJson.party)
 
   const winner = (options && options.lookAtElectWonNotWinner) ? !!(apJson.electWon) : (apJson.winner === 'X')
+  const n = apJson.voteCount ? apJson.voteCount : 0
 
   const ret = {
     name: apJson.last,
     fullName: fullName,
     partyId: partyId,
-    n: apJson.voteCount,
+    n: n,
   }
+  if (ret.n * 0 !== 0) throw new Error(`ret: ${JSON.stringify(ret)}`)
   if (winner) ret.winner = true
   if (apJson.incumbent === true) ret.incumbent = true
   if (apJson.winner === 'R') ret.runoff = true
@@ -454,9 +456,9 @@ module.exports = class ApData {
    *     nVotesTrump: 612,
    *     nVotesThird: 2, // votes for top third-party candidate
    *     candidates: [
-   *      { name: 'Clinton', partyId: 'dem', fullName: 'Hillary Clinton', n: 612, winner: false },
-   *      { name: 'Trump', partyId: 'gop', fullName: 'Donald Trump', n: 612, winner: false },
-   *      { name: 'Johnson', partyId: 'lib', fullName: 'Gary Johnson', n: 2, winner: false },
+   *      { name: 'Clinton', partyId: 'dem', fullName: 'Hillary Clinton', n: 612 },
+   *      { name: 'Trump', partyId: 'gop', fullName: 'Donald Trump', n: 612 },
+   *      { name: 'Johnson', partyId: 'lib', fullName: 'Gary Johnson', n: 2 },
    *      ...
    *     ]
    *   }
@@ -549,57 +551,58 @@ module.exports = class ApData {
    * will caucus with one or the other.
    */
   senateSummary() {
-    const NTotal = 100
-    const NDemPrior = 36
-    const NGopPrior = 30
-    const NRaces = NTotal - NDemPrior - NGopPrior
-
-    const wins = { dem: 0, gop: 0 }
-    const totals = { dem: NDemPrior, gop: NGopPrior }
+    let n = 0
     const popular = { dem: 0, gop: 0 }
+    const totals = { dem: 0, gop: 0 }
+    const wins = { dem: 0, gop: 0 }
+    const priors = { dem: 0, gop: 0 }
 
-    const races = this.reportingUnitElections.findSenateRaces()
-    if (races.length != NRaces) {
-      throw new Error(`URGENT: expected ${NRaces} Senate races; got ${races.length}`)
-    }
-    for (const race of races) {
-      let foundWin = false
+    for (const race of this.senateRaces()) {
+      n += 1
 
-      if (race.reportingUnits && race.reportingUnits.length > 0) { // if AP is reporting votes
-        for (const candidate of race.reportingUnits[0].candidates) {
-          if (candidate.party === 'Dem') popular.dem += candidate.voteCount
-          if (candidate.party === 'GOP') popular.gop += candidate.voteCount
-
-          if (candidate.winner === 'X') {
-            foundWin = true
-
-            if (candidate.party !== 'Dem' && candidate.party !== 'GOP') {
-              throw new Error(`URGENT: a Senate winner is from party ${candidate.party} but we only handle "Dem" and "GOP"`)
-            }
-
-            const partyId = candidate.party.toLowerCase()
-            wins[partyId] += 1
-            totals[partyId] += 1
+      if (/^..S3$/.test(race.id)) { // ignore prior races
+        for (const candidate of race.candidates) {
+          if (popular.hasOwnProperty(candidate.partyId)) {
+            popular[candidate.partyId] += candidate.n
           }
         }
       }
 
-      if (!foundWin && apRaceToStateCode(race) === 'CA') {
-        // CA is a race between a Democrat and a Democrat
-        wins.dem += 1
-        totals.dem += 1
+      switch (race.className) {
+        case 'dem-prior':
+          totals.dem += 1
+          priors.dem += 1
+          break
+        case 'gop-prior':
+          totals.gop += 1
+          priors.gop += 1
+          break
+        case 'dem-win':
+          totals.dem += 1
+          wins.dem += 1
+          break
+        case 'gop-win':
+          totals.gop += 1
+          wins.gop += 1
+          break
+        case 'dem-lead':
+        case 'gop-lead':
+        case 'tossup':
+          break
       }
     }
+
+    if (n != 100) throw new Error(`URGENT: expected 100 Senate races; got ${n}`)
 
     const className = totals.dem > 50 ? 'dem-win'
       : (totals.gop > 50 ? 'gop-win'
         : (totals.dem > totals.gop ? 'dem-lead'
-          : (totals.gop > totals.dem ? 'gop-lead' : 'tossup')))
+          : (totals.gop > totals.dem ? 'gop-lead' : this.presidentSummary().className)))
 
     return {
-      n: NTotal,
-      tossup: NTotal - NDemPrior - NGopPrior - wins.dem - wins.gop,
-      priors: { dem: NDemPrior, gop: NGopPrior },
+      n: n,
+      tossup: n - totals.dem - totals.gop,
+      priors: priors,
       wins: wins,
       totals: totals,
       popular: popular,
@@ -682,7 +685,7 @@ module.exports = class ApData {
    *       winner: 'dem',
    *       candidates: [
    *        { name: 'Smith', partyId: 'dem', n: 13001, winner: true },
-   *        { name: 'Black', partyId: 'gop', n: 12111, winner: false },
+   *        { name: 'Black', partyId: 'gop', n: 12111 },
    *        ...
    *       ]
    *     },
@@ -712,7 +715,7 @@ module.exports = class ApData {
    *       winner: 'dem',
    *       candidates: [
    *        { name: 'Smith', partyId: 'dem', n: 13001, winner: true },
-   *        { name: 'Black', partyId: 'gop', n: 12111, winner: false },
+   *        { name: 'Black', partyId: 'gop', n: 12111 },
    *        ...
    *       ]
    *     },
