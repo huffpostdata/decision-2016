@@ -30,25 +30,33 @@
     }
   }
 
-  #house_seats a,
-  #senate_seats a{
-    h2,
-    .count,
-    .races,
+  #house_seats,
+  #senate_seats{
     .legend {
-      padding-bottom: .5rem;
-    }
-    .legend {
-      order: 5;
-      height: 3rem;
-      align-items: flex-start;
-      .balance {
-        font-size: 0.75rem;
-        align-self: flex-end;
+      .gop,
+      .dem {
+        // max-width: 50px;
       }
     }
-    .details {
-      display: none;
+    a {
+      h2,
+      .count,
+      .races,
+      .legend {
+        padding-bottom: .5rem;
+      }
+      .legend {
+        order: 5;
+        height: 3rem;
+        align-items: flex-start;
+        .balance {
+          font-size: 0.75rem;
+          align-self: flex-end;
+        }
+      }
+      .details {
+        display: none;
+      }
     }
   }
 }
