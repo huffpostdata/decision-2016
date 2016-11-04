@@ -1,44 +1,28 @@
-body.region section.region {
-  @include wide-width();
-}
+body.region {
+  section { @include wide-width(); }
 
-section.region {
-  *[class$=-only] { display: none; }
-  &.president .president-only { display: block; }
-  &.senate .senate-only { display: block; }
-  &.house .house-only { display: block; }
-  &.ballot .ballot-only { display: block; }
-
-  .columns {
+  .section-inner {
     @media (min-width: $min-desktop-width) {
       display: flex;
-      .left-column { width: 15rem; }
-      .right-column { flex: 1 1 auto; }
+      aside { width: 15rem; margin-right: 1.5rem; }
+      .section-main { flex: 1 1 auto; }
     }
   }
 
-  .geo-map, .district-map {
+  .geo-map, .house-map {
     position: relative;
     width: 100%;
 
-    &::before {
-      content: '';
-      display: block;
-      height: 0;
-      padding-bottom: 100%; // We fit each map into a square
-    }
-
     svg {
       display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: 25rem;
     }
   }
 
-  path:not[class$=-mesh] { fill: $tossup-color; }
+  path { stroke: none; fill: $tossup-color; }
+  path[class$=-mesh] { fill: none; stroke: $background; stroke-width: 3px; }
   path.gop-win { fill: $gop-color; }
   path.dem-win { fill: $dem-color; }
   path.lib-win { fill: $lib-color; }
@@ -52,26 +36,9 @@ section.region {
   path.bfa-lead { fill: $bfa-lead-color; }
   path.other-lead { fill: $other-lead-color; }
   path.tossup { fill: $tossup-color; }
-
-  .geo-map {
-    // TK revisit once we finalize maps
-    path.state, g.districts, path.districts-mesh { display: none; }
-
-    path.counties-mesh {
-      stroke: white;
-      stroke-width: 3px;
-      fill: none;
-    }
-  }
-
-  .district-map {
-    // TK revisit once we finalize maps
-    path.state, g.geos, path.counties-mesh { display: none; }
-
-    path.districts-mesh {
-      stroke: white;
-      stroke-width: 5px;
-      fill: none;
-    }
-  }
 }
+
+@import 'region/_president-race.scss';
+@import 'region/_senate-race.scss';
+@import 'region/_house-races.scss';
+@import 'region/_ballot-races.scss';

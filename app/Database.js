@@ -145,6 +145,7 @@ module.exports = class Database {
       return {
         id: regionId,
         metadata: metadata,
+        summaries: summaries,
         races: regionIdToRaces[regionId],
         jsonBuffer: Buffer.from(JSON.stringify(regionIdToRaces[regionId]), 'utf8')
       }
