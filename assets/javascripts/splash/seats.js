@@ -5,7 +5,7 @@ var MAX_SENATE_GRID = 25*4; // Each column is 4 boxes tall by 25 wide
 
 function setUpHouse(data, i18n) {
   house_seats.innerHTML = markoHouse;
-  house_seats.querySelector('h2').innerHTML = i18n.t('h5.House Seats');
+  house_seats.querySelector('h2').innerHTML = i18n.t('h2.House Seats');
   house_seats.querySelector('.count').innerHTML = i18n.t('banner.All 435 seats up for re-election');
   house_seats.querySelector('.balance').innerHTML = i18n.t('house.Balance of Power');
 }
@@ -38,7 +38,7 @@ function updateHouseSeats(data) {
 
 function setUpSenate(data, i18n) {
   senate_seats.innerHTML = markoSenate;
-  senate_seats.querySelector('h2').innerHTML = i18n.t('h5.Senate Seats');
+  senate_seats.querySelector('h2').innerHTML = i18n.t('h2.Senate Seats');
   senate_seats.querySelector('.count').innerHTML = i18n.t('banner.34 seats up for re-election');
   senate_seats.querySelector('.balance').innerHTML = i18n.t('senate.Balance of Power');
 }

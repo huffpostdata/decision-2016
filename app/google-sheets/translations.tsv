@@ -5,146 +5,152 @@ banner.See full results	Link to English-only results page. It should end in " »
 battleground.blurb	text under battlegrounds title	These are the states that will decide the election.					هذه الولايات هي التي ستحسم الانتخابات.	Die Staaten, die über den Ausgang der Wahl entscheiden werden.	Αυτές είναι οι πολιτείες που θα κρίνουν τις εκλογές	Estados clave en las elecciones	Los estados que decidirán la elección	Les États qui feront l'élection			Gli Stati che decideranno le elezioni	この激戦州が選挙の行方を決める	격전 주	Estados-chave nas eleições 
 battleground.precincts		Precincts Reporting					إحصاءات مراكز الاقتراع	Stimmen ausgezählt	Aνταπόκριση από τα εκλογικά κέντρα	Colegios escrutados	Colegios escrutados	Bureaux de vote comptabilisés			Collegi elettorali	選挙区レポート	선거구 보고	Colégios eleitorais
 counts.270 to win		270 Electoral Votes Needed To Win					270 صوتاً انتخابياً مطلوباً لضمان الفوز	270 Stimmen zum Sieg benötigt	270 εκλεκτορικές ψήφοι που απαιτούνται για την νίκη	Se necesitan 270 votos electorales para ganar	270 votos electorales para ganar	270 votes de grands électeurs requis pour gagner			270 voti di grandi elettori necessari per vincere	当選に必要な選挙人数（270）	승리에 필요한 득표수 270	São necessários 270 votos no colégio eleitoral
-counts.n Electoral Votes	PLURALIZED number of electors pledged to the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Electoral Vote |||| %{smart_count} Electoral Votes					%{smart_count} صوتاً انتخابياً |||| %{smart_count} أصواتاً انتخابية	%{smart_count} Wahlmännerstimme |||| %{smart_count} Wahlmännerstimmen	Εκλεκτορικές ψήφοι	Votos electorales	 Votos electorales	vote de grand électeur / votes de grands électeurs			voti dei grandi elettori	%{smart_count} 選挙人投票|||| %{smart_count}選挙人投票	%{smart_count} 득표수 |||| %{smart_count} 득표수	Votos no colégio eleitoral
-counts.n Popular Votes	PLURALIZED number of humans who voted for the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Popular Vote |||| %{smart_count} Popular Votes					%{smart_count} صوتاً انتخابياً شعبياً |||| %{smart_count} أصواتاً انتخابية شعبية	Stimmen aus der Bevölkerung	Λαϊκή ψήφος	Votos	Voto popular	voix			voti	%{smart_count} 一般投票|||| %{smart_count}一般投票	%{smart_count} 일반 투표 |||| %{smart_count} 일반 투표	Votos no colégio eleitoral
-counts.Precincts Reporting	A table header	Precincts Reporting					إحصاءات مراكز الاقتراع	Stimmen ausgezählt	Aνταπόκριση από τα εκλογικά κέντρα	Circunscripción electoral	Conteo por distritos	Bureaux de vote comptabilisés			Collegio dei voti	選挙区レポート	선거구 보고	Colégios eleitorais
+counts.n Electoral Votes	PLURALIZED number of electors pledged to the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Electoral Vote |||| %{smart_count} Electoral Votes					%{smart_count} صوتاً انتخابياً |||| %{smart_count} أصواتاً انتخابية	%{smart_count} Wahlmännerstimme |||| %{smart_count} Wahlmännerstimmen	%{smart_count} Εκλεκτορικές Ψήφοι |||| %{smart_count} Εκλεκτορικές Ψήφοι	Votos electorales	%{smart_count} Votos electorales |||| %{smart_count} Votos electorales	%{smart_count} vote de grand électeur  ||||  %{smart_count} votes de grands électeurs			voti dei grandi elettori	%{smart_count} 選挙人投票|||| %{smart_count}選挙人投票	%{smart_count} 득표수 |||| %{smart_count} 득표수	Votos no colégio eleitoral
+counts.n Popular Votes	PLURALIZED number of humans who voted for the candidate. ... ask Adam for pluralization rules in your language	%{smart_count} Popular Vote |||| %{smart_count} Popular Votes					%{smart_count} صوتاً انتخابياً شعبياً |||| %{smart_count} أصواتاً انتخابية شعبية	%{smart_count} Stimme aus der Bevölkerung |||| %{smart_count} Stimmen aus der Bevölkerung	%{smart_count} Ψήφοι |||| %{smart_count} Ψήφοι	Votos	%{smart_count} Voto popular |||| %{smart_count} Voto popular	%{smart_count}  voix |||| %{smart_count} voix			voti	%{smart_count} 一般投票|||| %{smart_count}一般投票	%{smart_count} 일반 투표 |||| %{smart_count} 일반 투표	Votos no colégio eleitoral
 electoral.blurb		The country's 538 electors vote according to their states' colors. The candidate with 270 electors wins.	The country's 538 electors vote according to their states' colours. The candidate with 270 electors wins.	The country's 538 electors vote according to their states' colours. The candidate with 270 electors wins.	The country's 538 electors vote according to their states' colours. The candidate with 270 electors wins.		جميع الأصوات الانتخابية الـ538 في البلاد موزعة حسب ألوان كل ولاية. المرشح الذي يحصل على 270 صوتاً انتخابياً يفوز.	Die 538 Wahlmänner des Landes wählen nach dem Willen ihres Bundesstaates. Der Kandidat mit mindestens 270 Wahlmännern gewinnt.	Οι ψήφοι των 538 εκλεκτόρων της χώρας σύμφωνα με το χρώμα της πολιτείας τους. Ο υποψήφιος με την στήριξη 270 εκλεκτόρων κερδίζει. 	Así han votado los 538 electores. El candidato con 270 electores gana.	Los 538 electores votan de acuerdo al color del estado. El candidato con 270 electores gana.	Les 538 grands électeurs votent selon leur couleur politique. Le candidat qui recueille 270 voix est déclaré vainqueur.			I 538 grandi elettori votano secondo il loro colore politico. Il candidato che ottiene 270 voti è dichiarato vincitore	州の色分けによる538人の選挙人の投票結果（選挙人のうち過半数の270人を獲得すれば勝利）	전국 선거인 표 538표 중 270표를 얻은 후보가 승리	Os 538 delegados do colégio eleitoral votam de acordo com a cor do estado. O candidato com 270 votos ganha
-electoral.winner	Winner label for Electoral Bars	WINNER!					الفائز! 	Gewinner	ΝΙΚΗΤΗΣ!	¡HA GANADO!	¡GANÓ!	VAINQUEUR			VINCITORE!	WINNER!	승리!	VENCEU! 
-h2.Battleground States	Title above battleground-state charts	BATTLEGROUND STATES					الولايات الحاسمة	Wahlentscheidende Staaten	ΠΟΛΙΤΕΙΕΣ-ΚΛΕΙΔΙΑ 	Estados decisivos	Estados en disputa	ÉTATS DÉCISIFS			STATI DECISIVI	激戦州	격전 주	Estados decisivos
-h2.Electoral Votes	Title above photos of Clinton and Trump	ELECTORAL VOTES					الأصوات الناخبة	Wahlmännerstimmen	ΕΚΛΕΚΤΟΡΙΚΕΣ ΨΗΦΟΙ	Votos electorales	Voto electoral	GRANDS ÉLECTEURS			GRANDI ELETTORI	選挙人の投票	선거인단 투표	Votos eleitorais
-h5.House Seats	Title above house chart	HOUSE SEATS	Please change to "number of" instead of "amount of"				مقاعد مجلس النواب	Sitze im Repräsentantenhaus	EΔΡΕΣ ΣΤΗ ΒΟΥΛΗ ΤΩΝ ΑΝΤΙΠΡΟΣΩΠΩΝ	Asientos en la Cámara de Representantes	Escaños de la Cámara	SIÈGES À LA CHAMBRE DES REPRÉSENTANTS			SEGGI ALLA CAMERA	下院の議席数	하원 의석	Assentos na Câmara
-h5.Senate Seats	Title above senate chart	SENATE SEATS	Please change to "number of" instead of "amount of"				مقاعد مجلس الشيوخ	Sitze im Senat	ΕΔΡΕΣ ΣΤΗ ΓΕΡΟΥΣΙΑ	Asientos en el Senado	Escaños del Senado	SIÈGES AU SÉNAT			SEGGI AL SENATO	上院の議席数	상원 의석	Assentos no Senado
-h2.Cartogram	Tab for Cartogram map mode	ELECTORAL VOTES					الأصوات الناخبة	Wahlmännerstimmen	ΕΚΛΕΚΤΟΡΙΚΕΣ ΨΗΦΟΙ	Votos electorales	Voto electoral	GRANDS ÉLECTEURS			GRANDI ELETTORI	選挙人の投票	선거인단 투표	Votos eleitorais
-h5.Geography	Tab for Geography map mode	GEOGRAPHY					خريطة جغرافية للنتائج	Karte der Resultate	ΧΑΡΤΗΣ ΑΠΟΤΕΛΕΣΜΑΤΩΝ	Mapa de resultados	Mapa de resultados	CARTE DES RÉSULTATS			CARTA DEI RISULTATI	マップ	지도	Mapa dos resultados
-legend.header	Header for Legend	POLLS					استطلاعات الرأي	Wahllokale	ΔΗΜΟΣΚΟΠΗΣΕΙΣ	Colegio electoral	Colegio electoral	BUREAUX DE VOTE			Collegio elettorale	得票状況	여론 조사	Colégios eleitorais
+electoral.winner	Winner label for Electoral Bars	WINNER!					الفائز! 	GEWINNER	ΝΙΚΗΤΗΣ!	¡HA GANADO!	¡GANÓ!	VAINQUEUR			VINCITORE!	WINNER!	승리!	VENCEU! 
+h2.Battleground States	Title above battleground-state charts	BATTLEGROUND STATES					الولايات الحاسمة	WAHLENTSCHEIDENDE STAATEN	ΠΟΛΙΤΕΙΕΣ-ΚΛΕΙΔΙΑ 	ESTADOS DECISIVOS	Estados en disputa	ÉTATS DÉCISIFS			STATI DECISIVI	激戦州	격전 주	Estados decisivos
+h2.Electoral Votes	Title above photos of Clinton and Trump	ELECTORAL VOTES					الأصوات الناخبة	WAHLMÄNNERSTIMMEN	ΕΚΛΕΚΤΟΡΙΚΕΣ ΨΗΦΟΙ	VOTOS ELECTORALES	Votos electorales	GRANDS ÉLECTEURS			GRANDI ELETTORI	選挙人の投票	선거인단 투표	Votos eleitorais
+h2.House Seats	Title above house chart	HOUSE SEATS					مقاعد مجلس النواب	SITZE IM REPRÄSENTANTENHAUS	EΔΡΕΣ ΣΤΗ ΒΟΥΛΗ ΤΩΝ ΑΝΤΙΠΡΟΣΩΠΩΝ	ASIENTOS EN LA CÁMARA DE REPRESENTANTES	Escaños de la Cámara	SIÈGES À LA CHAMBRE DES REPRÉSENTANTS			SEGGI ALLA CAMERA	下院の議席数	하원 의석	Assentos na Câmara
+h2.Senate Seats	Title above senate chart	SENATE SEATS					مقاعد مجلس الشيوخ	SITZE IM SENAT	ΕΔΡΕΣ ΣΤΗ ΓΕΡΟΥΣΙΑ	ASIENTOS EN EL SENADO	Escaños del Senado	SIÈGES AU SÉNAT			SEGGI AL SENATO	上院の議席数	상원 의석	Assentos no Senado
+h5.Cartogram	Tab for Cartogram map mode	ELECTORAL VOTES					الأصوات الناخبة	WAHLMÄNNERSTIMMEN	ΕΚΛΕΚΤΟΡΙΚΕΣ ΨΗΦΟΙ	VOTOS ELECTORALES	Votos electorales	GRANDS ÉLECTEURS			GRANDI ELETTORI	選挙人の投票	선거인단 투표	Votos eleitorais
+h5.Geography	Tab for Geography map mode	GEOGRAPHY					خريطة جغرافية للنتائج	KARTE DER RESULTATE	ΧΑΡΤΗΣ ΑΠΟΤΕΛΕΣΜΑΤΩΝ	MAPA DE RESULTADOS	Mapa de resultados	CARTE DES RÉSULTATS			CARTA DEI RISULTATI	マップ	지도	Mapa dos resultados
+legend.header	Header for Legend	POLLS					استطلاعات الرأي	WAHLLOKALE	ΔΗΜΟΣΚΟΠΗΣΕΙΣ	COLEGIO ELECTORAL	Centros electorales	BUREAUX DE VOTE			Collegio elettorale	得票状況	여론 조사	Colégios eleitorais
 legend.lead	Tiny text in map legend: the "Lead" in "Win/Lead"	Lead					على رأس المقدمة	In Führung	Προβάδισμα	A la cabeza	Delantera	En tête			In testa	リード	우세	Líder
 legend.not yet reporting		Not yet reporting					النتائج لم تظهر بعد	Noch nicht ausgezählt	Χωρίς πληροφορίες	Aún sin datos	Aún sin datos	Informations encore non disponibles			Informazioni ancora non disponibili	未定	미보고	Sem informações disponíveis
 legend.open	Text to represent open state	Open					مفتوحة	Offen	Σε εξέλιξη	Abierto	Abierto	Ouverts / Fermés			Aperto	開票	불확실	Aberto
 legend.win	Tiny text in map legend: the "Win" in "Win/Lead"	Win					فوز	Gewinner	Νικητής	Ganador	Ganador	Vainqueur			vincitore 	勝利	승리	Venceu! 
 linkout.See Full Results	Link to the main dashboard (the main dashboard is only English)	See Full Results					شاهد النتائج الكاملة 	Komplettes Ergebnis	Δείτε όλα τα αποτελέσματα	Ver todos los resultados	Ver todos los resultados	Voir le détail des résultats			Guarda i risultati completi	全結果を見る	전체 결과 보기	Ver todos os resultados
 map.switch message	Text for map toggle on splash	View Map As					شاهد الخريطة	Karte sehen	Δείτε τον χάρτη	Ver mapa	Ver mapa 	Voir la carte			Guarda la mappa	マップを見る	지도 보기	Ver mapa como
-name.clinton	names used in electoral votes graph	CLINTON					كلينتون	Clinton	ΚΛΙΝΤΟΝ	CLINTON	CLINTON	CLINTON			CLINTON	クリントン	클린턴	CLINTON
-name.trump	names used in electoral votes graph	TRUMP					ترامب	Trump	ΤΡΑΜΠ	TRUMP	TRUMP	TRUMP			TRUMP	トランプ	트럼프	TRUMP
+name.clinton	names used in electoral votes graph	CLINTON					كلينتون	CLINTON	ΚΛΙΝΤΟΝ	CLINTON	CLINTON	CLINTON			CLINTON	クリントン	클린턴	CLINTON
+name.trump	names used in electoral votes graph	TRUMP					ترامب	TRUMP	ΤΡΑΜΠ	TRUMP	TRUMP	TRUMP			TRUMP	トランプ	트럼프	TRUMP
 party.dem		Democrats					الديموقراطيون	Demokraten	Δημοκρατικοί	Demócratas	Demócratas	Démocrates			Democratici	民主党	민주당	Democratas
 party.gop		Republicans					الجمهوريون	Republikaner	Ρεπουμπλικάνοι	Republicanos	Republicanos	Républicains			Repubblicani	共和党	공화당	Republicanos
-refresh.countdown		Refreshing in %{smart_count} second… |||| Refreshing in %{smart_count} seconds…					تحديث خلال%{smart_count} ثوان … |||| تحديث خلال%{smart_count} ثانية	Aktualisiert in %{smart_count} Sekunde… |||| Aktualisiert in %{smart_count} Sekunden…	Aνανεώνεται αν %{smart_count} δευτερόλεπτα...///Aνανεώνεται ανά %{smart_count} δευτερόλεπτα...	Actualizando en %{smart_count} segundos … |||| Actualizando en %{smart_count} segundos…	Actualizando en %{smart_count} segundos … |||| Actualizando en %{smart_count} segundos…	Actualisation dans %{smart_count} seconde... /// Actualisation dans %{smart_count} secondes...			Aggiornamento in % {smart_count} secondo… |||| Aggiornaento in %{smart_count} secondi…	％{smart count}しばらくお待ちください...||||％{smart count}しばらくお待ちください...	%{smart_count} 초 뒤 새로 고침… |||| %{smart_count} 초 뒤 새로 고침…	Atualizando em %{smart_count} segundo… |||| Atualizando em %{smart_count} segundos…
-refresh.error countdown		Failed last refresh. Refreshing in %{smart_count} second… |||| Failed last refresh. Refreshing in %{smart_count} seconds…					فشل التحديث السابق. تحديث جديد خلال%{smart_count} ثوان … |||| تحديث جديد خلال%{smart_count} ثانية	Aktualisieren gescheitert. Aktualisiert in %{smart_count} Sekunde… |||| Aktualisieren gescheitert. Aktualisiert in %{smart_count} Sekunden…	Αποτυχία ανανέωσης. Aνανεώνεται αν %{smart_count} δευτερόλεπτα...///Αποτυχία ανανέωσης. Aνανεώνεται αν %{smart_count} δευτερόλεπτα...///	Falló la última actualización. Actualizando en %{smart_count}  segundos  |||| Falló la última actualización. Actualizando en %{smart_count}  segundos	Falló la última actualización. Actualizando en %{smart_count}  segundos  |||| Falló la última actualización. Actualizando en %{smart_count}  segundos	Échec de l'actualisation. Nouvelle tentative dans %{smart_count} seconde... /// Échec de l'actualisation. Nouvelle tentative dans %{smart_count} secondes... 			Aggiornamento non riuscito. Aggiornamento in %{smart_count} secondo… |||| Ultimo aggiornamento non riuscito. Aggiornamento in %{smart_count} secondi…	更新に失敗しました　％{smart count}しばらくお待ちください...||||更新に失敗しました　％{smart_count}しばらくおまちください...	새로 고침 실패. %{smart_count} 초 안에 새로 고침… |||| 새로 고침 실패. %{smart_count} 초 안에 새로 고침…	Falha na última atualização. Atualizando em %{smart_count} segundo… |||| Falha na última atualização. Atualizando em %{smart_count} segundos…
+refresh.countdown		Refreshing in %{smart_count} second… |||| Refreshing in %{smart_count} seconds…					تحديث خلال%{smart_count} ثوان … |||| تحديث خلال%{smart_count} ثانية	Aktualisiert in %{smart_count} Sekunde… |||| Aktualisiert in %{smart_count} Sekunden…	Aνανεώνεται ανά %{smart_count} δευτερόλεπτα...///Aνανεώνεται ανά %{smart_count} δευτερόλεπτα...	Actualizando en %{smart_count} segundos … |||| Actualizando en %{smart_count} segundos…	Actualizando en %{smart_count} segundos … |||| Actualizando en %{smart_count} segundos…	Actualisation dans %{smart_count} seconde... |||| Actualisation dans %{smart_count} secondes...			Aggiornamento in % {smart_count} secondo… |||| Aggiornaento in %{smart_count} secondi…	％{smart count}しばらくお待ちください...||||％{smart count}しばらくお待ちください...	%{smart_count} 초 뒤 새로 고침… |||| %{smart_count} 초 뒤 새로 고침…	Atualizando em %{smart_count} segundo… |||| Atualizando em %{smart_count} segundos…
+refresh.error countdown		Failed last refresh. Refreshing in %{smart_count} second… |||| Failed last refresh. Refreshing in %{smart_count} seconds…					فشل التحديث السابق. تحديث جديد خلال%{smart_count} ثوان … |||| تحديث جديد خلال%{smart_count} ثانية	Aktualisieren gescheitert. Aktualisiert in %{smart_count} Sekunde… |||| Aktualisieren gescheitert. Aktualisiert in %{smart_count} Sekunden…	Αποτυχία ανανέωσης. Aνανεώνεται ανά %{smart_count} δευτερόλεπτα...///Αποτυχία ανανέωσης. Aνανεώνεται αν %{smart_count} δευτερόλεπτα...///	Falló la última actualización. Actualizando en %{smart_count}  segundos  |||| Falló la última actualización. Actualizando en %{smart_count}  segundos	Falló la última actualización. Actualizando en %{smart_count}  segundos  |||| Falló la última actualización. Actualizando en %{smart_count}  segundos	Échec de l'actualisation. Nouvelle tentative dans %{smart_count} seconde... |||| Échec de l'actualisation. Nouvelle tentative dans %{smart_count} secondes... 			Aggiornamento non riuscito. Aggiornamento in %{smart_count} secondo… |||| Ultimo aggiornamento non riuscito. Aggiornamento in %{smart_count} secondi…	更新に失敗しました　％{smart count}しばらくお待ちください...||||更新に失敗しました　％{smart_count}しばらくおまちください...	새로 고침 실패. %{smart_count} 초 안에 새로 고침… |||| 새로 고침 실패. %{smart_count} 초 안에 새로 고침…	Falha na última atualização. Atualizando em %{smart_count} segundo… |||| Falha na última atualização. Atualizando em %{smart_count} segundos…
 refresh.refreshing		Refreshing…					جاري التحديث...	Aktualisiert...	Ανανεώνεται...	Actualizando...		Actualisation en cours...			Aggiornamento in corso	しばらくお待ちください…	새로 고침 중...	Atualizando... 
-state-abbreviation.Ala.	State abbreviation (appears on map)	Ala.					ألاب.								Ala.	Ala.	앨라배마	
-state-abbreviation.Alaska		Alaska					ألاسكا								Alaska	Alaska	알래스카	
-state-abbreviation.Ariz.		Ariz.					أريز.								Ariz.	Ariz.	애리조나	
-state-abbreviation.Ark.		Ark.					أرك.								Ark.	Ark.	아칸소	
-state-abbreviation.Calif.		Calif.					كالي.								Calif.	Calif.	캘리포니아	
-state-abbreviation.Colo.		Colo.					كولو.								Colo.	Colo.	콜로라도	
-state-abbreviation.Conn.		Conn.					كون.								Conn.	Conn.	코네티컷	
-state-abbreviation.D.C.		D.C.					العاص.								D.C.	D.C.	워싱턴 D.C.	
-state-abbreviation.Del.		Del.					ديلا.								Del.	Del.	델라웨어	
-state-abbreviation.Fla.		Fla.					فلور.								Fla.	Fla.	플로리다	
-state-abbreviation.Ga.		Ga.					جورج.								Ga.	Ga.	조지아	
-state-abbreviation.Hawaii		Hawaii					هاواي					Hawaï			Hawaii	Hawaii	하와이	Havaí
-state-abbreviation.Idaho		Idaho					آيداهو								Idaho	Idaho	아이다호	
-state-abbreviation.Ill.		Ill.					إلينو.								Ill.	Ill.	일리노이	
-state-abbreviation.Ind.		Ind.					إند.								Ind.	Ind.	인디애나	
-state-abbreviation.Iowa		Iowa					آيوا								Iowa	Iowa	아이오와	
-state-abbreviation.Kansas		Kansas					كانز.								Kans.	Kans.	캔자스	
-state-abbreviation.Ky.		Ky.					كنتا.								Ky.	Ky.	켄터키	
-state-abbreviation.La.		La.					لويز.								La.	La.	루이지애나	
-state-abbreviation.Maine		Maine					مين								Maine	Maine	메인	
-state-abbreviation.Mass.		Mass.					ماسا.								Mass.	Mass.	매사추세츠	
-state-abbreviation.Md.		Md.					ميري.								Md.	Md.	메릴랜드	
-state-abbreviation.Mich.		Mich.					ميشي.								Mich.	Mich.	미시건	
-state-abbreviation.Minn.		Minn.					ميني.								Minn.	Minn.	미네소타	
-state-abbreviation.Miss.		Miss.					ميزي.								Miss.	Miss.	미시시피	
-state-abbreviation.Mo.		Mo.					ميزو.								Mo.	Mo.	미주리	
-state-abbreviation.Mont.		Mont.					مونت.								Mont.	Mont.	몬태나	
-state-abbreviation.N.C.		N.C.					كارو-ش.			C. del Norte	C. Nte	C.Nord			N.C.	N.C.	노스 캐롤라이나	C. do Norte
-state-abbreviation.N.D.		N.D.					داكو-ش.			D. del Norte	C Nte	D.Nord			N.D.	N.D.	노스 다코타	D. do Norte
-state-abbreviation.N.H.		N.H.					هامب.								N.H.	N.H.	뉴 햄프셔	
-state-abbreviation.N.J.		N.J.					جيرز.								N.J.	N.J.	뉴 저지	
-state-abbreviation.N.M.		N.M.					نيومكس.								N.M.	N.M.	뉴 멕시코	
-state-abbreviation.N.Y.		N.Y.					نيويورك								N.Y.	N.Y.	뉴욕	
-state-abbreviation.Neb.		Neb.					نبرا.								Nebr.	Nebr.	네브래스카	
-state-abbreviation.Nev.		Nev.					نيفا.								Nev.	Nev.	네바다	
-state-abbreviation.Ohio		Ohio					أوهايو								Ohio	Ohio	오하이오	
-state-abbreviation.Okla.		Okla.					أوكلا.								Okla.	Okla.	오클라호마	
-state-abbreviation.Ore.		Ore.					أوري.								Ore.	Ore.	오리건	
-state-abbreviation.Pa.		Pa.					بنسل.								Pa.	Pa.	펜실베이니아	
-state-abbreviation.R.I.		R.I.					رودآ.								R.I.	R.I.	로드 아일랜드	
-state-abbreviation.S.C.		S.C.					كارو-ج.			C. del Sur	C. Sur	C.Sud			S.C.	S.C.	사우스 캐롤라이나	C. do Sul
-state-abbreviation.S.D.		S.D.					داكو-ج.			D. del Sur	D Sur	D.Sud			S.D.	S.D.	사우스 다코타	D. do Sul
-state-abbreviation.Tenn.		Tenn.					تنس.								Tenn.	Tenn.	테네시	
-state-abbreviation.Texas		Texas					تكس.								Tex.	Tex.	텍사스	
-state-abbreviation.Utah		Utah					يوتا								Utah	Utah	유타	
-state-abbreviation.Va.		Va.					فيرج.								Va.	Va.	버지니아	
-state-abbreviation.Vt.		Vt.					فيرم.								Vt.	Vt.	버몬트	
-state-abbreviation.W.Va.		W.Va.					فرج-غ.								W.Va.	W.Va.	웨스트 버지니아	V. Oriental
-state-abbreviation.Wash.		Wash.					واشن.								Wash.	Wash.	워싱턴	
-state-abbreviation.Wis.		Wis.					ويسك.								Wis.	Wis.	위스콘신	
-state-abbreviation.Wyo.		Wyo.					وايو.								Wyo.	Wyo.	와이오밍	
-state.Alabama	Full state name	Alabama					ألاباما								Alabama	アラバマ州	앨라배마	Alabama
-state.Alaska		Alaska					ألاسكا								Alaska	アラスカ州	알래스카	Alasca
-state.Arizona		Arizona					أريزونا								Arizona	アリゾナ州	애리조나	Arizona
-state.Arkansas		Arkansas					أركنسا								Arkansas	アーカンソー州	아칸소	Arkansas
-state.California		California					كاليفورنيا	Kalifornien			California	Californie			California	カリフォルニア州	캘리포니아	Califórnia
-state.Colorado		Colorado					كولورادو								Colorado	コロラド州	콜로라도	
-state.Connecticut		Connecticut					كونيتيكت					Connecticut			Connecticut	コネチカット州	코네티컷	
-state.Delaware		Delaware					ديلاوير					Delaware			Delaware	デラウェア州	델라웨어	
-state.District of Columbia		District of Columbia					واشنطن العاصمة				Distrito de Columbia	District de Columbia			District of Columbia	ワシントンD.C.	워싱턴 D.C.	Distrito de Columbia
-state.Florida		Florida					فلوريدا					Floride			Florida	フロリダ州	플로리다	Flórida
-state.Georgia		Georgia					جورجيا					Géorgie			Georgia	ジョージア州	조지아	Geórgia
-state.Hawaii		Hawaii					هاواي				Hawai	Hawaï			Hawaii	ハワイ州	하와이	Havaí 
-state.Idaho		Idaho					آيداهو								Idaho	アイダホ州	아이다호	
-state.Illinois		Illinois					إلينوي								Illinois	イリノイ州	일리노이	
-state.Indiana		Indiana					إنديانا								Indiana	インディアナ州	인디애나	
-state.Iowa		Iowa					أيوا								Iowa	アイオワ州	아이오와	
-state.Kansas		Kansas					كانزاس								Kansas	カンザス州	캔자스	
-state.Kentucky		Kentucky					كينتاكي								Kentucky	ケンタッキー州	켄터키	
-state.Louisiana		Louisiana					لويزيانا					Louisiane			Louisiana	ルイジアナ州	루이지애나	
-state.Maine		Maine					مين								Maine	メーン州	메인	
-state.Maryland		Maryland					ميريلاند								Maryland	メリーランド州	메릴랜드	
-state.Massachusetts		Massachusetts					ماساتشوستس								Massachusetts	マサチューセッツ州	매사추세츠	
-state.Michigan		Michigan					ميشيغان								Michigan	ミシガン州	미시건	
-state.Minnesota		Minnesota					مينيسوتا				Minesota				Minnesota	ミネソタ州	미네소타	
-state.Mississippi		Mississippi					ميزيسيبي				Misisipi				Mississippi	ミシシッピ州	미시시피	
-state.Missouri		Missouri					ميزوري				Misouri				Missouri	ミズーリ州	미주리	
-state.Montana		Montana					مونتانا								Montana	モンタナ州	몬태나	
-state.Nebraska		Nebraska					نبراسكا								Nebraska	ネブラスカ州	네브래스카	
-state.Nevada		Nevada					نيفادا								Nevada	ネバダ州	네바다	
-state.New Hampshire		New Hampshire					نيوهامبشر				Nueva Hampshire				New Hampshire	ニューハンプシャー州	뉴 햄프셔	
-state.New Jersey		New Jersey					نيوجيرزي				Nueva Jersey				New Jersey	ニュージャージー州	뉴 저지	
-state.New Mexico		New Mexico					نيومكسيكو				Nuevo México	Nouveau-Mexique			New Mexico	ニューメキシコ州	뉴 멕시코	
-state.New York		New York					نيويورك				Nueva York				New York	ニューヨーク州	뉴욕	Nova York
-state.North Carolina		North Carolina					كارولينا الشمالية				Carolina del Norte	Caroline du Nord			North Carolina	ノースカロライナ州	노스 캐롤라이나	Carolina do Norte
-state.North Dakota		North Dakota					داكوتا الشمالية				Dakota del Norte	Dakota du Nord			North Dakota	ノースダコタ州	노스 다코타	Dakota do Norte
-state.Ohio		Ohio					أوهايو								Ohio	オハイオ州	오하이오	
-state.Oklahoma		Oklahoma					أوكلاهوما								Oklahoma	オクラホマ州	오클라호마	
-state.Oregon		Oregon					أوريغون								Oregon	オレゴン州	오리건	
-state.Pennsylvania		Pennsylvania					بنسلفانيا				Pensilvania	Pennsylvanie			Pennsylvania	ペンシルバニア州	펜실베이니아	Pensilvânia
-state.Rhode Island		Rhode Island					رود آيلند								Rhode Island	ロードアイランド州	로드 아일랜드	
-state.South Carolina		South Carolina					كارولينا الجنوبية				Carolina del Sur	Caroline du Sud			South Carolina	サウスカロライナ州	사우스 캐롤라이나	Carolina do Sul
-state.South Dakota		South Dakota					داكوتا الجنوبية				Dakota del Sur	Dakota du Sud			South Dakota	サウスダコタ州	사우스 다코타	Dakota do Sul
-state.Tennessee		Tennessee					تينيسي								Tennessee	テネシー州	테네시	
-state.Texas		Texas					تكساس								Texas	テキサス州	텍사스	
-state.Utah		Utah					يوتا								Utah	ユタ州	유타	
-state.Vermont		Vermont					فيرمونت								Vermont	バーモント州	버몬트	
-state.Virginia		Virginia					فيرجينيا					Virginie			Virginia	バージニア州	버지니아	Virgínia
-state.Washington		Washington					واشنطن 								Washington	ワシントン州	워싱턴	
-state.West Virginia		West Virginia					فيرجينيا الغربية				Virginia Occidental	Virginie-Occidentale			West Virginia	ウエストバージニア州	웨스트 버지니아	
-state.Wisconsin		Wisconsin					ويسكونسن								Wisconsin	ウィスコンシン州	위스콘신	
-state.Wyoming		Wyoming					وايومينغ								Wyoming	ワイオミング州	와이오밍	
-banner.President	Header on below-splash frame	PRESIDENT					الرئيس	Präsident	Πρόεδρος	Presidente	Presidente	Président			PRESIDENTE	大統領	대통령	Presidente
-banner.Senate	Header on below-splash frame	SENATE					مجلس الشيوخ	Senat	Γερουσία	Senado	Senado	Sénat			SENATO	上院	상원	Senado
-banner.House		HOUSE					مجلس النواب	Repräsentantenhaus	Βουλή των Αντιπροσώπων	Congreso	Cámara	Chambre des représentants			CAMERA	下院	하원	Câmara
-counts.n Dem	Not much space; appears on post-elections results bars	%{smart_count} DEM |||| %{smart_count} DEM					%{smart_count} ديمو |||| %{smart_count} ديمو	%{smart_count} DEM |||| %{smart_count} DEM			%{smart_count} DEM |||| %{smart_count} DEM	%{smart_count} DEM. |||| %{smart_count} DEM.			%{smart_count} DEM |||| %{smart_count} DEM	%{smart_count} 民主党 |||| %{smart_count} 民主党		%{smart_count} DEM |||| %{smart_count} DEM
-counts.n GOP		%{smart_count} GOP |||| %{smart_count} GOP					%{smart_count} جمهو|||| %{smart_count} جمهو	%{smart_count} GOP |||| %{smart_count} GOP			%{smart_count} REP|||| %{smart_count} REP	%{smart_count} RÉP. |||| %{smart_count} RÉP.			%{smart_count} REP|||| %{smart_count} REP	%{smart_count} 共和党 |||| %{smart_count} 共和党		%{smart_count} REP |||| %{smart_count} RED
-banner.Balance of power	Appears above post-elections results bars. Write "<br>" to line-wrap, if you need the space.	Balance<br>of power					توزع<br>السلطة				Balance<br>del poder	Rapport de force			Distribuzione degli Stati	パワー<br>バランス		Distribuição dos Estados
-house.Balance of Power		Seat will decide<br>balance of power										Rapport de force<br>(en nb de sièges)						
-senate.Balance of Power		Balance of power<br>(decided by VP in a tie)										Rapport de force<br>(tranché par le vice-psdt si égalité)						
-state.Maine At Large		Maine At Large					مين								Maine	メーン州	메인	
-state.Maine District 1		Maine District 1					مين								Maine	メーン州	메인	
-state.Maine District 2		Maine District 2					مين								Maine	メーン州	메인	
-state.Nebraska At Large		Nebraska At Large					نبراسكا								Nebraska	ネブラスカ州	네브래스카	
-state.Nebraska District 1		Nebraska District 1					نبراسكا								Nebraska	ネブラスカ州	네브래스카	
-state.Nebraska District 2		Nebraska District 2					نبراسكا								Nebraska	ネブラスカ州	네브래스카	
-state.Nebraska District 3		Nebraska District 3					نبراسكا								Nebraska	ネブラスカ州	네브래스카	
-tooltip.n Electoral Votes	Sentence in tooltip																	
+state-abbreviation.Ala.	State abbreviation (appears on map)	Ala.					ألاب.		Αλαμπάμα						Ala.	Ala.	앨라배마	
+state-abbreviation.Alaska		Alaska					ألاسكا		Αλάσκα						Alaska	Alaska	알래스카	
+state-abbreviation.Ariz.		Ariz.					أريز.		Αριζόνα						Ariz.	Ariz.	애리조나	
+state-abbreviation.Ark.		Ark.					أرك.		Αρκάνσας						Ark.	Ark.	아칸소	
+state-abbreviation.Calif.		Calif.					كالي.		Καλιφόρνια						Calif.	Calif.	캘리포니아	
+state-abbreviation.Colo.		Colo.					كولو.		Κολοράντο						Colo.	Colo.	콜로라도	
+state-abbreviation.Conn.		Conn.					كون.		Κονέκτικατ						Conn.	Conn.	코네티컷	
+state-abbreviation.D.C.		D.C.					العاص.		Κολούμπια						D.C.	D.C.	워싱턴 D.C.	
+state-abbreviation.Del.		Del.					ديلا.		Ντελαγουέρ						Del.	Del.	델라웨어	
+state-abbreviation.Fla.		Fla.					فلور.		Φλόριντα						Fla.	Fla.	플로리다	
+state-abbreviation.Ga.		Ga.					جورج.		Τζώρτζια						Ga.	Ga.	조지아	
+state-abbreviation.Hawaii		Hawaii					هاواي		Χαβάη			Hawaï			Hawaii	Hawaii	하와이	Havaí
+state-abbreviation.Idaho		Idaho					آيداهو		Άινταχο						Idaho	Idaho	아이다호	
+state-abbreviation.Ill.		Ill.					إلينو.		Ιλινόις						Ill.	Ill.	일리노이	
+state-abbreviation.Ind.		Ind.					إند.		Ιντιάνα						Ind.	Ind.	인디애나	
+state-abbreviation.Iowa		Iowa					آيوا		Αϊόβα						Iowa	Iowa	아이오와	
+state-abbreviation.Kansas		Kansas					كانز.		Κάνσας						Kans.	Kans.	캔자스	
+state-abbreviation.Ky.		Ky.					كنتا.		Κεντάκι						Ky.	Ky.	켄터키	
+state-abbreviation.La.		La.					لويز.		Λουιζιάνα						La.	La.	루이지애나	
+state-abbreviation.Maine		Maine					مين		Μέιν						Maine	Maine	메인	
+state-abbreviation.Mass.		Mass.					ماسا.		Μασσαχουσέτη						Mass.	Mass.	매사추세츠	
+state-abbreviation.Md.		Md.					ميري.		Μέριλαντ						Md.	Md.	메릴랜드	
+state-abbreviation.Mich.		Mich.					ميشي.		Μίσιγκαν						Mich.	Mich.	미시건	
+state-abbreviation.Minn.		Minn.					ميني.		Μινεσσότα						Minn.	Minn.	미네소타	
+state-abbreviation.Miss.		Miss.					ميزي.		Μισισίπι						Miss.	Miss.	미시시피	
+state-abbreviation.Mo.		Mo.					ميزو.		Μιζούρι						Mo.	Mo.	미주리	
+state-abbreviation.Mont.		Mont.					مونت.		Μοντάνα						Mont.	Mont.	몬태나	
+state-abbreviation.N.C.		N.C.					كارو-ش.		Βόρεια Καρολίνα	C. del Norte	C. Nte	C.Nord			N.C.	N.C.	노스 캐롤라이나	C. do Norte
+state-abbreviation.N.D.		N.D.					داكو-ش.		Βόρεια Ντακότα	D. del Norte	C Nte	D.Nord			N.D.	N.D.	노스 다코타	D. do Norte
+state-abbreviation.N.H.		N.H.					هامب.		Νιού Χάμσαϊρ						N.H.	N.H.	뉴 햄프셔	
+state-abbreviation.N.J.		N.J.					جيرز.		Νιού Τζέρσι						N.J.	N.J.	뉴 저지	
+state-abbreviation.N.M.		N.M.					نيومكس.		Νιού Μέξικο						N.M.	N.M.	뉴 멕시코	
+state-abbreviation.N.Y.		N.Y.					نيويورك		Νέα Υόρκη						N.Y.	N.Y.	뉴욕	
+state-abbreviation.Neb.		Neb.					نبرا.		Νεμπράσκα						Nebr.	Nebr.	네브래스카	
+state-abbreviation.Nev.		Nev.					نيفا.		Νεβάδα						Nev.	Nev.	네바다	
+state-abbreviation.Ohio		Ohio					أوهايو		Οχάιο						Ohio	Ohio	오하이오	
+state-abbreviation.Okla.		Okla.					أوكلا.		Οκλαχόμα						Okla.	Okla.	오클라호마	
+state-abbreviation.Ore.		Ore.					أوري.		Όρεγκον						Ore.	Ore.	오리건	
+state-abbreviation.Pa.		Pa.					بنسل.		Πενσυλβάνια						Pa.	Pa.	펜실베이니아	
+state-abbreviation.R.I.		R.I.					رودآ.		Ροντ Άιλαντ						R.I.	R.I.	로드 아일랜드	
+state-abbreviation.S.C.		S.C.					كارو-ج.		Νότια Καρολίνα	C. del Sur	C. Sur	C.Sud			S.C.	S.C.	사우스 캐롤라이나	C. do Sul
+state-abbreviation.S.D.		S.D.					داكو-ج.		Νότια Ντακότα	D. del Sur	D Sur	D.Sud			S.D.	S.D.	사우스 다코타	D. do Sul
+state-abbreviation.Tenn.		Tenn.					تنس.		Τενεσί						Tenn.	Tenn.	테네시	
+state-abbreviation.Texas		Texas					تكس.		Τέξας						Tex.	Tex.	텍사스	
+state-abbreviation.Utah		Utah					يوتا		Γιούτα						Utah	Utah	유타	
+state-abbreviation.Va.		Va.					فيرج.		Βιρτζίνια						Va.	Va.	버지니아	
+state-abbreviation.Vt.		Vt.					فيرم.		Βερμόντ						Vt.	Vt.	버몬트	
+state-abbreviation.W.Va.		W.Va.					فرج-غ.		Δυτική Βιρτζίνια						W.Va.	W.Va.	웨스트 버지니아	V. Oriental
+state-abbreviation.Wash.		Wash.					واشن.		Ουάσινγκτον						Wash.	Wash.	워싱턴	
+state-abbreviation.Wis.		Wis.					ويسك.		Γουισκόνσιν						Wis.	Wis.	위스콘신	
+state-abbreviation.Wyo.		Wyo.					وايو.		Γουαϊόμινγκ						Wyo.	Wyo.	와이오밍	
+state.Alabama	Full state name	Alabama					ألاباما		Αλαμπάμα						Alabama	アラバマ州	앨라배마	Alabama
+state.Alaska		Alaska					ألاسكا		Αλάσκα						Alaska	アラスカ州	알래스카	Alasca
+state.Arizona		Arizona					أريزونا		Αριζόνα						Arizona	アリゾナ州	애리조나	Arizona
+state.Arkansas		Arkansas					أركنسا		Αρκάνσας						Arkansas	アーカンソー州	아칸소	Arkansas
+state.California		California					كاليفورنيا	Kalifornien	Καλιφόρνια		California	Californie			California	カリフォルニア州	캘리포니아	Califórnia
+state.Colorado		Colorado					كولورادو		Κολοράντο						Colorado	コロラド州	콜로라도	
+state.Connecticut		Connecticut					كونيتيكت		Λουιζιάνα			Connecticut			Connecticut	コネチカット州	코네티컷	
+state.Delaware		Delaware					ديلاوير		Ντελαγουέρ			Delaware			Delaware	デラウェア州	델라웨어	
+state.District of Columbia		District of Columbia					واشنطن العاصمة		Κολούμπια		Distrito de Columbia	District de Columbia			District of Columbia	ワシントンD.C.	워싱턴 D.C.	Distrito de Columbia
+state.Florida		Florida					فلوريدا		Φλόριντα			Floride			Florida	フロリダ州	플로리다	Flórida
+state.Georgia		Georgia					جورجيا		Τζώρτζια			Géorgie			Georgia	ジョージア州	조지아	Geórgia
+state.Hawaii		Hawaii					هاواي		Χαβάη		Hawai	Hawaï			Hawaii	ハワイ州	하와이	Havaí 
+state.Idaho		Idaho					آيداهو		Άινταχο						Idaho	アイダホ州	아이다호	
+state.Illinois		Illinois					إلينوي		Ιλινόις						Illinois	イリノイ州	일리노이	
+state.Indiana		Indiana					إنديانا		Ιντιάνα						Indiana	インディアナ州	인디애나	
+state.Iowa		Iowa					أيوا		Αϊόβα						Iowa	アイオワ州	아이오와	
+state.Kansas		Kansas					كانزاس		Κάνσας						Kansas	カンザス州	캔자스	
+state.Kentucky		Kentucky					كينتاكي		Κεντάκι						Kentucky	ケンタッキー州	켄터키	
+state.Louisiana		Louisiana					لويزيانا		Λουιζιάνα			Louisiane			Louisiana	ルイジアナ州	루이지애나	
+state.Maine		Maine					مين		Μέιν						Maine	メーン州	메인	
+state.Maryland		Maryland					ميريلاند		Μέριλαντ						Maryland	メリーランド州	메릴랜드	
+state.Massachusetts		Massachusetts					ماساتشوستس		Μασσαχουσέτη						Massachusetts	マサチューセッツ州	매사추세츠	
+state.Michigan		Michigan					ميشيغان		Μίσιγκαν						Michigan	ミシガン州	미시건	
+state.Minnesota		Minnesota					مينيسوتا		Μινεσσότα		Minesota				Minnesota	ミネソタ州	미네소타	
+state.Mississippi		Mississippi					ميزيسيبي		Μισισίπι		Misisipi				Mississippi	ミシシッピ州	미시시피	
+state.Missouri		Missouri					ميزوري		Μιζούρι		Misouri				Missouri	ミズーリ州	미주리	
+state.Montana		Montana					مونتانا		Μοντάνα						Montana	モンタナ州	몬태나	
+state.Nebraska		Nebraska					نبراسكا		Νεμπράσκα						Nebraska	ネブラスカ州	네브래스카	
+state.Nevada		Nevada					نيفادا		Νεβάδα						Nevada	ネバダ州	네바다	
+state.New Hampshire		New Hampshire					نيوهامبشر		Νιού Χάμσαϊρ		Nueva Hampshire				New Hampshire	ニューハンプシャー州	뉴 햄프셔	
+state.New Jersey		New Jersey					نيوجيرزي		Νιού Τζέρσι		Nueva Jersey				New Jersey	ニュージャージー州	뉴 저지	
+state.New Mexico		New Mexico					نيومكسيكو		Νιού Μέξικο		Nuevo México	Nouveau-Mexique			New Mexico	ニューメキシコ州	뉴 멕시코	
+state.New York		New York					نيويورك		Νέα Υόρκη		Nueva York				New York	ニューヨーク州	뉴욕	Nova York
+state.North Carolina		North Carolina					كارولينا الشمالية		Βόρεια Καρολίνα		Carolina del Norte	Caroline du Nord			North Carolina	ノースカロライナ州	노스 캐롤라이나	Carolina do Norte
+state.North Dakota		North Dakota					داكوتا الشمالية		Βόρεια Ντακότα		Dakota del Norte	Dakota du Nord			North Dakota	ノースダコタ州	노스 다코타	Dakota do Norte
+state.Ohio		Ohio					أوهايو		Οχάιο						Ohio	オハイオ州	오하이오	
+state.Oklahoma		Oklahoma					أوكلاهوما		Οκλαχόμα						Oklahoma	オクラホマ州	오클라호마	
+state.Oregon		Oregon					أوريغون		Όρεγκον						Oregon	オレゴン州	오리건	
+state.Pennsylvania		Pennsylvania					بنسلفانيا		Πενσυλβάνια		Pensilvania	Pennsylvanie			Pennsylvania	ペンシルバニア州	펜실베이니아	Pensilvânia
+state.Rhode Island		Rhode Island					رود آيلند		Ροντ Άιλαντ						Rhode Island	ロードアイランド州	로드 아일랜드	
+state.South Carolina		South Carolina					كارولينا الجنوبية		Νότια Καρολίνα		Carolina del Sur	Caroline du Sud			South Carolina	サウスカロライナ州	사우스 캐롤라이나	Carolina do Sul
+state.South Dakota		South Dakota					داكوتا الجنوبية		Νότια Ντακότα		Dakota del Sur	Dakota du Sud			South Dakota	サウスダコタ州	사우스 다코타	Dakota do Sul
+state.Tennessee		Tennessee					تينيسي		Τενεσί						Tennessee	テネシー州	테네시	
+state.Texas		Texas					تكساس		Τέξας						Texas	テキサス州	텍사스	
+state.Utah		Utah					يوتا		Γιούτα						Utah	ユタ州	유타	
+state.Vermont		Vermont					فيرمونت		Βερμόντ						Vermont	バーモント州	버몬트	
+state.Virginia		Virginia					فيرجينيا		Βιρτζίνια			Virginie			Virginia	バージニア州	버지니아	Virgínia
+state.Washington		Washington					واشنطن 		Ουάσινγκτον						Washington	ワシントン州	워싱턴	
+state.West Virginia		West Virginia					فيرجينيا الغربية		Δυτική Βιρτζίνια		Virginia Occidental	Virginie-Occidentale			West Virginia	ウエストバージニア州	웨스트 버지니아	
+state.Wisconsin		Wisconsin					ويسكونسن		Γουισκόνσιν						Wisconsin	ウィスコンシン州	위스콘신	
+state.Wyoming		Wyoming					وايومينغ		Γουαϊόμινγκ						Wyoming	ワイオミング州	와이오밍	
+banner.President	Header on below-splash frame	PRESIDENT					الرئيس	PRÄSIDENT	Πρόεδρος	PRESIDENTE	Presidente	PRÉSIDENT			PRESIDENTE	大統領	대통령	Presidente
+banner.Senate	Header on below-splash frame	SENATE					مجلس الشيوخ	SENAT	Γερουσία	SENADO	Senado	SÉNAT			SENATO	上院	상원	Senado
+banner.House		HOUSE					مجلس النواب	REPRÄSENTANTENHAUS	Βουλή των Αντιπροσώπων	CONGRESO	Cámara de Representantes	CHAMBRE DES REPRÉSENTANTS			CAMERA	下院	하원	Câmara
+counts.n Dem	Not much space; appears on post-elections results bars	%{smart_count} DEM |||| %{smart_count} DEM					%{smart_count} ديمو |||| %{smart_count} ديمو	%{smart_count} DEM |||| %{smart_count} DEM	%{smart_count} ΔΗΜ |||| %{smart_count} ΔΗΜ	%{smart_count} DEM |||| %{smart_count} DEM	%{smart_count} DEM |||| %{smart_count} DEM	%{smart_count} DEM. |||| %{smart_count} DEM.			%{smart_count} DEM |||| %{smart_count} DEM	%{smart_count} 民主党 |||| %{smart_count} 民主党		%{smart_count} DEM |||| %{smart_count} DEM
+counts.n GOP		%{smart_count} GOP |||| %{smart_count} GOP					%{smart_count} جمهو|||| %{smart_count} جمهو	%{smart_count} GOP |||| %{smart_count} GOP	%{smart_count} ΡΕΠ |||| %{smart_count} ΡΕΠ	%{smart_count} REP|||| %{smart_count} REP	%{smart_count} REP|||| %{smart_count} REP	%{smart_count} RÉP. |||| %{smart_count} RÉP.			%{smart_count} REP|||| %{smart_count} REP	%{smart_count} 共和党 |||| %{smart_count} 共和党		%{smart_count} REP |||| %{smart_count} REP
+banner.Balance of power	Appears above post-elections results bars. Write "<br>" to line-wrap, if you need the space.	Balance<br>of power					توزع<br>السلطة		Ισορροπία<br>Δυνάμεων	Balance del poder	Balance<br>del poder	Rapport de force			Distribuzione degli Stati	パワー<br>バランス		Distribuição dos Estados
+house.Balance of Power		Seat will decide<br>balance of power							Η έδρα θα αποφασίσει<br>ισορροπία δυνάμεων	El escaño decide<br>balanace del poder	El escaño decide<br>balance de poder	Rapport de force<br>(en nb de sièges)						
+senate.Balance of Power		Balance of power<br>(decided by VP in a tie)							Ισορροπία δυνάμεων<br>(σύμφωνα με τον Αντιπρόεδο σε περίπτωση ισοπαλίας)	Balance de poder<br>(lo decide el VP en caso de empate)	Balance de poder<br>(se decide por el VP en caso de empate)	Rapport de force<br>(tranché par le vice-psdt si égalité)						
+state.Maine At Large	Maine has three races. Here is one tooltip heading. (U.S. elections primer: "At Large" is worth 2 electoral votes; each district is worth one.)	Maine At Large							Μέιν: Σύνολο	Maine: Total	Maine: Total	Maine: Total						Maine: Total
+state.Maine District 1		Maine District 1							Μέιν: Περιοχή 1	Maine: Distrito 1	Maine: Distrito 1	Maine: District 1						Maine: Distrito 1
+state.Maine District 2		Maine District 2							Μέιν: Περιοχή 2	Maine: Distrito 2	Maine: Distrito 2	Maine: District 2						Maine: Distrito 2
+state.Nebraska At Large	Nebraska has four races. Here is one tooltip heading. ("At Large" is worth 2 electoral votes; each district is worth one.)	Nebraska At Large							Νεμπράσκα: Σύνολο	Nebraska: Total	Nebraska: Total	Nebraska: Total						Nebraska: Total
+state.Nebraska District 1		Nebraska District 1							Νεμπράσκα: Περιοχή 1	Nebraska: Distrito 1	Nebraska: Distrito 1	Nebraska: District 1						Nebraska: Distrito 1
+state.Nebraska District 2		Nebraska District 2							Νεμπράσκα: Περιοχή 2	Nebraska: Distrito 2	Nebraska: Distrito 2	Nebraska: District 2						Nebraska: Distrito 2
+state.Nebraska District 3		Nebraska District 3							Νεμπράσκα: Περιοχή 3	Nebraska: Distrito 3	Nebraska: Distrito 3	Nebraska: District 3						Nebraska: Distrito 3
+tooltip.n Electoral Votes	Sentence in tooltip	Winner gets %{smart_count} electoral vote |||| Winner gets %{smart_count} electoral votes							O νικητής παίρνει το %{smart_count} των εκλεκτορικών ψήφων |||| Ο νικητής παίρνει το %{smart_count} των εκλεκτορικών ψήφων	El ganador obtiene %{smart_count} voto electoral |||| El ganador obtiene %{smart_count} votos electorales 	El ganador obtiene %{smart_count} voto electoral |||| El ganador obtiene %{smart_count} votos electorales 	Le vainqueur a obtenu %{smart_count} grand électeur /// Le vainqueur a obtenu %{smart_count} grands électeurs						O ganhador obtém %{smart_count} voto eleitoral |||| O ganhadro obtém %{smart_count} votos eleitorais
+tooltip.clinton		Clinton							Κλίντον	Clinton	Clinton	Clinton						Clinton
+tooltip.trump		Trump							Τραμπ	Trump	Trump	Trump						Trump
+tooltip.mcmullin	(May appear on Utah tooltip)	McMullin							Μακ Μούλιν	McMullin	McMullin	McMullin						McMullin
+tooltip.Candidate	Table heading	Candidate							Υποψήφιος	Candidato	Candidato	Candidat						Candidato
+tooltip.Votes	Table heading for voet count	Votes							Ψήφοι	Votos	Votos	Votes						Votos
+tooltip.Percent counted	Sentence in tooltip, e.g., "34% of votes counted" -- always rounded. "%{percent}" includes the percent symbol ("%" in English) for your language.	%{percent} of votes counted							Το %{percent} των ψήφων έχει καταμετρηθεί	%{porcentaje} de votos escrutados 	%{porcentaje} del conteo de votos	{pourcentage}% de votes comptabilisés						%{porcentagem} de votos apurados
+tooltip.click for details	Sentence in tooltip -- the page it links to is in English, so you might want to specify "(English)"	Click for details							Πατήστε για περισσότερες λεπτομέρειες	Pulsa aquí para más información		Cliquez pour plus de détails						Clique aqui para mais informações
