@@ -22,6 +22,7 @@ cat "$DIR"/president.svg \
   | perl -p -e 's/\<path class="[A-Z][A-Z].?.?"/<path fill="black" stroke="white" stroke-width="10"/g' \
   | perl -p -e 's/<text /<text opacity="0" /g' \
   | rsvg-convert -w 647 -h 400 -b white \
+  | convert - -fill white -draw "rectangle 600, 80 660,300" - \
   | convert - -monochrome -transparent white - \
   | pngquant 2 - > "$DIR"/president-geography-thumbnail.png
 
