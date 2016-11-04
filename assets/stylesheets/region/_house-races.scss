@@ -1,0 +1,59 @@
+.house-races {
+  table {
+    width: 100%;
+    max-width: 30rem;
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+
+  td {
+    padding: .25rem .5rem;
+    text-align: center;
+    border-top: 1px solid $very-muted-color;
+    &:first-child { padding-left: 0; }
+    &:last-child { padding-right: 0; }
+  }
+
+  td.district {
+    font-weight: bold;
+  }
+
+  .percent {
+    padding: 0 .25rem;
+    display: inline-block;
+  }
+
+  td.percent-reporting {
+    font-style: italic;
+    color: $muted-color;
+  }
+
+  tr.dem-win td.dem .percent {
+    color: $background;
+    background: $dem-color;
+    font-weight: bold;
+    &::before {
+      content: '✔';
+    }
+  }
+
+  tr.gop-win td.gop .percent {
+    color: $background;
+    background: $gop-color;
+    font-weight: bold;
+    &::before {
+      content: '✔';
+    }
+  }
+
+  tr.other-win, tr.lib-win, tr.grn-win, tr.bfa-win {
+    td.third .percent {
+      color: $background;
+      background: $other-color;
+      font-weight: bold;
+      &::before {
+        content: '✔';
+      }
+    }
+  }
+}

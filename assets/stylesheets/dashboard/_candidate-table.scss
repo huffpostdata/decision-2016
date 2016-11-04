@@ -1,38 +1,47 @@
 .candidate-table{
+  position: relative;
+  width: 300px;
   table {
+    width: 100%;
     border-collapse: collapse;
   }
   thead {
     border-bottom: 1px solid #bdbdbd;
   }
   th {
-    font-size: 16px;
+    font-size: .75rem;
     font-weight: 300;
     &.name{
       text-align: left;
       font-weight: 700;
+      font-size: 0.85rem;
+    }
+    &.vote-count {
+      text-align: left;
     }
     &.votes {
       text-align: left;
     }
     &.percent {
-      text-align: center;
+      text-align: right;
     }
   }
   td {
-    position: relative;
-    width: 25%;
-    height: 18px;
     &.name {
-      font-size: 12px;
+      font-size: .75rem;
       width: 30%;
     }
+    &.vote-count {
+      text-align: left;
+      font-size: .75rem;
+      width: 20%;
+    }
     &.votes {
-      width: 35%;
-      font-size: 11px;
+      width: 30%;
+      font-size: .75rem;
       .vote-bar {
         position: relative;
-        height: 60%;
+        height: .75rem;
         &.dem {
           background-color: $dem-color;
         }
@@ -49,15 +58,11 @@
           background-color: $other-color;
         }
       }
-      .vote-count {
-        position: absolute;
-        bottom: 0px;
-        left: 105%;
-      }
     }
     &.percent {
       text-align: center;
       font-size: 12px;
+      width: 20%;
     }
   }
   tr.dem.win {

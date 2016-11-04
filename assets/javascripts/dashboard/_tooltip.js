@@ -1,3 +1,4 @@
+
 function hasClass (el, checkClass) {
   return !!el.className.match( checkClass ) //match returns null, return true/false;
 }
@@ -23,41 +24,82 @@ function Tooltip(options) {
     _this.tooltip.style.top = yPos + 'px';
   }
 
-  function setText(raceId) {
+  function setText(raceId, raceType) {
     var dataRef = _this.raceData[raceId];
-    var stateName = dataRef.name;
-    var nElVotes = dataRef.nElectoralVotes;
-    _this.stateName.textContent = stateName;
-    // TK better sentence (NE1 and ME1 have one vote)
-    _this.stateSummary.textContent = 'The candidate who wins the popular vote will win all ' + nElVotes + ' of ' + stateName + '\'s electoral votes';
+    var textEl = _this.tooltip.querySelector('.inner');
+    var stateName = dataRef.stateName;
+    var nElVotes = null;
+    var precinctsReporting = null;
+    var htmlInject = null;
+
+    switch(raceType) {
+      case 'president':
+        nElVotes = dataRef.nElectoralVotes;
+        // TK better sentence (NE1 and ME1 have one vote)
+        htmlInject = [
+          '<h3 class="state-name">' + stateName + '</h3>',
+          '<p class="state-summary">The candidate who wins the popular vote ',
+          'will win all ' + nElVotes + ' of ' + stateName + '\'s electoral votes</p>',
+        ]
+        break;
+      case 'senate':
+        fractionReporting = dataRef.fractionReporting;
+        htmlInject = [
+          '<h3 class="state-name">' + stateName + '</h3>',
+          '<p class="fraction-reporting">' + fractionReporting + '</p>'
+        ]
+        break;
+      case 'house':
+        break;
+    }
+    textEl.innerHTML = htmlInject.join('');
   }
 
-  function buildTable(raceId) {
-    setText(raceId);
+  function buildTable(raceId, raceType) {
+    setText(raceId, raceType);
     var dataRef = _this.raceData[raceId];
     var candidates = dataRef.candidates;
     var votesTotal = dataRef.nVotes;
     var table = _this.tooltip.querySelector('.candidate-table');
+    if (table === null) return; // DELETEME TK I was getting crashes on staging
+    var cdType = null;
+    var cdVotesAccessor = 'n';
+    var cdNameAccessor = 'name';
+    var leadingCount = Math.max.apply(null, candidates.map(function(d) { return d[cdVotesAccessor]; }));
+
+    switch(raceType) {
+      case 'president':
+        cdType = 'PRESIDENT';
+        break
+      case 'senate':
+        cdType = 'SENATOR';
+        break
+      case 'house':
+        cdType = 'HOUSE REP.'
+        break
+      default:
+        'CANDIDATE'
+        break
+    }
+
     var htmlInject = ['<table>', '<thead>', '<tr>',
-      '<th class="cd">President</th>',
-      '<th class="vote-ct">Votes</th>',
-      '<th class="vote-pct">Percent</th>',
+      '<th class="name">' + cdType + '</th>',
+      '<th class="votes" colspan="2">VOTES</th>',
+      '<th class="percent"></th>',
       '</tr>', '</thead><tbody>'];
+
     for (var i = 0; i < candidates.length; i++) {
       var candidate = candidates[i];
-      console.log(candidate);
-      var name = candidate.name;
-      var votes = candidate.n;
-      var pct = votesTotal === 0 ? 0 : 100 * (votes / votesTotal);
-      var count = '' + candidate.n;
+      var cdName = candidate[cdNameAccessor];
+      var cdVotes = candidate[cdVotesAccessor];
+      var cdVotesPct = votesTotal === 0 ? 0 : 100 * (cdVotes / leadingCount);
       htmlInject.push(['<tr>',
-        '<td class="name" style="width: 30%;">' + name + '</td>',
-        '<td class="votes" style="width: 50%;">',
-            '<div class="vote-bar ' + candidate.partyId + '" style="width: ' + pct + '%;">',
-              '<span class="vote-count">' + count + '</span>',
-            '</div',
+        '<td class="name">' + cdName + '</td>',
+        '<td class="vote-count">' + cdVotes + '</td>',
+        '<td class="votes">',
+          '<div class="vote-bar ' + candidate.partyId + '" style="width: ' + cdVotesPct + '%;"></div>',
         '</td>',
-        '<td class="percent">' + Math.round(pct) + '%</td>',
+        '<td class="percent">' + Math.round(cdVotesPct) + '%</td>',
         '</tr>'].join(''));
     }
     htmlInject.push('</tbody></table>');
@@ -79,13 +121,17 @@ function Tooltip(options) {
   }
 
   function onMouseOver(ev) {
-    if (ev.target.tagName !== 'path' || /mesh$/.test(ev.target.className)) return;
+    if (ev.target.tagName !== 'path' || /mesh$/.test(ev.target.className)) {
+      return;
+    }
 
     var raceId = ev.target.getAttribute('data-race-id');
-    highlight(raceId);
-    buildTable(raceId);
-    _this.tooltip.style.display = 'block'; //set display before getting h/w
-    positionTooltip(ev);
+    if(!_this.raceData[raceId].seatClass || _this.raceData[raceId].seatClass === '3') {
+      highlight(raceId);
+      buildTable(raceId, options.raceType);
+      _this.tooltip.style.display = 'block'; //set display before getting h/w
+      positionTooltip(ev);
+    }
   }
 
   function onMouseOut(ev) {

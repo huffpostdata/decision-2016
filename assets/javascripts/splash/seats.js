@@ -33,6 +33,7 @@ function updateHouseSeats(data) {
   for (var i = filledIn; i<filledIn+data.wins.gop; i++) {
     boxes[i].className = "gop-win";
   }
+  house_seats.querySelector('a').className = data.className;
 }
 
 function setUpSenate(data, i18n) {
@@ -69,6 +70,7 @@ function updateSenateSeats(data) {
   for (var i=filledIn; i<filledIn+data.priors.gop; i++) {
     boxes[i].className = "gop-prior";
   }
+  senate_seats.querySelector('a').className = data.className;
 }
 
 function repeatBoxes(times, css) {

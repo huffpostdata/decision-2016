@@ -1,4 +1,8 @@
-@import '../splash-bar';
+@import '../_variables';
+@import '../splash/_variables';
+
+@import '../splash/bar/_senate';
+@import '../splash/bar/_house';
 
 #election_seats{
   max-width: 250px;
