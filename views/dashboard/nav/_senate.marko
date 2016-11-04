@@ -7,7 +7,7 @@ else
 
 .bar
   .dem style="width: ${100 * summary.totals.dem / summary.n}%"
-  .tossup style="width: ${100 * summary.tossup / summary.n}%"
+  .tossup style="width: ${100 * (summary.n - summary.totals.dem - summary.totals.gop) / summary.n}%"
   .gop style="width: ${100 * summary.totals.gop / summary.n}%"
 
-.image.${summary.totals.dem > 50 ? 'dem-win' : (summary.totals.gop > 50 ? 'gop-win' : (summary.totals.dem > summary.totals.gop ? 'dem-lead' : (summary.totals.gop > summary.totals.dem ? 'gop-lead' : (summary.totals.dem === 50 ? 'tie' : 'tossup'))))}
+.image.${summary.className}

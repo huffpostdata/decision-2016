@@ -33,7 +33,8 @@
       border-bottom: 1px solid $color;
       position: relative;
 
-      &.winner::before {
+      &::before {
+        display: none;
         content: '✔';
         position: absolute;
         font-size: .8rem;
@@ -57,8 +58,9 @@
 
     .clinton::after { background-image: asset-url('digest', 'images/splash/clinton-head.png'); }
     .trump::after { background-image: asset-url('digest', 'images/splash/trump-head.png'); }
-    .clinton.winner { background-color: $dem-background; }
-    .trump.winner { background-color: $gop-background; }
+
+    &.clinton-win .clinton { background-color: $dem-background; &::before { display: block; } }
+    &.trump-win .trump { background-color: $gop-background; &::before { display: block; } }
 
     strong {
       font-size: 2rem;

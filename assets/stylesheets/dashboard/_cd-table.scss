@@ -1,0 +1,66 @@
+.candidate-table{
+  table {
+    border-collapse: collapse;
+  }
+  thead {
+    border-bottom: 1px solid #bdbdbd;
+  }
+  th {
+    font-size: 16px;
+    font-weight: 300;
+    &.name{
+      text-align: left;
+      font-weight: 700;
+    }
+    &.votes {
+      text-align: left;
+    }
+    &.percent {
+      text-align: center;
+    }
+  }
+  td {
+    position: relative;
+    width: 25%;
+    height: 18px;
+    &.name {
+      font-size: 12px;
+      width: 30%;
+    }
+    &.votes {
+      width: 35%;
+      font-size: 11px;
+      .vote-bar {
+        position: relative;
+        height: 60%;
+        &.dem {
+          background-color: $dem-color;
+        }
+        &.gop {
+          background-color: $gop-color;
+        }
+        &.lib {
+          background-color: $lib-color;
+        }
+        &.grn {
+          background-color: $grn-color;
+        }
+        &.other {
+          background-color: $other-color;
+        }
+      }
+      .vote-count {
+        position: absolute;
+        bottom: 0px;
+        left: 105%;
+      }
+    }
+    &.percent {
+      text-align: center;
+      font-size: 12px;
+    }
+  }
+  tr.dem.win {
+    background-color: $dem-background;
+  }
+}

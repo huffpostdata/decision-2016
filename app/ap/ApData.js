@@ -29,10 +29,20 @@ function validParty(apPartyId) {
 }
 
 function apCandidateToCandidate(apJson) {
+  const fullName = `${apJson.first} ${apJson.last}`
+
+  // Nudge AP towards "lib", "grn" and "una" -- even if candidates are "Una"
+  // (for "unaffiliated").
+  const partyId = {
+    'Gary Johnson': 'lib',
+    'Jill Stein': 'grn',
+    'Evan McMullin': 'bfa',
+  }[fullName] || validParty(apJson.party)
+
   return {
     name: apJson.last,
-    fullName: `${apJson.first} ${apJson.last}`,
-    partyId: validParty(apJson.party),
+    fullName: fullName,
+    partyId: partyId,
     n: apJson.voteCount,
     winner: (apJson.winner === 'X'),
     incumbent: apJson.incumbent === true
@@ -106,8 +116,9 @@ function apCandidatesToCandidates(apCandidates) {
   const ret = []
   let nOther = 0
   for (const apCandidate of apCandidates) {
-    if (ValidParties.hasOwnProperty(apCandidate.party)) {
-      ret.push(apCandidateToCandidate(apCandidate))
+    const candidate = apCandidateToCandidate(apCandidate)
+    if (candidate.partyId !== 'other') {
+      ret.push(candidate)
     } else {
       nOther += apCandidate.voteCount
     }
@@ -172,6 +183,25 @@ function senateRaceClassName(race) {
 const houseRaceClassName = senateRaceClassName
 
 function postprocessPresidentRace(race) {
+  // Nix Evan McMullin in non-UT
+  if (race.id !== 'UT') {
+    const idx = race.candidates.findIndex(c => c.partyId === 'bfa')
+    const mcmullin = race.candidates[idx]
+    if (idx !== -1) {
+      const maybeOther = race.candidates[race.candidates.length - 1]
+      race.candidates.splice(idx, 1)
+
+      if (maybeOther.partyId === 'other') {
+        race.candidates[race.candidates.length - 1].n += mcmullin.n
+      } else {
+        race.candidates.push({
+          name: 'Other', partyId: 'other', n: mcmullin.n, winner: false, incumbent: false
+        })
+      }
+    }
+  }
+
+  // set race.nVotesClinton, race.nVotesTrump, race.nVotesThird
   let wroteThird = false
   for (const candidate of race.candidates) {
     race.nVotes += candidate.n
@@ -221,7 +251,6 @@ function apRaceToPresidentRace(apRace) {
   }
   race.className = presidentRaceClassName(race)
   postprocessPresidentRace(race)
-
 
   return race
 }
@@ -344,7 +373,7 @@ module.exports = class ApData {
    * * nTrumpElectoralVotes: uint electoral votes for Trump, [0, 538]
    * * nOtherElectoralVotes: uint electoral votes for (not Clinton or Trump), [0, 538]
    * * nTossupElectoralVotes: 538 - nClintonElectoralVotes - nTrumpElectoralVotes
-   * * winner: 'clinton', 'trump', or null
+   * * className: 'clinton-win', 'trump-lead', 'tossup', etc.
    */
   presidentSummary() {
     const NElectoralVotes = 538
@@ -374,6 +403,9 @@ module.exports = class ApData {
       if (candidate.winner === 'X') winner = candidate.last.toLowerCase()
     }
 
+    var className = winner ? `${winner}-win`
+      : (nClinton > nTrump ? 'clinton-lead' : (nTrump > nClinton ? 'trump-lead' : 'tossup'));
+
     return {
       nClinton: nClintonVotes,
       nTrump: nTrumpVotes,
@@ -382,7 +414,7 @@ module.exports = class ApData {
       nTrumpElectoralVotes: nTrump,
       nOtherElectoralVotes: nOther,
       nTossupElectoralVotes: NElectoralVotes - nClinton - nTrump - nOther,
-      winner: winner
+      className: className
     }
   }
 
@@ -424,6 +456,11 @@ module.exports = class ApData {
    *     nElectoralVotes: 1,
    *     ... (the rest is all the same)
    *   }
+   *
+   * We set party IDs based on the candidate's name, NOT AP data (which often
+   * shows "Una" -- as in, "unaffiliated"). 'UT' gets an Evan McMullin (party
+   * ID 'bfa'). Other than that, we filter for Donald Trump ('gop'), Hillary
+   * Clinton ('dem'), Gary Johnson ('lib') and Jill Stein ('grn').
    */
   presidentRaces() {
     let ret = []
@@ -487,7 +524,8 @@ module.exports = class ApData {
    *     popular: {
    *      dem: uint total number of votes for senators who say they'll caucus with Democrats in 2017
    *      gop: uint total number of votes for senators who say they'll caucus with Republicans in 2017
-   *     }
+   *     },
+   *     className: one of 'dem-lead', 'dem-lead', 'tossup', 'gop-lead', 'gop-win'
    *   }
    *
    * We only ever return "dem" and "gop", because anybody who enters the Senate
@@ -536,13 +574,19 @@ module.exports = class ApData {
       }
     }
 
+    const className = totals.dem > 50 ? 'dem-win'
+      : (totals.gop > 50 ? 'gop-win'
+        : (totals.dem > totals.gop ? 'dem-lead'
+          : (totals.gop > totals.dem ? 'gop-lead' : 'tossup')))
+
     return {
       n: NTotal,
       tossup: NTotal - NDemPrior - NGopPrior - wins.dem - wins.gop,
       priors: { dem: NDemPrior, gop: NGopPrior },
       wins: wins,
       totals: totals,
-      popular: popular
+      popular: popular,
+      className: className
     }
   }
 
@@ -562,7 +606,8 @@ module.exports = class ApData {
    *     popular: {
    *      dem: uint number of votes for Democrats
    *      gop: uint number of votes for Republicans
-   *     }
+   *     },
+   *     className: one of 'dem-win', 'dem-lead', 'tossup', 'gop-lead', 'gop-win'
    *   }
    */
   houseSummary() {
@@ -591,11 +636,18 @@ module.exports = class ApData {
       }
     }
 
+    var nWin = Math.ceil(NRaces / 2);
+    const className = wins.dem >= nWin ? 'dem-win'
+      : (wins.gop >= nWin ? 'gop-win'
+        : (wins.dem > wins.gop ? 'dem-lead'
+          : (wins.gop > wins.dem ? 'gop-lead' : 'tossup')));
+
     return {
       total: NRaces,
       tossup: NRaces - nWins,
       wins: wins,
-      popular: popular
+      popular: popular,
+      className: className
     }
   }
 

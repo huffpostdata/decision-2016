@@ -24,6 +24,8 @@
     }
   }
 
+  &.dem-win .legend .dem::before, &.gop-win .legend .gop::after { content: '✔'; }
+
   ol.races {
     width: 245px;
     height: 45px;
