@@ -3,7 +3,7 @@ var summary=data.model.summaries.senate
 if(data.model.metadata.slug === 'senate')
   h1 - Senate
 else
-  a href="senate" - Senate
+  a href="${data.path_to('senate')}" - Senate
 
 .bar
   .dem style="width: ${100 * summary.totals.dem / summary.n}%"

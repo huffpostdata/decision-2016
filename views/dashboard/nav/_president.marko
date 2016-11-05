@@ -3,7 +3,7 @@ var summary=data.model.summaries.president
 if(data.model.metadata.slug === 'president')
   h1 - President
 else
-  a href="president" - President
+  a href="${data.path_to('president')}" - President
 
 .bar
   .clinton style="width: ${100 * summary.nClintonElectoralVotes / summary.nElectoralVotes}%"

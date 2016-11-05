@@ -3,7 +3,7 @@ var summary=data.model.summaries.house
 if(data.model.metadata.slug === 'house')
   h1 - House
 else
-  a href="house" - House
+  a href="${data.path_to('house')}" - House
 
 .bar
   .dem style="width: ${100 * summary.wins.dem / summary.total}%"
