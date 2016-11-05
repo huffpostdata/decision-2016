@@ -4,6 +4,19 @@ const fs = require('fs')
 const SenatePriorSeats = require('../SenatePriorSeats')
 const BallotInitiatives = require('../BallotInitiatives')
 
+const OverrideRaceWinner = {
+  // Race ID primer:
+  //
+  // "AL", "AK", "DC", "ME": state-wide presidential races
+  // "ME1", "ME2", "NE1", "NE2", "NE3": district presidential races (just 5)
+  // "AKS3": senate race (always ends with "S3")
+  // "NY02", "NY21": congressional races (always four characters)
+  //
+  // Override a winner here by writing the full name of the winner, or "[none]"
+  // to override a call with a non-call. Index by race ID.
+  // e.g.: { "ME3": "Donald Trump", "UT": "Evan McMullin", "CA03": "[none]" }
+}
+
 const ApIdToGeoId = fs.readFileSync(`${__dirname}/../ap-id-to-geo-id.tsv`, 'utf8')
   .split(/\r?\n/)
   .map(s => s.split(/\t/))
@@ -37,7 +50,7 @@ function validParty(apPartyId) {
   return ValidParties[apPartyId] || 'other'
 }
 
-function apCandidateToCandidate(apJson, options) {
+function apCandidateToCandidate(raceIdOrNull, apJson, options) {
   const fullName = `${apJson.first} ${apJson.last}`
 
   // Nudge AP towards "lib", "grn" and "una" -- even if candidates are "Una"
@@ -61,7 +74,17 @@ function apCandidateToCandidate(apJson, options) {
 
   if (!options || !options.hasOwnProperty('showWinner') || options.showWinner) {
     // add ".winner" and ".runoff" to the winner(s)
-    const winner = (options && options.lookAtElectWonNotWinner) ? !!(apJson.electWon) : (apJson.winner === 'X')
+    const overrideRaceWinner = OverrideRaceWinner[raceIdOrNull]
+    let winner
+    if (overrideRaceWinner) {
+      winner = overrideRaceWinner === ret.fullName
+    } else {
+      if (options && options.lookAtElectWonNotWinner) {
+        winner = (apJson.electWon || 0) > 0
+      } else {
+        winner = apJson.winner === 'X'
+      }
+    }
     if (winner) ret.winner = true
     if (apJson.winner === 'R') ret.runoff = true
   }
@@ -135,11 +158,11 @@ function compareRaces(a, b) {
   return a.id.localeCompare(b.id)
 }
 
-function apCandidatesToCandidates(apCandidates, options) {
+function apCandidatesToCandidates(raceIdOrNull, apCandidates, options) {
   const ret = []
   let nOther = 0
   for (const apCandidate of apCandidates) {
-    const candidate = apCandidateToCandidate(apCandidate, options)
+    const candidate = apCandidateToCandidate(raceIdOrNull, apCandidate, options)
     if (candidate.partyId !== 'other') {
       ret.push(candidate)
     } else {
@@ -268,14 +291,15 @@ function countRaceVotes(race) {
 function apRaceToPresidentRace(apRace) {
   const state = apRace.reportingUnits[0]
   const stateName = StateCodeToStateName[state.statePostal]
+  const id = state.statePostal
   const race = {
-    id: state.statePostal,
+    id: id,
     regionId: state.statePostal,
     name: stateName,
     stateName: stateName,
     nElectoralVotes: state.electTotal,
     fractionReporting: state.precinctsReporting === 0 ? 0 : state.precinctsReporting / state.precinctsTotal,
-    candidates: apCandidatesToCandidates(state.candidates),
+    candidates: apCandidatesToCandidates(id, state.candidates),
     nVotes: 0,
     winner: null
   }
@@ -288,14 +312,14 @@ function apRaceToPresidentRace(apRace) {
 function apRaceToSenateRace(apRace) {
   const ru = apRace.reportingUnits[0]
   const stateName = StateCodeToStateName[ru.statePostal]
-
+  const id = `${ru.statePostal}S3`
   const ret = {
-    id: `${ru.statePostal}S3`,
+    id: id,
     name: stateName,
     stateName: stateName,
     seatClass: '3',
     fractionReporting: ru.precinctsTotal === 0 ? 0 : ru.precinctsReporting / ru.precinctsTotal,
-    candidates: apCandidatesToCandidates(ru.candidates)
+    candidates: apCandidatesToCandidates(id, ru.candidates)
   }
   ret.winner = raceWinner(ret)
   ret.className = senateRaceClassName(ret)
@@ -307,12 +331,13 @@ function apRaceToSenateRace(apRace) {
 function apRaceToHouseRace(apRace) {
   const ru = apRace.reportingUnits[0]
   const stateName = StateCodeToStateName[ru.statePostal]
+  const id = `${ru.statePostal}${String(100 + +apRace.seatNum).slice(1)}`
 
   const race = {
-    id: `${ru.statePostal}${String(100 + +apRace.seatNum).slice(1)}`,
+    id: id,
     stateName: stateName,
     name: / at large/i.test(apRace.description) ? `${stateName} At Large` : `${stateName} District ${apRace.seatNum}`,
-    candidates: apCandidatesToCandidates(ru.candidates),
+    candidates: apCandidatesToCandidates(id, ru.candidates),
     fractionReporting: ru.precinctsTotal === 0 ? 1 : ru.precinctsReporting / ru.precinctsTotal
   }
   race.winner = raceWinner(race)
@@ -340,7 +365,7 @@ function apRaceToGeos(apRace) {
       id: id,
       name: ru.reportingunitName,
       fractionReporting: ru.precinctsReportingPct / 100,
-      candidates: apCandidatesToCandidates(ru.candidates, { showWinner: false })
+      candidates: apCandidatesToCandidates(null, ru.candidates, { showWinner: false })
     }
     geo.nVotes = countRaceVotes(geo)
     geo.className = presidentGeoClassName(geo)
@@ -514,9 +539,10 @@ module.exports = class ApData {
 
       for (const ru of apState.reportingUnits.slice(1)) {
         const stateName = StateCodeToStateName[state.statePostal]
+        // id: "ME", "ME1", "ME2", ...
+        const id = ru.statePostal + (ru.districtType === 'CD' ? ru.reportingunitName.slice('District '.length) : '')
         const race = {
-          // id: "ME", "ME1", "ME2", ...
-          id: ru.statePostal + (ru.districtType === 'CD' ? ru.reportingunitName.slice('District '.length) : ''),
+          id: id,
           regionId: ru.statePostal,
           name: `${stateName} ${ru.reportingunitName}`,
           stateName: stateName,
@@ -524,7 +550,7 @@ module.exports = class ApData {
           fractionReporting: state.precinctsReporting === 0 ? 0 : state.precinctsReporting / state.precinctsTotal,
           // second-guess AP: it's NE/ME candidates are called state-wide, not
           // per-district. electWon is set per-district.
-          candidates: apCandidatesToCandidates(ru.candidates, { lookAtElectWonNotWinner: true }),
+          candidates: apCandidatesToCandidates(id, ru.candidates, { lookAtElectWonNotWinner: true }),
           nVotes: 0,
           winner: null
         }
