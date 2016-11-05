@@ -7,12 +7,14 @@
     &.trump-win,
     &.gop-win {
       tr.winner {
+        font-weight: bold;
         background-color: lighten($gop-background, 5);
       }
     }
     &.clinton-win,
     &.dem-win {
       tr.winner {
+        font-weight: bold;
         background-color: lighten($dem-background, 5);
       }
     }
@@ -49,10 +51,11 @@
       padding-left: .5rem;
       .incumbent {
         color: white;
-        background-color: $very-muted-color;
+        background-color: $muted-color;
         display: inline-block;
         text-align: center;
         width: 1rem;
+        margin: 0 2px;
       }
     }
     &.vote-count {

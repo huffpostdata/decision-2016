@@ -61,7 +61,7 @@ function Tooltip(options) {
         htmlInject = [
           '<h3 class="state-name">' + name + '</h3>',
           '<p class="state-summary">The candidate who wins the popular vote ',
-          'will win all ' + summaryFigure + ' of ' + name + '\'s electoral votes</p>',
+          'will win all ' + '<span class="electoralvotes">' + summaryFigure + '</span>' + ' of ' + name + '\'s electoral votes.</p>',
         ]
         break;
       case 'senate':
