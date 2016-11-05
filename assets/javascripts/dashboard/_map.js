@@ -33,40 +33,50 @@ function Loop(points) {
 }
 
 Loop.fromPathD = function(d) {
-  // A function mapping [0,1] to {x,y}
   var len = 0;
-  var re = /([MlhvZ])(?:(-?\d+)(?:,(-?\d+))?)?/g;
+
+  // IE<=11 regexes don't seem to greedy-match as much as they should. That's
+  // why we're stuck with "pos" parsing.
+  var pos = 0;
+  var intRe = /[, ]*(-?\d+)[, ]*/g;
+  function nextInt() {
+    intRe.lastIndex = pos;
+    var m = intRe.exec(d);
+    pos += m[0].length;
+    return parseInt(m[1], 10);
+  }
+
   var x = null;
   var y = null;
   var m = null;
   var dx = null;
   var dy = null;
   var points = [];
-  while ((m = re.exec(d)) !== null) {
-    var op = m[1];
+  while (pos < d.length) {
+    var op = d[pos];
+    pos += 1;
+
     // Don't animate holes, multiple polygons, etc. It's not worth the effort.
     if (op === 'M' && x !== null) throw new Error('Called with more than a loop path description');
     switch (op) {
       case 'M':
-        x = +m[2];
-        y = +m[3];
+        x = nextInt(); y = nextInt();
         points.push(new Point(x, y, len));
         break;
       case 'h':
-        dx = +m[2];
+        dx = nextInt();
         x += dx;
         len += Math.abs(dx);
         points.push(new Point(x, y, len));
         break;
       case 'v':
-        dy = +m[2];
+        dy = nextInt();
         y += dy;
         len += Math.abs(dy);
         points.push(new Point(x, y, len));
         break;
       case 'l':
-        dx = +m[2];
-        dy = +m[3];
+        dx = nextInt(); dy = nextInt();
         x += dx;
         y += dy;
         len += Math.sqrt(dx * dx + dy * dy);
@@ -83,6 +93,7 @@ Loop.fromPathD = function(d) {
       default:
         throw new Error('Unexpected op "' + op + '" in <path> d="' + d + '"');
     }
+    while (pos < d.length && d[pos] === ' ') pos++;
   }
 
   return new Loop(points);
