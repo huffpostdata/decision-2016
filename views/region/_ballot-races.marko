@@ -17,9 +17,11 @@ var races=data.model.races.ballot
             a href="${race.href}" - Details
           td.yay
             .result
-              strong - ${data.helpers.formatPercent(race.yay.n, race.nVotes)} 
+              strong - ${data.helpers.formatPercent(race.yay.n, race.nVotes)}
+              -  
               small - ${race.yay.name}
           td.nay
             .result
-              strong - ${data.helpers.formatPercent(race.nay.n, race.nVotes)} 
+              strong - ${data.helpers.formatPercent(race.nay.n, race.nVotes)}
+              -  
               small - ${race.nay.name}

@@ -1,5 +1,6 @@
 var GeoMap = require('./region/GeoMap');
 var DistrictMap = require('./region/DistrictMap');
+var BallotRaces = require('./region/BallotRaces');
 var Tooltip = require('./dashboard/_tooltip');
 var refresh = require('./common/_refresh');
 
@@ -42,6 +43,12 @@ var houseMap = new DistrictMap({
   races: initialJson.house
 });
 
+var ballotDiv = document.querySelector('.ballot-races');
+var ballotRaces = null;
+if (ballotDiv) {
+  ballotRaces = new BallotRaces({ el: ballotDiv });
+}
+
 function doRefresh(json) {
   presidentMap.update(json.president);
   presidentTooltip.setData(json.president.geos);
@@ -50,8 +57,9 @@ function doRefresh(json) {
     senateTooltip.setData(json.senate.geos);
   }
   houseMap.update(json.house);
-  // TK houseTooltip-or-something.setData(json.house);
-  // if (ballot...) TK ballot.update(...)
+  if (ballotRaces) {
+    ballotRaces.update(json.ballot);
+  }
 }
 
 var refreshEl = document.getElementById('refresh');
