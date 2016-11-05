@@ -25,4 +25,9 @@ DistrictMap.prototype.recolor = function() {
   }
 };
 
+DistrictMap.prototype.update = function(races) {
+  this.races = races;
+  this.recolor();
+};
+
 module.exports = DistrictMap;

@@ -4,6 +4,15 @@ const fs = require('fs')
 const SenatePriorSeats = require('../SenatePriorSeats')
 const BallotInitiatives = require('../BallotInitiatives')
 
+const ApIdToGeoId = fs.readFileSync(`${__dirname}/../ap-id-to-geo-id.tsv`, 'utf8')
+  .split(/\r?\n/)
+  .map(s => s.split(/\t/))
+  .filter(arr => arr.length > 0 && arr[0].length > 0)
+  .reduce(((s, arr) => { s[arr[0]] = arr[1]; return s }), {})
+
+const ApIdToGeoIdStateCodes = 'CT MA ME NH RI VT' // TK add AK
+  .split(/ /).reduce(((s, code) => { s[code] = null; return s }), {})
+
 const StateCodeToStateName = fs.readFileSync(`${__dirname}/../google-sheets/regions.tsv`, 'utf8')
   .split(/\r?\n/)
   .slice(1)
@@ -315,9 +324,15 @@ function apRaceToHouseRace(apRace) {
 function apRaceToGeos(apRace) {
   const ret = []
 
+  const stateCode = apRaceToStateCode(apRace)
+  const useFips = !ApIdToGeoIdStateCodes.hasOwnProperty(stateCode)
+
   for (const ru of apRace.reportingUnits.slice(1)) {
+    const id = useFips ? ru.fipsCode : ApIdToGeoId[ru.reportingunitID]
+    if (!id) throw new Error(`Could not find geo ID for ${JSON.stringify(ru)}; found "${JSON.stringify(id)}"`)
+
     const geo = {
-      id: ru.fipsCode, // TK New England states need apId (or whatever we did during primaries)
+      id: id,
       name: ru.reportingunitName,
       fractionReporting: ru.precinctsReportingPct / 100,
       candidates: apCandidatesToCandidates(ru.candidates)

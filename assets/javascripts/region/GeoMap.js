@@ -25,4 +25,9 @@ GeoMap.prototype.recolor = function() {
   }
 };
 
+GeoMap.prototype.update = function(geos) {
+  this.geos = geos;
+  this.recolor();
+};
+
 module.exports = GeoMap;
