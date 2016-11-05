@@ -4,6 +4,15 @@ const fs = require('fs')
 const SenatePriorSeats = require('../SenatePriorSeats')
 const BallotInitiatives = require('../BallotInitiatives')
 
+const ApIdToGeoId = fs.readFileSync(`${__dirname}/../ap-id-to-geo-id.tsv`, 'utf8')
+  .split(/\r?\n/)
+  .map(s => s.split(/\t/))
+  .filter(arr => arr.length > 0 && arr[0].length > 0)
+  .reduce(((s, arr) => { s[arr[0]] = arr[1]; return s }), {})
+
+const ApIdToGeoIdStateCodes = 'CT MA ME NH RI VT' // TK add AK
+  .split(/ /).reduce(((s, code) => { s[code] = null; return s }), {})
+
 const StateCodeToStateName = fs.readFileSync(`${__dirname}/../google-sheets/regions.tsv`, 'utf8')
   .split(/\r?\n/)
   .slice(1)
@@ -39,7 +48,6 @@ function apCandidateToCandidate(apJson, options) {
     'Evan McMullin': 'bfa',
   }[fullName] || validParty(apJson.party)
 
-  const winner = (options && options.lookAtElectWonNotWinner) ? !!(apJson.electWon) : (apJson.winner === 'X')
   const n = apJson.voteCount ? apJson.voteCount : 0
 
   const ret = {
@@ -48,9 +56,15 @@ function apCandidateToCandidate(apJson, options) {
     partyId: partyId,
     n: n,
   }
-  if (winner) ret.winner = true
+
   if (apJson.incumbent === true) ret.incumbent = true
-  if (apJson.winner === 'R') ret.runoff = true
+
+  if (!options || !options.hasOwnProperty('showWinner') || options.showWinner) {
+    // add ".winner" and ".runoff" to the winner(s)
+    const winner = (options && options.lookAtElectWonNotWinner) ? !!(apJson.electWon) : (apJson.winner === 'X')
+    if (winner) ret.winner = true
+    if (apJson.winner === 'R') ret.runoff = true
+  }
 
   return ret
 }
@@ -315,18 +329,22 @@ function apRaceToHouseRace(apRace) {
 function apRaceToGeos(apRace) {
   const ret = []
 
+  const stateCode = apRaceToStateCode(apRace)
+  const useFips = !ApIdToGeoIdStateCodes.hasOwnProperty(stateCode)
+
   for (const ru of apRace.reportingUnits.slice(1)) {
+    const id = useFips ? ru.fipsCode : ApIdToGeoId[ru.reportingunitID]
+    if (!id) throw new Error(`Could not find geo ID for ${JSON.stringify(ru)}; found "${JSON.stringify(id)}"`)
+
     const geo = {
-      id: ru.fipsCode, // TK New England states need apId (or whatever we did during primaries)
+      id: id,
       name: ru.reportingunitName,
       fractionReporting: ru.precinctsReportingPct / 100,
-      candidates: apCandidatesToCandidates(ru.candidates)
+      candidates: apCandidatesToCandidates(ru.candidates, { showWinner: false })
     }
-    // AP's "winner" call propagates _down_ to each geo. That's fine, but we
-    // shouldn't sort that way.
-    geo.candidates.sort(compareCandidatesIgnoreWinner)
-
+    geo.nVotes = countRaceVotes(geo)
     geo.className = presidentGeoClassName(geo)
+    if (/-win$/.test(geo.className)) geo.candidates[0].winner = true
 
     ret.push(geo)
   }

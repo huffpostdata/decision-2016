@@ -31,8 +31,8 @@ module.exports = {
       map = new Map({ el: mapEl, switchEl: mapSwitcherEl, racesJson: data, onLoad: function () {
         var paths = mapEl.querySelectorAll("text");
         for (i = 0; i < paths.length; i++) {
-          path = paths[i];
-          path.textContent = _i18n.t('state-abbreviation.' + path.textContent);
+          var path = paths[i];
+          path.textContent = !!path.textContent ? _i18n.t('state-abbreviation.' + path.textContent) : '';
         }
       }});
     }

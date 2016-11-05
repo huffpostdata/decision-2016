@@ -172,9 +172,7 @@ function Tooltip(options) {
   }
 
   function onMouseOver(ev) {
-    if (ev.target.tagName !== 'path' || /mesh$/.test(ev.target.getAttribute('class'))) {
-      return;
-    }
+    if (ev.target.tagName !== 'path') return;
 
     var raceId = ev.target.getAttribute(_this.dataAttrAccessor);
     var race = _this.raceData[raceId];

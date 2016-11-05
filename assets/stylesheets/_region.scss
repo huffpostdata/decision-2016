@@ -48,7 +48,12 @@ body.region {
   }
 
   path { stroke: none; fill: $tossup-color; }
-  path[class$=-mesh] { fill: none; stroke: $background; stroke-width: 2px; }
+  path[class$=mesh] {
+    fill: none;
+    stroke: $background;
+    stroke-width: 2px;
+    pointer-events: none;
+  }
   path.gop-win { fill: $gop-color; }
   path.dem-win { fill: $dem-color; }
   path.lib-win { fill: $lib-color; }

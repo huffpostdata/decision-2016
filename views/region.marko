@@ -55,6 +55,6 @@ html lang="en"
     $!{data.helpers.partial('_footer')}
     $!{data.helpers.partial('dashboard/_tooltip')}
 
-    script src="${data.path_to_asset('javascript', 'javascripts/region.js')}" data-json="${JSON.stringify(data.model.races)}"
+    script src="${data.path_to_asset('javascript', 'javascripts/region.js')}" data-url="${data.path_to('state/:id.json', data.model.id)}" data-json="${JSON.stringify(data.model.races)}"
     script src="${data.path_to_asset('digest', 'javascripts/social.js')}"
     script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"

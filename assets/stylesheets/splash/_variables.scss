@@ -19,3 +19,9 @@ $dem-color: #4c7de0;
 $gop-color: #e52426;
 
 $body-font-family: "NotoNashkArabic", "Helvetica Neue", "Helvetica", Roboto, Arial, sans-serif;
+
+@mixin ar-font-size($font-size) {
+  html[lang='ar-SA'] & {
+    font-size: $font-size
+  }
+}
