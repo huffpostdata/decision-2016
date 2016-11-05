@@ -340,6 +340,7 @@ function apRaceToGeos(apRace) {
     // AP's "winner" call propagates _down_ to each geo. That's fine, but we
     // shouldn't sort that way.
     geo.candidates.sort(compareCandidatesIgnoreWinner)
+    geo.nVotes = countRaceVotes(geo)
 
     geo.className = presidentGeoClassName(geo)
 
