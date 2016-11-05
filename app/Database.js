@@ -6,6 +6,7 @@ const read_config = require('../generator/read_config')
 const GoogleDocs = require('../generator/GoogleDocs')
 const GoogleSheets = require('../generator/GoogleSheets')
 const PageMetadata = require('../generator/PageMetadata')
+const AppSplash = require('../generator/AppSplash')
 const ap_fs = require('./ap/ap-fs')
 
 function invertTranslations(translations) {
@@ -61,6 +62,7 @@ module.exports = class Database {
   constructor() {
     const google_docs = new GoogleDocs(read_config('google-docs'))
     const google_sheets = new GoogleSheets(read_config('google-sheets'))
+    const appSplash = new AppSplash()
     const translations = invertTranslations(google_sheets.slug_to_array('translations'));
     const apData = ap_fs.load()
     const changelog = ap_fs.loadChangelogEntries()
@@ -134,6 +136,9 @@ module.exports = class Database {
       races: houseRaces,
       changelog: this.house.changelog
     }))
+
+    // summaries.president
+    this.splashAsBuffer = Buffer.from(appSplash.renderImage({ nClinton: 200, nTrump: 130 }))
 
     const regionIdToRaces = apData.allRaceDetails()
     this.regions = Object.keys(regionIdToRaces).map(regionId => {
