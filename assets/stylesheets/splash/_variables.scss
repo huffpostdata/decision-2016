@@ -20,8 +20,12 @@ $gop-color: #e52426;
 
 $body-font-family: "NotoNashkArabic", "Helvetica Neue", "Helvetica", Roboto, Arial, sans-serif;
 
-@mixin ar-font-size($font-size) {
-  html[lang='ar-SA'] & {
+@mixin locale-font-size($locale, $font-size) {
+  html[lang="#{$locale}"] & {
     font-size: $font-size
   }
+}
+
+@mixin ar-font-size($font-size) {
+  @include locale-font-size("ar-SA", $font-size);
 }
