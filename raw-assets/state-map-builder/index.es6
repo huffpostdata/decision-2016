@@ -400,7 +400,7 @@ const render_district_svg = (state_code, feature_set, options, callback) => {
     `<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" width=\"${width}\" height=\"${height}\" viewBox=\"0 0 ${width} ${height}\">`
   ]
 
-  dist_data.push(render_state_path(path, topology))
+  // dist_data.push(render_state_path(path, topology))
   dist_data.push(render_g_element(path, topology, topology.objects.districts.geometries, 'districts', st_abbr))
   dist_data.push(render_mesh_path(path, topology, 'districts'))
   dist_data.push('</svg>')
@@ -605,7 +605,14 @@ const render_all_states = (callback) => {
 //    far from the best way to do this
 
 const mapData = require('./DataFiles.es6')
-const matching = {'USLand': 'statesp010g.shp', 'CongressionalDistricts': 'tl_2016_us_cd115.shp', 'Counties': 'tl_2016_us_county.shp', 'NESubCounty': 'tl_2016_25_cousub.shp'}
+const matching = {'USLand': 'statesp010g.shp', 'CongressionalDistricts': 'tl_2016_us_cd115.shp',
+    'Counties': 'tl_2016_us_county.shp', 'MASubCounty': 'tl_2016_25_cousub.shp',
+    'Counties': 'tl_2016_us_county.shp', 'CTSubCounty': 'tl_2016_09_cousub.shp',
+    'Counties': 'tl_2016_us_county.shp', 'MESubCounty': 'tl_2016_23_cousub.shp',
+    'Counties': 'tl_2016_us_county.shp', 'NHSubCounty': 'tl_2016_33_cousub.shp',
+    'Counties': 'tl_2016_us_county.shp', 'RISubCounty': 'tl_2016_44_cousub.shp',
+    'Counties': 'tl_2016_us_county.shp', 'VTSubCounty': 'tl_2016_50_cousub.shp',
+    }
 const filesArr = ['USLand', 'CongressionalDistricts', 'Counties', 'NESubCounty']
 const retObj = {}
 
@@ -645,7 +652,27 @@ getFile(mapData['USLand'], 'USLand', base_url + matching['USLand'])
   })
     .then(setRet)
   .then(() => {
-    return getFile(mapData['NESubCounty'], 'NESubCounty', base_url + matching['NESubCounty'])
+    return getFile(mapData['MASubCounty'], 'MASubCounty', base_url + matching['MASubCounty'])
+  })
+    .then(setRet)
+  .then(() => {
+    return getFile(mapData['CTSubCounty'], 'CTSubCounty', base_url + matching['CTSubCounty'])
+  })
+    .then(setRet)
+  .then(() => {
+    return getFile(mapData['MESubCounty'], 'MESubCounty', base_url + matching['MESubCounty'])
+  })
+    .then(setRet)
+  .then(() => {
+    return getFile(mapData['NHSubCounty'], 'NHSubCounty', base_url + matching['NHSubCounty'])
+  })
+    .then(setRet)
+  .then(() => {
+    return getFile(mapData['RISubCounty'], 'RISubCounty', base_url + matching['RISubCounty'])
+  })
+    .then(setRet)
+  .then(() => {
+    return getFile(mapData['VTSubCounty'], 'VTSubCounty', base_url + matching['VTSubCounty'])
   })
     .then(setRet)
   .then((result) => {
@@ -661,7 +688,27 @@ getFile(mapData['USLand'], 'USLand', base_url + matching['USLand'])
       return result
     })
     .then((result) => {
-      organize_subcounty_features(25, result.NESubCounty)
+      organize_subcounty_features('25', result.MASubCounty)
+      return result
+    })
+    .then((result) => {
+      organize_subcounty_features('09', result.CTSubCounty)
+      return result
+    })
+    .then((result) => {
+      organize_subcounty_features('23', result.MESubCounty)
+      return result
+    })
+    .then((result) => {
+      organize_subcounty_features('33', result.NHSubCounty)
+      return result
+    })
+    .then((result) => {
+      organize_subcounty_features('44', result.RISubCounty)
+      return result
+    })
+    .then((result) => {
+      organize_subcounty_features('50', result.VTSubCounty)
       return result
     })
     .then(()=>render_all_states(err => {if (err) throw err}))
@@ -681,7 +728,27 @@ getFile(mapData['USLand'], 'USLand', base_url + matching['USLand'])
 //     return result
 //   })
 //   .then((result) => {
-//     organize_subcounty_features(33, result.NESubCounty)
+//     organize_subcounty_features('25', result.MASubCounty)
+//     return result
+//   })
+//   .then((result) => {
+//     organize_subcounty_features('09', result.CTSubCounty)
+//     return result
+//   })
+//   .then((result) => {
+//     organize_subcounty_features('23', result.MESubCounty)
+//     return result
+//   })
+//   .then((result) => {
+//     organize_subcounty_features('33', result.NHSubCounty)
+//     return result
+//   })
+//   .then((result) => {
+//     organize_subcounty_features('44', result.RISubCounty)
+//     return result
+//   })
+//   .then((result) => {
+//     organize_subcounty_features('50', result.VTSubCounty)
 //     return result
 //   })
 //   .then(()=>render_all_states(err => {if (err) throw err}))
