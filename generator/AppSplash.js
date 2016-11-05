@@ -6,7 +6,7 @@ const fs = require('fs')
 const os = require('os')
 const path = require('path')
 
-const assetPath = path.resolve(__dirname, '../assets/images/splash/')
+const assetPath = path.resolve(__dirname, '../raw-assets/splash/')
 const bodyFontFamily = 'Helvetica, Arial, serif'
 const totalVotes = 538
 
@@ -131,10 +131,10 @@ module.exports = class AppSplash {
 
     // =========== START --- ELECTORAL BARS ============== //
     // clinton face image
-    clintonHead.src = fs.readFileSync(assetPath + '/clinton-head-75.jpg')
+    clintonHead.src = fs.readFileSync(assetPath + '/HILLARY-CLINTON_Head.png')
     ctx.drawImage(clintonHead, startOfBars - 80, electoralBarPosition + headerHeight + electoralBarHeight - 75, 64, 75)
     // trump face image
-    trumpHead.src = fs.readFileSync(assetPath + '/trump-head-75.jpg')
+    trumpHead.src = fs.readFileSync(assetPath + '/DONALD-TRUMP_Head.png')
     ctx.drawImage(trumpHead, endOfBars + 10, electoralBarPosition + headerHeight + electoralBarHeight - 75, 59, 75)
 
     // clinton votes

@@ -81,8 +81,8 @@ house.json:
     Content-Type: application/json
     Cache-Control: public, max-age=5
 
-splash.png:
+splash.jpg:
   model: splashAsBuffer
   headers:
-    Content-Type: image/png
+    Content-Type: image/jpg
     Cache-Control: public, max-age=5
