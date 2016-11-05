@@ -14,7 +14,7 @@ var races=data.model.races.ballot
           td.question
             h4 - ${race.name}
             small - ${race.description} 
-            a href="${race.href}" - details…
+            a href="${race.href}" - Details
           td.yay
             .result
               strong - ${data.helpers.formatPercent(race.yay.n, race.nVotes)} 

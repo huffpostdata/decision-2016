@@ -16,40 +16,40 @@ html lang="en"
       $!{data.helpers.partial('dashboard/_refresh')}
 
     section.president
-      h2 - President
+      h2.section-header - President
       .section-inner
         aside
-          p - TK sentence
+          p - The candidate that wins the popular vote in TK state will win all TK of the state’s electoral votes. In 2012, TK won by TK percentage points.
           $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'President', race: data.model.races.president.race })}
         .section-main
           .geo-map.president-map - $!{data.helpers.geoSvg(data.model.id)}
 
     if(data.model.races.senate)
       section.senate
-        h2 - Senate
+        h2.section-header - Senate
         .section-inner
           aside
-            p - TK sentence
+            p - TK state currently has N TK party Senators.
             $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'Senator', race: data.model.races.senate.race })}
           .section-main
             .geo-map.senate-map - $!{data.helpers.geoSvg(data.model.id)}
 
     section.house
-      h2 - House
+      h2.section-header - House
       .section-inner
         aside
-          p - TK sentence
-          p - TK percent reporting
+          p - All TK of TK’s House seats are up for reelection. TK’s current Congressional delegation is TK Democrats and TK Republicans.
+          p.percent-reporting - TK percent reporting
           .house-map - $!{data.helpers.districtSvg(data.model.id)}
         .section-main - $!{data.helpers.partial('region/_house-races')}
 
     if(data.model.races.ballot.length)
       section.ballot
-        h2 - Ballot Initiatives
+        h2.section-header - Ballot Initiatives
         .section-inner
           aside
-            p - TK sentence
-            p - TK percent reporting
+            p - TK is voting on TK statewide ballot initiatives.
+            p.percent-reporting - TK percent reporting
           .section-main - $!{data.helpers.partial('region/_ballot-races')}
 
     $!{data.helpers.partial('_footer')}
