@@ -48,7 +48,6 @@ function apCandidateToCandidate(apJson, options) {
     'Evan McMullin': 'bfa',
   }[fullName] || validParty(apJson.party)
 
-  const winner = (options && options.lookAtElectWonNotWinner) ? !!(apJson.electWon) : (apJson.winner === 'X')
   const n = apJson.voteCount ? apJson.voteCount : 0
 
   const ret = {
@@ -57,9 +56,15 @@ function apCandidateToCandidate(apJson, options) {
     partyId: partyId,
     n: n,
   }
-  if (winner) ret.winner = true
+
   if (apJson.incumbent === true) ret.incumbent = true
-  if (apJson.winner === 'R') ret.runoff = true
+
+  if (!options || !options.hasOwnProperty('showWinner') || options.showWinner) {
+    // add ".winner" and ".runoff" to the winner(s)
+    const winner = (options && options.lookAtElectWonNotWinner) ? !!(apJson.electWon) : (apJson.winner === 'X')
+    if (winner) ret.winner = true
+    if (apJson.winner === 'R') ret.runoff = true
+  }
 
   return ret
 }
@@ -335,14 +340,11 @@ function apRaceToGeos(apRace) {
       id: id,
       name: ru.reportingunitName,
       fractionReporting: ru.precinctsReportingPct / 100,
-      candidates: apCandidatesToCandidates(ru.candidates)
+      candidates: apCandidatesToCandidates(ru.candidates, { showWinner: false })
     }
-    // AP's "winner" call propagates _down_ to each geo. That's fine, but we
-    // shouldn't sort that way.
-    geo.candidates.sort(compareCandidatesIgnoreWinner)
     geo.nVotes = countRaceVotes(geo)
-
     geo.className = presidentGeoClassName(geo)
+    if (/-win$/.test(geo.className)) geo.candidates[0].winner = true
 
     ret.push(geo)
   }
