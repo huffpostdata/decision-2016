@@ -1,19 +1,31 @@
 var MaxCountdown = 30000; // ms we start with
+var i18n;
 
 function countdownText(ms, error) {
   var s = Math.ceil(ms / 1000);
+  var message = '';
 
-  var prefix = error ? 'Failed last refresh. ' : '';
-
-  if (s === 1) {
-    return prefix + 'Refreshing in 1 second…';
+  if (typeof i18n !== 'undefined') {
+    message = error ? i18n.t('refresh.error countdown', s) : i18n.t('refresh.countdown', s);
   } else {
-    return prefix + 'Refreshing in ' + s + ' seconds…';
+    var prefix = error ? 'Failed last refresh. ' : '';
+
+    if (s === 1) {
+      message = prefix + 'Refreshing in 1 second…';
+    } else {
+      message = prefix + 'Refreshing in ' + s + ' seconds…';
+    }
   }
+
+  return message;
 }
 
 function refreshText() {
-  return 'Refreshing…';
+  if (typeof i18n !== 'undefined') {
+    return i18n.t('refresh.refreshing');
+  } else {
+    return 'Refreshing…';
+  }
 }
 
 /**
@@ -31,9 +43,10 @@ function refreshText() {
  *
  * Every time we get new data, we call setData(json).
  */
-module.exports = function(el, url, setData) {
+module.exports = function(el, url, setData, _i18n) {
   var button = el.querySelector('button.refresh');
   var countdown = el.querySelector('span.countdown');
+  i18n = _i18n || false;
 
   if (!button || !countdown) {
     console.log('Could not find button.refresh and span.countdown. Not refreshing.');

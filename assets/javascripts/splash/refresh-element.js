@@ -1,8 +1,8 @@
 var electionSplashRefresh = document.getElementById('election-splash-refresh');
 
-var renderRefreshButton = function() {
+var renderRefreshButton = function(i18n) {
   if (electionSplashRefresh) {
-    electionSplashRefresh.innerHTML = '<button class="refresh">REFRESH RESULTS</button><span class="countdown"></span>';
+    electionSplashRefresh.innerHTML = '<button class="refresh">'+ i18n.t('refresh.Refresh') +'</button><span class="countdown"></span>';
   }
 }
 

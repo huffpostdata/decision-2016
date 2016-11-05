@@ -21,7 +21,7 @@ window.decision2016_init = function(data, showRightRail) {
   }
   var i18n = buildI18n(data.i18n);
 
-  refreshButton.render();
+  refreshButton.render(i18n);
   electoral.render(data.summaries.president, i18n);
   electionMap.render(data.races, i18n);
   if (showRightRail) {
@@ -42,7 +42,7 @@ window.decision2016_init = function(data, showRightRail) {
 
   var refreshEl = document.getElementById('election-splash-refresh');
   if (refreshEl) {
-    refresh(refreshEl, presidentUrl, doRefresh);
+    refresh(refreshEl, presidentUrl, doRefresh, i18n);
   }
 };
 
