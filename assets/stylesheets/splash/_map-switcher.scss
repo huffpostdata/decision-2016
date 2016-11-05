@@ -1,6 +1,6 @@
 #map-switcher {
   .geography a,
-  .cartogram a{
+  .cartogram a {
     background-size: contain;
     background-repeat: no-repeat;
     background-origin: content-box;
@@ -41,12 +41,16 @@
       }
       &__link {
         display: block;
-        font-family: $header-font-family;
-        font-size: 2rem;
-        font-weight: bold;
-        padding: 5px 10px;
-        color: $color;
         text-decoration: none;
+        margin: 10px;
+        h5 {
+          font-family: $header-font-family;
+          font-weight: bold;
+          color: $color;
+          padding: 5px 10px;
+          margin: 0;
+          font-size: 20px;
+        }
       }
     }
   }
