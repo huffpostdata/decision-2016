@@ -11,6 +11,13 @@ function Tooltip(options) {
 
   this.mapEl = options.mapEl;
   this.tooltip = options.el;
+  this.mapType = options.mapType;
+  var mapTypeSwitch = {
+    geo: 'data-geo-id',
+    state: 'data-race-id'
+  }
+  this.dataAttrAccessor = mapTypeSwitch[options.mapType];
+
   this.stateName = this.tooltip.querySelector('.state-name');
   this.stateSummary = this.tooltip.querySelector('.state-summary');
   var _this = this;
@@ -34,7 +41,7 @@ function Tooltip(options) {
 
     switch(raceType) {
       case 'president':
-        name = dataRef.stateName;
+        name = dataRef.stateName || dataRef.name;
         summaryFigure = dataRef.nElectoralVotes;
         // TK better sentence (NE1 and ME1 have one vote)
         htmlInject = [
@@ -44,7 +51,7 @@ function Tooltip(options) {
         ]
         break;
       case 'senate':
-        name = dataRef.stateName;
+        name = dataRef.stateName || dataRef.name;
         summaryFigure = dataRef.fractionReporting;
         htmlInject = [
           '<h3 class="state-name">' + name + '</h3>',
@@ -109,8 +116,10 @@ function Tooltip(options) {
       case 'house':
         cdType = 'HOUSE REP.'
         break
+      case 'geoPresident':
+        cdType = 'PRESIDENT'
       default:
-        'CANDIDATE'
+        cdType = 'CANDIDATE'
         break
     }
 
@@ -157,16 +166,21 @@ function Tooltip(options) {
   }
 
   function onMouseOver(ev) {
-    if (ev.target.tagName !== 'path' || /mesh$/.test(ev.target.className)) {
+    if (ev.target.tagName !== 'path' || /mesh$/.test(ev.target.getAttribute('class'))) {
       return;
     }
+    var raceId = ev.target.getAttribute(_this.dataAttrAccessor);
 
-    var raceId = ev.target.getAttribute('data-race-id');
-    if(!_this.raceData[raceId].seatClass || _this.raceData[raceId].seatClass === '3') {
-      highlight(raceId);
+    if (_this.mapType === 'geo') {
       buildTable(raceId, options.raceType);
-      _this.tooltip.style.display = 'block'; //set display before getting h/w
+      _this.tooltip.style.display = 'block';
       positionTooltip(ev);
+    } else {
+      if(!_this.raceData[raceId].seatClass || _this.raceData[raceId].seatClass === '3') {
+        buildTable(raceId, options.raceType);
+        _this.tooltip.style.display = 'block'; //set display before getting h/w
+        positionTooltip(ev);
+      }
     }
   }
 

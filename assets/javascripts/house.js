@@ -29,7 +29,8 @@ var tooltip = new Tooltip({
   el: document.getElementById('tooltip'),
   mapEl: mapEl,
   races: initialJson.races,
-  raceType: 'house'
+  raceType: 'house',
+  mapType: 'state'
 });
 
 function doRefresh(json) {

@@ -53,6 +53,7 @@ html lang="en"
           .section-main - $!{data.helpers.partial('region/_ballot-races')}
 
     $!{data.helpers.partial('_footer')}
+    $!{data.helpers.partial('dashboard/_tooltip')}
 
     script src="${data.path_to_asset('javascript', 'javascripts/region.js')}" data-json="${JSON.stringify(data.model.races)}"
     script src="${data.path_to_asset('digest', 'javascripts/social.js')}"

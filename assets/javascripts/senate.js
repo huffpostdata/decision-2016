@@ -29,7 +29,8 @@ var tooltip = new Tooltip({
   el: document.getElementById('tooltip'),
   mapEl: mapEl,
   races: initialJson.races,
-  raceType: 'senate'
+  raceType: 'senate',
+  mapType: 'state'
 });
 
 function doRefresh(json) {
