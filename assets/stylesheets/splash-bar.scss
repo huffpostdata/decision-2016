@@ -40,11 +40,13 @@ html, body {
 h2 {
   font-family: $header-font-family;
   font-size: 1.25rem;
+  @include ar-font-size(1.35rem);
   margin: 0;
 }
 
 p.details {
   font-size: .85rem;
+  @include ar-font-size(.9rem);
   font-style: italic;
   text-decoration: underline;
 }
