@@ -44,10 +44,10 @@ var houseMap = new DistrictMap({
 
 function doRefresh(json) {
   presidentMap.update(json.president);
-  presidentTooltip.setData(json.president);
+  presidentTooltip.setData(json.president.geos);
   if (senateMap) {
     senateMap.update(json.senate);
-    senateTooltip.setData(json.senate);
+    senateTooltip.setData(json.senate.geos);
   }
   houseMap.update(json.house);
   // TK houseTooltip-or-something.setData(json.house);
