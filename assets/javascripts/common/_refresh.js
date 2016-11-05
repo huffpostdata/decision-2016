@@ -3,21 +3,18 @@ var i18n;
 
 function countdownText(ms, error) {
   var s = Math.ceil(ms / 1000);
-  var message = '';
 
   if (typeof i18n !== 'undefined') {
-    message = error ? i18n.t('refresh.error countdown', s) : i18n.t('refresh.countdown', s);
+    return error ? i18n.t('refresh.error countdown', s) : i18n.t('refresh.countdown', s);
   } else {
     var prefix = error ? 'Failed last refresh. ' : '';
 
     if (s === 1) {
-      message = prefix + 'Refreshing in 1 second…';
+      return prefix + 'Refreshing in 1 second…';
     } else {
-      message = prefix + 'Refreshing in ' + s + ' seconds…';
+      return prefix + 'Refreshing in ' + s + ' seconds…';
     }
   }
-
-  return message;
 }
 
 function refreshText() {
