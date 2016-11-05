@@ -23,13 +23,27 @@ function Tooltip(options) {
   var _this = this;
 
   function positionTooltip(ev) {
-    var mapWidth = _this.mapEl.offsetWidth;
     var width = parseFloat(_this.tooltip.offsetWidth);
     var height = parseFloat(_this.tooltip.offsetHeight);
+    var winY = window.pageYOffset;
+    var winWidth = window.innerWidth;
     var xPos = Math.floor(ev.pageX - width / 2);
     var yPos = Math.floor(ev.pageY - height - 20);
-    _this.tooltip.style.left = xPos + 'px';
-    _this.tooltip.style.top = yPos + 'px';
+    var beyondTop = yPos < winY;
+    var beyondLeft = xPos < 0;
+    var beyondRight = xPos + width > winWidth;
+    var offsetX = 0;
+    if (beyondLeft) {
+      offsetX = -(xPos);
+    } else if (beyondRight) {
+      offsetX = (winWidth - (xPos + width));
+    }
+    if (beyondTop) {
+      _this.tooltip.style.top = winY + 'px';
+    } else {
+      _this.tooltip.style.top = yPos + 'px'
+    }
+    _this.tooltip.style.left = (xPos + offsetX) + 'px';
   }
 
   function setText(raceId, raceType) {
