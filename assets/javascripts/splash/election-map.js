@@ -22,10 +22,10 @@ module.exports = {
       mapSwitcherEl.querySelector('.cartogram > .tab__link h5').innerHTML = _i18n.t('h5.Cartogram');
       mapSwitcherEl.querySelector('.switch__message').innerHTML = _i18n.t('map.switch message');
 
-      electionMap.querySelector('dt.open').innerHTML = _i18n.t('legend.open');
-      electionMap.querySelector('dt.win').innerHTML = _i18n.t('legend.win');
-      electionMap.querySelector('dt.not-yet-reported').innerHTML = _i18n.t('legend.not yet reporting');
-      electionMap.querySelector('.legend__header').innerHTML = _i18n.t('legend.header');
+      electionMap.querySelector('dt.open').innerHTML = _i18n.t('legend.No winner yet');
+      electionMap.querySelector('dt.dem-win').innerHTML = _i18n.t('legend.Clinton win');
+      electionMap.querySelector('dt.gop-win').innerHTML = _i18n.t('legend.Trump win');
+      electionMap.querySelector('.legend__header').innerHTML = _i18n.t('legend.title');
       electionMap.querySelector('.resultsTxt').innerHTML = _i18n.t('linkout.See Full Results');
 
       map = new Map({ el: mapEl, switchEl: mapSwitcherEl, racesJson: data, onLoad: function () {
