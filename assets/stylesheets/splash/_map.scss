@@ -2,6 +2,7 @@
 
 #election_map div[data-src] {
   @include animated-map();
+  margin: 10px;
 
   text {
     text-anchor: middle;
@@ -17,8 +18,4 @@
   path.other-win { fill: $other-color; }
   path.other-lead { fill: $tossup-color; }
   path.tossup { fill: $tossup-color; }
-}
-
-#map {
-  margin: 10px;
 }

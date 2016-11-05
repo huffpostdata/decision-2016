@@ -16,7 +16,7 @@ var electoralImages = {
     happy: "${data.url_to_asset('digest', 'images/splash/trump-happy.jpg')}"
   }
 };
-var markoMap = $!{JSON.stringify(data.helpers.partial('president/_map'))};
+var markoMap = '<div class="geography loading" data-src="${data.url_to_asset('digest', 'maps/president.svg')}"></div>';
 var markoMapSwitcher = $!{JSON.stringify(data.helpers.partial('splash/_map-switcher'))};
 var markoLegend = $!{JSON.stringify(data.helpers.partial('splash/_legend'))};
 var markoHouse = $!{JSON.stringify(data.helpers.partial('splash/bar/house'))};
