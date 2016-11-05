@@ -137,8 +137,7 @@ module.exports = class Database {
       changelog: this.house.changelog
     }))
 
-    // summaries.president
-    this.splashAsBuffer = Buffer.from(appSplash.renderImage({ nClinton: 200, nTrump: 130 }))
+    this.splashAsBuffer = Buffer.from(appSplash.renderImage(summaries.president))
 
     const regionIdToRaces = apData.allRaceDetails()
     this.regions = Object.keys(regionIdToRaces).map(regionId => {

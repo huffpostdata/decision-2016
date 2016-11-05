@@ -99,7 +99,7 @@ module.exports = class AppSplash {
       }
     }
 
-    const newState = getState(ctx, configs, data.nClinton, data.nTrump)
+    const newState = getState(ctx, configs, data.nClintonElectoralVotes, data.nTrumpElectoralVotes)
     const clintonHead = new Canvas.Image()
     const trumpHead = new Canvas.Image()
 
@@ -129,12 +129,14 @@ module.exports = class AppSplash {
     ctx.fillText('2016', ctx.canvas.width/2 - ctx.measureText('ELECTION2016').width/2 + ctx.measureText('ELECTION').width, headerHeight - 12)
     ctx.closePath()
 
+    // =========== START --- ELECTORAL BARS ============== //
+    // clinton face image
     clintonHead.src = fs.readFileSync(assetPath + '/clinton-head-75.jpg')
     ctx.drawImage(clintonHead, startOfBars - 80, electoralBarPosition + headerHeight + electoralBarHeight - 75, 64, 75)
+    // trump face image
     trumpHead.src = fs.readFileSync(assetPath + '/trump-head-75.jpg')
     ctx.drawImage(trumpHead, endOfBars + 10, electoralBarPosition + headerHeight + electoralBarHeight - 75, 59, 75)
 
-    // =========== START --- ELECTORAL BARS ============== //
     // clinton votes
     drawVotes(ctx, startOfBars, headerHeight + electoralBarPosition - 8, newState.clinton.votes)
     // trump votes
