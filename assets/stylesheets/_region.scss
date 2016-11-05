@@ -1,12 +1,38 @@
 body.region {
-  section { @include wide-width(); }
+  section { @include wide-width(); width: 100%; margin-top: 5rem;
+  &:first-child {margin-top: 0rem;}}
+
+  h1 {
+  font-family: $header-font-family;
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  }
+
+  .section-header {
+  font-family: $header-font-family;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  border-top: 1px solid black;
+  padding-top: 3rem;
+  }
 
   .section-inner {
+
+    .percent-reporting {
+    font-size: .75rem;
+    font-weight: 700;
+    }
     @media (min-width: $min-desktop-width) {
       display: flex;
       aside { width: 15rem; margin-right: 1.5rem; }
       .section-main { flex: 1 1 auto; }
     }
+  }
+
+  .senate-map, .president-map {
+  @media(min-width: 630px){
+  margin-left: 4rem;
+  }
   }
 
   .geo-map, .house-map {
@@ -22,7 +48,7 @@ body.region {
   }
 
   path { stroke: none; fill: $tossup-color; }
-  path[class$=-mesh] { fill: none; stroke: $background; stroke-width: 3px; }
+  path[class$=-mesh] { fill: none; stroke: $background; stroke-width: 2px; }
   path.gop-win { fill: $gop-color; }
   path.dem-win { fill: $dem-color; }
   path.lib-win { fill: $lib-color; }
