@@ -75,10 +75,10 @@
         font-size: 20px;
         color: #000;
         &.gop {
-          background: $gop-lead-color;
+          background: $tossup-color;
         }
         &.dem {
-          background: $dem-lead-color
+          background: $tossup-color;
         }
         &--district {
           color: #666;
@@ -127,8 +127,8 @@
 
   .state {
     font-size: 30px;
-    color: #aaa;
-    
+    color: $tossup-color;
+
   }
   .trump-win {
     .state {
