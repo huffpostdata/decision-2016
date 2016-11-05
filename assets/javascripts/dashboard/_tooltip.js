@@ -155,6 +155,7 @@ function Tooltip(options) {
   }
 
   function buildIncumbentSummary(race) {
+    console.log(race);
     var textEl = _this.tooltip.querySelector('.inner');
     var table = _this.tooltip.querySelector('.candidate-table');
     var candidate = race.candidates[0];
@@ -189,8 +190,8 @@ function Tooltip(options) {
     var raceId = ev.target.getAttribute(_this.dataAttrAccessor);
     var race = _this.raceData[raceId];
     if (!race) return;
-
-    if (options.raceType === 'senate' && race.id[3] !== '3') {
+    if (options.raceType === 'senate' && /^[A-Z][A-Z]S/.test(race.id) && !/^[A-Z][A-Z]S3$/.test(race.id)) {
+      // check if the map is a senate race, if that race has a seat id (for not running on region page), if that seat id is not 3
       // TK handle senate incumbents
       _this.tooltip.style.display = 'block';
       buildIncumbentSummary(race);
