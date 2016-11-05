@@ -73,11 +73,9 @@
         border: none;
         text-align: center;
         font-family: $body-font-family;
-        display: block;
+        display: flex;
+        align-items: center;
         text-decoration: none;
-        .resultsTxt {
-          margin-top: 16px;
-        }
         &:hover {
           background-color: $muted-color;
         }
