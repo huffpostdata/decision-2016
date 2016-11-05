@@ -22,14 +22,15 @@ if (senateSvg) {
     svg: senateSvg,
     geos: initialJson.senate.geos
   });
+
+  var senateTooltip = new Tooltip({
+    el: document.getElementById('tooltip'),
+    mapEl: document.querySelector('.senate-map svg'),
+    races: initialJson.senate.geos,
+    raceType: 'senate',
+    mapType: 'geo'
+  });
 }
-var senateTooltip = new Tooltip({
-  el: document.getElementById('tooltip'),
-  mapEl: document.querySelector('.senate-map svg'),
-  races: initialJson.senate.geos,
-  raceType: 'senate',
-  mapType: 'geo'
-});
 
 var houseMap = new DistrictMap({
   svg: document.querySelector('.house-map svg'),
