@@ -1,6 +1,10 @@
 .candidate-table{
   position: relative;
+
+  @media(min-width: $min-desktop-width) {
   width: 300px;
+  }
+  
   table {
     width: 100%;
     border-collapse: collapse;
