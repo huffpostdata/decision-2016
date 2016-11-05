@@ -46,37 +46,32 @@ function Tooltip(options) {
     _this.tooltip.style.left = (xPos + offsetX) + 'px';
   }
 
-  function setText(raceId, raceType) {
-    var dataRef = _this.raceData[raceId];
+  function setText(race, raceType) {
     var textEl = _this.tooltip.querySelector('.inner');
-    var name = null
     var summaryFigure = null;
     var htmlInject = null;
 
     switch(raceType) {
       case 'president':
-        name = dataRef.stateName || dataRef.name;
-        summaryFigure = dataRef.nElectoralVotes;
+        summaryFigure = race.nElectoralVotes;
         // TK better sentence (NE1 and ME1 have one vote)
         htmlInject = [
-          '<h3 class="state-name">' + name + '</h3>',
+          '<h3 class="state-name">' + race.name + '</h3>',
           '<p class="state-summary">The candidate who wins the popular vote ',
           'will win all ' + '<span class="electoralvotes">' + summaryFigure + '</span>' + ' of ' + name + '\'s electoral votes.</p>',
         ]
         break;
       case 'senate':
-        name = dataRef.stateName || dataRef.name;
-        summaryFigure = dataRef.fractionReporting;
+        summaryFigure = race.fractionReporting;
         htmlInject = [
-          '<h3 class="state-name">' + name + '</h3>',
+          '<h3 class="state-name">' + race.name + '</h3>',
           '<p class="fraction-reporting">' + summaryFigure + '</p>'
         ]
         break;
       case 'house':
-        name = dataRef.name;
-        summaryFigure = dataRef.fractionReporting;
+        summaryFigure = race.fractionReporting;
         htmlInject = [
-          '<h3 class="state-name">' + name + '</h3>',
+          '<h3 class="state-name">' + race.name + '</h3>',
           '<p class="fraction-reporting">' + summaryFigure + '</p>'
         ]
         break;
@@ -84,33 +79,30 @@ function Tooltip(options) {
     textEl.innerHTML = htmlInject.join('');
   }
 
-  function setSingleCandidateHouseRace(data) {
+  function setSingleCandidateHouseRace(race) {
     var textEl = _this.tooltip.querySelector('.inner');
     var table = _this.tooltip.querySelector('.candidate-table');
-    var candidate = data.candidates[0];
+    var candidate = race.candidates[0];
     var cdParty = candidate.partyId;
     var switchObj = {dem: 'Democrat', gop: 'Republican'};
-    var distName = data.name;
     var name = candidate.fullName;
     var injectHtml = [
-      '<h3>' + distName + '</h3>',
+      '<h3>' + race.name + '</h3>',
       '<p>' + switchObj[cdParty] + ' ' + name + ' won the race uncontested'
     ]
     table.innerHTML = '';
     textEl.innerHTML = injectHtml.join('');
   }
 
-  function buildTable(raceId, raceType) {
-    var dataRef = _this.raceData[raceId];
-
-    if (raceType === 'house' && dataRef.candidates.length === 1) {
-      setSingleCandidateHouseRace(dataRef);
-      return
+  function buildTable(race, raceType) {
+    if (raceType === 'house' && race.candidates.length === 1) {
+      setSingleCandidateHouseRace(race);
+      return;
     }
 
-    setText(raceId, raceType);
-    var candidates = dataRef.candidates;
-    var votesTotal = dataRef.nVotes;
+    setText(race, raceType);
+    var candidates = race.candidates;
+    var votesTotal = race.nVotes;
     var table = _this.tooltip.querySelector('.candidate-table');
     if (table === null) return; // DELETEME TK I was getting crashes on staging
 
@@ -137,7 +129,7 @@ function Tooltip(options) {
         break
     }
 
-    var htmlInject = ['<table class="' + dataRef.className + '">',
+    var htmlInject = ['<table class="' + race.className + '">',
       '<thead>', '<tr>',
       '<th class="name">' + cdType + '</th>',
       '<th class="votes" colspan="2">VOTES</th>',
@@ -183,19 +175,19 @@ function Tooltip(options) {
     if (ev.target.tagName !== 'path' || /mesh$/.test(ev.target.getAttribute('class'))) {
       return;
     }
-    var raceId = ev.target.getAttribute(_this.dataAttrAccessor);
 
-    if (_this.mapType === 'geo') {
-      buildTable(raceId, options.raceType);
-      _this.tooltip.style.display = 'block';
-      positionTooltip(ev);
-    } else {
-      if(!_this.raceData[raceId].seatClass || _this.raceData[raceId].seatClass === '3') {
-        buildTable(raceId, options.raceType);
-        _this.tooltip.style.display = 'block'; //set display before getting h/w
-        positionTooltip(ev);
-      }
+    var raceId = ev.target.getAttribute(_this.dataAttrAccessor);
+    var race = _this.raceData[raceId];
+    if (!race) return;
+
+    if (options.raceType === 'senate' && race.id[3] !== '3') {
+      // TK handle senate incumbents
+      return;
     }
+
+    buildTable(race, options.raceType);
+    _this.tooltip.style.display = 'block';
+    positionTooltip(ev);
   }
 
   function onMouseOut(ev) {
