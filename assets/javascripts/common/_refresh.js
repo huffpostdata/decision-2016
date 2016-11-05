@@ -56,11 +56,11 @@ module.exports = function(el, url, setData) {
     xhr = new XMLHttpRequest();
     xhr.open('GET', url);
     xhr.timeout = 10000;
-    xhr.responseType = 'json';
+    xhr.responseType = 'text'; // IE <= 11 doesn't support "json"
     xhr.onreadystatechange = function() {
       if (xhr.readyState !== XMLHttpRequest.DONE) return;
       if (xhr.status === 200 || xhr.status === 304) {
-        var json = xhr.response;
+        var json = JSON.parse(xhr.responseText);
         setData(json);
       } else {
         lastRequestFailed = true;
