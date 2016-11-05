@@ -20,6 +20,7 @@ window.decision2016_init = function(data, showRightRail) {
     showRightRail = true;
   }
   var i18n = buildI18n(data.i18n);
+  document.body.setAttribute('locale', i18n.currentLocale);
 
   refreshButton.render();
   electoral.render(data.summaries.president, i18n);

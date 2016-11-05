@@ -94,6 +94,9 @@
     font-family: $header-font-family;
     margin: 0;
     font-size: .85rem;
+    body[locale='ar-SA'] &{
+      font-size: .95rem;
+    }
     text-align: center;
     text-transform: uppercase;
   }

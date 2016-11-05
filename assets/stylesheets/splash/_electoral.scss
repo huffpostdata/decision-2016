@@ -27,6 +27,9 @@ $transition-speed: 1s;
     font-family: $header-font-family;
     margin: 5px 0;
     font-size: 24px;
+    body[locale='ar-SA'] &{
+      font-size: 28px;
+    }
     flex: 0 1 auto;
     padding-right: 20px;
     white-space: nowrap;
@@ -34,6 +37,9 @@ $transition-speed: 1s;
   .electoral-blurb {
     flex: 1 1 auto;
     font-size: 12px;
+    body[locale='ar-SA'] &{
+      font-size: 15px;
+    }
     color: #9c9c9c;
   }
   .electoral-content {
@@ -248,6 +254,9 @@ $transition-speed: 1s;
     font-family: $body-font-family;
     color: #fff;
     font-size: 12px;
+    body[locale='ar-SA'] &{
+      font-size: 15px;
+    }
     white-space: nowrap;
     text-shadow: 1px 0px 2px #777;
     &--trump {
