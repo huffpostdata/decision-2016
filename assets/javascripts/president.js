@@ -15,6 +15,8 @@ var map = new Map({
   racesJson: initialJson.races
 });
 
+var originalTitle = document.title;
+
 var navEl = document.querySelector('nav');
 var updateNav = nav(navEl);
 updateNav(initialJson.summaries);
@@ -34,7 +36,23 @@ var tooltip = new Tooltip({
   mapType: 'state'
 });
 
+function setTitleSummary(summary) {
+  console.log(summary.nClintonElectoralVotes);
+  if(summary.nClintonElectoralVotes + summary.nTrumpElectoralVotes > 0) {
+    if(summary.className === "clinton-win") {
+      document.title = "✔C "+summary.nClintonElectoralVotes+" : "+summary.nTrumpElectoralVotes+" T | "+ originalTitle;
+    } else if(summary.className === "trump-win") {
+      document.title = "C "+summary.nClintonElectoralVotes+" : "+summary.nTrumpElectoralVotes+" T✔ | "+ originalTitle;
+    } else {
+      document.title = "C "+summary.nClintonElectoralVotes+" : "+summary.nTrumpElectoralVotes+" T | "+ originalTitle;
+    }
+  }
+}
+
+setTitleSummary(initialJson.summaries.president);
+
 function doRefresh(json) {
+  setTitleSummary(json.summaries.president);
   map.update(json.races);
   changelog.update(json);
   updateNav(json.summaries);
