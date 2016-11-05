@@ -65,40 +65,21 @@ function Tooltip(options) {
         summaryFigure = race.fractionReporting;
         htmlInject = [
           '<h3 class="state-name">' + race.name + '</h3>',
-          '<p class="fraction-reporting">' + summaryFigure + '</p>'
+          '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of votes counted</p>'
         ]
         break;
       case 'house':
         summaryFigure = race.fractionReporting;
         htmlInject = [
           '<h3 class="state-name">' + race.name + '</h3>',
-          '<p class="fraction-reporting">' + summaryFigure + '</p>'
+          '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of votes counted</p>'
         ]
         break;
     }
     textEl.innerHTML = htmlInject.join('');
   }
 
-  function setSingleCandidateHouseRace(race) {
-    var textEl = _this.tooltip.querySelector('.inner');
-    var table = _this.tooltip.querySelector('.candidate-table');
-    var candidate = race.candidates[0];
-    var cdParty = candidate.partyId;
-    var switchObj = {dem: 'Democrat', gop: 'Republican'};
-    var name = candidate.fullName;
-    var injectHtml = [
-      '<h3>' + race.name + '</h3>',
-      '<p>' + switchObj[cdParty] + ' ' + name + ' won the race uncontested'
-    ]
-    table.innerHTML = '';
-    textEl.innerHTML = injectHtml.join('');
-  }
-
   function buildTable(race, raceType) {
-    if (raceType === 'house' && race.candidates.length === 1) {
-      setSingleCandidateHouseRace(race);
-      return;
-    }
 
     setText(race, raceType);
     var candidates = race.candidates;
@@ -157,6 +138,37 @@ function Tooltip(options) {
     table.innerHTML = htmlInject.join('');
   }
 
+  function buildSingleCandidateSummary(race) {
+    var distName = race.name;
+    var textEl = _this.tooltip.querySelector('.inner');
+    var table = _this.tooltip.querySelector('.candidate-table');
+    var candidate = race.candidates[0];
+    var cdParty = candidate.partyId;
+    var switchObj = {dem: 'Democrat', gop: 'Republican'};
+    var name = candidate.fullName;
+    var injectHtml = [
+      '<h3>' + race.name + '</h3>',
+      '<p>' + switchObj[cdParty] + ' ' + name + ' was uncontested and remains the House Representative'
+    ]
+    table.innerHTML = '';
+    textEl.innerHTML = injectHtml.join('');
+  }
+
+  function buildIncumbentSummary(race) {
+    var textEl = _this.tooltip.querySelector('.inner');
+    var table = _this.tooltip.querySelector('.candidate-table');
+    var candidate = race.candidates[0];
+    var cdParty = candidate.partyId;
+    var switchObj = {dem: 'Democrat', gop: 'Republican'};
+    var name = candidate.fullName;
+    var injectHtml = [
+      '<h3>' + race.name + '</h3>',
+      '<p>This seat is not up for reelection. ' + switchObj[cdParty] + ' ' + name + ' is the incumbent senator</p>'
+    ]
+    textEl.innerHTML = injectHtml.join('');
+    table.innerHTML = '';
+  }
+
   function highlight(raceId) {
     var raceEls = document.querySelectorAll('li[data-race-id=' + raceId + ']');
     for (var i = 0; i < raceEls.length; i++) {
@@ -180,6 +192,14 @@ function Tooltip(options) {
 
     if (options.raceType === 'senate' && race.id[3] !== '3') {
       // TK handle senate incumbents
+      _this.tooltip.style.display = 'block';
+      buildIncumbentSummary(race);
+      return;
+    }
+
+    if (options.raceType === 'house' && race.candidates.length === 1) {
+      _this.tooltip.style.display = 'block';
+      buildSingleCandidateSummary(race);
       return;
     }
 
