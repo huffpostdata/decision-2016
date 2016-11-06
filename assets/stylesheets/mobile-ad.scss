@@ -25,22 +25,28 @@ html, body {
       display: flex;
       flex-direction: column;
       width: 100%;
+      justify-content: space-between;
     }
   }
 
   .column-president {
-    // flex: 1 1 auto;
-    padding-right: 1rem; // not 1.5rem -- the contents have padding
+    padding-right: 1rem;
   }
 
   .column-senate-house {
-    // width: 250px;
     padding-left: 1.5rem;
-    .senate {
-
-    }
-    .house {
-
+    .races{
+      display: flex;
+      &>* {
+        width: 100%;
+        text-align: center;
+        padding: 5px;
+        margin-top: 5px;
+      }
+      &.dem-win .dem{ background-color: $dem-prior-color; }
+      &.gop-win .gop{ background-color: $gop-prior-color; }
+      .dem { color: $dem-color; }
+      .gop { color: $gop-color; }
     }
   }
 

@@ -2,6 +2,8 @@
 var t=data.helpers.buildTranslateFunction(data.model.i18n)
 var formatInt=(new Intl.NumberFormat(data.model.i18n.locale).format)
 var summary=data.model.summaries.president
+var house=data.model.summaries.house
+var senate=data.model.summaries.senate
 
 html lang="${data.model.i18n.locale}"
   head
@@ -24,12 +26,14 @@ html lang="${data.model.i18n.locale}"
         .column-senate-house
           .senate
             h2 - ${t('banner.Senate')}
-            .dem - 49 Ds
-            .gop - 42 Rs
+            .races.${senate.className}
+              .dem - ${t('counts.n Dem', senate.wins.dem)}
+              .gop - ${t('counts.n GOP', senate.wins.gop)}
           .house
             h2 - ${t('banner.House')}
-            .dem - 190 Ds
-            .gop - 207 Rs
+            .races.${house.className}
+              .dem - ${t('counts.n Dem', house.wins.dem)}
+              .gop - ${t('counts.n GOP', house.wins.gop)}
       p.details - ${t('banner.See full results')}
 
     script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"

@@ -5,28 +5,6 @@ html lang="en"
     meta charset="utf-8"
     title - Mobile Ad Test
     meta name="viewport" content="width=device-width, initial-scale=1"
-    link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/mobile-ad.css')}"
   body
-    .columns
-      .column-president
-        #president
-          h2 - President
-          .electoral-votes
-            h3 - Electoral Votes
-            .clinton
-              strong - 270
-            .trump
-              strong - 182
-      .column-senate-house
-        .senate
-          h2 - Senate
-            .dem - 49 Ds
-            .gop - 42 Rs
-        .house
-          h2 - House
-            .dem - 190 Ds
-            .gop - 207 Rs
-    a.details href="${data.path_to('president')}"
-      p.details - See full results
-
-    script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"
+    p - testing mobile ad
+    iframe width="320" height="200" scrolling="no" style="border:0" src="${data.url_to('mobile-ad/:locale', 'en')}"
