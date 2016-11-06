@@ -62,6 +62,8 @@ module.exports = class Database {
     const google_docs = new GoogleDocs(read_config('google-docs'))
     const google_sheets = new GoogleSheets(read_config('google-sheets'))
     const translations = invertTranslations(google_sheets.slug_to_array('translations'));
+    const regionIdToName = google_sheets.slug_to_array('regions')
+      .reduce(((s, r) => { s[r.id] = r.name; return s }), {})
     const apData = ap_fs.load()
     const changelog = ap_fs.loadChangelogEntries()
 
@@ -144,6 +146,7 @@ module.exports = class Database {
       metadata.url_route = [ 'state/:id', regionId ]
       return {
         id: regionId,
+        name: regionIdToName[regionId],
         metadata: metadata,
         summaries: summaries,
         races: regionIdToRaces[regionId],
