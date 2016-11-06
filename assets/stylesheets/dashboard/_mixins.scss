@@ -1,4 +1,12 @@
 @mixin dashboard-body() {
+  .map-legend {
+    @media(min-width: $min-desktop-width) {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5rem;
+    }
+  }
+
   .map-and-map-info {
     @include wide-width();
     margin-top: 3rem;
