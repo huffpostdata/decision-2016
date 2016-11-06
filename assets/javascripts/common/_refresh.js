@@ -4,7 +4,7 @@ var i18n;
 function countdownText(ms, error) {
   var s = Math.ceil(ms / 1000);
 
-  if (typeof i18n !== 'undefined') {
+  if (i18n != null) {
     return error ? i18n.t('refresh.error countdown', s) : i18n.t('refresh.countdown', s);
   } else {
     var prefix = error ? 'Failed last refresh. ' : '';
@@ -18,11 +18,7 @@ function countdownText(ms, error) {
 }
 
 function refreshText() {
-  if (typeof i18n !== 'undefined') {
-    return i18n.t('refresh.refreshing');
-  } else {
-    return 'Refreshing…';
-  }
+  return (i18n != null) ? i18n.t('refresh.refreshing') : 'Refreshing…';
 }
 
 /**
@@ -40,10 +36,11 @@ function refreshText() {
  *
  * Every time we get new data, we call setData(json).
  */
-module.exports = function(el, url, setData, _i18n) {
+module.exports = function(el, url, setData, _options) {
   var button = el.querySelector('button.refresh');
   var countdown = el.querySelector('span.countdown');
-  i18n = _i18n || false;
+  var options = _options || {};
+  i18n = (options.hasOwnProperty('i18n')) ? options.i18n : null;
 
   if (!button || !countdown) {
     console.log('Could not find button.refresh and span.countdown. Not refreshing.');

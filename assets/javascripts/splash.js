@@ -42,7 +42,7 @@ window.decision2016_init = function(data, showRightRail) {
 
   var refreshEl = document.getElementById('election-splash-refresh');
   if (refreshEl) {
-    refresh(refreshEl, presidentUrl, doRefresh, i18n);
+    refresh(refreshEl, presidentUrl, doRefresh, {i18n: i18n});
   }
 };
 
