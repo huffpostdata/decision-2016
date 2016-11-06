@@ -117,7 +117,7 @@ nav {
       position: absolute;
       text-transform: uppercase;
       font-size: .6rem;
-      bottom: -.5rem;
+      bottom: -.3rem;
       left: .5rem;
       right: .5rem;
       line-height: 1rem;
@@ -126,14 +126,8 @@ nav {
     &.clinton-lead, &.trump-lead, &.dem-lead, &.gop-lead {
       &::after { content: 'Lead'; }
     }
-    &.clinton-win, &.trump-win, &.dem-win, &.gop-win {
+    &.dem-win, &.gop-win {
       &::after { content: 'Win'; }
-    }
-    &.clinton-lead, &.clinton-win {
-      background-image: asset-url('digest', 'images/dashboard/dem.svg');
-    }
-    &.trump-lead, &.trump-win {
-      background-image: asset-url('digest', 'images/dashboard/gop.svg');
     }
     &.dem-lead, &.dem-win {
       background-image: asset-url('digest', 'images/dashboard/dem.svg');

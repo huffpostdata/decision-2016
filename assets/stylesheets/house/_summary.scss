@@ -8,6 +8,30 @@
     width: 100% * 1/435;
   }
 
+  .result-2014 {
+    position: absolute;
+    right: 100% * (247 / 435); // Watch it! This is data. There were 247 GOP congresspeople in Jan. 2015
+    bottom: 1rem;
+    text-align: right;
+    padding-right: 1rem;
+    font-size: .85rem;
+    line-height: 1rem;
+    font-style: italic;
+    color: $muted-color;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: .5rem;
+      height: 4.25rem;
+      width: .75rem;
+      border-bottom: 1px dashed $muted-color;
+      border-right: 1px dashed $muted-color;
+    }
+  }
+
   li.dem-win { background: $dem-color; }
   li.dem-lead { background: $dem-lead-color; }
   li.lib-win { background: $lib-color; }

@@ -138,6 +138,9 @@
     transition-property: transform box-shadow;
     transition-duration: .1s;
     transition-timing-function: ease-out;
+
+    @include party-win-colors('background');
+    @include party-lead-colors('background');
   }
 
   li.active {
@@ -148,14 +151,6 @@
 
   .total-clinton .image { background-image: asset-url('digest', 'images/dashboard/clinton-bust.png'); }
   .total-trump .image { background-image: asset-url('digest', 'images/dashboard/trump-bust.png'); }
-
-  li.clinton-win { background: $dem-color; }
-  li.clinton-lead { background: $dem-lead-color; }
-  li.trump-win { background: $gop-color; }
-  li.trump-lead { background: $gop-lead-color; }
-  li.other-win { background: $other-color; }
-  li.other-lead { background: $other-lead-color; }
-  li.tossup { background: $tossup-color; }
 
   .photo-credit {
     font-family: $body-font-family;

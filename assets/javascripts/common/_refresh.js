@@ -21,6 +21,15 @@ function refreshText() {
   return (i18n != null) ? i18n.t('refresh.refreshing') : 'Refreshing…';
 }
 
+function elOrElsToArrayLike(elOrEls) {
+  switch (Object.prototype.toString.apply(elOrEls)) {
+    case '[object Array]':
+    case '[object NodeList]':
+      return elOrEls;
+    default: return [ elOrEls ];
+  }
+}
+
 /**
  * Maintains the "#refresh" div.
  *
@@ -36,16 +45,23 @@ function refreshText() {
  *
  * Every time we get new data, we call setData(json).
  */
-module.exports = function(el, url, setData, _options) {
-  var button = el.querySelector('button.refresh');
-  var countdown = el.querySelector('span.countdown');
+module.exports = function(elOrEls, url, setData, _options) {
+  var i;
+  var els = elOrElsToArrayLike(elOrEls);
+
   var options = _options || {};
   i18n = (options.hasOwnProperty('i18n')) ? options.i18n : null;
 
-  if (!button || !countdown) {
-    console.log('Could not find button.refresh and span.countdown. Not refreshing.');
-    return;
+  var buttons = [];
+  var countdowns = [];
+  for (i = 0; i < els.length; i++) {
+    var button = els[i].querySelector('button.refresh');
+    if (button) buttons.push(button);
+    var countdown = els[i].querySelector('span.countdown');
+    if (countdown) countdowns.push(countdown);
   }
+
+  if (buttons.length === 0 && countdowns.length === 0) return;
 
   // Invariant:
   // (xhr === null && countdownEnd !== null && countdownTimer !== null)
@@ -57,7 +73,7 @@ module.exports = function(el, url, setData, _options) {
 
   function startXhr() {
     lastRequestFailed = false;
-    el.classList.add('loading');
+    for (var i = 0; i < els.length; i++) els[i].classList.add('loading');
     countdown.textContent = refreshText();
 
     xhr = new XMLHttpRequest();
@@ -74,7 +90,7 @@ module.exports = function(el, url, setData, _options) {
       }
 
       xhr = null;
-      el.classList.remove('loading');
+      for (var i = 0; i < els.length; i++) els[i].classList.remove('loading');
       startCountdown();
     };
     xhr.send();
@@ -88,7 +104,7 @@ module.exports = function(el, url, setData, _options) {
       startXhr();
     } else {
       var text = countdownText(countdownEnd - d, lastRequestFailed);
-      countdown.textContent = text;
+      for (var i = 0; i < countdowns.length; i++) countdowns[i].textContent = text;
       countdownTimer = setTimeout(tick, (1000 + (countdownEnd - d)) % 1000);
     }
   }
@@ -98,11 +114,11 @@ module.exports = function(el, url, setData, _options) {
 
     countdownEnd = new Date().valueOf() + MaxCountdown;
     var text = countdownText(MaxCountdown, lastRequestFailed);
-    countdown.textContent = text;
+    for (var i = 0; i < countdowns.length; i++) countdowns[i].textContent = text;
     countdownTimer = setTimeout(tick, 1000);
   }
 
-  button.addEventListener('click', function(ev) {
+  function onClick(ev) {
     if (xhr !== null) return;
 
     // transition: countdown => xhr
@@ -110,7 +126,11 @@ module.exports = function(el, url, setData, _options) {
     clearTimeout(countdownTimer);
     countdownTimer = null;
     startXhr();
-  });
+  }
+
+  for (i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', onClick);
+  }
 
   startCountdown();
 }

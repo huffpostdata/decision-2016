@@ -51,7 +51,7 @@ describe('ApDataDiff', () => {
     const d = ApDataDiff.diff(
       1, date1,
       apData([ presidentRace('NY', 0, 'tossup', 'clinton') ], [], []),
-      apData([ presidentRace('NY', 1, 'clinton-lead', 'clinton') ], [], [])
+      apData([ presidentRace('NY', 1, 'dem-lead', 'clinton') ], [], [])
     )
     expect(d).to.deep.eq([new ChangelogEntry({
       id: 1,
@@ -99,7 +99,7 @@ describe('ApDataDiff', () => {
     const d = ApDataDiff.diff(
       1, date1,
       apData([ presidentRace('NY', 1, 'tossup', 'clinton') ], [], []),
-      apData([ presidentRace('NY', 2, 'clinton-lead', 'clinton') ], [], [])
+      apData([ presidentRace('NY', 2, 'dem-lead', 'clinton') ], [], [])
     )
     expect(d.length).to.eq(0)
   })
@@ -107,8 +107,8 @@ describe('ApDataDiff', () => {
   it('should create entry for "president called"', () => {
     const d = ApDataDiff.diff(
       1, date1,
-      apData([ presidentRace('NY', 1, 'clinton-lead', 'clinton') ], [], []),
-      apData([ presidentRace('NY', 2, 'clinton-win', 'clinton') ], [], [])
+      apData([ presidentRace('NY', 1, 'dem-lead', 'clinton') ], [], []),
+      apData([ presidentRace('NY', 2, 'dem-win', 'clinton') ], [], [])
     )
     expect(d).to.deep.eq([new ChangelogEntry({
       id: 1,
@@ -126,8 +126,8 @@ describe('ApDataDiff', () => {
   it('should not create entry for "president called" when not called', () => {
     const d = ApDataDiff.diff(
       1, date1,
-      apData([ presidentRace('NY', 1, 'clinton-lead', 'clinton') ], [], []),
-      apData([ presidentRace('NY', 2, 'clinton-lead', 'clinton') ], [], [])
+      apData([ presidentRace('NY', 1, 'dem-lead', 'clinton') ], [], []),
+      apData([ presidentRace('NY', 2, 'dem-lead', 'clinton') ], [], [])
     )
     expect(d.length).to.eq(0)
   })
@@ -136,12 +136,12 @@ describe('ApDataDiff', () => {
     const d = ApDataDiff.diff(
       1, date1,
       apData(
-        [ presidentRace('NY', 0, 'tossup', 'clinton'), presidentRace('MT', 2, 'clinton-lead', 'clinton') ],
+        [ presidentRace('NY', 0, 'tossup', 'clinton'), presidentRace('MT', 2, 'dem-lead', 'clinton') ],
         [],
         []
       ),
       apData(
-        [ presidentRace('NY', 2, 'tossup', 'clinton'), presidentRace('MT', 3, 'clinton-win', 'clinton') ],
+        [ presidentRace('NY', 2, 'tossup', 'clinton'), presidentRace('MT', 3, 'dem-win', 'clinton') ],
         [],
         []
       )
@@ -152,8 +152,8 @@ describe('ApDataDiff', () => {
   it('should not create entry for "president called" when it was called before', () => {
     const d = ApDataDiff.diff(
       1, date1,
-      apData([ presidentRace('NY', 1, 'clinton-win', 'clinton') ], [], []),
-      apData([ presidentRace('NY', 2, 'clinton-win', 'clinton') ], [], [])
+      apData([ presidentRace('NY', 1, 'dem-win', 'clinton') ], [], []),
+      apData([ presidentRace('NY', 2, 'dem-win', 'clinton') ], [], [])
     )
     expect(d.length).to.eq(0)
   })
@@ -199,8 +199,8 @@ describe('ApDataDiff', () => {
   it('should create entry for "25% precincts lead" for president', () => {
     const d = ApDataDiff.diff(
       1, date1,
-      apData([ presidentRace('NY', 1, 'clinton-lead', 'clinton') ], [], []),
-      apData([ presidentRace('NY', 26, 'clinton-lead', 'clinton') ], [], [])
+      apData([ presidentRace('NY', 1, 'dem-lead', 'clinton') ], [], []),
+      apData([ presidentRace('NY', 26, 'dem-lead', 'clinton') ], [], [])
     )
     expect(d).to.deep.eq([new ChangelogEntry({
       id: 1,
@@ -218,8 +218,8 @@ describe('ApDataDiff', () => {
   it('should not create extra entries between 26% and 49% lead', () => {
     const d = ApDataDiff.diff(
       1, date1,
-      apData([ presidentRace('NY', 26, 'clinton-lead', 'clinton') ], [], []),
-      apData([ presidentRace('NY', 49, 'clinton-lead', 'clinton') ], [], [])
+      apData([ presidentRace('NY', 26, 'dem-lead', 'clinton') ], [], []),
+      apData([ presidentRace('NY', 49, 'dem-lead', 'clinton') ], [], [])
     )
     expect(d.length).to.eq(0)
   })
@@ -230,8 +230,8 @@ describe('ApDataDiff', () => {
   it('should not create entry for "25% precincts lead" when winner is called', () => {
     const d = ApDataDiff.diff(
       1, date1,
-      apData([ presidentRace('NY', 1, 'clinton-lead', 'clinton') ], [], []),
-      apData([ presidentRace('NY', 11, 'clinton-win', 'clinton') ], [], [])
+      apData([ presidentRace('NY', 1, 'dem-lead', 'clinton') ], [], []),
+      apData([ presidentRace('NY', 11, 'dem-win', 'clinton') ], [], [])
     )
     expect(d.map(r => r.changeType)).to.deep.eq([ 'win' ])
   })
