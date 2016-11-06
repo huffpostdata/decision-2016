@@ -139,6 +139,7 @@
     transition-duration: .1s;
     transition-timing-function: ease-out;
 
+    &.tossup { background: $tossup-color; }
     @include party-win-colors('background');
     @include party-lead-colors('background');
   }
