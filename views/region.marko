@@ -33,12 +33,12 @@ html lang="en"
               tbody
                 tr data-race-id="${data.model.races.president.race.id}" class="${data.model.races.president.race.className}"
                   td.district - At Large
-                  td.winner - ${{'dem-win':'Clinton','gop-win':'Trump'}[data.model.races.president.race.className] || '-'}
+                  td.winner - ${{'dem-win':'Clinton','gop-win':'Trump'}[data.model.races.president.race.className] || ''}
                   td.votes - 2
                 for(race in data.model.races.president.districts)
                   tr data-race-id="${race.id}" class="${race.className}"
                     td.district - District ${race.id.slice(2)}
-                    td.winner - ${{'dem-win':'Clinton','gop-win':'Trump'}[race.className] || '-'}
+                    td.winner - ${{'dem-win':'Clinton','gop-win':'Trump'}[race.className] || ''}
                     td.votes - 1
 
           .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
@@ -46,7 +46,6 @@ html lang="en"
           $!{data.helpers.partial('dashboard/_legend', { entrySet: 'president' })}
           .geo-map.president-map - $!{data.helpers.geoSvg(data.model.id)}
 
-    ${console.log(JSON.stringify(data.model.races.senate.seats))}
     if(data.model.races.senate.seats.length > 0)
       section.senate
         h2.section-header - Senate

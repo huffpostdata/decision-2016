@@ -20,6 +20,13 @@ body.region section.president {
       font-weight: bold;
     }
 
+    td.winner:empty {
+      &::before {
+        content: '-';
+      }
+      font-weight: normal;
+      color: $muted-color;
+    }
     tr.dem-win td.winner { color: $dem-color; }
     tr.gop-win td.winner { color: $gop-color; }
 
