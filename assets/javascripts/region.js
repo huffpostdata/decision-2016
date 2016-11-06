@@ -9,9 +9,9 @@ var script = document.querySelector('script[data-json]');
 
 var initialJson = JSON.parse(script.getAttribute('data-json'));
 
-var presidentMap = new GeoMap({
+var presidentMap = GeoMap({
   svg: document.querySelector('.president-map svg'),
-  geos: initialJson.president.geos
+  races: initialJson.president.geos
 });
 var presidentTooltip = new Tooltip({
   el: document.getElementById('tooltip'),
@@ -25,9 +25,9 @@ var senateMap = null;
 var senateTooltip = null;
 var senateSvg = document.querySelector('.senate-map svg');
 if (senateSvg) {
-  senateMap = new GeoMap({
+  senateMap = GeoMap({
     svg: senateSvg,
-    geos: initialJson.senate.geos
+    races: initialJson.senate.geos
   });
 
   senateTooltip = new Tooltip({
@@ -39,7 +39,7 @@ if (senateSvg) {
   });
 }
 
-var houseMap = new DistrictMap({
+var houseMap = DistrictMap({
   svg: document.querySelector('.house-map svg'),
   races: initialJson.house
 });
