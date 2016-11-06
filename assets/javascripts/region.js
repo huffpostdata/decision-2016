@@ -1,4 +1,5 @@
 var GeoMap = require('./region/GeoMap');
+var DistrictList = require('./region/DistrictList');
 var DistrictMap = require('./region/DistrictMap');
 var BallotRaces = require('./region/BallotRaces');
 var Tooltip = require('./dashboard/_tooltip');
@@ -43,6 +44,10 @@ var houseMap = new DistrictMap({
   races: initialJson.house
 });
 
+var districtList = new DistrictList({
+  el: document.querySelector('.house-races')
+});
+
 var ballotDiv = document.querySelector('.ballot-races');
 var ballotRaces = null;
 if (ballotDiv) {
@@ -57,6 +62,7 @@ function doRefresh(json) {
     senateTooltip.setData(json.senate.geos);
   }
   houseMap.update(json.house);
+  districtList.update(json.house);
   if (ballotRaces) {
     ballotRaces.update(json.ballot);
   }

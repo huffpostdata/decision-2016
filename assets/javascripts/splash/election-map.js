@@ -7,7 +7,7 @@ var legend;
 
 module.exports = {
   render: function(data, _i18n) {
-    electionMap = window.document.getElementById('election_map');
+    electionMap = document.getElementById('election_map');
 
     if(electionMap) {
       electionMap.innerHTML = markoLegend +
@@ -15,8 +15,8 @@ module.exports = {
                               markoMapSwitcher + markoMap
                               "</div>";
 
-      mapEl = document.getElementById('map');
-      mapSwitcherEl = document.getElementById('map-switcher');
+      mapEl = electionMap.querySelector('div[data-src]');
+      mapSwitcherEl = electionMap.querySelector('#map-switcher');
 
       mapSwitcherEl.querySelector('.geography > .tab__link h5').innerHTML = _i18n.t('h5.Geography');
       mapSwitcherEl.querySelector('.cartogram > .tab__link h5').innerHTML = _i18n.t('h5.Cartogram');
