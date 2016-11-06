@@ -3,4 +3,8 @@ body.region section.senate {
     strong.dem-prior { color: $dem-color; }
     strong.gop-prior { color: $gop-color; }
   }
+
+  .candidate-table {
+    margin-top: 2rem;
+  }
 }
