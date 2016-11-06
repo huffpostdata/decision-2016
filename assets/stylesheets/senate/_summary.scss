@@ -7,10 +7,33 @@
     width: 1%; // 100 seats, so each is worth 1%
   }
 
-  li.dem-prior { background: $very-very-muted-color; }
+  .result-2014 {
+    position: absolute;
+    right: 54%; // Watch it! This is data. There were 54 GOP Senators in Jan. 2015
+    bottom: 1rem;
+    text-align: right;
+    padding-right: 1rem;
+    font-size: .85rem;
+    line-height: 1rem;
+    font-style: italic;
+    color: $muted-color;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: .5rem;
+      height: 4.25rem;
+      width: .75rem;
+      border-bottom: 1px dashed $muted-color;
+      border-right: 1px dashed $muted-color;
+    }
+  }
+
+  li.dem-prior, li.gop-prior { background: $very-very-muted-color; }
   li.dem-win { background: $dem-color; }
   li.dem-lead { background: $dem-lead-color; }
-  li.gop-prior { background: $very-very-muted-color; }
   li.gop-win { background: $gop-color; }
   li.gop-lead { background: $gop-lead-color; }
   li.tossup { background: $tossup-color; }
