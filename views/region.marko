@@ -19,7 +19,11 @@ html lang="en"
       .section-inner
         aside
           var nElectoralVotes=(data.model.races.president.districts ? 2 : data.model.races.president.race.nElectoralVotes)
-          p - Winner gets <strong>${nElectoralVotes}</strong> electoral vote${data.model.races.president.race.nElectoralVotes === 1 ? '' : 's'}
+          if(nElectoralVotes == 2)
+            p - The most popular candidate wins the <strong>2</strong> "at-large" electoral votes.
+          else
+            p - The most popular candidate wins <strong>${nElectoralVotes}</strong> electoral votes.
+
           $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'President', race: data.model.races.president.race })}
 
           if(data.model.races.president.districts)
