@@ -182,6 +182,14 @@ function Tooltip(options) {
     }
   }
 
+  function goToStatePage(ev) {
+    var raceId = ev.target.getAttribute(_this.dataAttrAccessor);
+    if (raceId && /^[A-Z][A-Z]$/.test(raceId.slice(0,2))) {
+      var stateAbbr = raceId.slice(0,2);
+      window.top.location = 'state/' + stateAbbr;
+    }
+  }
+
   function onMouseOver(ev) {
     if (ev.target.tagName !== 'path') return;
 
@@ -200,14 +208,12 @@ function Tooltip(options) {
     if (isSubcountyGeo || isCountyGeo) {
       buildTable(race, _this.raceType);
       _this.tooltip.style.display = 'block';
-      positionTooltip(ev);
       return
     }
 
     if (isPresidentRace) {
       buildTable(race, 'president');
       _this.tooltip.style.display = 'block';
-      positionTooltip(ev);
       return
     }
 
@@ -215,12 +221,10 @@ function Tooltip(options) {
       if(isSingleCandidateRace) {
         buildSingleCandidateRace(race);
         _this.tooltip.style.display = 'block';
-        positionTooltip(ev);
         return;
       } else {
         buildTable(race, 'house');
         _this.tooltip.style.display = 'block';
-        positionTooltip(ev);
         return
       }
     }
@@ -229,12 +233,10 @@ function Tooltip(options) {
       if(!isSeat3Race) {
         buildSenateNonRace(race);
         _this.tooltip.style.display = 'block';
-        positionTooltip(ev);
         return;
       } else {
         buildTable(race, 'senate');
         _this.tooltip.style.display = 'block';
-        positionTooltip(ev);
         return
       }
     }
@@ -249,6 +251,10 @@ function Tooltip(options) {
     positionTooltip(ev);
   }
 
+  function onMouseClick(ev) {
+    goToStatePage(ev);
+  }
+
   this.setData = function(data) {
     _this.raceData = {};
     for (var i = 0; i < data.length; i++) {
@@ -261,6 +267,7 @@ function Tooltip(options) {
   _this.mapEl.addEventListener('mouseover', onMouseOver);
   _this.mapEl.addEventListener('mouseout', onMouseOut);
   _this.mapEl.addEventListener('mousemove', onMouseMove);
+  _this.mapEl.addEventListener('click', onMouseClick);
 }
 
 module.exports = Tooltip;
