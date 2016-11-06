@@ -1,5 +1,16 @@
 #tooltip {
 
+h3 {
+  font-family: $header-font-family;
+    text-transform: uppercase;
+    margin: 0px;
+}
+
+p {
+  padding-bottom: 0px;
+  margin-bottom: 10px;
+}
+
   .state-name {
     font-family: $header-font-family;
     text-transform: uppercase;
