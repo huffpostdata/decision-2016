@@ -35,6 +35,10 @@ _test/splash/i18n:
   template: _test/i18n-splash
   model: translatedSplash
 
+_test/splash/mobile-ad:
+  template: _test/mobile-ad
+  model: president
+
 president:
   model: president
   headers:
