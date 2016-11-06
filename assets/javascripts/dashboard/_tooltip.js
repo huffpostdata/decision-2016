@@ -1,5 +1,7 @@
 
 var formatInt = require('../common/formatInt');
+var buildCandidateTableHTML = require('../common/buildCandidateTableHTML')
+
 function hasClass (el, checkClass) {
   return !!el.className.match( checkClass ) //match returns null, return true/false;
 }
@@ -45,96 +47,6 @@ function Tooltip(options) {
       _this.tooltip.style.top = yPos + 'px'
     }
     _this.tooltip.style.left = (xPos + offsetX) + 'px';
-  }
-
-  function setText(race, raceType) {
-    var textEl = _this.tooltip.querySelector('.inner');
-    var summaryFigure = null;
-    var htmlInject = null;
-
-    switch(raceType) {
-      case 'president':
-        summaryFigure = race.nElectoralVotes;
-        // TK better sentence (NE1 and ME1 have one vote)
-        htmlInject = [
-          '<h3 class="state-name">' + race.name + '</h3>',
-          '<p class="state-summary">The candidate who wins the popular vote ',
-          'will win all ' + '<span class="electoralvotes">' + summaryFigure + '</span>' + ' of ' + name + '\'s electoral votes.</p>',
-        ]
-        break;
-      case 'senate':
-        summaryFigure = race.fractionReporting;
-        htmlInject = [
-          '<h3 class="state-name">' + race.name + '</h3>',
-          '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of vote counted</p>'
-        ]
-        break;
-      case 'house':
-        summaryFigure = race.fractionReporting;
-        htmlInject = [
-          '<h3 class="state-name">' + race.name + '</h3>',
-          '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of vote counted</p>'
-        ]
-        break;
-    }
-    textEl.innerHTML = htmlInject.join('');
-  }
-
-  function buildTable(race, raceType) {
-
-    setText(race, raceType);
-    var candidates = race.candidates;
-    var votesTotal = race.nVotes;
-    var table = _this.tooltip.querySelector('.candidate-table');
-    if (table === null) return; // DELETEME TK I was getting crashes on staging
-
-    var cdType = null;
-    var cdVotesAccessor = 'n';
-    var cdNameAccessor = 'name';
-
-    var leadingCount = Math.max.apply(null, candidates.map(function(d) { return d[cdVotesAccessor]; }));
-
-    switch(raceType) {
-      case 'president':
-        cdType = 'PRESIDENT';
-        break
-      case 'senate':
-        cdType = 'SENATOR';
-        break
-      case 'house':
-        cdType = 'HOUSE REP.'
-        break
-      default:
-        cdType = 'CANDIDATE'
-        break
-    }
-
-    var htmlInject = ['<table class="' + race.className + '">',
-      '<thead>', '<tr>',
-      '<th class="name">' + cdType + '</th>',
-      '<th class="votes" colspan="2">VOTES</th>',
-      '<th class="percent"></th>',
-      '</tr>', '</thead><tbody>'];
-
-    for (var i = 0; i < candidates.length; i++) {
-      var candidate = candidates[i];
-      var candidateWon = candidate.winner ? 'winner' : '';
-      var cdName = candidate[cdNameAccessor];
-      var incumbentSpan = candidate.incumbent === true ? ' <span class="incumbent">i</span>' : '';
-      var cdVotes = candidate[cdVotesAccessor];
-      var cdVotesPct = votesTotal === 0 ? 0 : 100 * (cdVotes / votesTotal)
-      var voteBarWidth = votesTotal === 0 ? 0 : 100 * (cdVotes / leadingCount);
-      htmlInject.push(['<tr class="' + candidateWon + '">',
-        '<td class="name">' + cdName + incumbentSpan +  '</td>',
-        '<td class="vote-count">' + formatInt(cdVotes) + '</td>',
-        '<td class="votes">',
-          '<div class="vote-bar ' + candidate.partyId + '" style="width: ' + voteBarWidth + '%;"></div>',
-        '</td>',
-        '<td class="percent">' + Math.round(cdVotesPct) + '%</td>',
-        '</tr>'].join(''));
-    }
-    htmlInject.push('</tbody></table>');
-    table.innerHTML = htmlInject.join('');
   }
 
   function buildSingleCandidateRace(race) {
@@ -197,6 +109,8 @@ function Tooltip(options) {
     var race = _this.raceData[raceId];
     if (!race) return;
 
+    var table = _this.tooltip.querySelector('.candidate-table');
+
     var isPresidentRace = /^[A-Z][A-Z][0-9]?$/.test(race.id);
     var isSenateRace = /^[A-Z][A-Z]S[123]$/.test(race.id);
     var isSeat3Race = /^[A-Z][A-Z]S3$/.test(race.id);
@@ -206,13 +120,13 @@ function Tooltip(options) {
     var isCountyGeo = /^[0-9]{5}$/.test(race.id);
 
     if (isSubcountyGeo || isCountyGeo) {
-      buildTable(race, _this.raceType);
+      table.innerHTML = buildCandidateTableHTML(race, _this.raceType);
       _this.tooltip.style.display = 'block';
       return
     }
 
     if (isPresidentRace) {
-      buildTable(race, 'president');
+      table.innerHTML = buildCandidateTableHTML(race, 'president');
       _this.tooltip.style.display = 'block';
       return
     }
@@ -223,7 +137,7 @@ function Tooltip(options) {
         _this.tooltip.style.display = 'block';
         return;
       } else {
-        buildTable(race, 'house');
+        table.innerHTML = buildCandidateTableHTML(race, 'house');
         _this.tooltip.style.display = 'block';
         return
       }
@@ -235,7 +149,7 @@ function Tooltip(options) {
         _this.tooltip.style.display = 'block';
         return;
       } else {
-        buildTable(race, 'senate');
+        table.innerHTML = buildCandidateTableHTML(race, 'senate');
         _this.tooltip.style.display = 'block';
         return
       }

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+var buildCandidateTableHTML=require('../assets/javascripts/common/buildCandidateTableHTML.js')
 html lang="en"
   head
     meta charset="utf-8"
@@ -19,7 +20,7 @@ html lang="en"
       .section-inner
         aside
           p - Winner gets <strong>${data.model.races.president.race.nElectoralVotes}</strong> electoral vote${data.model.races.president.race.nElectoralVotes === 1 ? '' : 's'}
-          $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'President', race: data.model.races.president.race })}
+          <div class="candidate-table">$!{buildCandidateTableHTML(data.model.races.president.race, 'president', true)}</div>
           .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
         .section-main
           $!{data.helpers.partial('dashboard/_legend', { entrySet: 'president' })}
@@ -31,7 +32,7 @@ html lang="en"
         .section-inner
           aside
             p - TK state currently has N TK party Senators.
-            $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'Senator', race: data.model.races.senate.race })}
+            <div class="candidate-table">$!{buildCandidateTableHTML(data.model.races.senate.race, 'senate', true)}</div>
             .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
           .section-main
             $!{data.helpers.partial('dashboard/_legend', { entrySet: 'senate' })}
