@@ -21,6 +21,8 @@ var map = new Map({
   racesJson: initialJson.races
 });
 
+var originalTitle = document.title;
+
 var navEl = document.querySelector('nav');
 var updateNav = nav(navEl);
 updateNav(initialJson.summaries);
@@ -33,7 +35,23 @@ var tooltip = new Tooltip({
   mapType: 'state'
 });
 
+function setTitleSummary(summary) {
+  console.log(originalTitle);
+  if(summary.totals.dem + summary.totals.gop > 0) {
+    if(summary.className === "dem-win") {
+      document.title = "✔DEM "+summary.totals.dem+" : "+summary.totals.gop+" REP | "+ originalTitle;
+    } else if(summary.className === "gop-win") {
+      document.title = "DEM "+summary.totals.dem+" : "+summary.totals.gop+" REP✔ | "+ originalTitle;
+    } else {
+      document.title = "DEM "+summary.totals.dem+" : "+summary.totals.gop+" REP | "+ originalTitle;
+    }
+  }
+}
+
+setTitleSummary(initialJson.summaries.senate);
+
 function doRefresh(json) {
+  setTitleSummary(json.summaries.senate);
   changelog.update(json);
   updateSummary(json);
   map.update(json.races);
