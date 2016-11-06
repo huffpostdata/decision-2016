@@ -1,6 +1,12 @@
 #election-splash-refresh {
-  text-align: center;
+  min-width: 980px;
+  max-width: 1070px;
+  margin: 0 auto;
+  text-align: left;
   width: 100%;
+  &.loading button::after {
+    animation: spin 1s infinite linear;
+  }
 }
 .refresh {
   font-family: $body-font-family;
@@ -28,4 +34,13 @@
   color: #bbb;
   font-size: 12px;
   padding-left: 10px;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-0.001deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(360.001deg);
+  }
 }
