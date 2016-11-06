@@ -1,0 +1,8 @@
+[
+  { "slug": "dem", "name": "Clinton" },
+  { "slug": "gop", "name": "Trump" },
+  { "slug": "lib", "name": "Johnson" },
+  { "slug": "grn", "name": "Stein" },
+  { "slug": "bfa", "name": "McMullin" },
+  { "slug": "other", "name": "Other" }
+]

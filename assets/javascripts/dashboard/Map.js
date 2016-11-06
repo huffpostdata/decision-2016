@@ -1,7 +1,7 @@
 function Map(options) {
   if (!options.svg) throw new Error('Must set options.svg, an SVGElement');
   if (!options.races) throw new Error('Must set options.races, an Array');
-  //if (!options.legendEl) throw new Error('Must set options.legendEl, an HTMLElement');
+  if (!options.legendEl) throw new Error('Must set options.legendEl, an HTMLElement');
   if (!options.idAttribute) throw new Error('Must set options.idAttribute, a String like data-race-id');
 
   this.svg = options.svg;
@@ -18,6 +18,7 @@ function Map(options) {
   }
 
   this.updatePathClasses();
+  this.updateLegendClass();
 }
 
 Map.prototype.updatePathClasses = function() {
@@ -29,9 +30,19 @@ Map.prototype.updatePathClasses = function() {
   }
 };
 
+Map.prototype.updateLegendClass = function() {
+  var classNames = { 'map-legend': null };
+  for (var i = 0; i < this.races.length; i++) {
+    classNames['has-' + this.races[i].className] = null;
+  }
+
+  this.legendEl.className = Object.keys(classNames).join(' ');
+};
+
 Map.prototype.update = function(races) {
   this.races = races;
   this.updatePathClasses();
+  this.updateLegendClass();
 };
 
 module.exports = Map;

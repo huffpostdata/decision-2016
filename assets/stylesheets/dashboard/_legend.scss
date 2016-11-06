@@ -1,0 +1,71 @@
+.map-legend {
+  table {
+    border-collapse: collapse;
+  }
+
+  caption {
+    display: none;
+  }
+
+  td:not(:first-child) {
+    border: 2px solid $background;
+  }
+
+  tr.tossup td {
+    border-top: .5rem solid $background;
+  }
+
+  th {
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: .75rem;
+    font-style: italic;
+    color: $muted-color;
+  }
+
+  tbody tr { display: none; }
+
+  tbody td {
+    height: .5rem;
+    width: 2.5rem;
+  }
+
+  td.name {
+    font-size: .75rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: $header-font-family;
+    white-space: nowrap;
+  }
+
+  &.has-tossup tr.tossup { display: table-row; }
+
+  &.has-dem-win, &.has-dem-lead { tr.dem { display: table-row; } }
+  &.has-gop-win, &.has-gop-lead { tr.gop { display: table-row; } }
+  &.has-lib-win, &.has-lib-lead { tr.lib { display: table-row; } }
+  &.has-grn-win, &.has-grn-lead { tr.grn { display: table-row; } }
+  &.has-bfa-win, &.has-bfa-lead { tr.bfa { display: table-row; } }
+
+  &.has-other-win, &.has-other-lead { tr.other { display: table-row; } }
+
+  td.dem-win { background: $dem-color; }
+  td.gop-win { background: $gop-color; }
+  td.lib-win { background: $lib-color; }
+  td.grn-win { background: $grn-color; }
+  td.bfa-win { background: $bfa-color; }
+
+  td.dem-lead { background: $dem-lead-color; }
+  td.gop-lead { background: $gop-lead-color; }
+  td.lib-lead { background: $lib-lead-color; }
+  td.grn-lead { background: $grn-lead-color; }
+  td.bfa-lead { background: $bfa-lead-color; }
+
+  td.other-lead { background: $other-color; }
+  td.tossup { background: $tossup-color; }
+
+  // Only show "lead" column if it appears on the map
+  td[class$=-lead], th.lead { display: none; }
+  &.has-dem-lead, &.has-gop-lead, &.has-lib-lead, &.has-grn-lead, &.has-bfa-lead, &.has-other-lead {
+    td[class$=-lead], th.lead { display: table-cell; }
+  }
+}

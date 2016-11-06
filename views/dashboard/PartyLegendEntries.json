@@ -1,0 +1,8 @@
+[
+  { "slug": "dem", "name": "Dem" },
+  { "slug": "gop", "name": "GOP" },
+  { "slug": "lib", "name": "Lib" },
+  { "slug": "grn", "name": "Grn" },
+  { "slug": "bfa", "name": "BFA" },
+  { "slug": "other", "name": "Other" }
+]

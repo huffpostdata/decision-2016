@@ -1,0 +1,21 @@
+var entries=require('./' + (data.model.entrySet === 'president' ? 'President' : 'Party') + 'LegendEntries')
+
+.map-legend
+  table
+    caption - Legend
+    thead
+      tr
+        th.name
+        th.win - Win
+        th.lead - Lead
+    tbody
+      for(entry in entries)
+        tr.${entry.slug}
+          td.name - ${entry.name}
+          td.${entry.slug}-win
+          td.${entry.slug}-lead
+      tr.tossup
+        td.name - No result
+        td.tossup
+        <!-- "tossup-lead" helps with clever CSS selectors -->
+        td.tossup-lead
