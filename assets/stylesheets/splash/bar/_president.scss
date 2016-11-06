@@ -8,10 +8,18 @@
     height: 124px;
   }
 
-  path { stroke: none; fill: $tossup-color; }
-  path.clinton-win { stroke: none; fill: $dem-color; }
-  path.trump-win { stroke: none; fill: $gop-color; }
-  path.mesh { stroke: $background; fill: none; stroke-width: 5px; }
+  path {
+    stroke: none;
+    fill: $tossup-color;
+
+    @include party-win-colors('fill');
+
+    &.mesh {
+      stroke: $background;
+      fill: none;
+      stroke-width: 5px;
+    }
+  }
 
   .electoral-votes {
     display: flex;

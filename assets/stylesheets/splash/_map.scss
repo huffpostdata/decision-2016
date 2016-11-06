@@ -11,11 +11,13 @@
     font-size: 30px;
   }
 
-  path.clinton-win { fill: $dem-color; }
-  path.clinton-lead { fill: $tossup-color; }
-  path.trump-win { fill: $gop-color; }
-  path.trump-lead { fill: $tossup-color; }
-  path.other-win { fill: $other-color; }
-  path.other-lead { fill: $tossup-color; }
-  path.tossup { fill: $tossup-color; }
+  path {
+    fill: $tossup-color;
+    &.mesh {
+      fill: none;
+      stroke: $background;
+      stroke-width: 2px;
+    }
+    @include party-win-colors('fill');
+  }
 }

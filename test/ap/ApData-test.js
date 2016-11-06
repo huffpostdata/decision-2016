@@ -12,9 +12,9 @@ describe('ApData', () => {
       const apData = new ApData({
         findUSPresidentRace() { return {
           reportingUnits: [ { candidates: [
-            { last: 'Clinton', voteCount: 23456, electWon: 257, winner: '' },
-            { last: 'Trump', voteCount: 12345, electWon: 182, winner: '' },
-            { last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
+            { party: 'Dem', last: 'Clinton', voteCount: 23456, electWon: 257 },
+            { party: 'GOP', last: 'Trump', voteCount: 12345, electWon: 182 },
+            { party: 'Lib', last: 'Johnson', voteCount: 123, electWon: 0 }
           ]}]
         }}
       }, null)
@@ -39,78 +39,78 @@ describe('ApData', () => {
       })
     }) // with sample data
 
-    it('should set className=clinton-win', () => {
+    it('should set className=dem-win', () => {
       const apData = new ApData({
         findUSPresidentRace() { return {
           reportingUnits: [ { candidates: [
-            { last: 'Clinton', voteCount: 23456, electWon: 0, winner: 'X' },
-            { last: 'Trump', voteCount: 12345, electWon: 0, winner: '' },
-            { last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
+            { party: 'Dem', last: 'Clinton', voteCount: 23456, electWon: 0, winner: 'X' },
+            { party: 'GOP', last: 'Trump', voteCount: 12345, electWon: 0 },
+            { party: 'Lib', last: 'Johnson', voteCount: 123, electWon: 0 }
           ]}]
         }}
       }, null)
-      expect(apData.presidentSummary().className).to.eq('clinton-win')
+      expect(apData.presidentSummary().className).to.eq('dem-win')
     })
 
-    it('should set className=clinton-lead', () => {
+    it('should set className=dem-lead', () => {
       const apData = new ApData({
         findUSPresidentRace() { return {
           reportingUnits: [ { candidates: [
-            { last: 'Clinton', voteCount: 23456, electWon: 100, winner: '' },
-            { last: 'Trump', voteCount: 12345, electWon: 99, winner: '' },
-            { last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
+            { party: 'Dem', last: 'Clinton', voteCount: 23456, electWon: 100, winner: '' },
+            { party: 'GOP', last: 'Trump', voteCount: 12345, electWon: 99, winner: '' },
+            { party: 'Lib', last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
           ]}]
         }}
       }, null)
-      expect(apData.presidentSummary().className).to.eq('clinton-lead')
+      expect(apData.presidentSummary().className).to.eq('dem-lead')
     })
 
     it('should set className=tossup', () => {
       const apData = new ApData({
         findUSPresidentRace() { return {
           reportingUnits: [ { candidates: [
-            { last: 'Clinton', voteCount: 23456, electWon: 100, winner: '' },
-            { last: 'Trump', voteCount: 12345, electWon: 100, winner: '' },
-            { last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
+            { party: 'Dem', last: 'Clinton', voteCount: 23456, electWon: 100, winner: '' },
+            { party: 'GOP', last: 'Trump', voteCount: 12345, electWon: 100, winner: '' },
+            { party: 'Lib', last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
           ]}]
         }}
       }, null)
       expect(apData.presidentSummary().className).to.eq('tossup')
     })
 
-    it('should set className=trump-lead', () => {
+    it('should set className=gop-lead', () => {
       const apData = new ApData({
         findUSPresidentRace() { return {
           reportingUnits: [ { candidates: [
-            { last: 'Clinton', voteCount: 23456, electWon: 99, winner: '' },
-            { last: 'Trump', voteCount: 12345, electWon: 100, winner: '' },
-            { last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
+            { party: 'Dem', last: 'Clinton', voteCount: 23456, electWon: 99, winner: '' },
+            { party: 'GOP', last: 'Trump', voteCount: 12345, electWon: 100, winner: '' },
+            { party: 'Lib', last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
           ]}]
         }}
       }, null)
-      expect(apData.presidentSummary().className).to.eq('trump-lead')
+      expect(apData.presidentSummary().className).to.eq('gop-lead')
     })
 
     it('should call for Trump', () => {
       const apData = new ApData({
         findUSPresidentRace() { return {
           reportingUnits: [ { candidates: [
-            { last: 'Clinton', voteCount: 23456, electWon: 0, winner: '' },
-            { last: 'Trump', voteCount: 12345, electWon: 0, winner: 'X' },
-            { last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
+            { party: 'Dem', last: 'Clinton', voteCount: 23456, electWon: 0, winner: '' },
+            { party: 'GOP', last: 'Trump', voteCount: 12345, electWon: 0, winner: 'X' },
+            { party: 'Lib', last: 'Johnson', voteCount: 123, electWon: 0, winner: '' }
           ]}]
         }}
       }, null)
-      expect(apData.presidentSummary().className).to.eq('trump-win')
+      expect(apData.presidentSummary().className).to.eq('gop-win')
     })
 
     it('should set nOtherElectoralVotes', () => {
       const apData = new ApData({
         findUSPresidentRace() { return {
           reportingUnits: [ { candidates: [
-            { last: 'Clinton', voteCount: 23456, electWon: 20, winner: '' },
-            { last: 'Trump', voteCount: 12345, electWon: 10, winner: '' },
-            { last: 'Johnson', voteCount: 123, electWon: 3, winner: '' }
+            { party: 'Dem', last: 'Clinton', voteCount: 23456, electWon: 20, winner: '' },
+            { party: 'GOP', last: 'Trump', voteCount: 12345, electWon: 10, winner: '' },
+            { party: 'Lib', last: 'Johnson', voteCount: 123, electWon: 3, winner: '' }
           ]}]
         }}
       }, null)
@@ -167,6 +167,7 @@ describe('ApData', () => {
           electTotal: +row[3],
           reportingunitID: row[1].slice(2),
           reportingunitName: row[0].length === 2 ? 'At Large' : `District ${row[0].slice(2)}`,
+          districtType: row[0].length === 2 ? 'AL' : 'CD',
           candidates: [
             { first: 'Hillary', last: 'Clinton', party: 'Dem', winner: ([ 'ME', 'ME1', 'NE2' ].indexOf(row[0] === -1) ? '' : 'X') },
             { first: 'Donald', last: 'Trump', party: 'GOP', winner: ([ 'ME2', 'NE', 'NE2' ].indexOf(row[0] === -1) ? '' : 'X') },
@@ -198,16 +199,16 @@ describe('ApData', () => {
       })
 
       it('should set nElectoralVotes', () => {
-        expect(races[0].nElectoralVotes).to.eq(55)
+        expect(races.find(r => r.id === 'CA').nElectoralVotes).to.eq(55)
       })
 
       it('should split ME races properly', () => {
-        const me = races[17]
+        const me = races.find(r => r.id === 'ME')
         expect(me.name).to.eq('Maine At Large')
         expect(me.stateName).to.eq('Maine')
         expect(me.nElectoralVotes).to.eq(2)
 
-        const me1 = races[18]
+        const me1 = races.find(r => r.id === 'ME1')
         expect(me1.name).to.eq('Maine District 1')
         expect(me1.stateName).to.eq('Maine')
         expect(me1.nElectoralVotes).to.eq(1)
@@ -235,7 +236,7 @@ describe('ApData', () => {
           precinctsReporting: 106,
           precinctsTotal: 166
         })
-        const race = go(reportingUnitRaces2, districtRaces)[0]
+        const race = go(reportingUnitRaces2, districtRaces).find(r => r.id === 'CA')
         expect(race.fractionReporting).to.eq(106/166)
       })
 
@@ -272,7 +273,7 @@ describe('ApData', () => {
           { party: 'Lib', first: 'Gary', last: 'Johnson', voteCount: 3456, winner: 'X' },
           { party: 'Oth', first: 'Oth', last: 'Er', voteCount: 4567 }
         ]
-        const candidates = go(reportingUnitRaces2, districtRaces)[13].candidates
+        const candidates = go(reportingUnitRaces2, districtRaces).find(r => r.id === 'AL').candidates
         expect(candidates).to.deep.eq([
           { name: 'Johnson', fullName: 'Gary Johnson', n: 3456, partyId: 'lib', winner: true },
           { name: 'Trump', fullName: 'Donald Trump', n: 2345, partyId: 'gop' },

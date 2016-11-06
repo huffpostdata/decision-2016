@@ -118,28 +118,18 @@ function compareCandidatesIgnoreWinner(a, b) {
 const ClassNameSortOrder = {
   'dem-prior': 1, // Senate seats class 1, 2
   'dem-win': 2,
-  'clinton-win': 2,
   'dem-lead': 3,
-  'clinton-lead': 3,
   'lib-win': 4,
-  'johnson-win': 4,
   'lib-lead': 5,
-  'lib-win': 5,
   'grn-win': 6,
-  'stein-win': 6,
   'grn-lead': 7,
-  'stein-lead': 7,
   'bfa-win': 8,
-  'mcmullin-win': 8,
   'bfa-lead': 9,
-  'mcmullin-lead': 9,
   'other-win': 10,
   'other-lead': 11,
   'tossup': 12,
   'gop-lead': 13,
-  'trump-lead': 13,
   'gop-win': 14,
-  'trump-win': 14,
   'gop-prior': 15 // Senate seats class 1, 2
 }
 function compareRaces(a, b) {
@@ -199,9 +189,12 @@ function raceWinner(race) {
   return null
 }
 
+/**
+ * Returns 'dem-win', 'dem-lead', 'tossup', etc.
+ */
 function presidentRaceClassName(race) {
   // Assume candidates are sorted
-  const leader = race.candidates[0].name.toLowerCase()
+  const leader = race.candidates[0].partyId
 
   if (race.candidates[0].winner) return `${leader}-win`
   if (race.candidates[0].n !== race.candidates[1].n) return `${leader}-lead`
@@ -432,7 +425,7 @@ module.exports = class ApData {
    * * nTrumpElectoralVotes: uint electoral votes for Trump, [0, 538]
    * * nOtherElectoralVotes: uint electoral votes for (not Clinton or Trump), [0, 538]
    * * nTossupElectoralVotes: 538 - nClintonElectoralVotes - nTrumpElectoralVotes
-   * * className: 'clinton-win', 'trump-lead', 'tossup', etc.
+   * * className: 'dem-win', 'gop-lead', 'tossup', etc.
    */
   presidentSummary() {
     const NElectoralVotes = 538
@@ -459,15 +452,15 @@ module.exports = class ApData {
           nOther += candidate.electWon
           break
       }
-      if (candidate.winner === 'X') winner = candidate.last.toLowerCase()
+      if (candidate.winner === 'X') winner = candidate.party.toLowerCase()
     }
 
     // AP had an error in one test, so let's double-set this...
-    if (nClinton >= 270) winner = 'clinton'
-    if (nTrump >= 270) winner = 'trump'
+    if (nClinton >= 270) winner = 'dem'
+    if (nTrump >= 270) winner = 'gop'
 
-    var className = winner ? `${winner}-win`
-      : (nClinton > nTrump ? 'clinton-lead' : (nTrump > nClinton ? 'trump-lead' : 'tossup'));
+    const className = winner ? `${winner}-win`
+      : (nClinton > nTrump ? 'dem-lead' : (nTrump > nClinton ? 'gop-lead' : 'tossup'));
 
     return {
       nClinton: nClintonVotes,
