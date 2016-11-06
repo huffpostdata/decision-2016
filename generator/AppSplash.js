@@ -49,7 +49,7 @@ function drawBar(ctx, x, y, w, h, color) {
 
 function drawHeaderText(ctx, y, text, size, color, offset) {
   ctx.fillStyle = color
-  ctx.font = 'bold '+size+'pt '+bodyFontFamily
+  ctx._setFont('900', 'normal', size, 'pt', 'Proxima Nova Condensed')
   ctx.fillText(text, ctx.canvas.width/2 - ctx.measureText('ELECTION2016').width/2 + offset, y)
   ctx.closePath()
 }
@@ -57,7 +57,7 @@ function drawHeaderText(ctx, y, text, size, color, offset) {
 function drawText(ctx, x, y, text, size, align) {
   var align = align ? align : 'left';
   ctx.fillStyle = '#000'
-  ctx.font = 'bold '+size+'pt '+bodyFontFamily  
+  ctx._setFont('900', 'normal', size, 'pt', 'Proxima Nova Condensed')
   ctx.textAlign = align
   ctx.beginPath()
   ctx.fillText(text, x, y)
@@ -96,23 +96,23 @@ module.exports = class AppSplash {
       var electoralBarsWidth = electoralWidth - ctx.canvas.width * 0.02 * 2
       var startOfBars = ctx.canvas.width * 0.02
       var endOfBars = startOfBars + electoralBarsWidth
-      var nameFontSize = electoralBarHeight * 0.4
-      var voteFontSize = electoralBarHeight * 0.666
+      var nameFontSize = electoralBarHeight * 0.6
+      var voteFontSize = electoralBarHeight
       var barTextPadding = electoralBarHeight * 0.26
       var headerFontPadding = headerHeight * 0.1
-      var headerFontSize = headerHeight - headerFontPadding * 6.2
-      var headerTextPosition = headerHeight - headerFontPadding * 3
+      var headerFontSize = headerHeight - headerFontPadding * 4.2
+      var headerTextPosition = headerHeight - headerFontPadding * 3.2
     } else {
       var electoralBarPosition = ctx.canvas.height * 0.43
       var electoralBarsWidth = electoralWidth - imageArea*2
       var startOfBars = imageArea + ctx.canvas.width - electoralWidth
       var endOfBars = startOfBars + electoralBarsWidth
-      var nameFontSize = electoralBarHeight * 0.533
-      var voteFontSize = electoralBarHeight * 0.766
+      var nameFontSize = electoralBarHeight * 0.8
+      var voteFontSize = electoralBarHeight
       var barTextPadding = electoralBarHeight * 0.26
       var headerFontPadding = headerHeight * 0.1
-      var headerFontSize = headerHeight - headerFontPadding * 5
-      var headerTextPosition = headerHeight - headerFontPadding * 2
+      var headerFontSize = headerHeight - headerFontPadding * 3
+      var headerTextPosition = headerHeight - headerFontPadding * 2.8
     }
 
 
