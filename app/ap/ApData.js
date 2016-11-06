@@ -736,6 +736,7 @@ module.exports = class ApData {
   senateRaces() {
     const races = this.reportingUnitElections.findSenateRaces().map(apRaceToSenateRace)
     const priorRaces = SenatePriorSeats
+      .filter(seat => seat.seatClass !== '3')
 
     const ret = priorRaces.concat(races)
     ret.sort(compareRaces)
@@ -794,6 +795,9 @@ module.exports = class ApData {
           race: race,
           geos: apRaceToGeos(apRace)
         },
+        senate: {
+          seats: SenatePriorSeats.filter(s => s.id.slice(0, 2) === race.id).sort((a, b) => a.id.localeCompare(b.id)),
+        },
         house: [],
         ballot: []
       }
@@ -803,10 +807,8 @@ module.exports = class ApData {
       const race = apRaceToSenateRace(apRace)
       const stateId = race.id.slice(0, 2)
 
-      ret[stateId].senate = {
-        race: race,
-        geos: apRaceToGeos(apRace)
-      }
+      ret[stateId].senate.race = race
+      ret[stateId].senate.geos = apRaceToGeos(apRace)
     }
 
     for (const apRace of this.reportingUnitElections.findHouseRaces()) {

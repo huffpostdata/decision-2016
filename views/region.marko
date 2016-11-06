@@ -25,17 +25,21 @@ html lang="en"
           $!{data.helpers.partial('dashboard/_legend', { entrySet: 'president' })}
           .geo-map.president-map - $!{data.helpers.geoSvg(data.model.id)}
 
-    if(data.model.races.senate)
+    ${console.log(JSON.stringify(data.model.races.senate.seats))}
+    if(data.model.races.senate.seats.length > 0)
       section.senate
         h2.section-header - Senate
         .section-inner
           aside
-            p - TK state currently has N TK party Senators.
-            $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'Senator', race: data.model.races.senate.race })}
-            .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
-          .section-main
-            $!{data.helpers.partial('dashboard/_legend', { entrySet: 'senate' })}
-            .geo-map.senate-map - $!{data.helpers.geoSvg(data.model.id)}
+            for(seat in data.model.races.senate.seats)
+              p - ${seat.candidates[0].fullName} (${seat.candidates[0].partyId === 'ind' ? 'Independent, caucuses as a ' : ''}<strong class="${seat.className}">${{gop: 'Republican', dem: 'Democrat'}[seat.winner]}</strong>) has a term ending ${{3: 'this year:', 1: 'in 2018.', 2: 'in 2020.'}[seat.seatClass]}
+            if(data.model.races.senate.race)
+              $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'Senator', race: data.model.races.senate.race })}
+              .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
+          if(data.model.races.senate.race)
+            .section-main
+              $!{data.helpers.partial('dashboard/_legend', { entrySet: 'senate' })}
+              .geo-map.senate-map - $!{data.helpers.geoSvg(data.model.id)}
 
     section.house
       h2.section-header - House
