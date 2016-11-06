@@ -1,46 +1,70 @@
-var Map = require('../dashboard/_map');
+var Map = require('../common/Map');
+var MapSwitcher = require('../common/MapSwitcher');
 
-var mapEl;
-var mapSwitcherEl;
-var map;
-var legend;
+var races = null;
+var map = null;
+
+function translateLegend(el, i18n) {
+  el.querySelector('dt.open').innerHTML = i18n.t('legend.No winner yet');
+  el.querySelector('dt.dem-win').innerHTML = i18n.t('legend.Clinton win');
+  el.querySelector('dt.gop-win').innerHTML = i18n.t('legend.Trump win');
+  el.querySelector('.legend__header').innerHTML = i18n.t('legend.title');
+  el.querySelector('.resultsTxt').innerHTML = i18n.t('linkout.See Full Results');
+}
+
+function translateMapSwitcher(el, i18n) {
+  el.querySelector('.geography > .tab__link h5').innerHTML = i18n.t('h5.Geography');
+  el.querySelector('.cartogram > .tab__link h5').innerHTML = i18n.t('h5.Cartogram');
+  el.querySelector('.switch__message').innerHTML = i18n.t('map.switch message');
+}
+
+function translateMapSvg(svg, i18n) {
+  var paths = svg.querySelectorAll("text");
+  for (var i = 0; i < paths.length; i++) {
+    var path = paths[i];
+    path.textContent = !!path.textContent ? i18n.t('state-abbreviation.' + path.textContent) : '';
+  }
+}
 
 module.exports = {
-  render: function(data, _i18n) {
-    electionMap = document.getElementById('election_map');
+  render: function(_races, i18n) {
+    var electionMap = document.getElementById('election_map');
+    if (!electionMap) return;
 
-    if(electionMap) {
-      electionMap.innerHTML = markoLegend +
-                              "<div class='map__wrapper'>" +
-                              markoMapSwitcher + markoMap
-                              "</div>";
+    races = _races; // when the map loads, we'll color it
 
-      mapEl = electionMap.querySelector('div[data-src]');
-      mapSwitcherEl = electionMap.querySelector('#map-switcher');
+    electionMap.innerHTML = markoLegend + "<div class='map__wrapper'>" + markoMapSwitcher + markoMap + "</div>";
 
-      mapSwitcherEl.querySelector('.geography > .tab__link h5').innerHTML = _i18n.t('h5.Geography');
-      mapSwitcherEl.querySelector('.cartogram > .tab__link h5').innerHTML = _i18n.t('h5.Cartogram');
-      mapSwitcherEl.querySelector('.switch__message').innerHTML = _i18n.t('map.switch message');
+    translateLegend(electionMap, i18n);
 
-      electionMap.querySelector('dt.open').innerHTML = _i18n.t('legend.No winner yet');
-      electionMap.querySelector('dt.dem-win').innerHTML = _i18n.t('legend.Clinton win');
-      electionMap.querySelector('dt.gop-win').innerHTML = _i18n.t('legend.Trump win');
-      electionMap.querySelector('.legend__header').innerHTML = _i18n.t('legend.title');
-      electionMap.querySelector('.resultsTxt').innerHTML = _i18n.t('linkout.See Full Results');
+    var mapSwitcherEl = electionMap.querySelector('#map-switcher');
+    translateMapSwitcher(mapSwitcherEl, i18n);
 
-      map = new Map({ el: mapEl, switchEl: mapSwitcherEl, racesJson: data, onLoad: function () {
-        var paths = mapEl.querySelectorAll("text");
-        for (i = 0; i < paths.length; i++) {
-          var path = paths[i];
-          path.textContent = !!path.textContent ? _i18n.t('state-abbreviation.' + path.textContent) : '';
-        }
-      }});
-    }
+    var mapContainerEl = electionMap.querySelector('div[data-src]');
+    Map.loadSvg({
+      url: mapContainerEl.getAttribute('data-src'),
+      idAttribute: 'data-race-id',
+      idRegex: /^[A-Z][A-Z]\d?$/
+    }, function(err, svg) {
+      if (err) throw err;
+
+      translateMapSvg(svg, i18n);
+
+      map = new Map({
+        svg: svg,
+        idAttribute: 'data-race-id',
+        races: races,
+        legendEl: document.createElement('div') // we don't use a dynamic legend on splash
+      });
+
+      mapContainerEl.appendChild(svg);
+      mapContainerEl.classList.remove('loading');
+
+      new MapSwitcher({ el: mapSwitcherEl, mapContainerEl: mapContainerEl, map: map });
+    });
   },
-  update: function(data, _i18n) {
-    electionMap = window.document.getElementById('election_map');
-    if(electionMap) {
-      map.update(data);
-    }
+
+  update: function(races) {
+    if (map) map.update(races);
   }
 };

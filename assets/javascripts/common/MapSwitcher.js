@@ -1,5 +1,65 @@
 var TransitDuration = 200; // ms
 
+/**
+ * Allows toggling between "geography" and "cartogram" classes, with animation
+ * in between.
+ *
+ * The transition, e.g. from "geography" to "cartogram", goes like this:
+ *
+ * 1. Change options.el class from "geography" to "cartogram".
+ * 2. Animate one frame in a <canvas> we've inserted into options.mapContainerEl.
+ * 3. Remove "geography" class from options.mapContainerEl.
+ * 4. Animate all the other frames in the <canvas>.
+ * 5. Add "cartogram" class to options.mapContainerEl.
+ *
+ * (This ordering is important if you're considering adding "transition" in
+ * CSS -- which looks really cool.)
+ *
+ * During animation, we ignore all attempts to toggle.
+ */
+function MapSwitcher(options) {
+  if (!options.map) throw new Error('Must set options.map, a Map');
+  if (!options.el) throw new Error('Must set options.el, an HTMLElement');
+  if (!options.mapContainerEl) throw new Error('Must set options.mapContainerEl, an HTMLElement');
+
+  this.el = options.el;
+  this.mapContainerEl = options.mapContainerEl;
+  var map = options.map;
+
+  // Add a <canvas> to animate switches
+  var canvas = document.createElement('canvas');
+  canvas.className = 'animation';
+  var viewBox = map.svg.getAttribute('viewBox').split(/\s+/);
+  canvas.setAttribute('width', viewBox[2]);
+  canvas.setAttribute('height', viewBox[3]);
+  this.mapContainerEl.insertBefore(canvas, map.svg);
+  this.ctx = canvas.getContext('2d');
+
+  var transits = [];
+  var raceIds = Object.keys(map.idToPaths);
+  for (var i = 0; i < raceIds.length; i++) {
+    var raceId = raceIds[i];
+    var paths = map.idToPaths[raceId];
+    if (paths.length !== 2) continue; // ME1, NE2, etc: we don't animate
+    var geographyD = paths[0].getAttribute('d');
+    var cartogramD = paths[1].getAttribute('d');
+    var transit = new Transit(geographyD, cartogramD, paths[1]);
+    transits.push(transit);
+  }
+
+  this.transits = transits;
+
+  var _this = this;
+  this.el.addEventListener('click', function(ev) {
+    ev.preventDefault();
+    if (_this.el.classList.contains('geography')) {
+      _this.transition('geography', 'cartogram');
+    } else {
+      _this.transition('cartogram', 'geography');
+    }
+  });
+}
+
 function Point(x, y, len) {
   this.x = x;
   this.y = y;
@@ -265,124 +325,8 @@ function drawFrame(ctx, isForward, transits, t0, t, callback) {
   });
 };
 
-function loadSvg(url, callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', url);
-  xhr.onload = function() {
-    if (xhr.status !== 200 && xhr.status !== 304) {
-      return callback(new Error('Invalid XHR response code: ' + xhr.status));
-    }
-    return callback(null, xhr.responseXML);
-  };
-  xhr.send();
-}
-
-/**
- * Shows a map, and switches it between geography and cartogram.
- */
-function Map(options) {
-  if (!options.el) throw new Error('Missing "el", an HTMLElement');
-  this.el = options.el;
-  if (!options.switchEl) throw new Error('Missing "switchEl", an HTMLElement');
-  this.switchEl = options.switchEl;
-  if (!options.racesJson) throw new Error('Missing "racesJson", an Array');
-  this.racesJson = options.racesJson;
-  this.onLoad = options.onLoad;
-
-  this.raceIdToPaths = null;
-
-  this._loadSvg();
-}
-
-Map.prototype._loadSvg = function() {
-  var _this = this;
-  loadSvg(this.el.getAttribute('data-src'), function(err, xml) {
-    if (err !== null) throw err; // it'll show an error in the console, that's all
-    _this._setSvg(xml);
-  });
-};
-
-Map.prototype._setSvg = function(xml) {
-  var svg = this.svg = xml.documentElement;
-  svg.setAttribute('width', '100%');
-  svg.setAttribute('height', '100%');
-  this.el.appendChild(svg);
-
-  var racePaths = {};
-  var transits = [];
-  var paths = svg.querySelectorAll('g.cartogram path:not(.underlay):not(.overlay)');
-  var path, raceId, i;
-  for (i = 0; i < paths.length; i++) {
-    path = paths[i];
-    raceId = path.getAttribute('class');
-    // SVG doesn't allow "data-" attributes, but HTML does. So after injecting
-    // into the page, we'll get race IDs out of the "class" attribute (not "id"
-    // because that'd conflict with the rest of the page), and write them to
-    // the "data-" attributes which are all of a sudden valid because this isn't
-    // a standalone SVG any more.
-    path.setAttribute('data-race-id', raceId);
-    racePaths[raceId] = [ path ];
-  }
-
-  paths = svg.querySelectorAll('g.geography path:not([class$=mesh])');
-  for (i = 0; i < paths.length; i++) {
-    path = paths[i];
-    raceId = path.getAttribute('class');
-    path.setAttribute('data-race-id', raceId);
-    racePaths[raceId].push(path);
-
-    var d1 = racePaths[raceId][0].getAttribute('d');
-    var d2 = racePaths[raceId][1].getAttribute('d');
-    var transit = new Transit(d2, d1, path); // icky reverse... oh well
-    transits.push(transit);
-  }
-
-  // Add a <canvas> to animate switches
-  var canvas = document.createElement('canvas');
-  canvas.className = 'animation';
-  var viewBox = svg.getAttribute('viewBox').split(/\s+/);
-  canvas.setAttribute('width', viewBox[2]);
-  canvas.setAttribute('height', viewBox[3]);
-  this.el.insertBefore(canvas, svg);
-  this.ctx = canvas.getContext('2d');
-
-  this.transits = transits;
-  this.raceIdToPaths = racePaths;
-
-  this._recolor();
-
-  this.el.classList.remove('loading');
-
-  var _this = this;
-  this.switchEl.addEventListener('click', function(ev) {
-    ev.preventDefault();
-    if (_this.el.classList.contains('geography')) {
-      _this.showCartogram();
-    } else if (_this.el.classList.contains('cartogram')) {
-      _this.showGeography();
-    } // otherwise do nothing
-  });
-
-  if(this.onLoad) { this.onLoad() }
-};
-
-Map.prototype.update = function(racesJson) {
-  this.racesJson = racesJson;
-  if (this.raceIdToPaths) this._recolor();
-};
-
-Map.prototype._recolor = function() {
-  for (var i = 0; i < this.racesJson.length; i++) {
-    var race = this.racesJson[i];
-    var paths = this.raceIdToPaths[race.id] || [];
-    for (var j = 0; j < paths.length; j++) {
-      paths[j].setAttribute('class', race.className);
-    }
-  }
-};
-
-Map.prototype.transition = function(fromClass, toClass) {
-  if (!this.el.classList.contains(fromClass)) return; // we're already animating
+MapSwitcher.prototype.transition = function(fromClass, toClass) {
+  if (!this.mapContainerEl.classList.contains(fromClass)) return; // never double-animate
 
   for (var i = 0; i < this.transits.length; i++) {
     var transit = this.transits[i];
@@ -395,23 +339,19 @@ Map.prototype.transition = function(fromClass, toClass) {
     transit.strokeWidth = 1.5;
   }
 
+  this.el.classList.remove(fromClass);
+  this.el.classList.add(toClass);
+
   var _this = this;
   window.requestAnimationFrame(function(t0) {
+    // Draw first frame before removing the mapContainerEl's class. That way,
+    // when the <g> goes display:none, there'll be a <canvas> underneath that
+    // looks the same.
     drawFrame(_this.ctx, toClass === 'cartogram', _this.transits, t0, t0, function() {
-      _this.el.classList.add(toClass);
+      _this.mapContainerEl.classList.add(toClass);
     });
-    _this.el.classList.remove(fromClass);
-    _this.switchEl.classList.remove(fromClass);
-    _this.switchEl.classList.add(toClass);
+    _this.mapContainerEl.classList.remove(fromClass);
   });
 }
 
-Map.prototype.showCartogram = function() {
-  this.transition('geography', 'cartogram');
-};
-
-Map.prototype.showGeography = function() {
-  this.transition('cartogram', 'geography');
-};
-
-module.exports = Map;
+module.exports = MapSwitcher;

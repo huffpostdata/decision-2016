@@ -1,4 +1,4 @@
-var Map = require('../dashboard/Map');
+var Map = require('../common/Map');
 
 module.exports = function(options) {
   return new Map({
