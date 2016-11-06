@@ -59,7 +59,7 @@ function Tooltip(options) {
     var name = candidate.fullName;
     var injectHtml = [
       '<h3>' + race.name + '</h3>',
-      '<p>' + switchObj[cdParty] + ' ' + name + ' was uncontested and remains the House Representative'
+      '<p>' + switchObj[cdParty] + ' ' + '<span class="electoralvotes">' + name + '</span>' + ' was uncontested and remains the House Representative'
     ]
     table.innerHTML = '';
     textEl.innerHTML = injectHtml.join('');
@@ -74,7 +74,7 @@ function Tooltip(options) {
     var name = candidate.fullName;
     var injectHtml = [
       '<h3>' + race.name + '</h3>',
-      '<p>This seat is not up for reelection. ' + switchObj[cdParty] + ' ' + name + ' is the incumbent senator</p>'
+      '<p>This seat is not up for reelection. ' + switchObj[cdParty] + ' ' + '<span class="electoralvotes">' + name + '</span>' + ' is the incumbent senator</p>'
     ]
     textEl.innerHTML = injectHtml.join('');
     table.innerHTML = '';

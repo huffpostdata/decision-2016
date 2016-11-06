@@ -53,12 +53,13 @@ class StateFeatureSet {
   }
 
   toJSON() {
-    var features = (fs) => {
-       return fs.map((f) => f.toJSON())
-        .filter((f) => f.geometry)
-        .filter((f) => f.geometry.type != 'Polygon' ||
-        f.geometry.coordinates[0].length > 0)
+    function features(fs) {
+      return fs
+        .map(f => f.toJSON())
+        .filter(f => f.geometry)
+        .filter(f => f.geometry.type != 'Polygon' || f.geometry.coordinates[0].length > 0)
     }
+
     return {
       'state': {
         'type': 'Feature',
@@ -101,6 +102,9 @@ function organize_features (key, features) {
   console.log(`organizing ${key} by state`)
   for (let feature of features) {
     let stateCode = feature.properties.STATEFP || feature.properties.STATE_FIPS
+
+    if (key === 'land' && feature.properties.TYPE !== 'Land') continue
+
     if (!featuresByState.hasOwnProperty(stateCode)) {
       featuresByState[stateCode] = {'land': [], 'counties': [], 'districts': [], 'subcounties': []}
     }
@@ -554,10 +558,10 @@ const grok_input_intersected_features = (input_features, jsts_state_multipolygon
 const render_state = (state_code, options, callback) => {
   console.log(`------- ${options.output_name || state_code}:`)
 
-  const input_land_features = featuresByState[state_code]['land']
-  const input_district_features = featuresByState[state_code]['districts']
-  const input_county_features = featuresByState[state_code]['counties']
-  const input_subcounty_features = featuresByState[state_code]['subcounties']
+  const input_land_features = featuresByState[state_code].land
+  const input_district_features = featuresByState[state_code].districts
+  const input_county_features = featuresByState[state_code].counties
+  const input_subcounty_features = featuresByState[state_code].subcounties
 
   if (fipsToState[state_code] === 'HI') { console.log(input_county_features)}
 

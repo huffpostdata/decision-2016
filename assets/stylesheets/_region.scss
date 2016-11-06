@@ -1,38 +1,52 @@
 body.region {
-  section { @include wide-width(); width: 100%; margin-top: 5rem;
-  &:first-child {margin-top: 0rem;}}
+  section { 
+    @include wide-width(); 
+    width: 100%; 
+  }
 
-  h1 {
-  font-family: $header-font-family;
-  font-size: 2.2rem;
-  text-transform: uppercase;
+  .state-header {
+    font-family: $header-font-family;
+    font-size: 2.2rem;
+    text-transform: uppercase;
+    @include wide-width(); 
+    width: 100%;
   }
 
   .section-header {
-  font-family: $header-font-family;
-  font-size: 1.6rem;
-  text-transform: uppercase;
-  border-top: 1px solid black;
-  padding-top: 3rem;
+    font-family: $header-font-family;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    border-top: 1px solid black;
+    padding-top: 3rem;
+    margin-top: 5rem;
+    &:first-child {margin-top: 2rem;}
   }
 
   .section-inner {
-
     .percent-reporting {
-    font-size: .75rem;
-    font-weight: 700;
+      font-size: .75rem;
+      font-weight: 700;
     }
+
+    .map-legend {
+      // remember, "house" position is in sidebar; "senate"/"president" is main
+      margin: 1rem;
+      table { margin: 0 auto; } // good for sidebar
+    }
+
     @media (min-width: $min-desktop-width) {
       display: flex;
-      aside { width: 20rem; margin-right: 1.5rem; }
-      .section-main { flex: 1 1 auto; }
-    }
-  }
 
-  .senate-map, .president-map {
-  @media(min-width: $min-desktop-width){
-  margin-left: 4rem;
-  }
+      aside {
+        width: 20rem;
+        margin-right: 1.5rem;
+      }
+
+      .section-main {
+        flex: 1 1 auto;
+        display: flex;
+      }
+    }
   }
 
   .geo-map, .house-map {
@@ -47,26 +61,21 @@ body.region {
     }
   }
 
-  path { stroke: none; fill: $tossup-color; }
-  path[class$=mesh] {
-    fill: none;
-    stroke: $background;
-    stroke-width: 2px;
-    pointer-events: none;
+  path {
+    stroke: none;
+    fill: $tossup-color;
+
+    @include party-win-colors('fill');
+    @include party-lead-colors('fill');
+    &.tossup { fill: $tossup-color; }
+
+    &[class$=mesh] {
+      fill: none;
+      stroke: $background;
+      stroke-width: 2px;
+      pointer-events: none;
+    }
   }
-  path.gop-win { fill: $gop-color; }
-  path.dem-win { fill: $dem-color; }
-  path.lib-win { fill: $lib-color; }
-  path.grn-win { fill: $grn-color; }
-  path.bfa-win { fill: $bfa-color; }
-  path.other-win { fill: $other-color; }
-  path.gop-lead { fill: $gop-lead-color; }
-  path.dem-lead { fill: $dem-lead-color; }
-  path.lib-lead { fill: $lib-lead-color; }
-  path.grn-lead { fill: $grn-lead-color; }
-  path.bfa-lead { fill: $bfa-lead-color; }
-  path.other-lead { fill: $other-lead-color; }
-  path.tossup { fill: $tossup-color; }
 }
 
 @import 'region/_president-race.scss';

@@ -32,12 +32,6 @@
 
   #house_seats,
   #senate_seats{
-    .legend {
-      .gop,
-      .dem {
-        // max-width: 50px;
-      }
-    }
     a {
       h2,
       .count,
@@ -49,6 +43,17 @@
         order: 5;
         height: 3rem;
         align-items: flex-start;
+        position: relative;
+        .gop,
+        .dem {
+          position: absolute;
+        }
+        .dem {
+          left: 0;
+        }
+        .gop {
+          right: 0;
+        }
         .balance {
           font-size: 0.75rem;
           align-self: flex-end;

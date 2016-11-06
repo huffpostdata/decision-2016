@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+var t=data.helpers.buildTranslateFunction(data.model.i18n)
+var formatInt=(new Intl.NumberFormat(data.model.i18n.locale).format)
+var summary=data.model.summaries.president
+var house=data.model.summaries.house
+var senate=data.model.summaries.senate
+
+html lang="${data.model.i18n.locale}"
+  head
+    meta charset="utf-8"
+    title - Mobile Ad Test
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/mobile-ad.css')}"
+  body
+    a#mobile target="_top" href="${data.path_to('president')}"
+      .columns
+        .column-president
+          #president
+            h2 - ${t('banner.President')}
+            .electoral-votes.${summary.className}
+              h3 - ${t('h2.Electoral Votes')}
+              .clinton
+                strong - ${formatInt(summary.nClintonElectoralVotes)}
+              .trump
+                strong - ${formatInt(summary.nTrumpElectoralVotes)}
+        .column-senate-house
+          .senate
+            h2 - ${t('banner.Senate')}
+            .races.${senate.className}
+              .dem - ${t('counts.n Dem', senate.wins.dem)}
+              .gop - ${t('counts.n GOP', senate.wins.gop)}
+          .house
+            h2 - ${t('banner.House')}
+            .races.${house.className}
+              .dem - ${t('counts.n Dem', house.wins.dem)}
+              .gop - ${t('counts.n GOP', house.wins.gop)}
+      p.details - ${t('banner.See full results')}
+
+    script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"

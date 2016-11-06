@@ -21,6 +21,11 @@ splash-bar/:locale:
   collection: translatedSplashBar
   template: splash/bar
 
+mobile-ad/:locale:
+  collection: translatedSplashBar
+  template: splash/mobile-ad
+
+
 # GET /_test/splash/:format
 #
 # A fake Huffington Post front page, with holes where the splash should fit in.
@@ -34,6 +39,10 @@ _test/splash/:format:
 _test/splash/i18n:
   template: _test/i18n-splash
   model: translatedSplash
+
+_test/splash/mobile-ad:
+  template: _test/mobile-ad
+  model: president
 
 president:
   model: president
@@ -79,4 +88,16 @@ house.json:
   model: houseAsBuffer
   headers:
     Content-Type: application/json
+    Cache-Control: public, max-age=5
+
+app-splash-tablet.jpg:
+  model: appSplashTabletJpg
+  headers:
+    Content-Type: image/jpg
+    Cache-Control: public, max-age=5
+
+app-splash-mobile.jpg:
+  model: appSplashMobileJpg
+  headers:
+    Content-Type: image/jpg
     Cache-Control: public, max-age=5

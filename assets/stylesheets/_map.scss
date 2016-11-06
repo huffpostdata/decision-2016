@@ -1,4 +1,7 @@
 @mixin animated-map() {
+
+.map {
+}
   position: relative;
 
   &::before {
@@ -52,6 +55,11 @@
 @mixin map-switcher() {
   text-align: center;
   padding: 0 1rem;
+
+  @media(min-width: $min-desktop-width) {
+  display: inline-block;
+  vertical-align: middle;
+  }
 
   .switch {
     margin-top: .2rem;

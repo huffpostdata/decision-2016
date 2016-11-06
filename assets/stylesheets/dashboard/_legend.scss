@@ -36,6 +36,7 @@
     font-weight: bold;
     font-family: $header-font-family;
     white-space: nowrap;
+    text-align: right;
   }
 
   &.has-tossup tr.tossup { display: table-row; }

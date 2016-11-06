@@ -25,4 +25,3 @@ class SenatePriorSeat {
 const senateSeats = google_sheets.slug_to_objects('senateSeats', SenatePriorSeat)
 
 module.exports = senateSeats
-  .filter(seat => seat.seatClass !== '3')

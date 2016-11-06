@@ -6,6 +6,7 @@ const read_config = require('../generator/read_config')
 const GoogleDocs = require('../generator/GoogleDocs')
 const GoogleSheets = require('../generator/GoogleSheets')
 const PageMetadata = require('../generator/PageMetadata')
+const AppSplash = require('../generator/AppSplash')
 const ap_fs = require('./ap/ap-fs')
 
 function invertTranslations(translations) {
@@ -61,6 +62,8 @@ module.exports = class Database {
   constructor() {
     const google_docs = new GoogleDocs(read_config('google-docs'))
     const google_sheets = new GoogleSheets(read_config('google-sheets'))
+    const appSplashTablet = new AppSplash(1400, 'tablet')
+    const appSplashMobile = new AppSplash(600, 'mobile')
     const translations = invertTranslations(google_sheets.slug_to_array('translations'));
     const regionIdToName = google_sheets.slug_to_array('regions')
       .reduce(((s, r) => { s[r.id] = r.name; return s }), {})
@@ -137,6 +140,9 @@ module.exports = class Database {
       changelog: this.house.changelog
     }))
 
+    this.appSplashTabletJpg = Buffer.from(appSplashTablet.renderImage(summaries.president))
+
+    this.appSplashMobileJpg = Buffer.from(appSplashMobile.renderImage(summaries.president))
     const regionIdToRaces = apData.allRaceDetails()
     this.regions = Object.keys(regionIdToRaces).map(regionId => {
       const metadata = new PageMetadata(`state/${regionId}`, {
