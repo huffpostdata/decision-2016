@@ -9,7 +9,7 @@ const path = require('path')
 process.env.FONTCONFIG_PATH = path.resolve(__dirname, '../raw-assets/fonts')
 
 const assetPath = path.resolve(__dirname, '../raw-assets/splash')
-const bodyFontFamily = 'Proxima Nova Condensed, Helvetica, Arial, serif'
+const bodyFontFamily = 'Proxima Nova Condensed'
 const totalVotes = 538
 
 function percentOfVotes(votes) {
@@ -47,46 +47,53 @@ function drawBar(ctx, x, y, w, h, color) {
   ctx.fill()
 }
 
-function drawVotes(ctx, x, y, votes) {
-  ctx.fillStyle = '#000'
-  ctx.font = 'bold 20pt '+bodyFontFamily  
-  ctx.beginPath()
-  ctx.fillText(votes, x, y)
+function drawHeaderText(ctx, y, text, size, color, offset) {
+  ctx.fillStyle = color
+  ctx.font = 'bold '+size+'pt '+bodyFontFamily
+  ctx.fillText(text, ctx.canvas.width/2 - ctx.measureText('ELECTION2016').width/2 + offset, y)
   ctx.closePath()
 }
 
-function drawNames(ctx, x, y, name) {
+function drawText(ctx, x, y, text, size) {
   ctx.fillStyle = '#000'
-  ctx.font = 'bold 13pt '+bodyFontFamily  
+  ctx.font = 'bold '+size+'pt '+bodyFontFamily  
   ctx.beginPath()
-  ctx.fillText(name, x, y)
+  ctx.fillText(text, x, y)
   ctx.closePath()
 }
 
 module.exports = class AppSplash {
   constructor() {
-    this.width = 640
-    this.height = 184
+    this.width = 1400
+    this.height = this.width * 0.3
+    // this.height = 184
     this.canvas = new Canvas(this.width, this.height)
     this.ctx = this.canvas.getContext('2d')
   }
 
   renderImage(data) {
-    const _this = this
-    const canvas = _this.canvas
-    const ctx = _this.ctx
+    const canvas = this.canvas
+    const ctx = this.ctx
 
-    const headerHeight = 45
-    const electoralWidth = 430
+    const headerHeight = ctx.canvas.height * 0.26
+    const electoralWidth = ctx.canvas.width * 0.7
     const electoralHeight = ctx.canvas.height - headerHeight
-    const electoralBarHeight = 30
-    const electoralBarPosition = 80
+    const electoralBarHeight = ctx.canvas.height * 0.16
+    const electoralBarPosition = ctx.canvas.height * 0.43
     const mapWidth = ctx.canvas.width - electoralWidth
 
-    const imageWidth = 75
+    const imageWidth = ctx.canvas.width * 0.125
     const electoralBarsWidth = electoralWidth - imageWidth*2
     const startOfBars = imageWidth + ctx.canvas.width - electoralWidth
     const endOfBars = startOfBars + electoralBarsWidth
+
+    const headerFontPadding = headerHeight * 0.1
+    const headerFontSize = headerHeight - headerFontPadding * 5
+    const headerTextPosition = headerHeight - headerFontPadding * 2
+
+    const nameFontSize = electoralBarHeight * 0.533
+    const voteFontSize = electoralBarHeight * 0.766
+    const barTextPadding = electoralBarHeight * 0.26
 
     const configs = {
       headerHeight: headerHeight,
@@ -120,34 +127,58 @@ module.exports = class AppSplash {
     ctx.fill()
 
     // header text 1
-    ctx.fillStyle = newState.clinton.color
-    ctx.font = 'bold '+(headerHeight - 20)+'pt '+bodyFontFamily
-    ctx.fillText('ELECTION', ctx.canvas.width/2 - ctx.measureText('ELECTION2016').width/2, headerHeight - 12)
-    ctx.closePath()
-
+    drawHeaderText(
+      ctx,
+      headerTextPosition,
+      'ELECTION',
+      headerFontSize,
+      newState.clinton.color,
+      0
+    )
     // header text 2
-    ctx.fillStyle = newState.trump.color
-    ctx.font = 'bold '+(headerHeight - 20)+'pt '+bodyFontFamily
-    ctx.fillText('2016', ctx.canvas.width/2 - ctx.measureText('ELECTION2016').width/2 + ctx.measureText('ELECTION').width, headerHeight - 12)
-    ctx.closePath()
+    drawHeaderText(
+      ctx,
+      headerTextPosition,
+      '2016',
+      headerFontSize,
+      newState.trump.color,
+      ctx.measureText('ELECTION').width
+    )
 
     // =========== START --- ELECTORAL BARS ============== //
     // clinton face image
     clintonHead.src = fs.readFileSync(assetPath + '/HILLARY-CLINTON_Head.png')
-    ctx.drawImage(clintonHead, startOfBars - 80, electoralBarPosition + headerHeight + electoralBarHeight - 75, 64, 75)
+    clintonHead.newHeight = ctx.canvas.height * 0.4
+    clintonHead.newWidth = clintonHead.newHeight * 0.85
+    ctx.drawImage(
+        clintonHead, 
+        startOfBars - clintonHead.newWidth - clintonHead.newWidth * 0.2, 
+        electoralBarPosition + headerHeight + electoralBarHeight - clintonHead.newHeight, 
+        clintonHead.newWidth, 
+        clintonHead.newHeight
+    )
+
     // trump face image
     trumpHead.src = fs.readFileSync(assetPath + '/DONALD-TRUMP_Head.png')
-    ctx.drawImage(trumpHead, endOfBars + 10, electoralBarPosition + headerHeight + electoralBarHeight - 75, 59, 75)
+    trumpHead.newHeight = ctx.canvas.height * 0.4
+    trumpHead.newWidth = trumpHead.newHeight * 0.78
+    ctx.drawImage(
+        trumpHead, 
+        endOfBars + trumpHead.newWidth * 0.2, 
+        electoralBarPosition + headerHeight + electoralBarHeight - trumpHead.newHeight, 
+        trumpHead.newWidth, 
+        trumpHead.newHeight
+    )
 
     // clinton votes
-    drawVotes(ctx, startOfBars, headerHeight + electoralBarPosition - 8, newState.clinton.votes)
+    drawText(ctx, startOfBars, headerHeight + electoralBarPosition - barTextPadding, newState.clinton.votes, voteFontSize)
     // trump votes
-    drawVotes(ctx, endOfBars - ctx.measureText(newState.trump.votes).width, headerHeight + electoralBarPosition - 8, newState.trump.votes)
+    drawText(ctx, endOfBars - ctx.measureText(newState.trump.votes).width, headerHeight + electoralBarPosition - barTextPadding, newState.trump.votes, voteFontSize)
 
     // clinton name
-    drawNames(ctx, startOfBars, headerHeight + electoralBarPosition - 32, newState.clinton.name.toUpperCase())
+    drawText(ctx, startOfBars, headerHeight + electoralBarPosition - voteFontSize - barTextPadding * 1.6, newState.clinton.name.toUpperCase(), nameFontSize)
     // trump name
-    drawNames(ctx, endOfBars - ctx.measureText(newState.trump.name.toUpperCase()).width, headerHeight + electoralBarPosition - 32, newState.trump.name.toUpperCase())
+    drawText(ctx, endOfBars - ctx.measureText(newState.trump.name.toUpperCase()).width, headerHeight + electoralBarPosition - voteFontSize - barTextPadding * 1.6, newState.trump.name.toUpperCase(), nameFontSize)
 
     // clinton bar
     drawBar(ctx, startOfBars, headerHeight + electoralBarPosition, newState.clinton.position, electoralBarHeight, newState.clinton.color)
