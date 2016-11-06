@@ -59,9 +59,9 @@ updateSummary(initialJson);
 
 function setTitleSummary(summary) {
   if(summary.nClintonElectoralVotes + summary.nTrumpElectoralVotes > 0) {
-    if(summary.className === "clinton-win") {
+    if(summary.className === "dem-win") {
       document.title = "✔C "+summary.nClintonElectoralVotes+" : "+summary.nTrumpElectoralVotes+" T | "+ originalTitle;
-    } else if(summary.className === "trump-win") {
+    } else if(summary.className === "gop-win") {
       document.title = "C "+summary.nClintonElectoralVotes+" : "+summary.nTrumpElectoralVotes+" T✔ | "+ originalTitle;
     } else {
       document.title = "C "+summary.nClintonElectoralVotes+" : "+summary.nTrumpElectoralVotes+" T | "+ originalTitle;

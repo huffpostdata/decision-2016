@@ -2,20 +2,18 @@
   position: relative;
 
   @media(min-width: $min-desktop-width) {
-  width: 300px;
+    width: 300px;
   }
   
   table {
     width: 100%;
     border-collapse: collapse;
-    &.trump-win,
     &.gop-win {
       tr.winner {
         font-weight: bold;
         background-color: lighten($gop-background, 5);
       }
     }
-    &.clinton-win,
     &.dem-win {
       tr.winner {
         font-weight: bold;
