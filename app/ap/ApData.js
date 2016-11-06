@@ -803,6 +803,14 @@ module.exports = class ApData {
       }
     }
 
+    // Pick Add "district" races
+    ret.ME.president.districts = []
+    ret.NE.president.districts = []
+    const districtRaces = this.presidentRaces().filter(r => r.id.length === 3).sort((a, b) => a.id.localeCompare(b.id))
+    for (const districtRace of districtRaces) {
+      ret[districtRace.id.slice(0, 2)].president.districts.push(districtRace)
+    }
+
     for (const apRace of this.reportingUnitElections.findSenateRaces()) {
       const race = apRaceToSenateRace(apRace)
       const stateId = race.id.slice(0, 2)

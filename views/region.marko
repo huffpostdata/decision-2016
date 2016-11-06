@@ -18,8 +18,29 @@ html lang="en"
       h2.section-header - President
       .section-inner
         aside
-          p - Winner gets <strong>${data.model.races.president.race.nElectoralVotes}</strong> electoral vote${data.model.races.president.race.nElectoralVotes === 1 ? '' : 's'}
+          var nElectoralVotes=(data.model.races.president.districts ? 2 : data.model.races.president.race.nElectoralVotes)
+          p - Winner gets <strong>${nElectoralVotes}</strong> electoral vote${data.model.races.president.race.nElectoralVotes === 1 ? '' : 's'}
           $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'President', race: data.model.races.president.race })}
+
+          if(data.model.races.president.districts)
+            p - ${data.model.name} also assigns an electoral vote to the winner in each district:
+            table.split-vote-districts
+              thead
+                tr
+                  th.district - District
+                  th.winner - Winner
+                  th.votes - Electoral<br>Votes
+              tbody
+                tr data-race-id="${data.model.races.president.race.id}" class="${data.model.races.president.race.className}"
+                  td.district - At Large
+                  td.winner - ${{'dem-win':'Clinton','gop-win':'Trump'}[data.model.races.president.race.className] || '-'}
+                  td.votes - 2
+                for(race in data.model.races.president.districts)
+                  tr data-race-id="${race.id}" class="${race.className}"
+                    td.district - District ${race.id.slice(2)}
+                    td.winner - ${{'dem-win':'Clinton','gop-win':'Trump'}[race.className] || '-'}
+                    td.votes - 1
+
           .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
         .section-main
           $!{data.helpers.partial('dashboard/_legend', { entrySet: 'president' })}
