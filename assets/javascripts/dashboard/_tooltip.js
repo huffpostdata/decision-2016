@@ -12,6 +12,7 @@ function Tooltip(options) {
   this.mapEl = options.mapEl;
   this.tooltip = options.el;
   this.mapType = options.mapType;
+  this.raceType = options.raceType;
   var mapTypeToDataAttribute = {
     geo: 'data-geo-id',
     state: 'data-race-id'
@@ -103,8 +104,6 @@ function Tooltip(options) {
       case 'house':
         cdType = 'HOUSE REP.'
         break
-      case 'geoPresident':
-        cdType = 'PRESIDENT'
       default:
         cdType = 'CANDIDATE'
         break
@@ -195,6 +194,15 @@ function Tooltip(options) {
     var isSeat3Race = /^[A-Z][A-Z]S3$/.test(race.id);
     var isHouseRace = /^[A-Z][A-Z][0-9][0-9]$/.test(race.id);
     var isSingleCandidateRace = race.candidates.length === 1;
+    var isSubcountyGeo = /^[0-9]{10}$/.test(race.id);
+    var isCountyGeo = /^[0-9]{5}$/.test(race.id);
+
+    if (isSubcountyGeo || isCountyGeo) {
+      buildTable(race, _this.raceType);
+      _this.tooltip.style.display = 'block';
+      positionTooltip(ev);
+      return
+    }
 
     if (isPresidentRace) {
       buildTable(race, 'president');
