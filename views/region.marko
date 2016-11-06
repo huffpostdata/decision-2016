@@ -18,7 +18,7 @@ html lang="en"
       h2.section-header - President
       .section-inner
         aside
-          p - The candidate that wins the popular vote in TK state will win all TK of the state’s electoral votes. In 2012, TK won by TK percentage points.
+          p - Winner gets <strong>${data.model.races.president.race.nElectoralVotes}</strong> electoral vote${data.model.races.president.race.nElectoralVotes === 1 ? '' : 's'}
           $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'President', race: data.model.races.president.race })}
           .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
         .section-main
