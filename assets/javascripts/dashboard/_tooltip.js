@@ -110,6 +110,8 @@ function Tooltip(options) {
     if (!race) return;
 
     var table = _this.tooltip.querySelector('.candidate-table');
+    var text = _this.tooltip.querySelector('.inner');
+    text.innerHTML = '';
 
     var isPresidentRace = /^[A-Z][A-Z][0-9]?$/.test(race.id);
     var isSenateRace = /^[A-Z][A-Z]S[123]$/.test(race.id);
