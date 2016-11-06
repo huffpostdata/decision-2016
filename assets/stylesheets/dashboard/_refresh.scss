@@ -1,3 +1,62 @@
+#refresh {
+  display: block;
+  height: 2rem;
+  font-size: .85rem;
+  color: $muted-color;
+
+  button {
+    display: inline-block;
+    background: $refresh-bg;
+    position: relative;
+    padding-left: 2rem;
+    padding-right: .5rem;
+    margin-right: .5rem;
+    font-size: .85rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: black;
+    line-height: 1.5rem;
+    border: 1px solid darken($refresh-bg, 10);
+    outline: none;
+    cursor: pointer;
+
+     &:hover {
+      background-color: darken($refresh-bg, 10);
+    }
+
+    &:active {
+      background-color: darken($refresh-bg, 10);
+    }
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 1.2rem;
+      height: 1.2rem;
+      position: absolute;
+      top: .3rem;
+      left: .4rem;
+      background-image: asset-as-url('digest', 'images/common/refresh.svg');
+      background-size: 100%;
+    }
+  }
+
+  &.loading button::before {
+    animation: spin 1s infinite linear;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-0.001deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(360.001deg);
+  }
+}
+
+
+
 .refresh {
   display: block;
   height: 2rem;
@@ -11,7 +70,7 @@
     padding-left: 2rem;
     padding-right: .5rem;
     margin-right: .5rem;
-    margin-top: .5rem;
+    margin-top: 1rem;
     font-size: .85rem;
     text-transform: uppercase;
     font-weight: bold;
