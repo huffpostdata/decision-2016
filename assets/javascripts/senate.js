@@ -36,7 +36,6 @@ var tooltip = new Tooltip({
 });
 
 function setTitleSummary(summary) {
-  console.log(originalTitle);
   if(summary.totals.dem + summary.totals.gop > 0) {
     if(summary.className === "dem-win") {
       document.title = "✔DEM "+summary.totals.dem+" : "+summary.totals.gop+" REP | "+ originalTitle;

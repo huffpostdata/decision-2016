@@ -37,7 +37,6 @@ var tooltip = new Tooltip({
 });
 
 function setTitleSummary(summary) {
-  console.log(summary.nClintonElectoralVotes);
   if(summary.nClintonElectoralVotes + summary.nTrumpElectoralVotes > 0) {
     if(summary.className === "clinton-win") {
       document.title = "✔C "+summary.nClintonElectoralVotes+" : "+summary.nTrumpElectoralVotes+" T | "+ originalTitle;
