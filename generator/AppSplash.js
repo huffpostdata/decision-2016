@@ -6,8 +6,10 @@ const fs = require('fs')
 const os = require('os')
 const path = require('path')
 
-const assetPath = path.resolve(__dirname, '../raw-assets/splash/')
-const bodyFontFamily = 'Helvetica, Arial, serif'
+process.env.FONTCONFIG_PATH = path.resolve(__dirname, '../raw-assets/fonts')
+
+const assetPath = path.resolve(__dirname, '../raw-assets/splash')
+const bodyFontFamily = 'Proxima Nova Condensed, Helvetica, Arial, serif'
 const totalVotes = 538
 
 function percentOfVotes(votes) {
