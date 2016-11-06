@@ -106,18 +106,24 @@ html, body {
         }
       }
 
-      .clinton::after { background-image: asset-url('digest', 'images/splash/clinton-sad.png'); }
-      .trump::after { background-image: asset-url('digest', 'images/splash/trump-sad.png'); }
+      .clinton::after { background-image: asset-url('digest', 'images/splash/mobile-clinton.png'); }
+      .trump::after { background-image: asset-url('digest', 'images/splash/mobile-trump.png'); }
 
-      &.dem-win .clinton {
-        background-color: $dem-background;
-        &::before { display: block; }
-        &::after { background-image: asset-url('digest', 'images/splash/clinton-happy.png'); }
+      &.dem-win {
+        .clinton {
+          background-color: $dem-background;
+          &::before { display: block; }
+          &::after { background-image: asset-url('digest', 'images/splash/mobile-clinton-happy.png'); }
+        }
+        .trump::after { background-image: asset-url('digest', 'images/splash/mobile-trump-sad.png'); }
       }
-      &.gop-win .trump {
-        background-color: $gop-background;
-        &::before { display: block; }
-        &::after { background-image: asset-url('digest', 'images/splash/trump-happy.png'); }
+      &.gop-win {
+        .trump {
+          background-color: $gop-background;
+          &::before { display: block; }
+          &::after { background-image: asset-url('digest', 'images/splash/mobile-trump-happy.png'); }
+        }
+        .clinton::after { background-image: asset-url('digest', 'images/splash/mobile-clinton-sad.png'); }
       }
 
       strong {
