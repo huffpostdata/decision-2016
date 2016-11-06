@@ -1,4 +1,10 @@
 .map-legend {
+  @media(min-width: $min-desktop-width) {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5rem;
+  }
+  
   table {
     border-collapse: collapse;
   }
@@ -36,6 +42,7 @@
     font-weight: bold;
     font-family: $header-font-family;
     white-space: nowrap;
+    text-align: right;
   }
 
   &.has-tossup tr.tossup { display: table-row; }
