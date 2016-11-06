@@ -21,6 +21,11 @@ splash-bar/:locale:
   collection: translatedSplashBar
   template: splash/bar
 
+mobile-ad/:locale:
+  collection: translatedSplashBar
+  template: splash/mobile-ad
+
+
 # GET /_test/splash/:format
 #
 # A fake Huffington Post front page, with holes where the splash should fit in.
