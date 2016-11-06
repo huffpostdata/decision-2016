@@ -54,46 +54,67 @@ function drawHeaderText(ctx, y, text, size, color, offset) {
   ctx.closePath()
 }
 
-function drawText(ctx, x, y, text, size) {
+function drawText(ctx, x, y, text, size, align) {
+  var align = align ? align : 'left';
   ctx.fillStyle = '#000'
   ctx.font = 'bold '+size+'pt '+bodyFontFamily  
+  ctx.textAlign = align
   ctx.beginPath()
   ctx.fillText(text, x, y)
   ctx.closePath()
 }
 
 module.exports = class AppSplash {
-  constructor() {
-    this.width = 1400
-    this.height = this.width * 0.3
+  constructor(width, device) {
+    this.width = width
+    this.height = device === 'mobile' ? this.width * 0.53 : this.width * 0.3
     // this.height = 184
     this.canvas = new Canvas(this.width, this.height)
     this.ctx = this.canvas.getContext('2d')
+    this.device = device
   }
 
   renderImage(data) {
     const canvas = this.canvas
     const ctx = this.ctx
+    const device = this.device
 
+    if (device === 'mobile') {
+      var electoralWidth = ctx.canvas.width
+    } else {
+      var electoralWidth = ctx.canvas.width * 0.7
+    }
+
+    const imageArea = ctx.canvas.width * 0.125
     const headerHeight = ctx.canvas.height * 0.26
-    const electoralWidth = ctx.canvas.width * 0.7
     const electoralHeight = ctx.canvas.height - headerHeight
     const electoralBarHeight = ctx.canvas.height * 0.16
-    const electoralBarPosition = ctx.canvas.height * 0.43
     const mapWidth = ctx.canvas.width - electoralWidth
 
-    const imageWidth = ctx.canvas.width * 0.125
-    const electoralBarsWidth = electoralWidth - imageWidth*2
-    const startOfBars = imageWidth + ctx.canvas.width - electoralWidth
-    const endOfBars = startOfBars + electoralBarsWidth
+    if (device === 'mobile') {
+      var electoralBarPosition = ctx.canvas.height * 0.5
+      var electoralBarsWidth = electoralWidth - ctx.canvas.width * 0.02 * 2
+      var startOfBars = ctx.canvas.width * 0.02
+      var endOfBars = startOfBars + electoralBarsWidth
+      var nameFontSize = electoralBarHeight * 0.4
+      var voteFontSize = electoralBarHeight * 0.666
+      var barTextPadding = electoralBarHeight * 0.26
+      var headerFontPadding = headerHeight * 0.1
+      var headerFontSize = headerHeight - headerFontPadding * 6.2
+      var headerTextPosition = headerHeight - headerFontPadding * 3
+    } else {
+      var electoralBarPosition = ctx.canvas.height * 0.43
+      var electoralBarsWidth = electoralWidth - imageArea*2
+      var startOfBars = imageArea + ctx.canvas.width - electoralWidth
+      var endOfBars = startOfBars + electoralBarsWidth
+      var nameFontSize = electoralBarHeight * 0.533
+      var voteFontSize = electoralBarHeight * 0.766
+      var barTextPadding = electoralBarHeight * 0.26
+      var headerFontPadding = headerHeight * 0.1
+      var headerFontSize = headerHeight - headerFontPadding * 5
+      var headerTextPosition = headerHeight - headerFontPadding * 2
+    }
 
-    const headerFontPadding = headerHeight * 0.1
-    const headerFontSize = headerHeight - headerFontPadding * 5
-    const headerTextPosition = headerHeight - headerFontPadding * 2
-
-    const nameFontSize = electoralBarHeight * 0.533
-    const voteFontSize = electoralBarHeight * 0.766
-    const barTextPadding = electoralBarHeight * 0.26
 
     const configs = {
       headerHeight: headerHeight,
@@ -150,10 +171,17 @@ module.exports = class AppSplash {
     clintonHead.src = fs.readFileSync(assetPath + '/HILLARY-CLINTON_Head.png')
     clintonHead.newHeight = ctx.canvas.height * 0.4
     clintonHead.newWidth = clintonHead.newHeight * 0.85
+    if (device === 'mobile') {
+      var clintonHeadX = startOfBars
+      var clintonHeadY = electoralBarPosition + headerHeight - clintonHead.newHeight - barTextPadding
+    } else {
+      var clintonHeadX = startOfBars - clintonHead.newWidth - clintonHead.newWidth * 0.2
+      var clintonHeadY = electoralBarPosition + headerHeight + electoralBarHeight - clintonHead.newHeight
+    }
     ctx.drawImage(
         clintonHead, 
-        startOfBars - clintonHead.newWidth - clintonHead.newWidth * 0.2, 
-        electoralBarPosition + headerHeight + electoralBarHeight - clintonHead.newHeight, 
+        clintonHeadX, 
+        clintonHeadY, 
         clintonHead.newWidth, 
         clintonHead.newHeight
     )
@@ -162,33 +190,50 @@ module.exports = class AppSplash {
     trumpHead.src = fs.readFileSync(assetPath + '/DONALD-TRUMP_Head.png')
     trumpHead.newHeight = ctx.canvas.height * 0.4
     trumpHead.newWidth = trumpHead.newHeight * 0.78
+    if (device === 'mobile') {
+      var trumpHeadX = endOfBars - trumpHead.newWidth
+      var trumpHeadY = electoralBarPosition + headerHeight - trumpHead.newHeight - barTextPadding
+    } else {
+      var trumpHeadX = endOfBars + trumpHead.newWidth * 0.2
+      var trumpHeadY = electoralBarPosition + headerHeight + electoralBarHeight - trumpHead.newHeight
+    }
     ctx.drawImage(
         trumpHead, 
-        endOfBars + trumpHead.newWidth * 0.2, 
-        electoralBarPosition + headerHeight + electoralBarHeight - trumpHead.newHeight, 
+        trumpHeadX, 
+        trumpHeadY, 
         trumpHead.newWidth, 
         trumpHead.newHeight
     )
 
+    if (device === 'mobile') {
+      var clintonTextX = startOfBars + clintonHead.newWidth + barTextPadding
+      var trumpTextX = endOfBars - trumpHead.newWidth - barTextPadding
+      var textYOffset = barTextPadding * 1.2
+    } else {
+      var clintonTextX = startOfBars
+      var trumpTextX = endOfBars
+      var textYOffset = 0 
+    }
+
     // clinton votes
-    drawText(ctx, startOfBars, headerHeight + electoralBarPosition - barTextPadding, newState.clinton.votes, voteFontSize)
+    drawText(ctx, clintonTextX, headerHeight + electoralBarPosition - barTextPadding - textYOffset, newState.clinton.votes, voteFontSize)
     // trump votes
-    drawText(ctx, endOfBars - ctx.measureText(newState.trump.votes).width, headerHeight + electoralBarPosition - barTextPadding, newState.trump.votes, voteFontSize)
+    drawText(ctx, trumpTextX, headerHeight + electoralBarPosition - barTextPadding - textYOffset, newState.trump.votes, voteFontSize, 'right')
 
     // clinton name
-    drawText(ctx, startOfBars, headerHeight + electoralBarPosition - voteFontSize - barTextPadding * 1.6, newState.clinton.name.toUpperCase(), nameFontSize)
+    drawText(ctx, clintonTextX, headerHeight + electoralBarPosition - voteFontSize - textYOffset - barTextPadding * 1.6, newState.clinton.name.toUpperCase(), nameFontSize)
     // trump name
-    drawText(ctx, endOfBars - ctx.measureText(newState.trump.name.toUpperCase()).width, headerHeight + electoralBarPosition - voteFontSize - barTextPadding * 1.6, newState.trump.name.toUpperCase(), nameFontSize)
+    drawText(ctx, trumpTextX, headerHeight + electoralBarPosition - voteFontSize - textYOffset - barTextPadding * 1.6, newState.trump.name.toUpperCase(), nameFontSize, 'right')
 
     // clinton bar
     drawBar(ctx, startOfBars, headerHeight + electoralBarPosition, newState.clinton.position, electoralBarHeight, newState.clinton.color)
 
     // trump bar
-    drawBar(ctx, ctx.canvas.width - newState.trump.position - imageWidth, headerHeight + electoralBarPosition, newState.trump.position, electoralBarHeight, newState.trump.color)
+    drawBar(ctx, endOfBars - newState.trump.position, headerHeight + electoralBarPosition, newState.trump.position, electoralBarHeight, newState.trump.color)
 
     // bar stroke
     ctx.strokeStyle = '#000'
-    ctx.lineWidth = 2
+    ctx.lineWidth = device === 'mobile' ? 1 : 2
     ctx.beginPath()
     ctx.rect(startOfBars, headerHeight + electoralBarPosition, electoralBarsWidth, electoralBarHeight)
     ctx.closePath()
@@ -196,7 +241,7 @@ module.exports = class AppSplash {
 
     // bar stroke center top 
     ctx.strokeStyle = '#000'
-    ctx.lineWidth = 2
+    ctx.lineWidth = device === 'mobile' ? 1 : 2
     ctx.beginPath()
     ctx.moveTo(ctx.canvas.width - electoralWidth/2, headerHeight + electoralBarPosition)
     ctx.lineTo(ctx.canvas.width - electoralWidth/2, headerHeight + electoralBarPosition + electoralBarHeight/4)
@@ -205,7 +250,7 @@ module.exports = class AppSplash {
 
     // bar stroke center bottom 
     ctx.strokeStyle = '#000'
-    ctx.lineWidth = 2
+    ctx.lineWidth = device === 'mobile' ? 1 : 2
     ctx.beginPath()
     ctx.moveTo(ctx.canvas.width - electoralWidth/2, headerHeight + electoralBarPosition + electoralBarHeight)
     ctx.lineTo(ctx.canvas.width - electoralWidth/2, headerHeight + electoralBarPosition + electoralBarHeight - electoralBarHeight/4)

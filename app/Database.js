@@ -62,7 +62,8 @@ module.exports = class Database {
   constructor() {
     const google_docs = new GoogleDocs(read_config('google-docs'))
     const google_sheets = new GoogleSheets(read_config('google-sheets'))
-    const appSplash = new AppSplash()
+    const appSplashTablet = new AppSplash(1400, 'tablet')
+    const appSplashMobile = new AppSplash(375, 'mobile')
     const translations = invertTranslations(google_sheets.slug_to_array('translations'));
     const apData = ap_fs.load()
     const changelog = ap_fs.loadChangelogEntries()
@@ -137,8 +138,9 @@ module.exports = class Database {
       changelog: this.house.changelog
     }))
 
-    this.appSplashTabletJpg = Buffer.from(appSplash.renderImage(summaries.president))
+    this.appSplashTabletJpg = Buffer.from(appSplashTablet.renderImage(summaries.president))
 
+    this.appSplashMobileJpg = Buffer.from(appSplashMobile.renderImage(summaries.president))
     const regionIdToRaces = apData.allRaceDetails()
     this.regions = Object.keys(regionIdToRaces).map(regionId => {
       const metadata = new PageMetadata(`state/${regionId}`, {
