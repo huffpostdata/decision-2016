@@ -66,14 +66,14 @@ function Tooltip(options) {
         summaryFigure = race.fractionReporting;
         htmlInject = [
           '<h3 class="state-name">' + race.name + '</h3>',
-          '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of votes counted</p>'
+          '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of vote counted</p>'
         ]
         break;
       case 'house':
         summaryFigure = race.fractionReporting;
         htmlInject = [
           '<h3 class="state-name">' + race.name + '</h3>',
-          '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of votes counted</p>'
+          '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of vote counted</p>'
         ]
         break;
     }
