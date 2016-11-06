@@ -1,6 +1,6 @@
 $yay-color: #d7e4bd;
 $nay-color: #e0cde4;
-$gop-lead-color: #FBC2A7;
+$gop-lead-color: #f9b9a7;
 $dem-lead-color: #BBCCE9;
 $grn-color: #A2C667;
 $grn-lead-color: #D7E4BD;
@@ -8,3 +8,14 @@ $lib-color: #F0C51E;
 $lib-lead-color: #F8E3A8;
 $bfa-color: #db61b9;
 $bfa-lead-color: #edced7;
+$other-lead-color: #E5D9EB;
+
+// Sets &.dem-lead { property: $dem-lead-color; }, etc.
+@mixin party-lead-colors($property) {
+  &.dem-lead { #{$property}: $dem-lead-color; }
+  &.gop-lead { #{$property}: $gop-lead-color; }
+  &.lib-lead { #{$property}: $lib-lead-color; }
+  &.grn-lead { #{$property}: $grn-lead-color; }
+  &.bfa-lead { #{$property}: $bfa-lead-color; }
+  &.other-lead { #{$property}: $other-lead-color; }
+}
