@@ -47,12 +47,14 @@
   &.has-bfa-win, &.has-bfa-lead { tr.bfa { display: table-row; } }
 
   &.has-other-win, &.has-other-lead { tr.other { display: table-row; } }
+  &.has-dem-prior { tr.dem-prior { display: table-row; } }
 
   td.dem-win { background: $dem-color; }
   td.gop-win { background: $gop-color; }
   td.lib-win { background: $lib-color; }
   td.grn-win { background: $grn-color; }
   td.bfa-win { background: $bfa-color; }
+  td.dem-prior-win { background: $very-very-muted-color; }
 
   td.dem-lead { background: $dem-lead-color; }
   td.gop-lead { background: $gop-lead-color; }

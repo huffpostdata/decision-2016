@@ -4,5 +4,6 @@
   { "slug": "lib", "name": "Johnson" },
   { "slug": "grn", "name": "Stein" },
   { "slug": "bfa", "name": "McMullin" },
-  { "slug": "other", "name": "Other" }
+  { "slug": "other", "name": "Other" },
+  { "slug": "tossup", "name": "No Result" }
 ]

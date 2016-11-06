@@ -1,4 +1,4 @@
-var entries=require('./' + (data.model.entrySet === 'president' ? 'President' : 'Party') + 'LegendEntries')
+var entries=require('./' + (data.model.entrySet === 'president' ? 'President' : (data.model.entrySet === 'senate' ? 'Senate' : 'Party')) + 'LegendEntries')
 
 .map-legend
   table
@@ -12,10 +12,10 @@ var entries=require('./' + (data.model.entrySet === 'president' ? 'President' : 
       for(entry in entries)
         tr.${entry.slug}
           td.name - ${entry.name}
-          td.${entry.slug}-win
-          td.${entry.slug}-lead
-      tr.tossup
-        td.name - No result
-        td.tossup
-        <!-- "tossup-lead" helps with clever CSS selectors -->
-        td.tossup-lead
+          if(entry.slug == 'tossup')
+            td.tossup
+            <!-- "tossup-lead" helps with clever CSS selectors -->
+            td.tossup-lead
+          else
+            td.${entry.slug}-win
+            td.${entry.slug}-lead

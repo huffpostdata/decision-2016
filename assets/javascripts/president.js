@@ -24,7 +24,7 @@ Map.loadSvg({
     svg: svg,
     idAttribute: 'data-race-id',
     races: initialJson.races,
-    legendEl: document.createElement('div') // TK
+    legendEl: document.querySelector('.map-legend')
   });
 
   tooltip = new Tooltip({

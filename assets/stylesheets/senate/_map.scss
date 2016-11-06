@@ -7,16 +7,19 @@ body.senate #map {
     font-size: 22px;
   }
 
-  path.mesh {
-    stroke-width: 3px;
-  }
+  path {
+    stroke: $background;
+    stroke-width: 2px;
 
-  path { fill: $very-very-muted-color; } // TK delete me! Figure out all the class names
-  path.dem-win { fill: $dem-color; }
-  path.dem-lead { fill: $dem-lead-color; }
-  path.gop-win { fill: $gop-color; }
-  path.gop-lead { fill: $gop-lead-color; }
-  path.other-win { fill: $other-color; }
-  path.other-lead { fill: $other-lead-color; }
-  path.tossup { fill: $tossup-color; }
+    &.dem-prior, &.gop-prior { fill: $very-very-muted-color; }
+    &.tossup { fill: $tossup-color; }
+    @include party-win-colors('fill');
+    @include party-lead-colors('fill');
+
+    &.mesh {
+      fill: none;
+      stroke: $background;
+      stroke-width: 4px;
+    }
+  }
 }
