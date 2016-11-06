@@ -12,11 +12,11 @@ function Tooltip(options) {
   this.mapEl = options.mapEl;
   this.tooltip = options.el;
   this.mapType = options.mapType;
-  var mapTypeSwitch = {
+  var mapTypeToDataAttribute = {
     geo: 'data-geo-id',
     state: 'data-race-id'
   }
-  this.dataAttrAccessor = mapTypeSwitch[options.mapType];
+  this.dataAttrAccessor = mapTypeToDataAttribute[options.mapType];
 
   this.stateName = this.tooltip.querySelector('.state-name');
   this.stateSummary = this.tooltip.querySelector('.state-summary');
@@ -138,7 +138,7 @@ function Tooltip(options) {
     table.innerHTML = htmlInject.join('');
   }
 
-  function buildSingleCandidateSummary(race) {
+  function buildSingleCandidateRace(race) {
     var distName = race.name;
     var textEl = _this.tooltip.querySelector('.inner');
     var table = _this.tooltip.querySelector('.candidate-table');
@@ -154,8 +154,7 @@ function Tooltip(options) {
     textEl.innerHTML = injectHtml.join('');
   }
 
-  function buildIncumbentSummary(race) {
-    console.log(race);
+  function buildSenateNonRace(race) {
     var textEl = _this.tooltip.querySelector('.inner');
     var table = _this.tooltip.querySelector('.candidate-table');
     var candidate = race.candidates[0];
@@ -190,23 +189,47 @@ function Tooltip(options) {
     var raceId = ev.target.getAttribute(_this.dataAttrAccessor);
     var race = _this.raceData[raceId];
     if (!race) return;
-    if (options.raceType === 'senate' && /^[A-Z][A-Z]S/.test(race.id) && !/^[A-Z][A-Z]S3$/.test(race.id)) {
-      // check if the map is a senate race, if that race has a seat id (for not running on region page), if that seat id is not 3
-      // TK handle senate incumbents
+
+    var isPresidentRace = /^[A-Z][A-Z][0-9]?$/.test(race.id);
+    var isSenateRace = /^[A-Z][A-Z]S[123]$/.test(race.id);
+    var isSeat3Race = /^[A-Z][A-Z]S3$/.test(race.id);
+    var isHouseRace = /^[A-Z][A-Z][0-9][0-9]$/.test(race.id);
+    var isSingleCandidateRace = race.candidates.length === 1;
+
+    if (isPresidentRace) {
+      buildTable(race, 'president');
       _this.tooltip.style.display = 'block';
-      buildIncumbentSummary(race);
-      return;
+      positionTooltip(ev);
+      return
     }
 
-    if (options.raceType === 'house' && race.candidates.length === 1) {
-      _this.tooltip.style.display = 'block';
-      buildSingleCandidateSummary(race);
-      return;
+    if (isHouseRace) {
+      if(isSingleCandidateRace) {
+        buildSingleCandidateRace(race);
+        _this.tooltip.style.display = 'block';
+        positionTooltip(ev);
+        return;
+      } else {
+        buildTable(race, 'house');
+        _this.tooltip.style.display = 'block';
+        positionTooltip(ev);
+        return
+      }
     }
 
-    buildTable(race, options.raceType);
-    _this.tooltip.style.display = 'block';
-    positionTooltip(ev);
+    if (isSenateRace) {
+      if(!isSeat3Race) {
+        buildSenateNonRace(race);
+        _this.tooltip.style.display = 'block';
+        positionTooltip(ev);
+        return;
+      } else {
+        buildTable(race, 'senate');
+        _this.tooltip.style.display = 'block';
+        positionTooltip(ev);
+        return
+      }
+    }
   }
 
   function onMouseOut(ev) {
