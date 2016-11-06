@@ -80,3 +80,15 @@ house.json:
   headers:
     Content-Type: application/json
     Cache-Control: public, max-age=5
+
+app-splash-tablet.jpg:
+  model: appSplashTabletJpg
+  headers:
+    Content-Type: image/jpg
+    Cache-Control: public, max-age=5
+
+app-splash-mobile.jpg:
+  model: appSplashMobileJpg
+  headers:
+    Content-Type: image/jpg
+    Cache-Control: public, max-age=5
