@@ -8,6 +8,7 @@ javascript:
 
 scss:
   dashboard.css: stylesheets/dashboard.scss
+  mobile-ad.css: stylesheets/mobile-ad.scss
   splash.css: stylesheets/splash.scss
   splash-desktop.css: stylesheets/splash-desktop.scss
   splash-bar.css: stylesheets/splash-bar.scss

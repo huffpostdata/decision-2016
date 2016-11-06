@@ -1,0 +1,146 @@
+@import 'proxima-nova-condensed-extra-bold';
+@import '_variables';
+@import 'splash/_variables';
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#mobile {
+  font-family: $body-font-family;
+  text-decoration: none;
+  color: $color;
+
+  .details {
+    text-align: center;
+  }
+
+  .columns {
+    display: flex;
+    justify-content: center;
+    flex: 1 1 auto;
+
+    &>* {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  .column-president {
+    padding-right: 1rem;
+  }
+
+  .column-senate-house {
+    padding-left: 1.5rem;
+    .races{
+      display: flex;
+      &>* {
+        width: 100%;
+        text-align: center;
+        padding: 5px;
+        margin-top: 5px;
+      }
+      &.dem-win .dem{ background-color: $dem-prior-color; }
+      &.gop-win .gop{ background-color: $gop-prior-color; }
+      .dem { color: $dem-color; }
+      .gop { color: $gop-color; }
+    }
+  }
+
+  h2 {
+    font-family: $header-font-family;
+    font-size: 1.25rem;
+    @include ar-font-size(1.35rem);
+    margin: 0;
+    border-bottom: 1px solid $color;
+    text-align: center;
+  }
+
+  h3 {
+    font-family: $header-font-family;
+    font-size: 0.8rem;
+    @include ar-font-size(0.9rem);
+    padding: 7px 0;
+    margin: 0;
+  }
+
+  p.details {
+    font-size: .85rem;
+    @include ar-font-size(.95rem);
+    font-style: italic;
+    text-decoration: underline;
+  }
+
+  #president {
+    .electoral-votes {
+      .clinton, .trump {
+        height: 2rem;
+        padding: .5rem .5rem .25rem 4rem; // left is for bust and "win"
+        display: flex;
+        border-bottom: 1px solid $color;
+        position: relative;
+
+        &::before {
+          display: none;
+          content: '✔';
+          position: absolute;
+          font-size: .8rem;
+          left: .2rem;
+          top: .85rem;
+          z-index: 1;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 1rem;
+          width: 2.5rem;
+          height: 2.5rem;
+          top: 0;
+          background-size: 100%;
+          background-repeat: no-repeat;
+          background-position: bottom center;
+        }
+      }
+
+      .clinton::after { background-image: asset-url('digest', 'images/splash/mobile-clinton.png'); }
+      .trump::after { background-image: asset-url('digest', 'images/splash/mobile-trump.png'); }
+
+      &.dem-win {
+        .clinton {
+          background-color: $dem-background;
+          &::before { display: block; }
+          &::after { background-image: asset-url('digest', 'images/splash/mobile-clinton-happy.png'); }
+        }
+        .trump::after { background-image: asset-url('digest', 'images/splash/mobile-trump-sad.png'); }
+      }
+      &.gop-win {
+        .trump {
+          background-color: $gop-background;
+          &::before { display: block; }
+          &::after { background-image: asset-url('digest', 'images/splash/mobile-trump-happy.png'); }
+        }
+        .clinton::after { background-image: asset-url('digest', 'images/splash/mobile-clinton-sad.png'); }
+      }
+
+      strong {
+        font-size: 2rem;
+        line-height: 2rem;
+        font-family: $header-font-family;
+      }
+
+      .popular {
+        font-size: .75rem;
+        line-height: .9rem;
+        padding-left: .5rem;
+        color: $muted-color;
+      }
+
+      .clinton strong { color: $dem-color; }
+      .trump strong { color: $gop-color; }
+    }
+  }
+}
