@@ -13,7 +13,6 @@ html lang="en"
 
     header
       h1 - ${data.model.name}
-      $!{data.helpers.partial('dashboard/_refresh')}
 
     section.president
       h2.section-header - President
@@ -21,6 +20,7 @@ html lang="en"
         aside
           p - The candidate that wins the popular vote in TK state will win all TK of the state’s electoral votes. In 2012, TK won by TK percentage points.
           $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'President', race: data.model.races.president.race })}
+          .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
         .section-main
           $!{data.helpers.partial('dashboard/_legend', { entrySet: 'president' })}
           .geo-map.president-map - $!{data.helpers.geoSvg(data.model.id)}
@@ -32,6 +32,7 @@ html lang="en"
           aside
             p - TK state currently has N TK party Senators.
             $!{data.helpers.partial('region/_candidate-table', { candidateTh: 'Senator', race: data.model.races.senate.race })}
+            .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
           .section-main
             $!{data.helpers.partial('dashboard/_legend', { entrySet: 'senate' })}
             .geo-map.senate-map - $!{data.helpers.geoSvg(data.model.id)}
@@ -44,6 +45,7 @@ html lang="en"
           p.percent-reporting - TK percent reporting
           $!{data.helpers.partial('dashboard/_legend', { entrySet: 'house' })}
           .house-map - $!{data.helpers.districtSvg(data.model.id)}
+          .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
         .section-main - $!{data.helpers.partial('region/_house-races')}
 
     if(data.model.races.ballot.length)
@@ -53,6 +55,7 @@ html lang="en"
           aside
             p - TK is voting on TK statewide ballot initiatives.
             p.percent-reporting - TK percent reporting
+            .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
           .section-main - $!{data.helpers.partial('region/_ballot-races')}
 
     $!{data.helpers.partial('_footer')}

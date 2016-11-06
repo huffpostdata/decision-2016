@@ -71,5 +71,4 @@ function doRefresh(json) {
   }
 }
 
-var refreshEl = document.getElementById('refresh');
-refresh(refreshEl, script.getAttribute('data-url'), doRefresh);
+refresh(document.querySelectorAll('.section-inner div.refresh'), script.getAttribute('data-url'), doRefresh);
