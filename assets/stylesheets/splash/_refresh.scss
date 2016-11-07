@@ -2,8 +2,9 @@
   min-width: 980px;
   max-width: 1070px;
   margin: 0 auto;
-  text-align: center;
+  text-align: left;
   width: 100%;
+  position: relative;
   &.loading button::after {
     animation: spin 1s infinite linear;
   }
@@ -15,8 +16,13 @@
   color: #aaa;
   border-radius: 4px;
   padding: 2px 20px;
-  margin: 10px auto;
   font-size: 11px;
+  position: relative;
+  display: block;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-100%);
+  margin: 10px 0;
   &:after {
     content: '';
     background: asset-as-url('digest', 'images/splash/refresh.svg');
@@ -34,6 +40,11 @@
   color: #bbb;
   font-size: 12px;
   padding-left: 10px;
+  position: absolute;
+  display: block;
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 @keyframes spin {
