@@ -140,9 +140,9 @@ module.exports = class Database {
       changelog: this.house.changelog
     }))
 
-    this.appSplashTabletJpg = Buffer.from(appSplashTablet.renderImage(summaries.president))
-
+    this.appSplashTabletJpg = Buffer.from(appSplashTablet.renderImage(summaries.president, presidentRaces))
     this.appSplashMobileJpg = Buffer.from(appSplashMobile.renderImage(summaries.president))
+
     const regionIdToRaces = apData.allRaceDetails()
     this.regions = Object.keys(regionIdToRaces).map(regionId => {
       const metadata = new PageMetadata(`state/${regionId}`, {
