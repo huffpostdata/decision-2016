@@ -40,23 +40,33 @@ html lang="en"
         window.location.hash = ev.target.getAttribute('href');
       });
 
+      function sampleUrl(embedUrl, locale) {
+        // The iframe URL
+        return embedUrl.replace('LOCALE', locale);
+      }
+
+      function realUrl(sampleUrl) {
+        // The production URL -- even if editors are reading from staging
+        return sampleUrl.replace(/http:\/\/[^\/]+/, 'http://elections.huffingtonpost.com')
+      }
+
       function refreshFromHash() {
         var locale = window.location.hash.slice(1) || 'en';
 
-        var mobileAdCode = '<iframe width="320" height="200" scrolling="no" style="border:0" src="' + mobileUrlTemplate.replace('LOCALE', locale) + '"></iframe>';
+        var mobileAdCode = '<iframe width="320" height="200" scrolling="no" style="border:0" src="' + sampleUrl(mobileUrlTemplate, locale) + '"></iframe>';
         var mobileHtml = '<h1>Post-election mobile-splash embed code</h1><pre></pre><h3>Preview</h3>' + mobileAdCode;
         mobilePreview.innerHTML = mobileHtml;
-        mobilePreview.querySelector('pre').textContent = mobileAdCode;
+        mobilePreview.querySelector('pre').textContent = realUrl(mobileAdCode);
 
-        var embedCode = '<iframe width="980" height="810" scrolling="no" style="border:0" src="' + urlTemplate.replace('LOCALE', locale) + '"></iframe>';
+        var embedCode = '<iframe width="980" height="810" scrolling="no" style="border:0" src="' + sampleUrl(urlTemplate, locale) + '"></iframe>';
         var html = '<h1>During-election full-splash embed code</h1><pre></pre><h3>Preview</h3>' + embedCode;
         preview.innerHTML = html;
-        preview.querySelector('pre').textContent = embedCode;
+        preview.querySelector('pre').textContent = realUrl(embedCode);
 
-        var barEmbedCode = '<iframe width="980" height="170" scrolling="no" style="border:0" src="' + barUrlTemplate.replace('LOCALE', locale) + '"></iframe>';
+        var barEmbedCode = '<iframe width="980" height="170" scrolling="no" style="border:0" src="' + sampleUrl(barUrlTemplate, locale) + '"></iframe>';
         var barHtml = '<h1>Post-election results embed code</h1><pre></pre><h3>Preview</h3>' + barEmbedCode;
         barPreview.innerHTML = barHtml;
-        barPreview.querySelector('pre').textContent = barEmbedCode;
+        barPreview.querySelector('pre').textContent = realUrl(barEmbedCode);
       }
 
       window.addEventListener('hashchange', refreshFromHash);
