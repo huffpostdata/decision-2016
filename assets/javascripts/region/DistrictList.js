@@ -14,6 +14,9 @@ function setPercent(td, candidate, nVotes) {
 
 function DistrictList(options) {
   if (!options.el) throw new Error('Must pass options.el, an HTMLElement');
+  this.el = options.el;
+
+  this.highlightedRaceId = null;
 
   this.raceIdToDom = {};
   var trs = options.el.querySelectorAll('tr[data-race-id]');
@@ -28,6 +31,52 @@ function DistrictList(options) {
     };
   }
 }
+
+DistrictList.prototype.addHoverListener = function(callback) {
+  var _this = this;
+  var table = this.el.querySelector('tbody');
+  table.addEventListener('mouseover', function(ev) {
+    var target = ev.target || ev.srcElement;
+    while (target !== table) {
+      if (target.hasAttribute('data-race-id')) {
+        callback(_this, target.getAttribute('data-race-id'), ev);
+      }
+      target = target.parentNode;
+    }
+  });
+  table.addEventListener('mouseout', function(ev) {
+    callback(null);
+  });
+};
+
+DistrictList.prototype.addMouseClickListener = function(callback) {
+  return
+};
+
+DistrictList.prototype.getDesiredTooltipPosition = function(raceId, el, ev) {
+  var tooltipBox = el.getBoundingClientRect();
+  var tr = this.raceIdToDom[raceId].tr || this.el.races;
+  var trBox = tr.getBoundingClientRect();
+
+  var top = window.pageYOffset + trBox.bottom + 10;
+  var left = window.pageXOffset + trBox.left + (trBox.width / 2) - (tooltipBox.width / 2);
+
+  var windowRight = document.documentElement.clientWidth;
+  if (left < 0) left = 0;
+  if (left + tooltipBox.width > windowRight) {
+    left = windowRight - tooltipBox.width;
+  }
+
+  return { top: top, left: left };
+};
+
+DistrictList.prototype.highlightRace = function(raceIdOrNull) {
+  if (!this.raceIdToDom.hasOwnProperty(raceIdOrNull)) raceId = null;
+  if (raceIdOrNull === this.highlightedRaceId) return;
+  if (this.highlightedRaceId) this.raceIdToDom[this.highlightedRaceId].tr.classList.remove('highlight');
+  this.highlightedRaceId = raceIdOrNull;
+  if (this.highlightedRaceId) this.raceIdToDom[this.highlightedRaceId].tr.classList.add('highlight');
+};
 
 DistrictList.prototype.update = function(races) {
   for (var i = 0; i < races.length; i++) {

@@ -49,11 +49,10 @@ body.region {
   }
 
   .house-races {
-    div, th{
-      pointer-events: none;
-    }
-    td {
-      pointer-events: all;
+    tr.highlight {
+      td {
+        background-color: $highlight-background;
+      }
     }
   }
 

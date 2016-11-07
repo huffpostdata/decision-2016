@@ -44,15 +44,17 @@ var houseMap = DistrictMap({
   legendEl: document.querySelector('section.house .map-legend'),
   races: initialJson.house
 });
-var houseTooltip = new Tooltip({
-  el: document.getElementById('tooltip'),
-  views: [ houseMap ],
-  races: initialJson.house
-})
 
 var districtList = new DistrictList({
   el: document.querySelector('.house-races')
 });
+
+var houseTooltip = new Tooltip({
+  el: document.getElementById('tooltip'),
+  views: [ houseMap, districtList ],
+  races: initialJson.house,
+  mapType: 'geo'
+})
 
 var ballotDiv = document.querySelector('.ballot-races');
 var ballotRaces = null;

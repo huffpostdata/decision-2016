@@ -100,12 +100,4 @@ Summary.prototype.refreshRaces = function(races) {
   }
 };
 
-Summary.prototype.highlightRace = function(raceIdOrNull) {
-  if (!this.raceIdToLi.hasOwnProperty(raceIdOrNull)) raceIdOrNull = null;
-  if (raceIdOrNull === this.highlightedRaceId) return;
-  if (this.highlightedRaceId) this.raceIdToLi[this.highlightedRaceId].classList.remove('highlight');
-  this.highlightedRaceId = raceIdOrNull;
-  if (this.highlightedRaceId) this.raceIdToLi[this.highlightedRaceId].classList.add('highlight');
-};
-
 module.exports = Summary;
