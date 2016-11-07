@@ -71,7 +71,13 @@ module.exports = {
       tooltipEl.style.display = 'none';
       document.body.appendChild(tooltipEl);
 
-      tooltip = new Tooltip({ el: tooltipEl, views: [ map ], races: races, i18n: i18n });
+      tooltip = new Tooltip({
+        el: tooltipEl,
+        views: [ map ],
+        races: races,
+        i18n: i18n,
+        urlTemplate: mapContainerEl.getAttribute('data-url-template')
+      });
     });
   },
 

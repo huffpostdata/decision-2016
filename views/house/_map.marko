@@ -1,3 +1,3 @@
 <!-- We'll let JS load the SVG and inject it into the document. That lets us
      style and script it, even cross-origin. -->
-#map.cartogram.loading data-src="${data.path_to_asset('digest', 'maps/house.svg')}"
+#map.cartogram.loading data-url-template="${data.path_to('state/:id', 'XX')}#house" data-src="${data.path_to_asset('digest', 'maps/house.svg')}"
