@@ -28,6 +28,11 @@ window.decision2016_init = function(data, showRightRail) {
     battlegrounds.render({ 'battlegrounds': data.battlegrounds, 'races': data.races }, i18n);
     seats.renderHouse(data.summaries.house, i18n);
     seats.renderSenate(data.summaries.senate, i18n);
+  } else {
+    var rightRail = document.querySelector('.decision-iframe__splash__right')
+    if (rightRail) {
+      rightRail.parentNode.removeChild(rightRail);
+    }
   }
 
   function doRefresh(json) {
