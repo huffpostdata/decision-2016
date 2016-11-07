@@ -15,6 +15,7 @@ $max-mobile-width: 639px;
 $min-desktop-width: 640px;
 
 @mixin with-width($width) {
+  width: 100%;
   max-width: $width;
   margin-left: auto;
   margin-right: auto;
@@ -23,6 +24,7 @@ $min-desktop-width: 640px;
     // left/right margins are min 16px, max auto.
     @media (max-width: $width + 32px) {
       // We're assuming 16px == 1rem, though it isn't strictly necessary
+      width: auto;
       margin-left: 16px;
       margin-right: 16px;
     }
