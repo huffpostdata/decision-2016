@@ -20,10 +20,7 @@ html lang="en"
       .section-inner
         aside
           var nElectoralVotes=(data.model.races.president.districts ? 2 : data.model.races.president.race.nElectoralVotes)
-          if(nElectoralVotes == 2)
-            p - The most popular candidate wins the <strong>2</strong> "at-large" electoral votes.
-          else
-            p - The most popular candidate wins <strong>${nElectoralVotes}</strong> electoral votes.
+          p - Winner gets <strong>${nElectoralVotes}</strong> electoral votes.
 
           <div class="candidate-table">$!{buildCandidateTableHTML(data.model.races.president.race)}</div>
 
@@ -70,7 +67,7 @@ html lang="en"
       h2.section-header - House
       .section-inner
         aside
-          p - ${data.model.name} has ${data.model.races.house.length} ${data.model.races.house.length == 1 ? 'House seat' : 'House seats'}, and ${data.model.races.house.length == 1 ? 'it is' : (data.model.races.house.length == 2 ? 'both are' : 'all are')} up for re-election.
+          p - ${data.model.name} has <strong>${data.model.races.house.length}</strong> ${data.model.races.house.length == 1 ? 'House seat' : 'House seats'}. ${data.model.races.house.length == 1 ? 'It is' : (data.model.races.house.length == 2 ? 'Both are' : 'All are')} up for re-election.
           $!{data.helpers.partial('dashboard/_legend', { entrySet: 'house' })}
           .house-map - $!{data.helpers.districtSvg(data.model.id)}
           .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
@@ -81,7 +78,7 @@ html lang="en"
         h2.section-header - Ballot Initiatives
         .section-inner
           aside
-            p - ${data.model.name} is voting on ${data.model.races.ballot.length} statewide ballot ${data.model.races.ballot.length == 1 ? 'initiative' : 'initiatives'}.
+            p - ${data.model.name} is voting on <strong>${data.model.races.ballot.length}</strong> statewide ballot ${data.model.races.ballot.length == 1 ? 'initiative' : 'initiatives'}.
             p.percent-reporting - ${Math.round(100 * Math.max.apply(null, data.model.races.ballot.map(function(r) { return r.fractionReporting; })))}% of votes counted
             .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
           .section-main - $!{data.helpers.partial('region/_ballot-races')}
