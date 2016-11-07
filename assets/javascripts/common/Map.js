@@ -109,9 +109,10 @@ Map.prototype.getDesiredTooltipPosition = function(raceId, el, ev) {
   var top = window.pageYOffset + pathBox.top - tooltipBox.height - 15;
   var left = window.pageXOffset + pathBox.left + (pathBox.width / 2) - (tooltipBox.width / 2);
 
+  var windowRight = document.documentElement.clientWidth;
   if (left < 0) left = 0;
-  if (left + tooltipBox.width > window.innerWidth) {
-    left = window.innerWidth - tooltipBox.width;
+  if (left + tooltipBox.width > windowRight) {
+    left = windowRight - tooltipBox.width;
   }
 
   return { top: top, left: left };
