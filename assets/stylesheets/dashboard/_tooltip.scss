@@ -39,4 +39,19 @@
       font-size: .85rem;
     }
   }
+  .footer {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    p.fraction-reporting {
+      margin-bottom: 0px;
+      font-size: 0.75rem;
+      color: $muted-color;
+    }
+    p.state-click {
+      margin: 0px;
+      font-size: 0.75rem;
+      color: $muted-color;
+    }
+  }
 }

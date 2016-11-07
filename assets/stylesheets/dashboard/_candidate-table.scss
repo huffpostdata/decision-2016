@@ -107,16 +107,16 @@
   }
   .footer{
     display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    .fraction-reporting {
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    p.fraction-reporting {
+      margin-bottom: 0px;
       font-size: 0.75rem;
-      text-align: left;
       color: $muted-color;
     }
-    .state-click {
+    p.state-click {
+      margin: 0px;
       font-size: 0.75rem;
-      text-align: right;
       color: $muted-color;
     }
   }
