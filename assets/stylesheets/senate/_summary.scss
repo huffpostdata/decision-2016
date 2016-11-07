@@ -20,6 +20,7 @@
     font-size: .85rem;
     line-height: 1rem;
     font-style: italic;
+    pointer-events: none;
     color: $muted-color;
 
     &::before {
