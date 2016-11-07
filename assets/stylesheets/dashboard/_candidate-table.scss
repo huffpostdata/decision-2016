@@ -47,7 +47,7 @@
       text-align: left;
     }
     &.votes {
-      text-align: left;
+      text-align: right;
     }
     &.percent {
       text-align: right;
@@ -56,6 +56,7 @@
   td {
   padding: .25rem 0;
     &.name {
+      width: 1px;
       font-size: .75rem;
       padding-left: .5rem;
       .incumbent {
@@ -68,7 +69,8 @@
       }
     }
     &.vote-count {
-      text-align: left;
+      width: 1px;
+      text-align: right;
       font-size: .75rem;
     }
     &.votes {
@@ -98,6 +100,7 @@
       }
     }
     &.percent {
+      width: 1px;
       text-align: center;
       font-size: 12px;
     }

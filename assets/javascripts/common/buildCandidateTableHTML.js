@@ -142,7 +142,7 @@ var buildTable = function(race, targetEl, options) {
   var htmlInject = ['<table class="' + race.className + '">',
     '<thead>', '<tr>',
     '<th class="name">' + cdType + '</th>',
-    '<th class="votes" colspan="2">VOTES</th>',
+    '<th class="votes">VOTES</th>',
     '<th class="percent"></th>',
     '</tr>', '</thead><tbody>'];
 
