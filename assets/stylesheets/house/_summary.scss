@@ -8,6 +8,10 @@
     width: 100% * 1/435;
   }
 
+  ol:hover {
+    cursor: pointer;
+  }
+
   .result-2014 {
     position: absolute;
     right: 100% * (247 / 435); // Watch it! This is data. There were 247 GOP congresspeople in Jan. 2015

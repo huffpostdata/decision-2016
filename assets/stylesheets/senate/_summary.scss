@@ -7,6 +7,10 @@
     width: 1%; // 100 seats, so each is worth 1%
   }
 
+  ol:hover {
+    cursor: pointer;
+  }
+
   .result-2014 {
     position: absolute;
     right: 54%; // Watch it! This is data. There were 54 GOP Senators in Jan. 2015

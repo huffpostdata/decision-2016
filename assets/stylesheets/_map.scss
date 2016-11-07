@@ -30,6 +30,10 @@
     pointer-events: none;
   }
 
+  path:hover {
+    cursor: pointer;
+  }
+
   path[class$=mesh], path.underlay, path.overlay {
     fill: none;
     stroke: $background;
@@ -80,7 +84,7 @@
 
   .cartogram, .geography {
     opacity: .3;
-    
+
     transition: opacity 200ms ease-in-out;
     .text { display: none; }
   }
