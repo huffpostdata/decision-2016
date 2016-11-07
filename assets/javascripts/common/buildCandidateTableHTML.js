@@ -37,26 +37,22 @@ function raceIdToCandidateType(raceId, target) {
 
 var setText = function(race, target){
   var summaryFigure = null;
-  var summaryLine = null;
+  var summaryLine = [];
   var htmlInject = [];
+  var baseLine = [
+    '<div class="inner">',
+    '<h3 class="state-name">' + race.name + '</h3>',
+  ];
 
   if (isPresidentRace.test(race.id) && !isSubcountyGeo.test(race.id)) {
-    var baseLine = [
-      '<div class="inner">',
-      '<h3 class="state-name">' + race.name + '</h3>',
-    ];
     var votePlurality = race.nElectoralVotes > 1 ? 'votes' : 'vote';
-    var pluralModifier = race.nElectoralVotes > 1 ? 'all ' : 'the';
     summaryFigure = race.nElectoralVotes;
     summaryLine = [
-      //  the candidate who wins the popular vote will win New Hampshire's 1 available electoral vote
-      //  the candidate who wins the popular vote will win all of 1 possible electoral vote in New Hampshire
-      //  the candidate who wins the popular vote will win /all 20 electoral votes/the 1 electoral vote/ in ____
       '<p class="state-summary">The winner gets <span class="electoralvotes">' + summaryFigure + '</span> electoral ' + votePlurality + '</p>',
       '</div>'
     ];
-    htmlInject = baseLine.concat(summaryLine);
   }
+  htmlInject = baseLine.concat(summaryLine);
   return htmlInject;
 }
 
