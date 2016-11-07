@@ -109,7 +109,7 @@ function buildSenateNonRace(race) {
   var partyIdToCaucusParticipant = race.candidates[0].partyId === 'ind' ? 'Independent, caucuses as a ' : '';
   var injectHtml = [
     '<h3>' + race.name + '</h3>',
-    '<p>' + race.candidates[0].fullName + ' (' + partyIdToCaucusParticipant + '<strong class="' + race.className + '"> ' + partyIdToPartyString[race.winner] + ' </strong>) has a term ending' + seatPartyToYear[race.seatClass] + '</p>'
+    '<p>' + race.candidates[0].fullName + ' (' + partyIdToCaucusParticipant + '<strong class="' + race.className + '">' + partyIdToPartyString[race.winner] + '</strong>) has a term ending' + seatPartyToYear[race.seatClass] + '</p>'
   ]
   return injectHtml.join('');
 }

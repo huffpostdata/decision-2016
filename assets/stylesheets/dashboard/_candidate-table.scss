@@ -4,7 +4,11 @@
   @media(min-width: $min-desktop-width) {
     width: 300px;
   }
-  .inner{
+  .dem-prior {
+    color: $dem-color;
+  }
+  .gop-prior {
+    color: $gop-color;
   }
 
   table {
