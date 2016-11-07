@@ -53,7 +53,7 @@ var houseTooltip = new Tooltip({
   el: document.getElementById('tooltip'),
   views: [ houseMap, districtList ],
   races: initialJson.house,
-  mapType: 'geo'
+  mapType: 'geo',
 })
 
 var ballotDiv = document.querySelector('.ballot-races');

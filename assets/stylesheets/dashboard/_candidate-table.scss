@@ -4,7 +4,8 @@
   @media(min-width: $min-desktop-width) {
     width: 300px;
   }
-  .dem-prior {
+  .dem-prior,
+  span.dem {
     color: $dem-color;
   }
   .gop-prior,
