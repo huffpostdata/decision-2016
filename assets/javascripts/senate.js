@@ -3,7 +3,7 @@ var Map = require('./common/Map');
 var MapSwitcher = require('./common/MapSwitcher');
 var nav = require('./dashboard/_nav');
 var Tooltip = require('./dashboard/_tooltip');
-var summary = require('./senate/_summary');
+var Summary = require('./senate/_summary');
 var refresh = require('./common/_refresh');
 
 var initialJson = JSON.parse(document.querySelector('script[data-json]').getAttribute('data-json'));
@@ -12,7 +12,7 @@ var changelogEl = document.getElementById('changelog');
 var changelog = new Changelog(changelogEl, initialJson);
 
 var summaryEl = document.getElementById('senate-summary');
-var updateSummary = summary(summaryEl);
+var summary = Summary(summaryEl, initialJson);
 
 var mapContainerEl = document.getElementById('map');
 var map = null;
@@ -35,7 +35,7 @@ Map.loadSvg({
 
   tooltip = new Tooltip({
     el: document.getElementById('tooltip'),
-    mapEl: mapContainerEl,
+    views: [ map, summary ],
     races: initialJson.races,
     raceType: 'senate',
     mapType: 'state'
@@ -74,7 +74,7 @@ setTitleSummary(initialJson.summaries.senate);
 function doRefresh(json) {
   setTitleSummary(json.summaries.senate);
   changelog.update(json);
-  updateSummary(json);
+  summary.update(json);
   if (map) map.update(json.races);
   if (tooltip) tooltip.setData(json.races);
   updateNav(json.summaries);

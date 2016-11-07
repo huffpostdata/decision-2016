@@ -16,7 +16,7 @@ var presidentMap = GeoMap({
 });
 var presidentTooltip = new Tooltip({
   el: document.getElementById('tooltip'),
-  mapEl: document.querySelector('.president-map svg'),
+  views: [ presidentMap ],
   races: initialJson.president.geos,
   mapType: 'geo'
 });
@@ -33,7 +33,7 @@ if (senateSvg) {
 
   senateTooltip = new Tooltip({
     el: document.getElementById('tooltip'),
-    mapEl: document.querySelector('.senate-map svg'),
+    views: [ senateMap ],
     races: initialJson.senate.geos,
     mapType: 'geo'
   });
@@ -46,7 +46,7 @@ var houseMap = DistrictMap({
 });
 var houseTooltip = new Tooltip({
   el: document.getElementById('tooltip'),
-  mapEl: document.querySelector('.house-races table'),
+  views: [ houseMap ],
   races: initialJson.house
 })
 

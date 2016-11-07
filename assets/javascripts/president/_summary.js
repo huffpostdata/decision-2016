@@ -4,7 +4,7 @@ var Summary = require('../dashboard/Summary');
  * Returns a function to refresh the <div#president-summary> that's passed
  * in as `el`.
  */
-module.exports = function presidentSummary(el) {
+module.exports = function presidentSummary(el, initialJson) {
   var summary = new Summary({
     demScore: el.querySelector('.total-clinton strong'),
     gopScore: el.querySelector('.total-trump strong'),
@@ -13,7 +13,7 @@ module.exports = function presidentSummary(el) {
     races: el.querySelector('ol.races')
   });
 
-  return function(data) {
+  summary.update = function(data) {
     var s = data.summaries.president;
 
     summary.refreshCounts(
@@ -24,4 +24,8 @@ module.exports = function presidentSummary(el) {
     );
     summary.refreshRaces(data.races);
   };
+
+  summary.update(initialJson);
+
+  return summary;
 };

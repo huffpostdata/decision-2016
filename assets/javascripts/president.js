@@ -4,9 +4,12 @@ var MapSwitcher = require('./common/MapSwitcher');
 var nav = require('./dashboard/_nav');
 var Tooltip = require('./dashboard/_tooltip');
 var refresh = require('./common/_refresh');
-var summary = require('./president/_summary');
+var Summary = require('./president/_summary');
 
 var initialJson = JSON.parse(document.querySelector('script[data-json]').getAttribute('data-json'));
+
+var summaryEl = document.getElementById('president-summary');
+var summary = Summary(summaryEl, initialJson);
 
 var mapContainerEl = document.getElementById('map');
 var map = null;
@@ -29,7 +32,7 @@ Map.loadSvg({
 
   tooltip = new Tooltip({
     el: document.getElementById('tooltip'),
-    mapEl: mapContainerEl,
+    views: [ map, summary ],
     races: initialJson.races,
     raceType: 'president',
     mapType: 'state'
@@ -53,10 +56,6 @@ updateNav(initialJson.summaries);
 var changelogEl = document.getElementById('changelog');
 var changelog = new Changelog(changelogEl, initialJson);
 
-var summaryEl = document.getElementById('president-summary');
-var updateSummary = summary(summaryEl);
-updateSummary(initialJson);
-
 function setTitleSummary(summary) {
   if(summary.nClintonElectoralVotes + summary.nTrumpElectoralVotes > 0) {
     if(summary.className === "dem-win") {
@@ -77,7 +76,7 @@ function doRefresh(json) {
   if (tooltip) tooltip.setData(json.races);
   changelog.update(json);
   updateNav(json.summaries);
-  updateSummary(json);
+  summary.update(json);
 
   initialJson = json; // in case "map" and "tooltip" aren't loaded yet
 }
