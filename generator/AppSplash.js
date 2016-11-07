@@ -64,6 +64,104 @@ function drawText(ctx, x, y, text, size, align) {
   ctx.closePath()
 }
 
+function drawSvgPathD(ctx, d) {
+  const OpRe = /^[, ]*([MlhvZ])[, ]*/
+  const IntRe = /^[, ]*(-?\d+)[, ]*/
+  let pos = 0
+  function readOp() {
+    const m = OpRe.exec(d.slice(pos))
+    if (!m) throw new Error('Expected op in <path> d; found: ' + d.slice(pos, pos + 20))
+    pos += m[0].length
+    return m[1]
+  }
+  function readInt() {
+    const m = IntRe.exec(d.slice(pos))
+    if (!m) throw new Error('Expected integer in <path> d; found: ' + d.slice(pos, pos + 20))
+    pos += m[0].length
+    return parseInt(m[1], 10)
+  }
+
+  let x = 0
+  let y = 0
+
+  while (pos < d.length) {
+    switch (readOp()) {
+      case 'M':
+        ctx.moveTo(x = readInt(), y = readInt())
+        break
+      case 'l':
+        x += readInt()
+        y += readInt()
+        ctx.lineTo(x, y)
+        break
+      case 'h':
+        x += readInt()
+        ctx.lineTo(x, y)
+        break
+      case 'v':
+        y += readInt()
+        ctx.lineTo(x, y)
+        break
+      case 'Z':
+        ctx.closePath()
+        break
+      case null:
+        return
+    }
+  }
+}
+
+function drawUsa(ctx, races, x, y, w, h) {
+  const svg = fs.readFileSync(`${__dirname}/../assets/maps/president.svg`, 'utf8')
+    .split(/<g class="cartogram"/)[0] // ignore everything after the <g class="geography"
+
+  // grep-friendly comment: we copy $dem-color, $gop-color and $tossup-color here
+  const classNameToFillStyle = { 'dem-win': '#4c7de0', 'gop-win': '#e52426', 'tossup': '#D1D3D4' }
+  const raceIdToFillStyle = {}
+
+  for (const race of races) {
+    raceIdToFillStyle[race.id] = classNameToFillStyle[race.className] || classNameToFillStyle.tossup;
+  }
+
+  const [ svgWidth, svgHeight ] = /viewBox="0 0 (\d+) (\d+)"/.exec(svg).slice(1).map(parseFloat)
+
+  ctx.save()
+  ctx.transform(w / svgWidth, 0, 0, h / svgHeight, x, y)
+
+  // Clip away the box-shaped state "labels"
+  ctx.beginPath()
+  ctx.moveTo(0, 0)
+  ctx.lineTo(1210, 0)
+  ctx.lineTo(1210, 800)
+  ctx.lineTo(0, 800)
+  ctx.closePath()
+  ctx.clip()
+
+  const re = /<path class="([^"]+)" d="([^"]+)"/g
+  let m
+  while ((m = re.exec(svg)) !== null) {
+    const raceId = m[1]
+    const d = m[2]
+
+    if (raceId !== 'mesh') {
+      // okay, it's really a race
+      ctx.fillStyle = raceIdToFillStyle[raceId]
+      ctx.beginPath()
+      drawSvgPathD(ctx, d)
+      ctx.fill()
+    } else {
+      // It's just the mesh
+      ctx.strokeStyle = 'white'
+      ctx.lineWidth = 6
+      ctx.beginPath()
+      drawSvgPathD(ctx, d)
+      ctx.stroke()
+    }
+  }
+
+  ctx.restore()
+}
+
 module.exports = class AppSplash {
   constructor(width, device) {
     this.width = width
@@ -74,7 +172,7 @@ module.exports = class AppSplash {
     this.device = device
   }
 
-  renderImage(data) {
+  renderImage(data, presidentRaces) {
     const canvas = this.canvas
     const ctx = this.ctx
     const device = this.device
@@ -257,6 +355,10 @@ module.exports = class AppSplash {
     ctx.closePath()
     ctx.stroke()
 
+    // USA map
+    if (this.device === 'tablet') {
+      drawUsa(ctx, presidentRaces, 25, headerHeight + 25, 404, 250)
+    }
 
     // =========== ELECTORAL BARS --- END ============== //
 
