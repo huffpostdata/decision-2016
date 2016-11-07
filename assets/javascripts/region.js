@@ -18,7 +18,6 @@ var presidentTooltip = new Tooltip({
   el: document.getElementById('tooltip'),
   mapEl: document.querySelector('.president-map svg'),
   races: initialJson.president.geos,
-  raceType: 'president',
   mapType: 'geo'
 });
 
@@ -36,7 +35,6 @@ if (senateSvg) {
     el: document.getElementById('tooltip'),
     mapEl: document.querySelector('.senate-map svg'),
     races: initialJson.senate.geos,
-    raceType: 'senate',
     mapType: 'geo'
   });
 }

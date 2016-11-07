@@ -14,7 +14,7 @@ function Tooltip(options) {
   this.mapEl = options.mapEl;
   this.tooltip = options.el;
   this.mapType = options.mapType;
-  this.raceType = options.raceType;
+  //  haven't figured out a way to get rid of this map type option yet...
   var mapTypeToDataAttribute = {
     geo: 'data-geo-id',
     state: 'data-race-id'
@@ -49,37 +49,6 @@ function Tooltip(options) {
     _this.tooltip.style.left = (xPos + offsetX) + 'px';
   }
 
-  function buildSingleCandidateRace(race) {
-    var distName = race.name;
-    var textEl = _this.tooltip.querySelector('.inner');
-    var table = _this.tooltip.querySelector('.candidate-table');
-    var candidate = race.candidates[0];
-    var cdParty = candidate.partyId;
-    var switchObj = {dem: 'Democrat', gop: 'Republican'};
-    var name = candidate.fullName;
-    var injectHtml = [
-      '<h3>' + race.name + '</h3>',
-      '<p>' + switchObj[cdParty] + ' ' + '<span class="electoralvotes">' + name + '</span>' + ' was uncontested and remains the House Representative'
-    ]
-    table.innerHTML = '';
-    textEl.innerHTML = injectHtml.join('');
-  }
-
-  function buildSenateNonRace(race) {
-    var textEl = _this.tooltip.querySelector('.inner');
-    var table = _this.tooltip.querySelector('.candidate-table');
-    var candidate = race.candidates[0];
-    var cdParty = candidate.partyId;
-    var switchObj = {dem: 'Democrat', gop: 'Republican'};
-    var name = candidate.fullName;
-    var injectHtml = [
-      '<h3>' + race.name + '</h3>',
-      '<p>This seat is not up for reelection. ' + switchObj[cdParty] + ' ' + '<span class="electoralvotes">' + name + '</span>' + ' is the incumbent senator</p>'
-    ]
-    textEl.innerHTML = injectHtml.join('');
-    table.innerHTML = '';
-  }
-
   function highlight(raceId) {
     var raceEls = document.querySelectorAll('li[data-race-id=' + raceId + ']');
     for (var i = 0; i < raceEls.length; i++) {
@@ -111,51 +80,12 @@ function Tooltip(options) {
 
     var table = _this.tooltip.querySelector('.candidate-table');
     var text = _this.tooltip.querySelector('.inner');
+
     text.innerHTML = '';
-
-    var isPresidentRace = /^[A-Z][A-Z][0-9]?$/.test(race.id);
-    var isSenateRace = /^[A-Z][A-Z]S[123]$/.test(race.id);
-    var isSeat3Race = /^[A-Z][A-Z]S3$/.test(race.id);
-    var isHouseRace = /^[A-Z][A-Z][0-9][0-9]$/.test(race.id);
-    var isSingleCandidateRace = race.candidates.length === 1;
-    var isSubcountyGeo = /^[0-9]{10}$/.test(race.id);
-    var isCountyGeo = /^[0-9]{5}$/.test(race.id);
-
-    if (isSubcountyGeo || isCountyGeo) {
-      table.innerHTML = buildCandidateTableHTML(race, _this.raceType);
-      _this.tooltip.style.display = 'block';
-      return
-    }
-
-    if (isPresidentRace) {
-      table.innerHTML = buildCandidateTableHTML(race, 'president');
-      _this.tooltip.style.display = 'block';
-      return
-    }
-
-    if (isHouseRace) {
-      if(isSingleCandidateRace) {
-        buildSingleCandidateRace(race);
-        _this.tooltip.style.display = 'block';
-        return;
-      } else {
-        table.innerHTML = buildCandidateTableHTML(race, 'house');
-        _this.tooltip.style.display = 'block';
-        return
-      }
-    }
-
-    if (isSenateRace) {
-      if(!isSeat3Race) {
-        buildSenateNonRace(race);
-        _this.tooltip.style.display = 'block';
-        return;
-      } else {
-        table.innerHTML = buildCandidateTableHTML(race, 'senate');
-        _this.tooltip.style.display = 'block';
-        return
-      }
-    }
+    table.innerHTML = '';
+    table.innerHTML = buildCandidateTableHTML(race, ev.target);
+    _this.tooltip.style.display = 'block';
+    return
   }
 
   function onMouseOut(ev) {
