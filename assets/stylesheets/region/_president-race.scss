@@ -13,6 +13,11 @@ body.region section.president {
       font-size: .9rem;
       text-transform: uppercase;
       border-bottom: 1px solid $very-muted-color;
+      vertical-align: bottom;
+    }
+
+    td {
+    font-size: .75rem;
     }
 
     td, th {
