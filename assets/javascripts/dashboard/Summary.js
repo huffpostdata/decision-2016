@@ -48,6 +48,7 @@ Summary.prototype.addHoverListener = function(callback) {
 Summary.prototype.addMouseClickListener = function(callback) {
   var _this = this;
   this.els.races.addEventListener('mousedown', function(ev) {
+    if (ev.button !== 0) return;
     if (ev.target.hasAttribute('data-race-id')) {
       callback(_this, ev.target.getAttribute('data-race-id'));
     }
