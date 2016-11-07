@@ -18,8 +18,9 @@ html lang="en"
 
       .map-and-map-info
         .map
-          $!{data.helpers.partial('dashboard/_legend', { entrySet: 'house' })}
-          $!{data.helpers.partial('house/_map-switcher')}
+          .map-legend-and-switcher
+            $!{data.helpers.partial('dashboard/_legend', { entrySet: 'house' })}
+            $!{data.helpers.partial('house/_map-switcher')}
           $!{data.helpers.partial('house/_map')}
         .map-info
           $!{data.helpers.partial('dashboard/_changelog')}

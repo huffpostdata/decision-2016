@@ -1,46 +1,49 @@
 @mixin dashboard-body() {
-  .map-legend {
-    @media(min-width: $min-desktop-width) {
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 5rem;
-    }
+  .map {
+    position: relative;
   }
 
   .map-and-map-info {
     @include wide-width();
-    margin-top: 3rem;
-
-    display: flex;
-    flex-wrap: wrap;
-
-    .map {
-      position: relative;
-      min-width: 90%;
-      flex: 1 1 auto;
-      margin-top: 1.5rem;
-
-     @media (min-width: 450px) {
-       margin-top: 5rem;
-       min-width: 30rem;
-      }
-    }
-
-    .map-switcher {
-      margin: 0 auto;
-      z-index: 1;
-
-      @media (min-width: 450px) {
-        position: absolute;
-      z-index: 1;
-      }
-    }
+    margin-top: 1rem; // real margin should be above .map and .map-info
 
     .map-info {
-      width: 15rem;
-      margin-left: 1rem;
-      flex: 0 0 auto;
+      margin-top: 2rem;
     }
+
+    .map {
+      margin-top: 1rem;
+
+      .map-legend, #map-switcher {
+        // We want #map-switcher to have 2rem margin above it ... but when we
+        // wrap we want that margin between .map-legend and #map-switcher, too.
+        margin-top: 1rem;
+      }
+    }
+
+    @media (min-width: $min-desktop-width) {
+      display: flex;
+      flex-wrap: wrap;
+
+      .map {
+        flex: 1 1 auto;
+        width: 10rem; // gotta set something?
+      }
+
+      .map-info {
+        flex: 0 0 auto;
+        width: 15rem;
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  .map-legend-and-switcher {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
   }
 
   p.explanation {
