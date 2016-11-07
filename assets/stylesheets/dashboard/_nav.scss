@@ -26,8 +26,8 @@ nav {
 
 
     &.current {
-      border-bottom-color: $background;
-      margin-bottom: -1px;
+      border-bottom: 3px solid $background;
+      margin-bottom: -2px;
 
     
     }
