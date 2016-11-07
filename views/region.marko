@@ -15,7 +15,7 @@ html lang="en"
     header
       h1.state-header - ${data.model.name}
 
-    section.president
+    section#president
       h2.section-header - President
       .section-inner
         aside
@@ -52,7 +52,7 @@ html lang="en"
           .geo-map.president-map - $!{data.helpers.geoSvg(data.model.id)}
 
     if(data.model.races.senate.seats.length > 0)
-      section.senate
+      section#senate
         h2.section-header - Senate
         .section-inner
           aside
@@ -66,24 +66,23 @@ html lang="en"
               $!{data.helpers.partial('dashboard/_legend', { entrySet: 'senate' })}
               .geo-map.senate-map - $!{data.helpers.geoSvg(data.model.id)}
 
-    section.house
+    section#house
       h2.section-header - House
       .section-inner
         aside
-          p - All TK of TK’s House seats are up for reelection. TK’s current Congressional delegation is TK Democrats and TK Republicans.
-          p.percent-reporting - TK percent reporting
+          p - ${data.model.name} has ${data.model.races.house.length} ${data.model.races.house.length == 1 ? 'House seat' : 'House seats'}, and ${data.model.races.house.length == 1 ? 'it is' : (data.model.races.house.length == 2 ? 'both are' : 'all are')} up for re-election.
           $!{data.helpers.partial('dashboard/_legend', { entrySet: 'house' })}
           .house-map - $!{data.helpers.districtSvg(data.model.id)}
           .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
         .section-main - $!{data.helpers.partial('region/_house-races')}
 
     if(data.model.races.ballot.length)
-      section.ballot
+      section#ballot
         h2.section-header - Ballot Initiatives
         .section-inner
           aside
-            p - TK is voting on TK statewide ballot initiatives.
-            p.percent-reporting - TK percent reporting
+            p - ${data.model.name} is voting on ${data.model.races.ballot.length} statewide ballot ${data.model.races.ballot.length == 1 ? 'initiative' : 'initiatives'}.
+            p.percent-reporting - ${Math.round(100 * Math.max.apply(null, data.model.races.ballot.map(function(r) { return r.fractionReporting; })))}% of votes counted
             .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
           .section-main - $!{data.helpers.partial('region/_ballot-races')}
 

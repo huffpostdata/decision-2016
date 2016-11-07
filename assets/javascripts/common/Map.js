@@ -82,6 +82,7 @@ Map.prototype.addMouseClickListener = function(callback) {
   var _this = this;
   var idAttribute = this.idAttribute;
   this.svg.addEventListener('mousedown', function(ev) {
+    if (ev.button !== 0) return;
     if (ev.target.hasAttribute(idAttribute)) {
       callback(_this, ev.target.getAttribute(idAttribute));
     }

@@ -55,7 +55,7 @@
     }
   }
   td {
-  padding: .25rem 0;
+    padding: .25rem 0;
     &.name {
       width: 1px;
       font-size: .75rem;
@@ -107,8 +107,8 @@
       font-size: 12px;
     }
   }
-  tr.dem.win {
-    background-color: lighten($dem-background, 5);
+  tr.winner td.name::before {
+    content: '✔';
   }
   .footer{
     display: flex;

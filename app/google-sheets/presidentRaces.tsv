@@ -1,4 +1,4 @@
-id	apIdOrEmpty	regionId	nElectoralVotesForTest	stateNameForTest
+id	apIdOrEmpty	regionId	nElectoralVotes	stateNameForTest
 AL		AL	9	Alabama
 AK		AK	3	Alaska
 AZ		AZ	11	Arizona
