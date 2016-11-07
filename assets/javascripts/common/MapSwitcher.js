@@ -76,7 +76,7 @@ function bestLoop(d) {
   var m;
   while ((m = re.exec(d)) !== null) {
     var loop2 = Loop.fromPathD(m[1]);
-    if (loop === null || loop2.len > loop.len) {
+    if (loop === null || (loop2.len > loop.len && loop2.points.length > 5)) {
       loop = loop2;
     }
   }
