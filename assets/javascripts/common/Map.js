@@ -94,7 +94,27 @@ Map.prototype.addMouseClickListener = function(callback) {
  * In other words: `{top: 0, left: 0}` is the first pixel on the page.
  */
 Map.prototype.getDesiredTooltipPosition = function(raceId, el, ev) {
-  return { top: 700, left: 300 };
+  var tooltipBox = el.getBoundingClientRect();
+
+  var pathBox = null;
+  var paths = this.idToPaths[raceId] || [];
+  for (var i = 0; i < paths.length; i++) {
+    var path = paths[i];
+    if (window.getComputedStyle(path.parentNode).opacity === '0') continue;
+    pathBox = path.getBoundingClientRect();
+  }
+
+  if (!pathBox) return { top: 0, left: 0 }; // should never happen
+
+  var top = window.pageYOffset + pathBox.top - tooltipBox.height - 15;
+  var left = window.pageXOffset + pathBox.left + (pathBox.width / 2) - (tooltipBox.width / 2);
+
+  if (left < 0) left = 0;
+  if (left + tooltipBox.width > window.innerWidth) {
+    left = window.innerWidth - tooltipBox.width;
+  }
+
+  return { top: top, left: left };
 };
 
 function highlightPaths(paths) {
