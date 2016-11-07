@@ -15,6 +15,7 @@ function Tooltip(options) {
   this.el = options.el;
   this.mapType = options.mapType;
   this.i18n = options.i18n || null;
+  this.urlTemplate = options.urlTemplate || null;
   //  haven't figured out a way to get rid of this map type option yet...
   var mapTypeToDataAttribute = {
     geo: 'data-geo-id',
@@ -25,13 +26,11 @@ function Tooltip(options) {
   var _this = this;
 
   function goToStatePage(stateCode) {
-    window.top.location = 'state/' + stateCode;
+    window.top.location = _this.urlTemplate.replace('XX', stateCode);
   }
 
   function onMouseClick(_, raceId) {
-    if (/^[A-Z][A-Z]/.test(raceId) && raceId.length <= 4) {
-      goToStatePage(raceId.slice(0, 2));
-    }
+    goToStatePage(raceId.slice(0, 2));
   }
 
   this.setData = function(data) {
@@ -81,7 +80,10 @@ function Tooltip(options) {
 
   for (var i = 0; i < this.views.length; i++) {
     this.views[i].addHoverListener(onHover);
-    this.views[i].addMouseClickListener(onMouseClick);
+
+    if (this.urlTemplate) {
+      this.views[i].addMouseClickListener(onMouseClick);
+    }
   }
 }
 
