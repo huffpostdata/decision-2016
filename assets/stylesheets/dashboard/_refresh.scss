@@ -1,6 +1,6 @@
 #refresh, div.refresh {
   display: block;
-  height: 2rem;
+  //height: 2rem;
   font-size: .85rem;
   color: $muted-color;
 
@@ -10,7 +10,7 @@
     position: relative;
     padding-left: 2rem;
     padding-right: .5rem;
-    margin-right: .5rem;
+    margin: 1rem .5rem 1rem 0;
     font-size: .85rem;
     text-transform: uppercase;
     font-weight: bold;
