@@ -46,7 +46,7 @@ function Tooltip(options) {
 
   function highlightRace(raceId, originView, ev) {
     var race = _this.raceData[raceId];
-    _this.el.innerHTML = '<div class="candidate-table">' + buildCandidateTableHTML(race, ev.target, { i18n: _this.i18n }) + '</div>';
+    _this.el.innerHTML = '<div class="candidate-table">' + buildCandidateTableHTML(race, ev.target, { i18n: _this.i18n, urlTemplate: _this.urlTemplate }) + '</div>';
 
     _this.el.style.visibility = 'hidden';
     _this.el.style.display = 'block'; // so we can set position

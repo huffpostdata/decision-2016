@@ -70,7 +70,7 @@ var setText = function(race, target, i18n) {
   return parts;
 }
 
-var setFooterText = function(race, target, i18n) {
+var setFooterText = function(race, target, i18n, promptUrl) {
   var summaryFigure = race.fractionReporting;
 
   var formatPercent = typeof Intl === 'object' ? new Intl.NumberFormat(i18n.locale, { style: 'percent' }).format : formatPercentForIE10;
@@ -82,8 +82,7 @@ var setFooterText = function(race, target, i18n) {
       '</p>'
   ];
 
-  //  TK a better check for region map tables vs dashboard map tables
-  if (!isSubcountyGeo.test(race.id) && !isCountyGeo.test(race.id) && target ) {
+  if (promptUrl) {
     if(isPresidentRace.test(race.id)) {
       htmlInject.push('<p class="state-click">Click state to view full results</p>');
     } else {
@@ -121,10 +120,11 @@ function buildSenateNonRace(race) {
 
 var buildTable = function(race, targetEl, options) {
   var i18n = options && options.i18n || EnglishI18n;
+  var promptUrl = options && options.urlTemplate;
 
   //  only summaries for tooltip tables. use targetEl(ev.target) to check.
   var textSummary = !targetEl ? [] : setText(race, targetEl, i18n);
-  var textFooter = setFooterText(race, targetEl, i18n);
+  var textFooter = setFooterText(race, targetEl, i18n, promptUrl);
   var candidates = race.candidates;
   var votesTotal = race.nVotes;
 
