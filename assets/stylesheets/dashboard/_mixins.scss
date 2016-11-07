@@ -57,6 +57,12 @@
 @mixin dashboard-summary() {
   @include wide-width();
 
+  li.highlight {
+    z-index: 1;
+    transform: scale(1, 1.25);
+    box-shadow: 0 0 0 1px $background;
+  }
+
   margin-top: 2rem;
 
   .inner {

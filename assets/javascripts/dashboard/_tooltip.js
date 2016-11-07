@@ -8,10 +8,10 @@ function hasClass (el, checkClass) {
 
 function Tooltip(options) {
   if (!options.el) throw new Error('Must set options.el, an HTMLElement');
-  if (!options.mapEl) throw new Error('Must set options.mapEl, an HTMLElement');
+  if (!options.views) throw new Error('Must set options.views, an Array of Objects');
   if (!options.races) throw new Error('Must set options.races, the initial races JSON');
 
-  this.mapEl = options.mapEl;
+  this.views = options.views;
   this.tooltip = options.el;
   this.mapType = options.mapType;
   //  haven't figured out a way to get rid of this map type option yet...
@@ -49,56 +49,14 @@ function Tooltip(options) {
     _this.tooltip.style.left = (xPos + offsetX) + 'px';
   }
 
-  function highlight(raceId) {
-    var raceEls = document.querySelectorAll('li[data-race-id=' + raceId + ']');
-    for (var i = 0; i < raceEls.length; i++) {
-      raceEls[i].classList.add('active');
+  function goToStatePage(stateCode) {
+    window.top.location = 'state/' + stateCode;
+  }
+
+  function onMouseClick(_, raceId) {
+    if (/^[A-Z][A-Z]/.test(raceId) && raceId.length <= 4) {
+      goToStatePage(raceId.slice(0, 2));
     }
-  }
-
-  function resetHighlights() {
-    var raceEls = document.querySelectorAll('li.active');
-    for (var i = 0; i < raceEls.length; i++) {
-      raceEls[i].classList.remove('active');
-    }
-  }
-
-  function goToStatePage(ev) {
-    var raceId = ev.target.getAttribute(_this.dataAttrAccessor);
-    if (raceId && /^[A-Z][A-Z]$/.test(raceId.slice(0,2))) {
-      var stateAbbr = raceId.slice(0,2);
-      window.top.location = 'state/' + stateAbbr;
-    }
-  }
-
-  function onMouseOver(ev) {
-    if (ev.target.tagName !== 'path') return;
-
-    var raceId = ev.target.getAttribute(_this.dataAttrAccessor);
-    var race = _this.raceData[raceId];
-    if (!race) return;
-
-    var table = _this.tooltip.querySelector('.candidate-table');
-    var text = _this.tooltip.querySelector('.inner');
-
-    text.innerHTML = '';
-    table.innerHTML = '';
-    table.innerHTML = buildCandidateTableHTML(race, ev.target);
-    _this.tooltip.style.display = 'block';
-    return
-  }
-
-  function onMouseOut(ev) {
-    _this.tooltip.style.display = 'none';
-    resetHighlights();
-  }
-
-  function onMouseMove(ev) {
-    positionTooltip(ev);
-  }
-
-  function onMouseClick(ev) {
-    goToStatePage(ev);
   }
 
   this.setData = function(data) {
@@ -108,12 +66,47 @@ function Tooltip(options) {
     }
   }
 
+  function highlightRace(raceId, originView, ev) {
+    var race = _this.raceData[raceId];
+    if (race === null) return;
+    var table = _this.tooltip.querySelector('.candidate-table');
+    var text = _this.tooltip.querySelector('.inner');
+    text.innerHTML = '';
+    table.innerHTML = '';
+    table.innerHTML = buildCandidateTableHTML(race, ev.target);
+
+    _this.tooltip.style.visibility = 'hidden';
+    _this.tooltip.style.display = 'block'; // so we can set position
+    var position = originView.getDesiredTooltipPosition(raceId, _this.tooltip, ev);
+    _this.tooltip.style.top = position.top + 'px';
+    _this.tooltip.style.left = position.left + 'px';
+    _this.tooltip.style.visibility = 'visible';
+  }
+
+  function unhighlightRace() {
+    _this.tooltip.style.display = 'none';
+  }
+
   this.setData(options.races);
 
-  _this.mapEl.addEventListener('mouseover', onMouseOver);
-  _this.mapEl.addEventListener('mouseout', onMouseOut);
-  _this.mapEl.addEventListener('mousemove', onMouseMove);
-  _this.mapEl.addEventListener('click', onMouseClick);
+  function onHover(view, raceIdOrNull, ev) {
+    // Both highlight _and_ un-highlight the views
+    for (var i = 0; i < _this.views.length; i++) {
+      _this.views[i].highlightRace(raceIdOrNull);
+    }
+
+    // Now adjust the actual tooltip
+    if (raceIdOrNull) {
+      highlightRace(raceIdOrNull, view, ev);
+    } else {
+      unhighlightRace();
+    }
+  }
+
+  for (var i = 0; i < this.views.length; i++) {
+    this.views[i].addHoverListener(onHover);
+    this.views[i].addMouseClickListener(onMouseClick);
+  }
 }
 
 module.exports = Tooltip;

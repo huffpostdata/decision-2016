@@ -4,7 +4,7 @@ var MapSwitcher = require('./common/MapSwitcher');
 var nav = require('./dashboard/_nav');
 var Tooltip = require('./dashboard/_tooltip');
 var refresh = require('./common/_refresh');
-var summary = require('./house/_summary');
+var Summary = require('./house/_summary');
 
 var initialJson = JSON.parse(document.querySelector('script[data-json]').getAttribute('data-json'));
 
@@ -12,7 +12,7 @@ var changelogEl = document.getElementById('changelog');
 var changelog = new Changelog(changelogEl, initialJson);
 
 var summaryEl = document.getElementById('house-summary');
-var updateSummary = summary(summaryEl);
+var summary = Summary(summaryEl, initialJson);
 
 var mapContainerEl = document.getElementById('map');
 var map = null;
@@ -35,7 +35,7 @@ Map.loadSvg({
 
   tooltip = new Tooltip({
     el: document.getElementById('tooltip'),
-    mapEl: mapContainerEl,
+    views: [ map, summary ],
     races: initialJson.races,
     raceType: 'house',
     mapType: 'state'
@@ -76,7 +76,7 @@ function doRefresh(json) {
   if (tooltip) tooltip.setData(json.races);
   changelog.update(json);
   updateNav(json.summaries);
-  updateSummary(json);
+  summary.update(json);
 
   initialJson = json; // in case "map" and "tooltip" aren't loaded yet
 }

@@ -8,6 +8,8 @@ function Map(options) {
   this.races = options.races;
   this.legendEl = options.legendEl;
   this.races = options.races;
+  this.highlightedRaceId = null;
+  this.idAttribute = options.idAttribute;
 
   // Our President/Senate/House maps have two <path>s per race: a cartogram path
   // and a geo path. That's why this is an array.
@@ -48,6 +50,72 @@ Map.prototype.update = function(races) {
   this.races = races;
   this.updatePathClasses();
   this.updateLegendClass();
+};
+
+/**
+ * Calls callback(this, raceId, ev) and callback(null), for all of time, depending
+ * on user actions.
+ *
+ * The caller should be able to handle spurious calls with the same raceId (or
+ * spurious `null` calls).
+ */
+Map.prototype.addHoverListener = function(callback) {
+  var _this = this;
+  var idAttribute = this.idAttribute;
+  this.svg.addEventListener('mouseover', function(ev) {
+    if (ev.target.hasAttribute(idAttribute)) {
+      callback(_this, ev.target.getAttribute(idAttribute), ev);
+    }
+  });
+  this.svg.addEventListener('mouseout', function(ev) {
+    callback(null);
+  });
+};
+
+/**
+ * Calls callback(this, raceId), depending on user actions.
+ *
+ * Does not call the callback on tap.
+ */
+Map.prototype.addMouseClickListener = function(callback) {
+  var _this = this;
+  var idAttribute = this.idAttribute;
+  this.svg.addEventListener('mousedown', function(ev) {
+    if (ev.target.hasAttribute(idAttribute)) {
+      callback(_this, ev.target.getAttribute(idAttribute));
+    }
+  });
+};
+
+/**
+ * Returns the {top,left} of where the top+left of the tooltip should go, in
+ * document coordinates.
+ *
+ * In other words: `{top: 0, left: 0}` is the first pixel on the page.
+ */
+Map.prototype.getDesiredTooltipPosition = function(raceId, el, ev) {
+  return { top: 700, left: 300 };
+};
+
+function highlightPaths(paths) {
+  // TK this doesn't survive recolor(). And we don't actually want it to be this, right?
+  for (var i = 0; i < paths.length; i++) {
+    paths[i].classList.add('highlight');
+  }
+}
+
+function unhighlightPaths(paths) {
+  for (var i = 0; i < paths.length; i++) {
+    paths[i].classList.remove('highlight');
+  }
+}
+
+Map.prototype.highlightRace = function(raceIdOrNull) {
+  if (!this.idToPaths.hasOwnProperty(raceIdOrNull)) raceIdOrNull = null;
+  if (raceIdOrNull === this.highlightedRaceId) return;
+  if (this.highlightedRaceId) unhighlightPaths(this.idToPaths[this.highlightedRaceId]);
+  this.highlightedRaceId = raceIdOrNull;
+  if (this.highlightedRaceId) highlightPaths(this.idToPaths[this.highlightedRaceId]);
 };
 
 function loadXml(url, callback) {
