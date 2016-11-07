@@ -48,7 +48,7 @@ var setText = function(race, target){
     var votePlurality = race.nElectoralVotes > 1 ? 'votes' : 'vote';
     summaryFigure = race.nElectoralVotes;
     summaryLine = [
-      '<p class="state-summary">The winner gets <span class="electoralvotes">' + summaryFigure + '</span> electoral ' + votePlurality + '</p>',
+      '<p class="state-summary">Winner gets <span class="electoralvotes">' + summaryFigure + '</span> electoral ' + votePlurality + '</p>',
       '</div>'
     ];
   }
