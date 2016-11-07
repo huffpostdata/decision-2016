@@ -1,34 +1,23 @@
 @mixin dashboard-body() {
-  .map-legend {
-    @media(min-width: $min-desktop-width) {
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 5rem;
-    }
+  .map {
+    position: relative;
   }
 
   .map-and-map-info {
     @include wide-width();
-    margin-top: 3rem;
+    margin-top: 1rem; // real margin should be above .map and .map-info
 
-    .map {
-      position: relative;
-      margin-top: 1.5rem;
-
-      @media (min-width: $min-desktop-width) {
-        flex: 1 1 auto;
-        margin-top: 5rem;
-        width: 10rem;
-      }
+    .map-info {
+      margin-top: 2rem;
     }
 
-    .map-switcher {
-      margin: 0 auto;
-      z-index: 1;
+    .map {
+      margin-top: 1rem;
 
-      @media (min-width: $min-desktop-width) {
-        position: absolute;
-        z-index: 1;
+      .map-legend, #map-switcher {
+        // We want #map-switcher to have 2rem margin above it ... but when we
+        // wrap we want that margin between .map-legend and #map-switcher, too.
+        margin-top: 1rem;
       }
     }
 
@@ -36,12 +25,25 @@
       display: flex;
       flex-wrap: wrap;
 
+      .map {
+        flex: 1 1 auto;
+        width: 10rem; // gotta set something?
+      }
+
       .map-info {
         flex: 0 0 auto;
         width: 15rem;
         margin-left: 1rem;
       }
     }
+  }
+
+  .map-legend-and-switcher {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
   }
 
   p.explanation {
