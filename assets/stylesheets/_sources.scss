@@ -1,0 +1,8 @@
+.sources {
+	 @include wide-width(); 
+	 width: 100%;
+	 color: $muted-color;
+	 font-size: .75rem;
+	 margin-top: 1rem;
+	 margin-bottom: 1rem;
+}
