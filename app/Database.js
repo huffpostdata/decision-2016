@@ -102,21 +102,45 @@ module.exports = class Database {
     ]
 
     this.president = {
-      metadata: new PageMetadata('president', {hed: 'Who Will Be The Next President?', dek: 'Follow along with live-updating election results and maps', twitter_author: '@huffpostdata', date_published: 'Tk, Tk TK, TKTK', title: 'Presidential Election', social_title: 'Who Will Be The Next President?', suggested_tweet: 'Follow along with live-updating election results and maps'}),
+      metadata: new PageMetadata('president', {
+        hed: 'Who Will Be The Next President?',
+        dek: 'Follow along with live-updating election results and maps',
+        twitter_author: '@huffpostdata',
+        date_published: 'Tk, Tk TK, TKTK',
+        title: 'Presidential Election',
+        social_title: 'Who Will Be The Next President?',
+        suggested_tweet: 'Follow along with live-updating election results and maps'
+      }),
       summaries: summaries,
       races: presidentRaces,
       changelog: changelog.president.slice(0, NChangeLogEntries).map(e => e.toTsvLine()).join('\n')
     }
 
     this.senate = {
-      metadata: new PageMetadata('senate', {hed: 'Which Party Will Take The Senate?', dek: 'Follow along with live-updating election results and maps', twitter_author: '@huffpostdata', date_published: 'Tk, Tk TK, TKTK', title: 'Senate Election', social_title: 'Which Party Will Take The Senate?', suggested_tweet: 'Follow along with live-updating election results and maps'}), // TK
+      metadata: new PageMetadata('senate', {
+        hed: 'Which Party Will Take The Senate?',
+        dek: 'Follow along with live-updating election results and maps',
+        twitter_author: '@huffpostdata',
+        date_published: 'Tk, Tk TK, TKTK',
+        title: 'Senate Election',
+        social_title: 'Which Party Will Take The Senate?',
+        suggested_tweet: 'Follow along with live-updating election results and maps'
+      }),
       summaries: summaries,
       races: senateRaces,
       changelog: changelog.senate.slice(0, NChangeLogEntries).map(e => e.toTsvLine()).join('\n')
     }
 
     this.house = {
-      metadata: new PageMetadata('house', {hed: 'Which Party Will Take The House?', dek: 'Follow along with live-updating election results and maps', twitter_author: '@huffpostdata', date_published: 'Tk, Tk TK, TKTK', title: 'Senate Election', social_title: 'Which Party Will Take The House?', suggested_tweet: 'Follow along with live-updating election results and maps'}), // TK
+      metadata: new PageMetadata('house', {
+        hed: 'Which Party Will Take The House?',
+        dek: 'Follow along with live-updating election results and maps',
+        twitter_author: '@huffpostdata',
+        date_published: 'Tk, Tk TK, TKTK',
+        title: 'Senate Election',
+        social_title: 'Which Party Will Take The House?',
+        suggested_tweet: 'Follow along with live-updating election results and maps'
+      }),
       summaries: summaries,
       races: houseRaces,
       changelog: changelog.house.slice(0, NChangeLogEntries).map(e => e.toTsvLine()).join('\n')
@@ -145,14 +169,23 @@ module.exports = class Database {
 
     const regionIdToRaces = apData.allRaceDetails()
     this.regions = Object.keys(regionIdToRaces).map(regionId => {
+      const name = regionIdToName[regionId]
+
       const metadata = new PageMetadata(`state/${regionId}`, {
-        // TK
-        social_image: 'president-social.jpg' // TK is this okay?
+        social_image: 'president-social.jpg',
+        hed: `${name} Election Results`,
+        dek: 'Follow along with live-updating election results and maps',
+        twitter_author: '@huffpostdata',
+        date_published: 'Tk, Tk TK, TKTK',
+        title: `${name} Election Results`,
+        social_title: `Who’s ahead in ${name}?`,
+        suggested_tweet: 'Follow along with live-updating election results and maps'
       })
       metadata.url_route = [ 'state/:id', regionId ]
+
       return {
         id: regionId,
-        name: regionIdToName[regionId],
+        name: name,
         metadata: metadata,
         summaries: summaries,
         races: regionIdToRaces[regionId],
