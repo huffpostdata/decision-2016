@@ -2,7 +2,7 @@ var GeoMap = require('./region/GeoMap');
 var DistrictList = require('./region/DistrictList');
 var DistrictMap = require('./region/DistrictMap');
 var BallotRaces = require('./region/BallotRaces');
-var Tooltip = require('./dashboard/_tooltip');
+var Tooltip = require('./common/Tooltip');
 var refresh = require('./common/_refresh');
 
 var script = document.querySelector('script[data-json]');

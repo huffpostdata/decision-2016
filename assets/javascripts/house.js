@@ -2,7 +2,7 @@ var Changelog = require('./dashboard/_changelog');
 var Map = require('./common/Map');
 var MapSwitcher = require('./common/MapSwitcher');
 var nav = require('./dashboard/_nav');
-var Tooltip = require('./dashboard/_tooltip');
+var Tooltip = require('./common/Tooltip');
 var refresh = require('./common/_refresh');
 var Summary = require('./house/_summary');
 
