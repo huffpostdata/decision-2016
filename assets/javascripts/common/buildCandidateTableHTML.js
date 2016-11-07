@@ -62,10 +62,32 @@ var setText = function(race, target){
 }
 
 var setFooterText = function(race, target) {
+  var htmlInject = null;
   var summaryFigure = race.fractionReporting;
-  var htmlInject = [
-    '<p class="fraction-reporting">' + Math.round(summaryFigure) * 100 + '% of votes counted</p>'
-  ];
+  //  TK a better check for region map tables vs dashboard map tables
+  if (!isSubcountyGeo.test(race.id) && !isCountyGeo.test(race.id) && target ) {
+    if(isPresidentRace.test(race.id)) {
+      htmlInject = [
+        '<div class="footer">',
+          '<p class="fraction-reporting">' + Math.round(summaryFigure) * 100 + '% of votes counted</p>',
+          '<p class="state-click">Click state to view full results</p>',
+        '</div>'
+      ]
+    } else {
+      htmlInject = [
+        '<div class="footer">',
+          '<p class="fraction-reporting">' + Math.round(summaryFigure) * 100 + '% of votes counted</p>',
+          '<p class="state-click">Click state to view full results</p>',
+        '</div>'
+      ]
+    }
+  } else {
+    htmlInject = [
+      '<div class="footer">',
+        '<p class="fraction-reporting">' + Math.round(summaryFigure) * 100 + '% of votes counted</p>',
+      '</div>'
+    ];
+  }
   return htmlInject.join('');
 }
 
@@ -87,7 +109,7 @@ function buildSenateNonRace(race) {
   var partyIdToCaucusParticipant = race.candidates[0].partyId === 'ind' ? 'Independent, caucuses as a ' : '';
   var injectHtml = [
     '<h3>' + race.name + '</h3>',
-    '<p>' + race.candidates[0].fullName + ' ' + partyIdToCaucusParticipant + '<strong class="' + race.className + '"> (' + partyIdToPartyString[race.winner] + ') </strong> has a term ending' + seatPartyToYear[race.seatClass] + '</p>'
+    '<p>' + race.candidates[0].fullName + ' (' + partyIdToCaucusParticipant + '<strong class="' + race.className + '"> ' + partyIdToPartyString[race.winner] + ' </strong>) has a term ending' + seatPartyToYear[race.seatClass] + '</p>'
   ]
   return injectHtml.join('');
 }

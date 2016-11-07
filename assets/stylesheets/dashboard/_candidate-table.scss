@@ -4,7 +4,9 @@
   @media(min-width: $min-desktop-width) {
     width: 300px;
   }
-  
+  .inner{
+  }
+
   table {
     width: 100%;
     border-collapse: collapse;
@@ -33,7 +35,7 @@
       text-align: left;
       font-weight: 700;
       font-size: 0.9rem;
-      font-family: $header-font-family; 
+      font-family: $header-font-family;
       color: black;
     }
     &.vote-count {
@@ -97,5 +99,20 @@
   }
   tr.dem.win {
     background-color: lighten($dem-background, 5);
+  }
+  .footer{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    .fraction-reporting {
+      font-size: 0.75rem;
+      text-align: left;
+      color: $muted-color;
+    }
+    .state-click {
+      font-size: 0.75rem;
+      text-align: right;
+      color: $muted-color;
+    }
   }
 }
