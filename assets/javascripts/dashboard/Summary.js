@@ -61,7 +61,20 @@ Summary.prototype.addMouseClickListener = function(callback) {
  * In other words: `{top: 0, left: 0}` is the first pixel on the page.
  */
 Summary.prototype.getDesiredTooltipPosition = function(raceId, el, ev) {
-  return { top: 700, left: 500 };
+  var tooltipBox = el.getBoundingClientRect();
+  var li = this.raceIdToLi[raceId] || this.els.races;
+  var liBox = li.getBoundingClientRect();
+
+  var top = window.pageYOffset + liBox.bottom + 10;
+  var left = window.pageXOffset + liBox.left + (liBox.width / 2) - (tooltipBox.width / 2);
+
+  var windowRight = document.documentElement.clientWidth;
+  if (left < 0) left = 0;
+  if (left + tooltipBox.width > windowRight) {
+    left = windowRight - tooltipBox.width;
+  }
+
+  return { top: top, left: left };
 };
 
 Summary.prototype.highlightRace = function(raceIdOrNull) {
