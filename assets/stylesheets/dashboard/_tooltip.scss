@@ -1,15 +1,14 @@
 #tooltip {
-
-h3 {
-  font-family: $header-font-family;
+  h3 {
+    font-family: $header-font-family;
     text-transform: uppercase;
     margin: 0px;
-}
+  }
 
-p {
-  padding-bottom: 0px;
-  margin-bottom: 10px;
-}
+  p {
+    padding-bottom: 0px;
+    margin-bottom: 10px;
+  }
 
   .state-name {
     font-family: $header-font-family;
@@ -18,11 +17,11 @@ p {
   }
 
   .electoralvotes {
-  font-weight:bold;
+    font-weight:bold;
   }
 
   .state-summary {
-  margin: 5px 0 20px 0;
+    margin: 5px 0 20px 0;
   }
   display: none;
   position: absolute;
@@ -36,29 +35,8 @@ p {
     position: relative;
     display: block;
     margin: auto;
-    // width: 100%;
     p {
       font-size: .85rem;
     }
-    // .arrow-down {
-    //   position: absolute;
-    //   width: 0;
-    //   height: 0;
-    //   border-left: 10px solid transparent;
-    //   border-right: 10px solid transparent;
-    //   border-top: 10px solid #fff;
-    //   bottom: -10px;
-    //   left: 115px;
-    // }
-    // .arrow-border {
-    //   position: absolute;
-    //   width: 0;
-    //   height: 0;
-    //   border-left: 11px solid transparent;
-    //   border-right: 11px solid transparent;
-    //   border-top: 11px solid #bdbdbd;
-    //   bottom: -11px;
-    //   left: 114px;
-    // }
   }
 }
