@@ -20,7 +20,15 @@ function Tooltip(options) {
   var _this = this;
 
   function goToStatePage(stateCode) {
-    window.top.location = _this.urlTemplate.replace('XX', stateCode);
+    var url = _this.urlTemplate.replace('XX', stateCode);
+    if (/^http:\/\//.test(url)) {
+      // From splash? Open in new tab
+      var win = window.open(url, '_blank');
+      win.focus();
+    } else {
+      // From dashboard? Move
+      window.top.location = url;
+    }
   }
 
   function onMouseClick(_, raceId) {
