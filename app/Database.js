@@ -118,7 +118,7 @@ module.exports = class Database {
 
     this.senate = {
       metadata: new PageMetadata('senate', {
-        title: 'Senate Election',
+        title: '2016 Senate Election',
         hed: '2016 Senate Election Live Results',
         social_title: '2016 Senate Election Live Results',
         dek: 'Track your candidate using our interactive, live election maps and infographics',
@@ -133,7 +133,7 @@ module.exports = class Database {
 
     this.house = {
       metadata: new PageMetadata('house', {
-        title: 'House Election',
+        title: '2016 House Election',
         hed: '2016 House Election Live Results',
         social_title: '2016 House Election Live Results',
         dek: 'Track your candidate using our interactive, live election maps and infographics',
