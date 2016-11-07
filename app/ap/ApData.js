@@ -38,7 +38,7 @@ const RaceIdToNElectoralVotes = fs.readFileSync(`${__dirname}/../google-sheets/p
   .slice(1)
   .map(s => s.split(/\t/))
   .filter(arr => arr.length > 0)
-  .reduce(((s, arr) => { s[arr[0]] = arr[3]; return s }), {})
+  .reduce(((s, arr) => { s[arr[0]] = +arr[3]; return s }), {})
 
 function apRaceToStateCode(apRaceJson) {
   return apRaceJson.statePostal || apRaceJson.reportingUnits[0].statePostal
@@ -87,7 +87,7 @@ function apCandidateToCandidate(raceIdOrNull, apJson, options) {
       winner = overrideRaceWinner === ret.fullName
     } else {
       if (options && options.lookAtElectWonNotWinner) {
-        winner = (apJson.electWon || 0) > 0
+        winner = apJson.electWon ? apJson.electWon > 0 : false
       } else {
         winner = apJson.winner === 'X'
       }
@@ -163,7 +163,7 @@ function apCandidatesToCandidates(raceIdOrNull, apCandidates, options) {
     if (candidate.partyId !== 'other') {
       ret.push(candidate)
     } else {
-      nOther += apCandidate.voteCount
+      if (apCandidate.voteCount) nOther += apCandidate.voteCount
     }
   }
   ret.sort(compareCandidates)
@@ -389,7 +389,9 @@ function apRaceToBallotInitiativeRace(apRace) {
   const apNay = state.candidates.find(c => c.party === 'No')
 
   let nVotes = 0
-  for (const apCandidate of state.candidates) nVotes += apCandidate.voteCount
+  for (const apCandidate of state.candidates) {
+    if (apCandidate.voteCount) nVotes += apCandidate.voteCount
+  }
 
   return {
     id: id,
@@ -549,13 +551,13 @@ module.exports = class ApData {
           regionId: ru.statePostal,
           name: `${stateName} ${ru.reportingunitName}`,
           stateName: stateName,
-          nElectoralVotes: ru.electTotal,
+          nElectoralVotes: RaceIdToNElectoralVotes[id],
           fractionReporting: state.precinctsReporting ? state.precinctsReporting / state.precinctsTotal : 0,
           // second-guess AP: it's NE/ME candidates are called state-wide, not
           // per-district. electWon is set per-district.
           candidates: apCandidatesToCandidates(id, ru.candidates, { lookAtElectWonNotWinner: true }),
           nVotes: 0,
-          winner: null
+          winner: null,
         }
         race.className = presidentRaceClassName(race)
         postprocessPresidentRace(race)
