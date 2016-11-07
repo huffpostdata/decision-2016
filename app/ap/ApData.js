@@ -33,6 +33,13 @@ const StateCodeToStateName = fs.readFileSync(`${__dirname}/../google-sheets/regi
   .filter(arr => arr.length > 0)
   .reduce(((s, arr) => { s[arr[0]] = arr[1]; return s }), {})
 
+const RaceIdToNElectoralVotes = fs.readFileSync(`${__dirname}/../google-sheets/presidentRaces.tsv`, 'utf8')
+  .split(/\r?\n/)
+  .slice(1)
+  .map(s => s.split(/\t/))
+  .filter(arr => arr.length > 0)
+  .reduce(((s, arr) => { s[arr[0]] = +arr[3]; return s }), {})
+
 function apRaceToStateCode(apRaceJson) {
   return apRaceJson.statePostal || apRaceJson.reportingUnits[0].statePostal
 }
@@ -80,7 +87,7 @@ function apCandidateToCandidate(raceIdOrNull, apJson, options) {
       winner = overrideRaceWinner === ret.fullName
     } else {
       if (options && options.lookAtElectWonNotWinner) {
-        winner = (apJson.electWon || 0) > 0
+        winner = apJson.electWon ? apJson.electWon > 0 : false
       } else {
         winner = apJson.winner === 'X'
       }
@@ -156,7 +163,7 @@ function apCandidatesToCandidates(raceIdOrNull, apCandidates, options) {
     if (candidate.partyId !== 'other') {
       ret.push(candidate)
     } else {
-      nOther += apCandidate.voteCount
+      if (apCandidate.voteCount) nOther += apCandidate.voteCount
     }
   }
   ret.sort(compareCandidates)
@@ -282,7 +289,7 @@ function countRaceVotes(race) {
 }
 
 function apRaceToPresidentRace(apRace) {
-  const state = apRace.reportingUnits[0]
+  const state = apRace.reportingUnits ? apRace.reportingUnits[0] : apRace
   const stateName = StateCodeToStateName[state.statePostal]
   const id = state.statePostal
   const race = {
@@ -290,8 +297,8 @@ function apRaceToPresidentRace(apRace) {
     regionId: state.statePostal,
     name: stateName,
     stateName: stateName,
-    nElectoralVotes: state.electTotal,
-    fractionReporting: state.precinctsReporting === 0 ? 0 : state.precinctsReporting / state.precinctsTotal,
+    nElectoralVotes: RaceIdToNElectoralVotes[id],
+    fractionReporting: state.precinctsReporting ? state.precinctsReporting / state.precinctsTotal : 0,
     candidates: apCandidatesToCandidates(id, state.candidates),
     nVotes: 0,
     winner: null
@@ -303,7 +310,7 @@ function apRaceToPresidentRace(apRace) {
 }
 
 function apRaceToSenateRace(apRace) {
-  const ru = apRace.reportingUnits[0]
+  const ru = apRace.reportingUnits ? apRace.reportingUnits[0] : apRace
   const stateName = StateCodeToStateName[ru.statePostal]
   const id = `${ru.statePostal}S3`
   const ret = {
@@ -311,7 +318,7 @@ function apRaceToSenateRace(apRace) {
     name: stateName,
     stateName: stateName,
     seatClass: '3',
-    fractionReporting: ru.precinctsTotal === 0 ? 0 : ru.precinctsReporting / ru.precinctsTotal,
+    fractionReporting: ru.precinctsTotal ? ru.precinctsReporting / ru.precinctsTotal : 0,
     candidates: apCandidatesToCandidates(id, ru.candidates)
   }
   ret.winner = raceWinner(ret)
@@ -322,7 +329,7 @@ function apRaceToSenateRace(apRace) {
 }
 
 function apRaceToHouseRace(apRace) {
-  const ru = apRace.reportingUnits[0]
+  const ru = apRace.reportingUnits ? apRace.reportingUnits[0] : apRace
   const stateName = StateCodeToStateName[ru.statePostal]
   const id = `${ru.statePostal}${String(100 + +apRace.seatNum).slice(1)}`
 
@@ -331,7 +338,7 @@ function apRaceToHouseRace(apRace) {
     stateName: stateName,
     name: / at large/i.test(apRace.description) ? `${stateName} At Large` : `${stateName} District ${apRace.seatNum}`,
     candidates: apCandidatesToCandidates(id, ru.candidates),
-    fractionReporting: ru.precinctsTotal === 0 ? 1 : ru.precinctsReporting / ru.precinctsTotal
+    fractionReporting: ru.precinctsTotal ? ru.precinctsReporting / ru.precinctsTotal : 0
   }
   race.winner = raceWinner(race)
   race.className = houseRaceClassName(race)
@@ -350,14 +357,15 @@ function apRaceToGeos(apRace) {
   const stateCode = apRaceToStateCode(apRace)
   const useFips = !ApIdToGeoIdStateCodes.hasOwnProperty(stateCode)
 
-  for (const ru of apRace.reportingUnits.slice(1)) {
+  const reportingUnits = apRace.reportingUnits ? apRace.reportingUnits.slice(1) : []
+  for (const ru of reportingUnits) {
     const id = useFips ? ru.fipsCode : ApIdToGeoId[ru.reportingunitID]
     if (!id) throw new Error(`Could not find geo ID for ${JSON.stringify(ru)}; found "${JSON.stringify(id)}"`)
 
     const geo = {
       id: id,
       name: ru.reportingunitName,
-      fractionReporting: ru.precinctsReportingPct / 100,
+      fractionReporting: ru.precinctsReportingPct ? ru.precinctsReportingPct / 100 : 0,
       candidates: apCandidatesToCandidates(null, ru.candidates, { showWinner: false })
     }
     geo.nVotes = countRaceVotes(geo)
@@ -371,7 +379,7 @@ function apRaceToGeos(apRace) {
 }
 
 function apRaceToBallotInitiativeRace(apRace) {
-  const state = apRace.reportingUnits[0]
+  const state = apRace.reportingUnits ? apRace.reportingUnits[0] : apRace
   const id = `${state.statePostal}B${apRace.raceID}`
 
   if (!BallotInitiatives.hasOwnProperty(id)) return null
@@ -381,11 +389,13 @@ function apRaceToBallotInitiativeRace(apRace) {
   const apNay = state.candidates.find(c => c.party === 'No')
 
   let nVotes = 0
-  for (const apCandidate of state.candidates) nVotes += apCandidate.voteCount
+  for (const apCandidate of state.candidates) {
+    if (apCandidate.voteCount) nVotes += apCandidate.voteCount
+  }
 
   return {
     id: id,
-    fractionReporting: state.precinctsReporting === 0 ? 0 : state.precinctsReporting / state.precinctsTotal,
+    fractionReporting: state.precinctsReporting ? state.precinctsReporting / state.precinctsTotal : 0,
     nVotes: nVotes,
     name: ballotInitiative.name,
     description: ballotInitiative.description,
@@ -438,18 +448,20 @@ module.exports = class ApData {
     let nTrump = 0
     let nOther = 0
     let winner = null
-    for (const candidate of race.reportingUnits[0].candidates) {
+
+    const ru = race.reportingUnits ? race.reportingUnits[0] : race
+    for (const candidate of ru.candidates) {
       switch (candidate.last) {
         case 'Clinton':
-          nClintonVotes += candidate.voteCount
-          nClinton += candidate.electWon
+          if (candidate.voteCount) nClintonVotes += candidate.voteCount
+          if (candidate.electWon) nClinton += candidate.electWon
           break
         case 'Trump':
-          nTrumpVotes += candidate.voteCount
-          nTrump += candidate.electWon
+          if (candidate.voteCount) nTrumpVotes += candidate.voteCount
+          if (candidate.electWon) nTrump += candidate.electWon
           break
         default:
-          nOther += candidate.electWon
+          if (candidate.electWon) nOther += candidate.electWon
           break
       }
       if (candidate.winner === 'X') winner = candidate.party.toLowerCase()
@@ -539,13 +551,13 @@ module.exports = class ApData {
           regionId: ru.statePostal,
           name: `${stateName} ${ru.reportingunitName}`,
           stateName: stateName,
-          nElectoralVotes: ru.electTotal,
-          fractionReporting: state.precinctsReporting === 0 ? 0 : state.precinctsReporting / state.precinctsTotal,
+          nElectoralVotes: RaceIdToNElectoralVotes[id],
+          fractionReporting: state.precinctsReporting ? state.precinctsReporting / state.precinctsTotal : 0,
           // second-guess AP: it's NE/ME candidates are called state-wide, not
           // per-district. electWon is set per-district.
           candidates: apCandidatesToCandidates(id, ru.candidates, { lookAtElectWonNotWinner: true }),
           nVotes: 0,
-          winner: null
+          winner: null,
         }
         race.className = presidentRaceClassName(race)
         postprocessPresidentRace(race)
