@@ -14,6 +14,7 @@ function Tooltip(options) {
   this.views = options.views;
   this.el = options.el;
   this.mapType = options.mapType;
+  this.i18n = options.i18n || null;
   //  haven't figured out a way to get rid of this map type option yet...
   var mapTypeToDataAttribute = {
     geo: 'data-geo-id',
@@ -46,7 +47,7 @@ function Tooltip(options) {
 
   function highlightRace(raceId, originView, ev) {
     var race = _this.raceData[raceId];
-    _this.el.innerHTML = '<div class="candidate-table">' + buildCandidateTableHTML(race, ev.target) + '</div>';
+    _this.el.innerHTML = '<div class="candidate-table">' + buildCandidateTableHTML(race, ev.target, { i18n: _this.i18n }) + '</div>';
 
     _this.el.style.visibility = 'hidden';
     _this.el.style.display = 'block'; // so we can set position
