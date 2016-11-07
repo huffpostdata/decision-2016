@@ -20,11 +20,17 @@
     display: block;
     position: relative;
     padding-left: 2rem;
-    margin-bottom: .5rem;
+    padding-bottom: .5rem;
     line-height: 1.5;
     border-top: 1px solid $very-very-muted-color;
     padding-top: .5rem;
     &:first-child { border-top: 0; }
+
+    background-color: $background;
+    transition: background-color 1s ease-out;
+    &.new-change {
+      background-color: $very-muted-color;
+    }
   }
 
   time {

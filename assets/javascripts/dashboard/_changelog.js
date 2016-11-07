@@ -30,12 +30,16 @@ function stateHtml(entry) {
   return '<span class="state" data-state-id="' + entry.stateId + '"></span>';
 }
 
-function liHtml(entry, contents) {
-  return '<li id="change-' + entry.id + '" class="' + (entry.partyId ? (entry.partyId + '-' + entry.changeType) : 'start') + '">' + stateHtml(entry) + contents.join('') + dateHtml(entry.date) + '</li>';
+function buildLi(entry, contents) {
+  var li = document.createElement('li');
+  li.setAttribute('id', 'change-' + entry.id);
+  li.setAttribute('class', entry.partyId ? (entry.partyId + '-' + entry.changeType) : 'start');
+  li.innerHTML = stateHtml(entry) + contents.join('') + dateHtml(entry.date);
+  return li;
 }
 
-function startHtml(entry) {
-  return liHtml(entry, [ stateHtml(entry), entry.stateName, ' began counting votes' ]);
+function startLi(entry) {
+  return buildLi(entry, [ stateHtml(entry), entry.stateName, ' began counting votes' ]);
 }
 
 function leaderHtml(entry) {
@@ -46,47 +50,82 @@ function percentHtml(entry) {
   return Math.round(100 * entry.fractionReporting) + '%';
 }
 
-function leadHtml(entry) {
-  return liHtml(entry, [ leaderHtml(entry) + ' led ', raceHtml(entry) + ' after ', percentHtml(entry), ' of votes were counted' ]);
+function leadLi(entry) {
+  return buildLi(entry, [ leaderHtml(entry) + ' led ', raceHtml(entry) + ' after ', percentHtml(entry), ' of votes were counted' ]);
 }
 
-function winHtml(entry) {
-  return liHtml(entry, [ leaderHtml(entry) , ' <span class="won">won</span> ', raceHtml(entry) ]);
+function winLi(entry) {
+  return buildLi(entry, [ leaderHtml(entry) , ' <span class="won">won</span> ', raceHtml(entry) ]);
 }
 
-function entryHtml(entry) {
+function entryLi(entry) {
   switch (entry.changeType) {
-    case 'start': return startHtml(entry);
-    case 'lead': return leadHtml(entry);
-    case 'win': return winHtml(entry);
+    case 'start': return startLi(entry);
+    case 'lead': return leadLi(entry);
+    case 'win': return winLi(entry);
   }
 }
 
-function Changelog(el, initialJson) {
-  this.el = el;
-  this.ol = document.createElement('ol');
-  el.appendChild(this.ol);
-
-  this.update(initialJson);
-}
-
-Changelog.prototype.update = function(json) {
-  var changelog = ChangelogEntry.parseAll(json.changelog);
+function jsonToChangelogEntries(json) {
+  var i;
 
   var stateIdToName = {};
   var raceIdToName = {};
-  for (var i = 0; i < json.races.length; i++) {
+  for (i = 0; i < json.races.length; i++) {
     var race = json.races[i];
     stateIdToName[race.id.slice(0, 2)] = race.stateName;
     raceIdToName[race.id] = race.name;
   }
 
-  changelog.forEach(function(entry) {
+  var ret = ChangelogEntry.parseAll(json.changelog);
+  for (i = 0; i < ret.length; i++) {
+    var entry = ret[i];
     entry.stateName = stateIdToName[entry.stateId];
     if (entry.raceId) entry.raceName = raceIdToName[entry.raceId];
-  });
+  }
 
-  this.ol.innerHTML = changelog.map(entryHtml).join('');
+  return ret;
 }
+
+function Changelog(el, initialJson) {
+  this.el = el;
+  this.ol = document.createElement('ol');
+
+  var entries = jsonToChangelogEntries(initialJson);
+  for (var i = 0; i < entries.length; i++) {
+    this.ol.appendChild(entryLi(entries[i]));
+  }
+
+  this.topEntryId = entries.length > 0 ? entries[0].id : null;
+
+  el.appendChild(this.ol);
+}
+
+Changelog.prototype.update = function(json) {
+  var entries = jsonToChangelogEntries(json);
+  if (entries.length === 0) return;
+
+  this.maxNEntries = entries.length;
+
+  var added = [];
+
+  for (var i = 0; i < entries.length; i++) {
+    var entry = entries[i];
+    if (this.topEntryId === entry.id) break;
+
+    var li = entryLi(entry);
+    li.classList.add('new-change');
+    this.ol.insertBefore(li, this.ol.childNodes[0]);
+    added.push(li);
+  }
+
+  window.setTimeout(function() {
+    for (var i = 0; i < added.length; i++) {
+      added[i].classList.remove('new-change');
+    }
+  }, 100);
+
+  this.topEntryId = entries[0].id;
+};
 
 module.exports = Changelog;
