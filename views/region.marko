@@ -15,7 +15,7 @@ html lang="en"
     header
       h1.state-header - ${data.model.name}
 
-    section.president
+    section#president
       h2.section-header - President
       .section-inner
         aside
@@ -52,7 +52,7 @@ html lang="en"
           .geo-map.president-map - $!{data.helpers.geoSvg(data.model.id)}
 
     if(data.model.races.senate.seats.length > 0)
-      section.senate
+      section#senate
         h2.section-header - Senate
         .section-inner
           aside
@@ -66,7 +66,7 @@ html lang="en"
               $!{data.helpers.partial('dashboard/_legend', { entrySet: 'senate' })}
               .geo-map.senate-map - $!{data.helpers.geoSvg(data.model.id)}
 
-    section.house
+    section#house
       h2.section-header - House
       .section-inner
         aside
@@ -77,7 +77,7 @@ html lang="en"
         .section-main - $!{data.helpers.partial('region/_house-races')}
 
     if(data.model.races.ballot.length)
-      section.ballot
+      section#ballot
         h2.section-header - Ballot Initiatives
         .section-inner
           aside
