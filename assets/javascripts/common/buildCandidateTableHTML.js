@@ -35,12 +35,13 @@ function getTitleFromGeoParentClasses(target) {
   }
   var ret = null;
   for (var i = 0; i < pElements.length; i++) {
-    var elID = pElements[i].idName;
-    if (elID === 'president') {
-      ret = elClass.toUpperCase();
+    var elClasses = pElements[i].classList;
+    if (elClasses.contains('president-map')) {
+      ret = 'PRESIDENT';
       break;
-    } else if (elID === 'senate') {
+    } else if (elClasses.contains('senate-map')) {
       ret = 'SENATOR';
+      break;
     }
   }
   return ret;
