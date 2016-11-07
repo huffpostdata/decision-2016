@@ -142,13 +142,13 @@ var buildTable = function(race, targetEl) {
     var cdVotes = candidate.n;
     var cdVotesPct = votesTotal === 0 ? 0 : 100 * (cdVotes / votesTotal)
     var voteBarWidth = votesTotal === 0 ? 0 : 100 * (cdVotes / leadingCount);
-    htmlInject.push(['<tr class="' + candidateWon + '">',
-      '<td class="name">' + cdName + incumbentSpan +  '</td>',
-      '<td class="vote-count">' + formatInt(cdVotes) + '</td>',
+    htmlInject.push(['<tr class="', candidateWon, ' ', candidate.partyId, '">',
+      '<td class="name">', cdName, incumbentSpan,  '</td>',
+      '<td class="vote-count">', formatInt(cdVotes), '</td>',
       '<td class="votes">',
-        '<div class="vote-bar ' + candidate.partyId + '" style="width: ' + voteBarWidth + '%;"></div>',
+        '<div class="vote-bar ', candidate.partyId, '" style="width: ', voteBarWidth, '%;"></div>',
       '</td>',
-      '<td class="percent">' + Math.round(cdVotesPct) + '%</td>',
+      '<td class="percent">', Math.round(cdVotesPct), '%</td>',
       '</tr>'].join(''));
   }
   htmlInject.push('</tbody></table>');
