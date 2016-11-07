@@ -17,9 +17,11 @@ function getTitleFromGeoParentClasses(target) {
   var ret = null;
   for (var i = 0; i < pElements.length; i++) {
     var elClass = pElements[i].className;
-    if (elClass === 'president' || elClass === 'senate') {
+    if (elClass === 'president') {
       ret = elClass.toUpperCase();
       break;
+    } else if (elClass === 'senate') {
+      ret = 'SENATOR';
     }
   }
   return ret;
@@ -54,11 +56,12 @@ var setText = function(race, target){
       ];
     } else {
       var votePlurality = race.nElectoralVotes > 1 ? 'votes' : 'vote';
-      var pluralModifier = race.nElectoralVotes > 1 ? 'all of the' : 'the';
+      var pluralModifier = race.nElectoralVotes > 1 ? 'all ' : 'the';
       summaryFigure = race.nElectoralVotes;
       summaryLine = [
         //  the candidate who wins the popular vote will win New Hampshire's 1 available electoral vote
         //  the candidate who wins the popular vote will win all of 1 possible electoral vote in New Hampshire
+        //  the candidate who wins the popular vote will win /all 20 electoral votes/the 1 electoral vote/ in ____
         '<p class="state-summary">The candidate who wins the popular vote ',
         'will win ' + pluralModifier + ' <span class="electoralvotes">' + summaryFigure + '</span> electoral ' + votePlurality + ' in ' + race.name + '</p>',
         '</div>'
@@ -99,7 +102,7 @@ function buildSenateNonRace(race) {
 }
 
 var buildTable = function(race, targetEl) {
-  //  only summaries for tooltip tables. use targetEl to check.
+  //  only summaries for tooltip tables. use targetEl(ev.target) to check.
   var textSummary = !targetEl ? [] : setText(race, targetEl);
   var candidates = race.candidates;
   var votesTotal = race.nVotes;
