@@ -52,8 +52,7 @@ var setText = function(race, target){
       //  the candidate who wins the popular vote will win New Hampshire's 1 available electoral vote
       //  the candidate who wins the popular vote will win all of 1 possible electoral vote in New Hampshire
       //  the candidate who wins the popular vote will win /all 20 electoral votes/the 1 electoral vote/ in ____
-      '<p class="state-summary">The candidate who wins the popular vote ',
-      'will win ' + pluralModifier + ' <span class="electoralvotes">' + summaryFigure + '</span> electoral ' + votePlurality + ' in ' + race.name + '</p>',
+      '<p class="state-summary">The winner gets <span class="electoralvotes">' + summaryFigure + '</span> electoral ' + votePlurality + '</p>',
       '</div>'
     ];
     htmlInject = baseLine.concat(summaryLine);
@@ -97,7 +96,7 @@ function buildSingleCandidateRace(race) {
   var partyIdToPartyString = {dem: 'Democrat', gop: 'Republican', ind: 'Independent'};
   var injectHtml = [
     '<h3>' + race.name + '</h3>',
-    '<p>' + partyIdToPartyString[candidate.partyId] + ' ' + '<span class="electoralvotes">' + candidate.fullName + '</span>' + ' was uncontested and remains the House Representative'
+    '<p>' + '<span class="' + candidate.partyId + '">' + partyIdToPartyString[candidate.partyId] + '</span> ' + candidate.fullName + ' was uncontested and will be the House Representative</p>'
   ]
   return injectHtml.join('');
 }
@@ -109,7 +108,7 @@ function buildSenateNonRace(race) {
   var partyIdToCaucusParticipant = race.candidates[0].partyId === 'ind' ? 'Independent, caucuses as a ' : '';
   var injectHtml = [
     '<h3>' + race.name + '</h3>',
-    '<p>' + race.candidates[0].fullName + ' (' + partyIdToCaucusParticipant + '<strong class="' + race.className + '">' + partyIdToPartyString[race.winner] + '</strong>) has a term ending' + seatPartyToYear[race.seatClass] + '</p>'
+    '<p>' + race.candidates[0].fullName + ' (' + partyIdToCaucusParticipant + '<strong class="' + race.className + '">' + partyIdToPartyString[race.winner] + '</strong>) has a term ending ' + seatPartyToYear[race.seatClass] + '</p>'
   ]
   return injectHtml.join('');
 }
