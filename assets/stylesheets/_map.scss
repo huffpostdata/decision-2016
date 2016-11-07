@@ -41,6 +41,13 @@
     pointer-events: none;
   }
 
+  path.highlight {
+    fill: none;
+    stroke: $color;
+    stroke-width: 6px;
+    pointer-events: none;
+  }
+
   g.cartogram, g.geography {
     opacity: 0;
     pointer-events: none;

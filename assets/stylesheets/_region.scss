@@ -77,6 +77,13 @@ body.region {
     @include party-lead-colors('fill');
     &.tossup { fill: $tossup-color; }
 
+    &.highlight {
+      fill: none;
+      stroke: $color;
+      stroke-width: 10px;
+      pointer-events: none;
+    }
+
     &[class$=mesh] {
       fill: none;
       stroke: $background;

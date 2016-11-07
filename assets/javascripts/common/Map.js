@@ -9,6 +9,7 @@ function Map(options) {
   this.legendEl = options.legendEl;
   this.races = options.races;
   this.highlightedRaceId = null;
+  this.highlightPaths = []; // <path> elements we'll add to the document
   this.idAttribute = options.idAttribute;
 
   // Our President/Senate/House maps have two <path>s per race: a cartogram path
@@ -119,16 +120,27 @@ Map.prototype.getDesiredTooltipPosition = function(raceId, el, ev) {
 };
 
 function highlightPaths(paths) {
-  // TK this doesn't survive recolor(). And we don't actually want it to be this, right?
+  var highlightPaths = this.highlightPaths = [];
+
   for (var i = 0; i < paths.length; i++) {
-    paths[i].classList.add('highlight');
+    var path = paths[i];
+    var highlightPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    highlightPath.setAttribute('class', 'highlight');
+    highlightPath.setAttribute('d', path.getAttribute('d'));
+    path.parentNode.appendChild(highlightPath);
+    highlightPaths.push(highlightPath);
   }
 }
 
 function unhighlightPaths(paths) {
-  for (var i = 0; i < paths.length; i++) {
-    paths[i].classList.remove('highlight');
+  var i;
+
+  for (i = 0; i < this.highlightPaths.length; i++) {
+    var path = this.highlightPaths[i];
+    path.parentNode.removeChild(path);
   }
+
+  this.highlightPaths = [];
 }
 
 Map.prototype.highlightRace = function(raceIdOrNull) {
