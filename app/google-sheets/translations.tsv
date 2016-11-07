@@ -151,9 +151,9 @@ tooltip.Candidate	Table heading	Candidate							Υποψήφιος	Candidato	Can
 tooltip.Votes	Table heading for voet count	Votes							Ψήφοι	Votos	Votos	Votes				票	득표	Votos
 tooltip.Percent counted	Sentence in tooltip, e.g., "34% of votes counted" -- always rounded. "%{percent}" includes the percent symbol ("%" in English) for your language.	%{percent} of votes counted							Το %{percent} των ψήφων έχει καταμετρηθεί	%{percent} de votos escrutados 	%{percent} del conteo de votos	%{percent} de votes comptabilisés				開票状況%{percent}	개표된 표 중 %{percent}획득	%{percent} de votos apurados
 tooltip.click for details	Sentence in tooltip -- the page it links to is in English, so you might want to specify "(English)"	Click for details							Πατήστε για περισσότερες λεπτομέρειες	Pulsa aquí para más información	Dale clic para más información	Cliquez pour plus de détails				詳細をクリック	자세히 보기	Clique aqui para mais informações
-legend.title		LEGEND										LÉGENDE				凡例	보기	
-legend.No winner yet		No winner yet										Aucun vainqueur pour l'instant				勝者未定	승자 없음	
-legend.Clinton win		Clinton win										Clinton a gagné				クリントン勝利	클린턴 승리	
-legend.Trump win		Trump win										Trump a gagné				トランプ勝利	트럼프 승리	
-legend.Other win		Other win										Un autre candidat a gagné				他候補勝利	기타 후보 승리	
-refresh.Refresh	Refresh button	REFRESH									ACTUALIZAR	ACTUALISER					새로 고침	
+legend.title		LEGEND									LEYENDA	LÉGENDE				凡例	보기	
+legend.No winner yet		No winner yet							Δεν υπάρχει ακόμη νικητής		Aún sin ganador	Aucun vainqueur pour l'instant				勝者未定	승자 없음	
+legend.Clinton win		Clinton win							Νίκη Κλίντον		Clinto gana	Clinton a gagné				クリントン勝利	클린턴 승리	
+legend.Trump win		Trump win							Νίκη Τραμπ		Trump gana	Trump a gagné				トランプ勝利	트럼프 승리	
+legend.Other win		Other win							Άλλος νικητητής		Otro gana	Un autre candidat a gagné				他候補勝利	기타 후보 승리	
+refresh.Refresh	Refresh button	REFRESH							Refresh 		ACTUALIZAR	ACTUALISER					새로 고침	
