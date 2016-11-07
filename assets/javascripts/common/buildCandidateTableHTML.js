@@ -1,68 +1,119 @@
 var formatInt = require('./formatInt');
 
-var setText = function(race, raceType){
+//  check race.id to decide which race we are dealing with
+var isPresidentRace = /^[A-Z][A-Z][0-9]?$/;
+var isSenateRace = /^[A-Z][A-Z]S[123]$/;
+var isSeat3Race = /^[A-Z][A-Z]S3$/;
+var isHouseRace = /^[A-Z][A-Z][0-9][0-9]$/;
+var isSubcountyGeo = /^[0-9]{10}$/;
+var isCountyGeo = /^[0-9]{5}$/;
+
+function getTitleFromGeoParentClasses(target) {
+  pElements = []
+  while (target) {
+    pElements.push(target); //  push to go from the bottom up
+    target = target.parentNode;
+  }
+  var ret = null;
+  for (var i = 0; i < pElements.length; i++) {
+    var elClass = pElements[i].className;
+    if (elClass === 'president' || elClass === 'senate') {
+      ret = elClass.toUpperCase();
+      break;
+    }
+  }
+  return ret;
+}
+
+function raceIdToCandidateType(raceId, target) {
+  if (isHouseRace.test(raceId)) return 'HOUSE REP.';
+  if (isPresidentRace.test(raceId)) return 'PRESIDENT';
+  if (isSenateRace.test(raceId)) return 'SENATOR';
+  if (isSubcountyGeo.test(raceId) || isCountyGeo.test(raceId)) return getTitleFromGeoParentClasses(target);
+  return
+}
+
+var setText = function(race, target){
   var summaryFigure = null;
+  var summaryLine = null;
   var htmlInject = null;
 
-  switch(raceType) {
-    case 'president':
+  if (isPresidentRace.test(race.id)) {
+    var baseLine = [
+      '<div class="inner">',
+      '<h3 class="state-name">' + race.name + '</h3>',
+    ];
+    // The president race is the only type for which the summary changes from
+    // geo map to district/state map.
+    // TK better sentence (NE1 and ME1 have one vote).
+    if (isSubcountyGeo.test(race.id) || isCountyGeo.test(race.id)) {
+      summaryFigure = race.fractionReporting;
+      summaryLine = [
+        '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of vote counted</p>',
+        '</div>'
+      ];
+    } else {
+      var votePlurality = race.nElectoralVotes > 1 ? 'votes' : 'vote';
+      var pluralModifier = race.nElectoralVotes > 1 ? 'all of the' : 'the';
       summaryFigure = race.nElectoralVotes;
-      // TK better sentence (NE1 and ME1 have one vote)
-      htmlInject = [
-        '<div class="inner">',
-        '<h3 class="state-name">' + race.name + '</h3>',
+      summaryLine = [
+        //  the candidate who wins the popular vote will win New Hampshire's 1 available electoral vote
+        //  the candidate who wins the popular vote will win all of 1 possible electoral vote in New Hampshire
         '<p class="state-summary">The candidate who wins the popular vote ',
-        'will win all ' + '<span class="electoralvotes">' + summaryFigure + '</span>' + ' of ' + 'TK' + '\'s electoral votes.</p>',
+        'will win ' + pluralModifier + ' <span class="electoralvotes">' + summaryFigure + '</span> electoral ' + votePlurality + ' in ' + race.name + '</p>',
         '</div>'
-      ]
-      break;
-    case 'senate':
-      summaryFigure = race.fractionReporting;
-      htmlInject = [
-        '<div class="inner">',
-        '<h3 class="state-name">' + race.name + '</h3>',
-        '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of vote counted</p>',
-        '</div>'
-      ]
-      break;
-    case 'house':
-      summaryFigure = race.fractionReporting;
-      htmlInject = [
-        '<div class="inner">',
-        '<h3 class="state-name">' + race.name + '</h3>',
-        '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of vote counted</p>',
-        '</div>'
-      ]
-      break;
+      ];
+    }
+    htmlInject = baseLine.concat(summaryLine);
+  } else {
+    summaryFigure = race.fractionReporting;
+    htmlInject = [
+      '<div class="inner">',
+      '<h3 class="state-name">' + race.name + '</h3>',
+      '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of vote counted</p>',
+      '</div>'
+    ]
   }
   return htmlInject;
 }
 
-var buildTable = function(race, raceType, noText) {
-  var textSummary = noText ? [] : setText(race, raceType);
+function buildSingleCandidateRace(race) {
+  var distName = race.name;
+  var candidate = race.candidates[0];
+  var partyIdToPartyString = {dem: 'Democrat', gop: 'Republican', ind: 'Independent'};
+  var injectHtml = [
+    '<h3>' + race.name + '</h3>',
+    '<p>' + partyIdToPartyString[candidate.partyId] + ' ' + '<span class="electoralvotes">' + candidate.fullName + '</span>' + ' was uncontested and remains the House Representative'
+  ]
+  return injectHtml.join('');
+}
+
+function buildSenateNonRace(race) {
+  var candidate = race.candidates[0];
+  var partyIdToPartyString = {dem: 'Democrat', gop: 'Republican', ind: 'Independent'};
+  var injectHtml = [
+    '<h3>' + race.name + '</h3>',
+    '<p>This seat is not up for reelection. ' + partyIdToPartyString[candidate.partyId] + ' ' + '<span class="electoralvotes">' + candidate.fullName + '</span>' + ' is the incumbent senator</p>'
+  ]
+  return injectHtml.join('');
+}
+
+var buildTable = function(race, targetEl) {
+  //  only summaries for tooltip tables. use targetEl to check.
+  var textSummary = !targetEl ? [] : setText(race, targetEl);
   var candidates = race.candidates;
   var votesTotal = race.nVotes;
 
-  var cdType = null;
-  var cdVotesAccessor = 'n';
-  var cdNameAccessor = 'name';
-
-  var leadingCount = Math.max.apply(null, candidates.map(function(d) { return d[cdVotesAccessor]; }));
-
-  switch(raceType) {
-    case 'president':
-      cdType = 'PRESIDENT';
-      break
-    case 'senate':
-      cdType = 'SENATOR';
-      break
-    case 'house':
-      cdType = 'HOUSE REP.'
-      break
-    default:
-      cdType = 'CANDIDATE'
-      break
+  if (isHouseRace.test(race.id) && candidates.length === 1) {
+    return buildSingleCandidateRace(race);
   }
+
+  if (isSenateRace.test(race.id) && !isSeat3Race.test(race.id)) {
+    return buildSenateNonRace(race);
+  }
+
+  var cdType = raceIdToCandidateType(race.id, targetEl);
+  var leadingCount = Math.max.apply(null, candidates.map(function(d) { return d.n; }));
 
   var htmlInject = ['<table class="' + race.className + '">',
     '<thead>', '<tr>',
@@ -74,9 +125,9 @@ var buildTable = function(race, raceType, noText) {
   for (var i = 0; i < candidates.length; i++) {
     var candidate = candidates[i];
     var candidateWon = candidate.winner ? 'winner' : '';
-    var cdName = candidate[cdNameAccessor];
+    var cdName = candidate.name;
     var incumbentSpan = candidate.incumbent === true ? ' <span class="incumbent">i</span>' : '';
-    var cdVotes = candidate[cdVotesAccessor];
+    var cdVotes = candidate.n;
     var cdVotesPct = votesTotal === 0 ? 0 : 100 * (cdVotes / votesTotal)
     var voteBarWidth = votesTotal === 0 ? 0 : 100 * (cdVotes / leadingCount);
     htmlInject.push(['<tr class="' + candidateWon + '">',

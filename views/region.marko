@@ -25,7 +25,7 @@ html lang="en"
           else
             p - The most popular candidate wins <strong>${nElectoralVotes}</strong> electoral votes.
 
-          <div class="candidate-table">$!{buildCandidateTableHTML(data.model.races.president.race, 'president', true)}</div>
+          <div class="candidate-table">$!{buildCandidateTableHTML(data.model.races.president.race)}</div>
 
           if(data.model.races.president.districts)
             p - ${data.model.name} also assigns an electoral vote to the winner in each district:
@@ -59,7 +59,7 @@ html lang="en"
             for(seat in data.model.races.senate.seats)
               p - ${seat.candidates[0].fullName} (${seat.candidates[0].partyId === 'ind' ? 'Independent, caucuses as a ' : ''}<strong class="${seat.className}">${{gop: 'Republican', dem: 'Democrat'}[seat.winner]}</strong>) has a term ending ${{3: 'this year:', 1: 'in 2018.', 2: 'in 2020.'}[seat.seatClass]}
             if(data.model.races.senate.race)
-              <div class="candidate-table">$!{buildCandidateTableHTML(data.model.races.senate.race, 'senate', true)}</div>
+              <div class="candidate-table">$!{buildCandidateTableHTML(data.model.races.senate.race)}</div>
               .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
           if(data.model.races.senate.race)
             .section-main
