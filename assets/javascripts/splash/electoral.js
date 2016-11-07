@@ -111,6 +111,13 @@ if (electoralPlacement) {
   }
 
   function normalizeData(data, i18n) {
+    var winner;
+    if (data.className === 'gop-win') {
+      winner = 'trump';
+    }
+    if (data.className === 'dem-win') {
+      winner = 'clinton';
+    }
     return {
       clinton: {
         electoral: data.nClintonElectoralVotes,
@@ -122,7 +129,7 @@ if (electoralPlacement) {
         electoral_display: i18n.numberFormat(data.nTrumpElectoralVotes),
         popular: data.nTrump,
       },
-      winner: data.winner
+      winner: winner
     };
   }
 
