@@ -302,7 +302,7 @@ const render_state_path = (path, topology) => {
   // console.log(topology.objects.state)
   let d = path(topojson.feature(topology, topology.objects.state))
   d = compress_svg_path(d)
-  return '  <path d="' + d + '"/>'
+  return '<path d="' + d + '"/>'
 }
 
 // Returns a <path class="mesh">
@@ -323,17 +323,17 @@ const render_mesh_path = (path, topology, key) => {
   let d = path(mesh)
   if (d) {
     d = compress_svg_path(d)
-    return `  <path class="${key}-mesh" d="${d}"/>`
+    return `  <path class="mesh" d="${d}"/>`
   } else {
     // # DC, for instance, has no mesh
     return ''
   }
 }
 
-// Returns a <g class="counties"> full of <path data-fips-int=..">
+// Returns a String full of <path data-geo-id=..">
 const render_g_element = (path, topology, geometries, key, st_code) => {
   console.log('rendering g element')
-  const ret = [ `<g class="${key}">` ]
+  const ret = []
   let idBase = null
   let dataIdKey = null
   switch (key) {
@@ -353,7 +353,6 @@ const render_g_element = (path, topology, geometries, key, st_code) => {
     ret.push(`<path data-${dataIdKey}-id="${idBase + geometry.properties.fips_string}" d="${d}"/>`)
 
   }
-  ret.push('</g>')
   return ret.join('')
 }
 
