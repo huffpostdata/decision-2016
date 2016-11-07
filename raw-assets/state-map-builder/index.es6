@@ -336,21 +336,27 @@ const render_g_element = (path, topology, geometries, key, st_code) => {
   const ret = []
   let idBase = null
   let dataIdKey = null
+  let checkForOneDistrict = null
   switch (key) {
     case ('geos'):
       idBase = ''
       dataIdKey = 'geo'
+      checkForOneDistrict = false
       break
     case ('districts'):
       idBase = st_code
+      checkForOneDistrict = geometries.length === 1
       dataIdKey = 'race'
       break
   }
 
   for (let geometry of geometries) {
     let d = path(topojson.feature(topology, geometry))
+    let fips = checkForOneDistrict ? '01' : geometry.properties.fips_string
+    if (checkForOneDistrict) console.log('checking for one district, result: ' + idBase + fips);
+
     d = compress_svg_path(d)
-    ret.push(`<path data-${dataIdKey}-id="${idBase + geometry.properties.fips_string}" d="${d}"/>`)
+    ret.push(`<path data-${dataIdKey}-id="${idBase + fips}" d="${d}"/>`)
 
   }
   return ret.join('')
