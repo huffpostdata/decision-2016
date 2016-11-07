@@ -27,7 +27,7 @@ $grn-color: #A2C667;
 $lib-color: #F0C51E;
 $bfa-color: #db61b9;
 $other-color: #835BA6;
-$tossup-color: $very-muted-color;
+$tossup-color: #bcbec0;
 
 // Sets &.dem-win { property: $dem-color; }, etc.
 @mixin party-win-colors($property) {
