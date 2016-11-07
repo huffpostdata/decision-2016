@@ -44,6 +44,11 @@ var houseMap = DistrictMap({
   legendEl: document.querySelector('section.house .map-legend'),
   races: initialJson.house
 });
+var houseTooltip = new Tooltip({
+  el: document.getElementById('tooltip'),
+  mapEl: document.querySelector('.house-races table'),
+  races: initialJson.house
+})
 
 var districtList = new DistrictList({
   el: document.querySelector('.house-races')
@@ -63,6 +68,7 @@ function doRefresh(json) {
     senateTooltip.setData(json.senate.geos);
   }
   houseMap.update(json.house);
+  houseTooltip.setData(json.house);
   districtList.update(json.house);
   if (ballotRaces) {
     ballotRaces.update(json.ballot);

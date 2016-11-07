@@ -1,6 +1,6 @@
 body.region {
-  header, section { 
-    @include wide-width(); 
+  header, section {
+    @include wide-width();
     margin-bottom: 3rem;
   }
 
@@ -45,6 +45,15 @@ body.region {
         flex: 1 1 auto;
         display: flex;
       }
+    }
+  }
+
+  .house-races {
+    div, th{
+      pointer-events: none;
+    }
+    td {
+      pointer-events: all;
     }
   }
 

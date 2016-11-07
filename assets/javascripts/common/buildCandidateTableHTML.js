@@ -38,46 +38,35 @@ function raceIdToCandidateType(raceId, target) {
 var setText = function(race, target){
   var summaryFigure = null;
   var summaryLine = null;
-  var htmlInject = null;
+  var htmlInject = [];
 
-  if (isPresidentRace.test(race.id)) {
+  if (isPresidentRace.test(race.id) && !isSubcountyGeo.test(race.id)) {
     var baseLine = [
       '<div class="inner">',
       '<h3 class="state-name">' + race.name + '</h3>',
     ];
-    // The president race is the only type for which the summary changes from
-    // geo map to district/state map.
-    // TK better sentence (NE1 and ME1 have one vote).
-    if (isSubcountyGeo.test(race.id) || isCountyGeo.test(race.id)) {
-      summaryFigure = race.fractionReporting;
-      summaryLine = [
-        '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of vote counted</p>',
-        '</div>'
-      ];
-    } else {
-      var votePlurality = race.nElectoralVotes > 1 ? 'votes' : 'vote';
-      var pluralModifier = race.nElectoralVotes > 1 ? 'all ' : 'the';
-      summaryFigure = race.nElectoralVotes;
-      summaryLine = [
-        //  the candidate who wins the popular vote will win New Hampshire's 1 available electoral vote
-        //  the candidate who wins the popular vote will win all of 1 possible electoral vote in New Hampshire
-        //  the candidate who wins the popular vote will win /all 20 electoral votes/the 1 electoral vote/ in ____
-        '<p class="state-summary">The candidate who wins the popular vote ',
-        'will win ' + pluralModifier + ' <span class="electoralvotes">' + summaryFigure + '</span> electoral ' + votePlurality + ' in ' + race.name + '</p>',
-        '</div>'
-      ];
-    }
-    htmlInject = baseLine.concat(summaryLine);
-  } else {
-    summaryFigure = race.fractionReporting;
-    htmlInject = [
-      '<div class="inner">',
-      '<h3 class="state-name">' + race.name + '</h3>',
-      '<p class="fraction-reporting">' + 100 * Math.round(summaryFigure) + '% of vote counted</p>',
+    var votePlurality = race.nElectoralVotes > 1 ? 'votes' : 'vote';
+    var pluralModifier = race.nElectoralVotes > 1 ? 'all ' : 'the';
+    summaryFigure = race.nElectoralVotes;
+    summaryLine = [
+      //  the candidate who wins the popular vote will win New Hampshire's 1 available electoral vote
+      //  the candidate who wins the popular vote will win all of 1 possible electoral vote in New Hampshire
+      //  the candidate who wins the popular vote will win /all 20 electoral votes/the 1 electoral vote/ in ____
+      '<p class="state-summary">The candidate who wins the popular vote ',
+      'will win ' + pluralModifier + ' <span class="electoralvotes">' + summaryFigure + '</span> electoral ' + votePlurality + ' in ' + race.name + '</p>',
       '</div>'
-    ]
+    ];
+    htmlInject = baseLine.concat(summaryLine);
   }
   return htmlInject;
+}
+
+var setFooterText = function(race, target) {
+  var summaryFigure = race.fractionReporting;
+  var htmlInject = [
+    '<p class="fraction-reporting">' + Math.round(summaryFigure) * 100 + '% of votes counted</p>'
+  ];
+  return htmlInject.join('');
 }
 
 function buildSingleCandidateRace(race) {
@@ -94,9 +83,11 @@ function buildSingleCandidateRace(race) {
 function buildSenateNonRace(race) {
   var candidate = race.candidates[0];
   var partyIdToPartyString = {dem: 'Democrat', gop: 'Republican', ind: 'Independent'};
+  var seatPartyToYear = {3: 'this year:', 1: 'in 2018.', 2: 'in 2020.'};
+  var partyIdToCaucusParticipant = race.candidates[0].partyId === 'ind' ? 'Independent, caucuses as a ' : '';
   var injectHtml = [
     '<h3>' + race.name + '</h3>',
-    '<p>This seat is not up for reelection. ' + partyIdToPartyString[candidate.partyId] + ' ' + '<span class="electoralvotes">' + candidate.fullName + '</span>' + ' is the incumbent senator</p>'
+    '<p>' + race.candidates[0].fullName + ' ' + partyIdToCaucusParticipant + '<strong class="' + race.className + '"> (' + partyIdToPartyString[race.winner] + ') </strong> has a term ending' + seatPartyToYear[race.seatClass] + '</p>'
   ]
   return injectHtml.join('');
 }
@@ -104,6 +95,7 @@ function buildSenateNonRace(race) {
 var buildTable = function(race, targetEl) {
   //  only summaries for tooltip tables. use targetEl(ev.target) to check.
   var textSummary = !targetEl ? [] : setText(race, targetEl);
+  var textFooter = setFooterText(race, targetEl);
   var candidates = race.candidates;
   var votesTotal = race.nVotes;
 
@@ -146,6 +138,7 @@ var buildTable = function(race, targetEl) {
   for (var i = 0; i < htmlInject.length; i++) {
     textSummary.push(htmlInject[i])
   }
+  textSummary.push(textFooter);
   return textSummary.join('');
 }
 
