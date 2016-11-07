@@ -48,7 +48,7 @@ html lang="en"
           $!{data.helpers.partial('dashboard/_legend', { entrySet: 'president' })}
           .geo-map.president-map - $!{data.helpers.geoSvg(data.model.id)}
 
-    if(data.model.races.senate.seats.length > 0)
+    if(data.model.races.senate.seats.length)
       section#senate
         h2.section-header - Senate
         .section-inner
@@ -63,15 +63,16 @@ html lang="en"
               $!{data.helpers.partial('dashboard/_legend', { entrySet: 'senate' })}
               .geo-map.senate-map - $!{data.helpers.geoSvg(data.model.id)}
 
-    section#house
-      h2.section-header - House
-      .section-inner
-        aside
-          p - ${data.model.name} has <strong>${data.model.races.house.length}</strong> ${data.model.races.house.length == 1 ? 'House seat' : 'House seats'}. ${data.model.races.house.length == 1 ? 'It is' : (data.model.races.house.length == 2 ? 'Both are' : 'All are')} up for re-election.
-          $!{data.helpers.partial('dashboard/_legend', { entrySet: 'house' })}
-          .house-map - $!{data.helpers.districtSvg(data.model.id)}
-          .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
-        .section-main - $!{data.helpers.partial('region/_house-races')}
+    if(data.model.races.house.length)
+      section#house
+        h2.section-header - House
+        .section-inner
+          aside
+            p - ${data.model.name} has <strong>${data.model.races.house.length}</strong> ${data.model.races.house.length == 1 ? 'House seat' : 'House seats'}. ${data.model.races.house.length == 1 ? 'It is' : (data.model.races.house.length == 2 ? 'Both are' : 'All are')} up for re-election.
+            $!{data.helpers.partial('dashboard/_legend', { entrySet: 'house' })}
+            .house-map - $!{data.helpers.districtSvg(data.model.id)}
+            .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
+          .section-main - $!{data.helpers.partial('region/_house-races')}
 
     if(data.model.races.ballot.length)
       section#ballot

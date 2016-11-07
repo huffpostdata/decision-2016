@@ -39,22 +39,27 @@ if (senateSvg) {
   });
 }
 
-var houseMap = DistrictMap({
-  svg: document.querySelector('.house-map svg'),
-  legendEl: document.querySelector('section#house .map-legend'),
-  races: initialJson.house
-});
+var houseMap = null;
+var districtList = null;
+var houseTooltip = null;
+var houseSvg = document.querySelector('.house-map svg');
+if (houseSvg) {
+  houseMap = DistrictMap({
+    svg: document.querySelector('.house-map svg'),
+    legendEl: document.querySelector('section#house .map-legend'),
+    races: initialJson.house
+  });
 
-var districtList = new DistrictList({
-  el: document.querySelector('.house-races')
-});
+  districtList = new DistrictList({
+    el: document.querySelector('.house-races')
+  });
 
-var houseTooltip = new Tooltip({
-  el: document.getElementById('tooltip'),
-  views: [ houseMap, districtList ],
-  races: initialJson.house,
-  mapType: 'geo',
-})
+  houseTooltip = new Tooltip({
+    el: document.getElementById('tooltip'),
+    views: [ houseMap, districtList ],
+    races: initialJson.house,
+  });
+}
 
 var ballotDiv = document.querySelector('.ballot-races');
 var ballotRaces = null;
@@ -69,9 +74,11 @@ function doRefresh(json) {
     senateMap.update(json.senate.geos);
     senateTooltip.setData(json.senate.geos);
   }
-  houseMap.update(json.house);
-  houseTooltip.setData(json.house);
-  districtList.update(json.house);
+  if (houseMap) {
+    houseMap.update(json.house);
+    houseTooltip.setData(json.house);
+    districtList.update(json.house);
+  }
   if (ballotRaces) {
     ballotRaces.update(json.ballot);
   }

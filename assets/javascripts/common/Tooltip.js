@@ -16,12 +16,6 @@ function Tooltip(options) {
   this.mapType = options.mapType;
   this.i18n = options.i18n || null;
   this.urlTemplate = options.urlTemplate || null;
-  //  haven't figured out a way to get rid of this map type option yet...
-  var mapTypeToDataAttribute = {
-    geo: 'data-geo-id',
-    state: 'data-race-id'
-  }
-  this.dataAttrAccessor = mapTypeToDataAttribute[options.mapType];
 
   var _this = this;
 
