@@ -12,8 +12,10 @@ function Tooltip(options) {
   if (!options.races) throw new Error('Must set options.races, the initial races JSON');
 
   this.views = options.views;
-  this.tooltip = options.el;
+  this.el = options.el;
   this.mapType = options.mapType;
+  this.i18n = options.i18n || null;
+  this.urlTemplate = options.urlTemplate || null;
   //  haven't figured out a way to get rid of this map type option yet...
   var mapTypeToDataAttribute = {
     geo: 'data-geo-id',
@@ -21,42 +23,14 @@ function Tooltip(options) {
   }
   this.dataAttrAccessor = mapTypeToDataAttribute[options.mapType];
 
-  this.stateName = this.tooltip.querySelector('.state-name');
-  this.stateSummary = this.tooltip.querySelector('.state-summary');
   var _this = this;
 
-  function positionTooltip(ev) {
-    var width = parseFloat(_this.tooltip.offsetWidth);
-    var height = parseFloat(_this.tooltip.offsetHeight);
-    var winY = window.pageYOffset;
-    var winWidth = window.innerWidth;
-    var xPos = Math.floor(ev.pageX - width / 2);
-    var yPos = Math.floor(ev.pageY - height - 20);
-    var beyondTop = yPos < winY;
-    var beyondLeft = xPos < 0;
-    var beyondRight = xPos + width > winWidth;
-    var offsetX = 0;
-    if (beyondLeft) {
-      offsetX = -(xPos);
-    } else if (beyondRight) {
-      offsetX = (winWidth - (xPos + width));
-    }
-    if (beyondTop) {
-      _this.tooltip.style.top = winY + 'px';
-    } else {
-      _this.tooltip.style.top = yPos + 'px'
-    }
-    _this.tooltip.style.left = (xPos + offsetX) + 'px';
-  }
-
   function goToStatePage(stateCode) {
-    window.top.location = 'state/' + stateCode;
+    window.top.location = _this.urlTemplate.replace('XX', stateCode);
   }
 
   function onMouseClick(_, raceId) {
-    if (/^[A-Z][A-Z]/.test(raceId) && raceId.length <= 4) {
-      goToStatePage(raceId.slice(0, 2));
-    }
+    goToStatePage(raceId.slice(0, 2));
   }
 
   this.setData = function(data) {
@@ -72,22 +46,18 @@ function Tooltip(options) {
 
   function highlightRace(raceId, originView, ev) {
     var race = _this.raceData[raceId];
-    var table = _this.tooltip.querySelector('.candidate-table');
-    var text = _this.tooltip.querySelector('.inner');
-    text.innerHTML = '';
-    table.innerHTML = '';
-    table.innerHTML = buildCandidateTableHTML(race, ev.target);
+    _this.el.innerHTML = '<div class="candidate-table">' + buildCandidateTableHTML(race, ev.target, { i18n: _this.i18n }) + '</div>';
 
-    _this.tooltip.style.visibility = 'hidden';
-    _this.tooltip.style.display = 'block'; // so we can set position
-    var position = originView.getDesiredTooltipPosition(raceId, _this.tooltip, ev);
-    _this.tooltip.style.top = position.top + 'px';
-    _this.tooltip.style.left = position.left + 'px';
-    _this.tooltip.style.visibility = 'visible';
+    _this.el.style.visibility = 'hidden';
+    _this.el.style.display = 'block'; // so we can set position
+    var position = originView.getDesiredTooltipPosition(raceId, _this.el, ev);
+    _this.el.style.top = position.top + 'px';
+    _this.el.style.left = position.left + 'px';
+    _this.el.style.visibility = 'visible';
   }
 
   function unhighlightRace() {
-    _this.tooltip.style.display = 'none';
+    _this.el.style.display = 'none';
   }
 
   this.setData(options.races);
@@ -110,7 +80,10 @@ function Tooltip(options) {
 
   for (var i = 0; i < this.views.length; i++) {
     this.views[i].addHoverListener(onHover);
-    this.views[i].addMouseClickListener(onMouseClick);
+
+    if (this.urlTemplate) {
+      this.views[i].addMouseClickListener(onMouseClick);
+    }
   }
 }
 

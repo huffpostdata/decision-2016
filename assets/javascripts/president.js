@@ -34,6 +34,7 @@ Map.loadSvg({
     el: document.getElementById('tooltip'),
     views: [ map, summary ],
     races: initialJson.races,
+    urlTemplate: mapContainerEl.getAttribute('data-url-template'),
     raceType: 'president',
     mapType: 'state'
   });

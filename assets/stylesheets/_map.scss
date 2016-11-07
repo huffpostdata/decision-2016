@@ -37,14 +37,15 @@
   path[class$=mesh], path.underlay, path.overlay {
     fill: none;
     stroke: $background;
-    stroke-width: 1px;
+    stroke-width: 2px;
     pointer-events: none;
   }
 
   path.highlight {
     fill: none;
     stroke: $color;
-    stroke-width: 6px;
+    stroke-width: 3px;
+    border-radius: 50%;
     pointer-events: none;
   }
 
