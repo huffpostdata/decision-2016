@@ -66,9 +66,12 @@ function Tooltip(options) {
     }
   }
 
+  function raceIdIsValid(raceId) {
+    return _this.raceData.hasOwnProperty(raceId);
+  }
+
   function highlightRace(raceId, originView, ev) {
     var race = _this.raceData[raceId];
-    if (race === null) return;
     var table = _this.tooltip.querySelector('.candidate-table');
     var text = _this.tooltip.querySelector('.inner');
     text.innerHTML = '';
@@ -90,6 +93,8 @@ function Tooltip(options) {
   this.setData(options.races);
 
   function onHover(view, raceIdOrNull, ev) {
+    if (!raceIdIsValid(raceIdOrNull)) raceIdOrNull = null;
+
     // Both highlight _and_ un-highlight the views
     for (var i = 0; i < _this.views.length; i++) {
       _this.views[i].highlightRace(raceIdOrNull);
