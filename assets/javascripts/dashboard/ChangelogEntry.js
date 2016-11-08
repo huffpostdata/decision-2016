@@ -52,7 +52,10 @@ ChangelogEntry.fromTsvLine = function(tsv) {
 };
 
 ChangelogEntry.parseAll = function(text) {
-  return text.split(/\n/).map(ChangelogEntry.fromTsvLine);
+  return text
+    .split(/\r?\n/)
+    .filter(function(s) { return s.length > 0; })
+    .map(ChangelogEntry.fromTsvLine);
 };
 
 ChangelogEntry.prototype.toTsvLine = function() {
