@@ -102,7 +102,9 @@ Summary.prototype.refreshRaces = function(races) {
     var race = races[i];
     var li = this.raceIdToLi[race.id];
 
+    var highlighted = li.classList.contains('highlight');
     li.className = race.className;
+    if (highlighted) li.classList.add('highlight');
 
     // We'll _move_ <li>s instead of repainting them. That way, when somebody
     // hovers over a <li> during a refresh, and the refresh doesn't change
