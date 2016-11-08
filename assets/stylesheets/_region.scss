@@ -114,6 +114,11 @@ body.region {
       padding: .5rem 0; // make it easier to click
     }
   }
+
+  .comments {
+    margin-top: 7rem;
+    @include wide-width();
+  }
 }
 
 @import 'region/_president-race.scss';

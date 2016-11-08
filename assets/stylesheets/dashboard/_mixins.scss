@@ -52,6 +52,11 @@
     line-height: 1.2;
     text-align: center;
   }
+
+  .comments {
+    margin-top: 7rem;
+    @include wide-width();
+  }
 }
 
 @mixin dashboard-summary() {

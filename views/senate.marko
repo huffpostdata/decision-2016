@@ -24,10 +24,14 @@ html lang="en"
           $!{data.helpers.partial('senate/_map')}
         .map-info
           $!{data.helpers.partial('dashboard/_changelog')}      
-    $!{data.helpers.partial('_sources')}
-    $!{data.helpers.partial('dashboard/_recirc')}
+
+      $!{data.helpers.partial('_sources')}
+      $!{data.helpers.partial('dashboard/_recirc')}
+      .comments
+        .fb-comments data-width="100%"
+
+    #tooltip
     $!{data.helpers.partial('_footer')}
-    $!{data.helpers.partial('dashboard/_tooltip')}
 
     script src="${data.path_to_asset('javascript', 'javascripts/senate.js')}" data-json="${JSON.stringify(data.model)}"
     script src="${data.path_to_asset('digest', 'javascripts/social.js')}"
