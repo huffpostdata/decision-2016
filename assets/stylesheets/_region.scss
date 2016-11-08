@@ -1,7 +1,6 @@
 body.region {
-  header, section {
+  section, h1 {
     @include wide-width();
-    margin-bottom: 3rem;
   }
 
   .president-map,
@@ -49,10 +48,15 @@ body.region {
     }
   }
 
-  .state-header {
+  h1 {
     font-family: $header-font-family;
-    font-size: 2.2rem;
+    font-size: 2.3rem;
     text-transform: uppercase;
+    padding: 3rem 0;
+
+    @media (min-width: $min-desktop-width) {
+      font-size: 3.5rem;
+    }
   }
 
   .section-header {
@@ -68,8 +72,9 @@ body.region {
 
   .section-inner {
     .percent-reporting {
+      color: $muted-color;
       font-size: .75rem;
-      font-weight: 700;
+      margin: .75rem 0 0;
     }
 
     .map-legend {
@@ -136,6 +141,10 @@ body.region {
     }
   }
 
+  div.refresh {
+    margin-top: .5rem;
+  }
+
   p.to-national-map {
     font-weight: bold;
     color: $color;
@@ -145,6 +154,11 @@ body.region {
       color: inherit;
       padding: .5rem 0; // make it easier to click
     }
+  }
+
+  .comments {
+    margin-top: 7rem;
+    @include wide-width();
   }
 }
 

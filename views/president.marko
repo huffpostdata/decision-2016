@@ -12,7 +12,6 @@ html lang="en"
     $!{data.helpers.partial('dashboard/_nav')}
 
     main
-      $!{data.helpers.partial('dashboard/_refresh')}
       $!{data.helpers.partial('president/_summary')}
 
       p.explanation - Voters in each state decide how their state's <em>electors</em> will vote. Most states are winner-take-all: whoever wins in California earns all 55 of its electoral college votes.
@@ -26,11 +25,13 @@ html lang="en"
         .map-info
           $!{data.helpers.partial('dashboard/_changelog')}
 
-    $!{data.helpers.partial('_sources')}
-    $!{data.helpers.partial('dashboard/_recirc')}
-    $!{data.helpers.partial('_footer')}
+      $!{data.helpers.partial('_sources')}
+      $!{data.helpers.partial('dashboard/_recirc')}
+      .comments
+        .fb-comments data-width="100%"
 
-    $!{data.helpers.partial('dashboard/_tooltip')}
+    #tooltip
+    $!{data.helpers.partial('_footer')}
 
     script src="${data.path_to_asset('javascript', 'javascripts/president.js')}" data-json="${JSON.stringify(data.model)}"
     script src="${data.path_to_asset('digest', 'javascripts/social.js')}"

@@ -47,7 +47,7 @@ DistrictList.prototype.addHoverListener = function(callback) {
     }
   });
   table.addEventListener('mouseout', function(ev) {
-    callback(null);
+    callback(_this, null, ev);
   });
 };
 

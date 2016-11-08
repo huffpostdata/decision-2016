@@ -1,13 +1,32 @@
 #changelog {
   font-size: .85rem;
 
+  .heading {
+    border-bottom: 1px solid $color;
+
+    #refresh {
+      display: inline-block;
+      margin: 0;
+
+      button.refresh {
+        padding: 0 .25rem;
+      }
+
+      span.countdown {
+        line-height: 1.5rem;
+      }
+    }
+  }
+
   h3 {
+    display: inline-block;
     font-family: $header-font-family;
     font-weight: bold;
     text-transform: uppercase;
     font-size: 1.5rem;
+    line-height: 1;
     margin: 0;
-    border-bottom: 1px solid $color;
+    vertical-align: top;
   }
 
   ol {
@@ -31,6 +50,11 @@
     &.new-change {
       background-color: $very-muted-color;
     }
+  }
+
+  li.placeholder {
+    padding-left: 0;
+    color: $muted-color;
   }
 
   time {

@@ -10,9 +10,9 @@ function countdownText(ms, error) {
     var prefix = error ? 'Failed last refresh. ' : '';
 
     if (s === 1) {
-      return prefix + 'Refreshing in 1 second…';
+      return prefix + 'Refreshing in 1 second';
     } else {
-      return prefix + 'Refreshing in ' + s + ' seconds…';
+      return prefix + 'Refreshing in ' + s + ' seconds';
     }
   }
 }
