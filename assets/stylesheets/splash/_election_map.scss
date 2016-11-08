@@ -64,7 +64,7 @@
       width: 90px;
       .resultsBtn {
         margin: 0 auto;
-        background-color: $charcoal;
+        background-color: #2e7060;
         color: $light-smoke;
         width: 90px;
         height: 90px;
@@ -78,7 +78,7 @@
         text-decoration: none;
         @include locale-font-size("de-DE", 14px);
         &:hover {
-          background-color: $muted-color;
+          background-color: darken(#2e7060, 10%);
         }
       }
     }
