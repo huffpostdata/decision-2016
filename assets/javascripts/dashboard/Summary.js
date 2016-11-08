@@ -47,8 +47,19 @@ Summary.prototype.addHoverListener = function(callback) {
  */
 Summary.prototype.addMouseClickListener = function(callback) {
   var _this = this;
+
+  // A tap causes mousedown, too, but we want to treat tap as hover, not click.
+  // Solution: assume touchend comes before mousedown, and prevent mousedown
+  // events that happen right after touchend.
+  // ref: https://patrickhlauke.github.io/touch/tests/results/
+  var lastTouchendDate = null;
+  document.addEventListener('touchend', function(ev) {
+    lastTouchendDate = new Date();
+  });
+
   this.els.races.addEventListener('mousedown', function(ev) {
     if (ev.button !== 0) return;
+    if (new Date() - lastTouchendDate < 500) return; // arbitrary number
     if (ev.target.hasAttribute('data-race-id')) {
       callback(_this, ev.target.getAttribute('data-race-id'));
     }
