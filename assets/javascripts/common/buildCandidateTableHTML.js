@@ -6,6 +6,10 @@ var isHouseRace = /^[A-Z][A-Z][0-9][0-9]$/;
 var isSubcountyGeo = /^[0-9]{10}$/;
 var isCountyGeo = /^[0-9]{5}$/;
 
+function formatPercentForIE10(number) {
+  return Math.round(number*100) + '%';
+}
+
 var EnglishI18n = {
   locale: 'en',
   t: function(s, o) {
