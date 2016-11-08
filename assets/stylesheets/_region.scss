@@ -4,6 +4,15 @@ body.region {
     margin-bottom: 3rem;
   }
 
+  .president-map,
+  .senate-map,
+  .house-map {
+    text,
+    circle {
+      display: none;
+    }
+  }
+
   .state-header {
     font-family: $header-font-family;
     font-size: 2.2rem;

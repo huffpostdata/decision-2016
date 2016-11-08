@@ -45,11 +45,12 @@ class JstsFeature {
 }
 
 class StateFeatureSet {
-  constructor (jsts_state_multipolygon, jsts_district_features, jsts_county_features, jsts_subcounty_features) {
+  constructor (jsts_state_multipolygon, jsts_district_features, jsts_county_features, jsts_subcounty_features, jsts_city_features) {
     this.jsts_state_multipolygon = jsts_state_multipolygon
     this.jsts_district_features = jsts_district_features
     this.jsts_county_features = jsts_county_features
     this.jsts_subcounty_features = jsts_subcounty_features
+    this.jsts_city_features = jsts_city_features
   }
 
   toJSON() {
@@ -76,6 +77,10 @@ class StateFeatureSet {
       'subcounties': {
         'type': 'FeatureCollection',
         'features': features(this.jsts_subcounty_features)
+      },
+      'cities': {
+        'type': 'FeatureCollection',
+        'features': this.jsts_city_features
       }
     }
   }
@@ -106,7 +111,7 @@ function organize_features (key, features) {
     if (key === 'land' && feature.properties.TYPE !== 'Land') continue
 
     if (!featuresByState.hasOwnProperty(stateCode)) {
-      featuresByState[stateCode] = {'land': [], 'counties': [], 'districts': [], 'subcounties': []}
+      featuresByState[stateCode] = {'land': [], 'counties': [], 'districts': [], 'subcounties': [], 'cities': []}
     }
     if (fipsToState[stateCode] === 'AK' && key === 'counties') {
       //do nothing
@@ -381,14 +386,48 @@ const render_geo_svg = (state_code, feature_set, options, callback) => {
     console.log('rendering subcounties')
     geo_data.push(render_g_element(path, topology, topology.objects.subcounties.geometries, 'geos', st_abbr))
     geo_data.push(render_mesh_path(path, topology, 'subcounties'))
+    if (features_json.cities.features.length) {
+      geo_data.push(render_cities_g(features_json.cities.features))
+    }
   } else if (topology.objects.counties && topology.objects.counties.geometries) {
       geo_data.push(render_g_element(path, topology, topology.objects.counties.geometries, 'geos', st_abbr))
       geo_data.push(render_mesh_path(path, topology, 'counties'))
+      if (features_json.cities.features.length) {
+        geo_data.push(render_cities_g(features_json.cities.features))
+      }
   }
 
   const geo_data_string = geo_data.join('')
 
   fs.writeFile(geo_output_filename, geo_data_string, callback)
+}
+
+const render_cities_g = (city_features) => {
+  const ret = [ '<g class="cities">' ]
+
+  let rendered_cities = []
+  city_features.sort((a, b) => {
+    let p1 = a.properties
+    let p2 = b.properties
+    return ((p1.feature == 'Civil' && -1 || 0) - (p2.feature == 'Civil' && -1 || 0)) || p2.population - p1.population || p1.name.localeCompare(p2.name)
+  })
+
+  for (let city of city_features) {
+    const p = city.geometry.coordinates
+    if (rendered_cities.find((p2) => distance2(p, p2) < MinDistanceBetweenCities * MinDistanceBetweenCities)) {
+      continue
+    }
+
+    const x = p[0].toFixed(0)
+    const y = p[1].toFixed(0)
+    ret.push(`<circle r=\"7\" cx=\"${x}\" cy=\"${y}\"/>`)
+    ret.push(`<text x=\"${x}\" y=\"${y}\">${city.properties.name}</text>`)
+
+    rendered_cities.push(p)
+    if (rendered_cities.length === 3) break
+  }
+  ret.push('</g>')
+  return ret.join('')
 }
 
 const render_district_svg = (state_code, feature_set, options, callback) => {
@@ -409,9 +448,11 @@ const render_district_svg = (state_code, feature_set, options, callback) => {
     `<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" width=\"${width}\" height=\"${height}\" viewBox=\"0 0 ${width} ${height}\">`
   ]
 
-  // dist_data.push(render_state_path(path, topology))
   dist_data.push(render_g_element(path, topology, topology.objects.districts.geometries, 'districts', st_abbr))
   dist_data.push(render_mesh_path(path, topology, 'districts'))
+  if (features_json.cities.features.length) {
+    dist_data.push(render_cities_g(features_json.cities.features))
+  }
   dist_data.push('</svg>')
 
   const dist_data_string = dist_data.join('')
@@ -467,6 +508,23 @@ const grok_input_land_features = (input_land_features) => {
     ))
   }
   return ret
+}
+
+const grok_input_city_features = (input_city_features) => {
+  const ret = []
+  for (let feature of input_city_features) {
+    const p = feature.properties
+    ret.push({
+      'type': 'Feature',
+      'geometry': feature.geometry,
+      'properties': {
+        'feature': p.FEATURE, // We *want* 'Civil', but VT has no cities so we fall back to others,
+        'name': p.ADMIN_NAME || p.NAME,
+        'population': +p.POP_2010
+      }
+    })
+  }
+  return ret;
 }
 
 const grok_input_geo_features = (input_geo_features) => {
@@ -567,11 +625,13 @@ const render_state = (state_code, options, callback) => {
   const input_district_features = featuresByState[state_code].districts
   const input_county_features = featuresByState[state_code].counties
   const input_subcounty_features = featuresByState[state_code].subcounties
+  const input_city_features = featuresByState[state_code].cities
 
   if (fipsToState[state_code] === 'HI') { console.log(input_county_features)}
 
   const jsts_land_features = grok_input_land_features(input_land_features)
   const jsts_state_multipolygon = jsts_features_to_state_multipolygon(jsts_land_features)
+  const jsts_city_features = grok_input_city_features(input_city_features)
   const jsts_district_features = grok_input_intersected_features(input_district_features, jsts_state_multipolygon)
   const jsts_county_features = grok_input_intersected_features(input_county_features, jsts_state_multipolygon)
   const jsts_subcounty_features = grok_input_intersected_features(input_subcounty_features, jsts_state_multipolygon)
@@ -580,7 +640,8 @@ const render_state = (state_code, options, callback) => {
     jsts_state_multipolygon,
     jsts_district_features,
     jsts_county_features,
-    jsts_subcounty_features
+    jsts_subcounty_features,
+    jsts_city_features
   )
 
   render_district_svg(state_code, feature_set, options, (err) => {
@@ -621,6 +682,7 @@ const matching = {'USLand': 'statesp010g.shp', 'CongressionalDistricts': 'tl_201
     'Counties': 'tl_2016_us_county.shp', 'NHSubCounty': 'tl_2016_33_cousub.shp',
     'Counties': 'tl_2016_us_county.shp', 'RISubCounty': 'tl_2016_44_cousub.shp',
     'Counties': 'tl_2016_us_county.shp', 'VTSubCounty': 'tl_2016_50_cousub.shp',
+    'cities': 'citiesx010g.shp'
     }
 const filesArr = ['USLand', 'CongressionalDistricts', 'Counties', 'NESubCounty']
 const retObj = {}
@@ -684,6 +746,10 @@ getFile(mapData['USLand'], 'USLand', base_url + matching['USLand'])
     return getFile(mapData['VTSubCounty'], 'VTSubCounty', base_url + matching['VTSubCounty'])
   })
     .then(setRet)
+  .then(() => {
+    return getFile(mapData['cities'], 'cities', base_url + matching['cities'])
+  })
+    .then(setRet)
   .then((result) => {
       organize_features('land', result.USLand)
       return result
@@ -718,6 +784,10 @@ getFile(mapData['USLand'], 'USLand', base_url + matching['USLand'])
     })
     .then((result) => {
       organize_subcounty_features('50', result.VTSubCounty)
+      return result
+    })
+    .then((result) => {
+      organize_features('cities', result.cities)
       return result
     })
     .then(()=>render_all_states(err => {if (err) throw err}))

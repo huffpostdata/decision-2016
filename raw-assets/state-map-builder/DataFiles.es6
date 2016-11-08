@@ -43,5 +43,10 @@ module.exports = {
     'basename': 'tl_2016_50_cousub',
     'url': 'https://www2.census.gov/geo/tiger/TIGER2016/COUSUB/tl_2016_50_cousub.zip',
     'shp_size': 946000
+  },
+  'cities': {
+    'basename': 'citiesx010g',
+    'url': 'http://dds.cr.usgs.gov/pub/data/nationalatlas/citiesx010g_shp_nt00962.tar.gz',
+    'shp_size': 1069308
   }
 }
