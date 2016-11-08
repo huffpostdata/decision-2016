@@ -3,6 +3,7 @@ var Map = require('./common/Map');
 var MapSwitcher = require('./common/MapSwitcher');
 var nav = require('./dashboard/_nav');
 var Tooltip = require('./common/Tooltip');
+var TitleUpdater = require('./dashboard/TitleUpdater');
 var Summary = require('./senate/_summary');
 var refresh = require('./common/_refresh');
 
@@ -58,22 +59,15 @@ var navEl = document.querySelector('nav');
 var updateNav = nav(navEl);
 updateNav(initialJson.summaries);
 
-function setTitleSummary(summary) {
-  if(summary.totals.dem + summary.totals.gop > 0) {
-    if(summary.className === "dem-win") {
-      document.title = "✔DEM "+summary.totals.dem+" : "+summary.totals.gop+" REP | "+ originalTitle;
-    } else if(summary.className === "gop-win") {
-      document.title = "DEM "+summary.totals.dem+" : "+summary.totals.gop+" REP✔ | "+ originalTitle;
-    } else {
-      document.title = "DEM "+summary.totals.dem+" : "+summary.totals.gop+" REP | "+ originalTitle;
-    }
-  }
+var titleUpdater = new TitleUpdater('🐎', '🐘');
+function updateTitle(json) {
+  var race = json.summaries.senate;
+  titleUpdater.update(race.className, race.totals.dem, race.totals.gop);
 }
-
-setTitleSummary(initialJson.summaries.senate);
+updateTitle(initialJson);
 
 function doRefresh(json) {
-  setTitleSummary(json.summaries.senate);
+  updateTitle(json);
   changelog.update(json);
   summary.update(json);
   if (map) map.update(json.races);
