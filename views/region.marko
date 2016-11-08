@@ -44,6 +44,7 @@ html lang="en"
                     td.votes - 1
 
           .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
+          p.to-national-map - <a href="${data.path_to('president')}">National President Map »</a>
         .section-main
           $!{data.helpers.partial('dashboard/_legend', { entrySet: 'president' })}
           .geo-map.president-map - $!{data.helpers.geoSvg(data.model.id)}
@@ -58,6 +59,7 @@ html lang="en"
             if(data.model.races.senate.race)
               <div class="candidate-table">$!{buildCandidateTableHTML(data.model.races.senate.race)}</div>
               .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
+            p.to-national-map - <a href="${data.path_to('senate')}">National Senate Map »</a>
           if(data.model.races.senate.race)
             .section-main
               $!{data.helpers.partial('dashboard/_legend', { entrySet: 'senate' })}
@@ -72,6 +74,7 @@ html lang="en"
             $!{data.helpers.partial('dashboard/_legend', { entrySet: 'house' })}
             .house-map - $!{data.helpers.districtSvg(data.model.id)}
             .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
+            p.to-national-map - <a href="${data.path_to('house')}">National House Map »</a>
           .section-main - $!{data.helpers.partial('region/_house-races')}
 
     if(data.model.races.ballot.length)

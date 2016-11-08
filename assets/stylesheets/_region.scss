@@ -90,6 +90,17 @@ body.region {
       pointer-events: none;
     }
   }
+
+  p.to-national-map {
+    font-weight: bold;
+    color: $color;
+
+    a {
+      font: inherit;
+      color: inherit;
+      padding: .5rem 0; // make it easier to click
+    }
+  }
 }
 
 @import 'region/_president-race.scss';
