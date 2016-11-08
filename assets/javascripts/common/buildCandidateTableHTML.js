@@ -77,10 +77,9 @@ var setFooterText = function(race, target, i18n, promptUrl) {
   var formatPercent = typeof Intl === 'object' ? new Intl.NumberFormat(i18n.locale, { style: 'percent' }).format : formatPercentForIE10;
 
   var htmlInject = [
-    '<div class="footer">',
-      '<p class="fraction-reporting">',
-        i18n.t('tooltip.Percent counted', { percent: formatPercent(race.fractionReporting) }),
-      '</p>'
+    '<p class="fraction-reporting">',
+      i18n.t('tooltip.Percent counted', { percent: formatPercent(race.fractionReporting) }),
+    '</p>'
   ];
 
   if (promptUrl) {
@@ -90,8 +89,6 @@ var setFooterText = function(race, target, i18n, promptUrl) {
       htmlInject.push('<p class="state-click">Click state to view full results</p>');
     }
   }
-
-  htmlInject.push('</div>');
 
   return htmlInject.join('');
 }

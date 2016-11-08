@@ -110,19 +110,10 @@
   tr.winner td.name::before {
     content: '✔';
   }
-  .footer{
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: flex-start;
-    p.fraction-reporting {
-      margin-bottom: 0px;
-      font-size: 0.75rem;
-      color: $muted-color;
-    }
-    p.state-click {
-      margin: 0px;
-      font-size: 0.75rem;
-      color: $muted-color;
-    }
+
+  p.fraction-reporting, p.state-click {
+    margin: .75rem 0 0;
+    color: $muted-color;
+    font-size: .75rem;
   }
 }
