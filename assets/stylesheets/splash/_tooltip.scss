@@ -1,6 +1,6 @@
 #splash-map-tooltip {
   position: absolute;
-  z-index: 1000; // exactly 1000.
+  z-index: 1005; // needs to be over 1002 to go over electoral bubbles.
   background: $background;
   box-sizing: border-box;
   border: 1px solid $color;
