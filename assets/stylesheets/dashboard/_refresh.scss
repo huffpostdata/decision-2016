@@ -36,6 +36,10 @@
     }
   }
 
+  span.countdown {
+    cursor: pointer;
+  }
+
   &.loading button::before {
     animation: spin 1s infinite linear;
   }

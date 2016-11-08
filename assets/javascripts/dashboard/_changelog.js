@@ -107,13 +107,14 @@ function Changelog(el, initialJson) {
 
 Changelog.prototype.update = function(json) {
   var entries = jsonToChangelogEntries(json);
+  var i;
   if (entries.length === 0) return;
 
   this.maxNEntries = entries.length;
 
   var added = [];
 
-  for (var i = 0; i < entries.length; i++) {
+  for (i = 0; i < entries.length; i++) {
     var entry = entries[i];
     if (this.topEntryId === entry.id) break;
 
@@ -121,6 +122,10 @@ Changelog.prototype.update = function(json) {
     li.classList.add('new-change');
     this.ol.insertBefore(li, this.ol.childNodes[0]);
     added.push(li);
+  }
+
+  for (i = this.ol.childNodes.length - 1; i >= this.maxNEntries; i--) {
+    this.ol.removeChild(this.ol.childNodes[i]);
   }
 
   window.setTimeout(function() {

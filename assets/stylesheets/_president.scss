@@ -4,4 +4,6 @@
 
 body.president {
   @include dashboard-body();
+
+  p.explanation { margin-top: 2rem; }
 }

@@ -131,6 +131,9 @@ module.exports = function(elOrEls, url, setData, _options) {
   for (i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener('click', onClick);
   }
+  for (i = 0; i < countdowns.length; i++) {
+    countdowns[i].addEventListener('click', onClick);
+  }
 
   startCountdown();
 }

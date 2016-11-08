@@ -58,7 +58,7 @@ updateNav(initialJson.summaries);
 var changelogEl = document.getElementById('changelog');
 var changelog = new Changelog(changelogEl, initialJson);
 
-var titleUpdater = new TitleUpdater('𝗖', '𝗧');
+var titleUpdater = new TitleUpdater('C', 'T');
 function updateTitle(json) {
   var race = json.summaries.president;
   titleUpdater.update(race.className, race.nClintonElectoralVotes, race.nTrumpElectoralVotes);

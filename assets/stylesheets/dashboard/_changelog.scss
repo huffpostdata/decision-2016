@@ -46,9 +46,9 @@
     &:first-child { border-top: 0; }
 
     background-color: $background;
-    transition: background-color 1s ease-out;
+    transition: background-color 5s ease-out;
     &.new-change {
-      background-color: $very-muted-color;
+      background-color: $highlight-background;
     }
   }
 
