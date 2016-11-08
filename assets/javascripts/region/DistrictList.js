@@ -85,7 +85,8 @@ DistrictList.prototype.update = function(races) {
     var race = races[i];
     var dom = this.raceIdToDom[race.id];
     if (!dom) continue; // should never happen
-    dom.tr.className = race.className;
+    var highlight = dom.tr.classList.contains('highlight');
+    dom.tr.className = highlight ? (race.className + ' highlight') : race.className;
     setPercent(dom.dem, race.dem, race.nVotes);
     setPercent(dom.gop, race.gop, race.nVotes);
     setPercent(dom.third, race.third, race.nVotes);
