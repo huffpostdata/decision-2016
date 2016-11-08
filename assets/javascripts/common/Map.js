@@ -136,10 +136,11 @@ function highlightPaths(paths) {
 
   for (var i = 0; i < paths.length; i++) {
     var path = paths[i];
+    var cities = path.parentNode.querySelector('g.cities');
     var highlightPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     highlightPath.setAttribute('class', 'highlight');
     highlightPath.setAttribute('d', path.getAttribute('d'));
-    path.parentNode.appendChild(highlightPath);
+    path.parentNode.insertBefore(highlightPath, cities);
     highlightPaths.push(highlightPath);
   }
 }
