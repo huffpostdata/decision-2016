@@ -1,15 +1,15 @@
 #refresh, div.refresh {
   display: block;
-  margin: .5rem 0;
+  //margin: .5rem 0;
   //height: 2rem;
-  font-size: .85rem;
+  font-size: .75rem;
   color: $muted-color;
 
   button {
     display: inline-block;
     background: $background;
     position: relative;
-    padding-right: .7rem;
+    padding-right: .3rem;
     margin: 1rem .5rem 1rem 0;
     line-height: 1.5rem;
     border: none;
@@ -27,10 +27,10 @@
     &::before {
       content: '';
       display: inline-block;
-      width: 1.2rem;
-      height: 1.2rem;
+      width: .8rem;
+      height: .8rem;
       position: absolute;
-      top: -.8rem;
+      top: -.5rem;
       left: 0rem;
       background-image: asset-as-url('digest', 'images/common/refresh.svg');
       background-size: 100%;
