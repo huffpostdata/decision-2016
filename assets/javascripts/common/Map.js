@@ -74,7 +74,7 @@ Map.prototype.addHoverListener = function(callback) {
 };
 
 /**
- * Calls callback(this, raceId), depending on user actions.
+ * Calls callback(this, raceId, inNewWindow), depending on user actions.
  *
  * Does not call the callback on tap.
  */
@@ -92,10 +92,10 @@ Map.prototype.addMouseClickListener = function(callback) {
   });
 
   this.svg.addEventListener('click', function(ev) {
-    if (ev.button !== 0) return;
+    if (ev.button !== 0 && ev.button !== 1) return;
     if (new Date() - lastTouchendDate < 2000) return; // arbitrary number
     if (ev.target.hasAttribute(idAttribute)) {
-      callback(_this, ev.target.getAttribute(idAttribute));
+      callback(_this, ev.target.getAttribute(idAttribute), ev.button === 1 || ev.ctrlKey);
     }
   });
 };
