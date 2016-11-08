@@ -3,6 +3,7 @@ var Map = require('./common/Map');
 var MapSwitcher = require('./common/MapSwitcher');
 var nav = require('./dashboard/_nav');
 var Tooltip = require('./common/Tooltip');
+var TitleUpdater = require('./dashboard/TitleUpdater');
 var refresh = require('./common/_refresh');
 var Summary = require('./house/_summary');
 
@@ -57,22 +58,15 @@ var navEl = document.querySelector('nav');
 var updateNav = nav(navEl);
 updateNav(initialJson.summaries);
 
-function setTitleSummary(summary) {
-  if(summary.wins.dem + summary.wins.gop > 0) {
-    if(summary.className === "dem-win") {
-      document.title = "✔DEM "+summary.wins.dem+" : "+summary.wins.gop+" REP | "+ originalTitle;
-    } else if(summary.className === "gop-win") {
-      document.title = "DEM "+summary.wins.dem+" : "+summary.wins.gop+" REP✔ | "+ originalTitle;
-    } else {
-      document.title = "DEM "+summary.wins.dem+" : "+summary.wins.gop+" REP | "+ originalTitle;
-    }
-  }
+var titleUpdater = new TitleUpdater('🐎', '🐘');
+function updateTitle(json) {
+  var race = json.summaries.house;
+  titleUpdater.update(race.className, race.wins.dem, race.wins.gop);
 }
-
-setTitleSummary(initialJson.summaries.house);
+updateTitle(initialJson);
 
 function doRefresh(json) {
-  setTitleSummary(json.summaries.house);
+  updateTitle(json);
   if (map) map.update(json.races);
   if (tooltip) tooltip.setData(json.races);
   changelog.update(json);

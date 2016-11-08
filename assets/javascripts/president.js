@@ -3,6 +3,7 @@ var Map = require('./common/Map');
 var MapSwitcher = require('./common/MapSwitcher');
 var nav = require('./dashboard/_nav');
 var Tooltip = require('./common/Tooltip');
+var TitleUpdater = require('./dashboard/TitleUpdater');
 var refresh = require('./common/_refresh');
 var Summary = require('./president/_summary');
 
@@ -57,27 +58,20 @@ updateNav(initialJson.summaries);
 var changelogEl = document.getElementById('changelog');
 var changelog = new Changelog(changelogEl, initialJson);
 
-function setTitleSummary(summary) {
-  if(summary.nClintonElectoralVotes + summary.nTrumpElectoralVotes > 0) {
-    if(summary.className === "dem-win") {
-      document.title = "✔C "+summary.nClintonElectoralVotes+" : "+summary.nTrumpElectoralVotes+" T | "+ originalTitle;
-    } else if(summary.className === "gop-win") {
-      document.title = "C "+summary.nClintonElectoralVotes+" : "+summary.nTrumpElectoralVotes+" T✔ | "+ originalTitle;
-    } else {
-      document.title = "C "+summary.nClintonElectoralVotes+" : "+summary.nTrumpElectoralVotes+" T | "+ originalTitle;
-    }
-  }
+var titleUpdater = new TitleUpdater('𝗖', '𝗧');
+function updateTitle(json) {
+  var race = json.summaries.president;
+  titleUpdater.update(race.className, race.nClintonElectoralVotes, race.nTrumpElectoralVotes);
 }
-
-setTitleSummary(initialJson.summaries.president);
+updateTitle(initialJson);
 
 function doRefresh(json) {
-  setTitleSummary(json.summaries.president);
   if (map) map.update(json.races);
   if (tooltip) tooltip.setData(json.races);
   changelog.update(json);
   updateNav(json.summaries);
   summary.update(json);
+  updateTitle(json);
 
   initialJson = json; // in case "map" and "tooltip" aren't loaded yet
 }
