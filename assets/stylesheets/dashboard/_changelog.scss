@@ -1,13 +1,33 @@
 #changelog {
   font-size: .85rem;
 
+  .heading {
+    border-bottom: 1px solid $color;
+
+    #refresh {
+      display: inline-block;
+      padding-left: .25rem;
+      margin: 0;
+
+      button.refresh { margin: 0; }
+
+      span.countdown {
+        padding-left: .25rem;
+        font-size: .75rem;
+        line-height: 1.5rem;
+      }
+    }
+  }
+
   h3 {
+    display: inline-block;
     font-family: $header-font-family;
     font-weight: bold;
     text-transform: uppercase;
     font-size: 1.5rem;
+    line-height: 1;
     margin: 0;
-    border-bottom: 1px solid $color;
+    vertical-align: top;
   }
 
   ol {
