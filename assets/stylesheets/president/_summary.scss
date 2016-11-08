@@ -24,7 +24,7 @@
     }
     span {
       font-size: 0.75rem;
-      @media(min-width: 600px) {
+      @media(min-width: $min-desktop-width) {
         font-size: 1rem;
       }
     }
@@ -39,23 +39,22 @@
     .electoral-votes {
       font-size: .75rem;
 
-      @media (min-width: 475px) {
+      @media (min-width: $min-desktop-width) {
           display: block;
           font-size: .85rem;
           font-family: $body-font-family;
       }
-
     }
 
     .image {
-    display: none;
-  @media (min-width: 600px) {
-      display: block;
-      position: absolute;
-      bottom: 0;
-      width: 5rem;
-      height: 5rem;
-      background-size: 100%;
+      display: none;
+      @media (min-width: $min-desktop-width) {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        width: 5rem;
+        height: 5rem;
+        background-size: 100%;
       }
     }
   }
@@ -76,24 +75,24 @@
   }
 
   .total-clinton {
-  padding-left: 0rem;
+    padding-left: 0rem;
     text-align: left;
     left: 0;
     .image { left: 0; background-image: asset-url('digest', 'images/dashboard/clinton-bust.png'); }
-    @media (min-width: 600px) {
-    padding-left: 6rem;
+    @media (min-width: $min-desktop-width) {
+      padding-left: 6rem;
     }
     strong { color: $dem-color; }
-    }
+  }
 
 
   .total-trump {
-  padding-right: 0rem;
+    padding-right: 0rem;
     text-align: right;
     right: 0;
     .image { right: 0; background-image: asset-url('digest', 'images/dashboard/trump-bust.png'); }
-    @media (min-width: 600px) {
-    padding-right: 6rem;
+    @media (min-width: $min-desktop-width) {
+      padding-right: 6rem;
     }
     strong { color: $gop-color; }
   }
@@ -152,9 +151,13 @@
   .total-trump .image { background-image: asset-url('digest', 'images/dashboard/trump-bust.png'); }
 
   .photo-credit {
-    font-family: $body-font-family;
-    color: $very-muted-color;
-    font-size: .7rem;
-    margin-top: 10px;
+    visibility: hidden; // it affects the layout; too late to change that
+    @media (min-width: $min-desktop-width) {
+      visibility: visible;
+      font-family: $body-font-family;
+      color: $very-muted-color;
+      font-size: .75rem;
+      margin-top: .75rem;
+    }
   }
 }
