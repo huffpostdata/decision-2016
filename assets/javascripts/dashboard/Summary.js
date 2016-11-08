@@ -41,7 +41,7 @@ Summary.prototype.addHoverListener = function(callback) {
 };
 
 /**
- * Calls callback(this, raceId), depending on user actions.
+ * Calls callback(this, raceId, inNewWindow), depending on user actions.
  *
  * Does not call the callback on tap.
  */
@@ -58,10 +58,10 @@ Summary.prototype.addMouseClickListener = function(callback) {
   });
 
   this.els.races.addEventListener('click', function(ev) {
-    if (ev.button !== 0) return;
+    if (ev.button !== 0 && ev.button !== 1) return;
     if (new Date() - lastTouchendDate < 2000) return; // arbitrary number
     if (ev.target.hasAttribute('data-race-id')) {
-      callback(_this, ev.target.getAttribute('data-race-id'));
+      callback(_this, ev.target.getAttribute('data-race-id'), ev.button === 1 || ev.ctrlKey);
     }
   });
 };
