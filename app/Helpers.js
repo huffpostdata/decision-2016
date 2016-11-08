@@ -3,6 +3,7 @@
 const fs = require('fs')
 const Polyglot = require('node-polyglot')
 const formatInt = require('../assets/javascripts/common/formatInt')
+const formatFractionReporting = require('../assets/javascripts/dashboard/formatFractionReporting')
 const PageContext = require('../generator/PageContext')
 
 function extend_context(context, locals) {
@@ -53,11 +54,7 @@ class Helpers {
   }
 
   formatFractionReporting(fraction) {
-    if (fraction === 0) return '0%'
-    if (fraction === 1) return '100%'
-    if (fraction < 0.01) return '<1%'
-    if (fraction > 0.99) return '>99%'
-    return `${Math.round(fraction * 100)}%`
+    return formatFractionReporting(fraction);
   }
 
   buildTranslateFunction(i18n) {

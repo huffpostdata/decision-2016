@@ -4,6 +4,7 @@ var DistrictMap = require('./region/DistrictMap');
 var BallotRaces = require('./region/BallotRaces');
 var Tooltip = require('./common/Tooltip');
 var refresh = require('./common/_refresh');
+var buildCandidateTableHTML = require('./common/buildCandidateTableHTML');
 
 var script = document.querySelector('script[data-json]');
 
@@ -20,9 +21,11 @@ var presidentTooltip = new Tooltip({
   races: initialJson.president.geos,
   mapType: 'geo'
 });
+var presidentTableEl = document.querySelector('section#president .candidate-table');
 
 var senateMap = null;
 var senateTooltip = null;
+var senateTableEl = null;
 var senateSvg = document.querySelector('.senate-map svg');
 if (senateSvg) {
   senateMap = GeoMap({
@@ -37,6 +40,8 @@ if (senateSvg) {
     races: initialJson.senate.geos,
     mapType: 'geo'
   });
+
+  senateTableEl = document.querySelector('section#senate .candidate-table');
 }
 
 var houseMap = null;
@@ -61,18 +66,24 @@ if (houseSvg) {
   });
 }
 
-var ballotDiv = document.querySelector('.ballot-races');
+var ballotDiv = document.querySelector('section#ballot .ballot-races');
 var ballotRaces = null;
 if (ballotDiv) {
-  ballotRaces = new BallotRaces({ el: ballotDiv });
+  ballotRaces = new BallotRaces({
+    el: ballotDiv,
+    percentReportingEl: document.querySelector('section#ballot .percent-reporting')
+  });
 }
 
 function doRefresh(json) {
   presidentMap.update(json.president.geos);
   presidentTooltip.setData(json.president.geos);
+  presidentTableEl.innerHTML = buildCandidateTableHTML(json.president.race);
+
   if (senateMap) {
     senateMap.update(json.senate.geos);
     senateTooltip.setData(json.senate.geos);
+    senateTableEl.innerHTML = buildCandidateTableHTML(json.senate.race);
   }
   if (houseMap) {
     houseMap.update(json.house);
