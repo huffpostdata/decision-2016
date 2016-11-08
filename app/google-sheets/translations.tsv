@@ -17,7 +17,7 @@ h5.Cartogram	Tab for Cartogram map mode	ELECTORAL VOTES					الأصوات ال�
 h5.Geography	Tab for Geography map mode	GEOGRAPHY					خريطة جغرافية للنتائج	KARTE DER RESULTATE	ΧΑΡΤΗΣ ΑΠΟΤΕΛΕΣΜΑΤΩΝ	MAPA DE RESULTADOS	Mapa de resultados	CARTE			CARTA DEI RISULTATI	州ごとの情勢	지도	MAPA
 legend.header	Header for Legend	POLLS					استطلاعات الرأي	WAHLLOKALE	ΔΗΜΟΣΚΟΠΗΣΕΙΣ	COLEGIO ELECTORAL	Centros electorales	BUREAUX DE VOTE			COLLEGI ELETTORALI	得票状況	여론 조사	COLÉGIOS ELEITORAIS
 legend.lead	Tiny text in map legend: the "Lead" in "Win/Lead"	Lead					على رأس المقدمة	In Führung	Προβάδισμα	A la cabeza	Delantera	En tête			In testa	リード	우세	Líder
-linkout.See Full Results	Link to the main dashboard (the main dashboard is only English)	See Full Results					شاهد النتائج الكاملة 	Komplettes Ergebnis	Δείτε όλα τα αποτελέσματα	Ver todos los resultados	Ver todos los resultados	Voir le détail des résultats			Guarda i risultati completi	全結果を見る	전체 결과 보기	Ver todos os resultados
+linkout.See Full Results	Link to the main dashboard (the main dashboard is only English)	See Full Results					شاهد النتائج الكاملة 	Komplettes Ergebnis		Ver todos los resultados	Ver todos los resultados	Voir le détail des résultats			Guarda i risultati completi	全結果を見る	전체 결과 보기	Ver todos os resultados
 map.switch message	Text for map toggle on splash	View Map As					شاهد الخريطة	Karte sehen	Δείτε τον χάρτη	Ver mapa	Ver mapa 	Voir la carte			Guarda la mappa	マップを見る	지도 보기	Ver mapa como
 name.clinton	names used in electoral votes graph	CLINTON					كلينتون	CLINTON	ΚΛΙΝΤΟΝ	CLINTON	CLINTON	CLINTON			CLINTON	クリントン	클린턴	CLINTON
 name.trump	names used in electoral votes graph	TRUMP					ترامب	TRUMP	ΤΡΑΜΠ	TRUMP	TRUMP	TRUMP			TRUMP	トランプ	트럼프	TRUMP
@@ -26,57 +26,57 @@ party.gop		Republicans					الجمهوريون	Republikaner	Ρεπουμπλι�
 refresh.countdown		Refreshing in %{smart_count} second… |||| Refreshing in %{smart_count} seconds…					تحديث خلال%{smart_count} ثوان … |||| تحديث خلال%{smart_count} ثانية |||| تحديث خلال%{smart_count} ثانية |||| تحديث خلال%{smart_count} ثانية |||| تحديث خلال%{smart_count} ثانية |||| تحديث خلال%{smart_count} ثانية	Aktualisiert in %{smart_count} Sekunde… |||| Aktualisiert in %{smart_count} Sekunden…	Aνανεώνεται ανά %{smart_count} δευτερόλεπτα... |||| Aνανεώνεται ανά %{smart_count} δευτερόλεπτα...	Actualizando en %{smart_count} segundos … |||| Actualizando en %{smart_count} segundos…	Actualizando en %{smart_count} segundos … |||| Actualizando en %{smart_count} segundos…	Actualisation dans %{smart_count} seconde... |||| Actualisation dans %{smart_count} secondes...			Aggiornamento in % {smart_count} secondo… |||| Aggiornaento in %{smart_count} secondi…	％{smart_count}秒お待ちください...	%{smart_count} 초 뒤 새로 고침…	Atualizando em %{smart_count} segundo… |||| Atualizando em %{smart_count} segundos…
 refresh.error countdown		Failed last refresh. Refreshing in %{smart_count} second… |||| Failed last refresh. Refreshing in %{smart_count} seconds…					فشل التحديث السابق. تحديث جديد خلال%{smart_count} ثوان … |||| فشل التحديث السابق.تحديث جديد خلال%{smart_count} ثانية |||| تحديث جديد خلال%{smart_count} ثانية |||| تحديث جديد خلال%{smart_count} ثانية |||| تحديث جديد خلال%{smart_count} ثانية |||| تحديث جديد خلال%{smart_count} ثانية	Aktualisieren gescheitert. Aktualisiert in %{smart_count} Sekunde… |||| Aktualisieren gescheitert. Aktualisiert in %{smart_count} Sekunden…	Αποτυχία ανανέωσης. Aνανεώνεται ανά %{smart_count} δευτερόλεπτα... |||| Αποτυχία ανανέωσης. Aνανεώνεται αν %{smart_count} δευτερόλεπτα...	Falló la última actualización. Actualizando en %{smart_count}  segundos  |||| Falló la última actualización. Actualizando en %{smart_count}  segundos	Falló la última actualización. Actualizando en %{smart_count}  segundos  |||| Falló la última actualización. Actualizando en %{smart_count}  segundos	Échec de l'actualisation. Nouvelle tentative dans %{smart_count} seconde... |||| Échec de l'actualisation. Nouvelle tentative dans %{smart_count} secondes... 			Aggiornamento non riuscito. Aggiornamento in %{smart_count} secondo… |||| Ultimo aggiornamento non riuscito. Aggiornamento in %{smart_count} secondi…	更新に失敗しました　％{smart_count}秒お待ちください...	새로 고침 실패. %{smart_count} 초 안에 새로 고침…	Falha na última atualização. Atualizando em %{smart_count} segundo… |||| Falha na última atualização. Atualizando em %{smart_count} segundos…
 refresh.refreshing		Refreshing…					جاري التحديث...	Aktualisiert...	Ανανεώνεται...	Actualizando...		Actualisation en cours...			Aggiornamento in corso	しばらくお待ちください…	새로 고침 중...	Atualizando... 
-state-abbreviation.Ala.	State abbreviation (appears on map)	Ala.					ألاب.		Αλαμπάμα						Ala.	Ala.	앨라배마	
-state-abbreviation.Alaska		Alaska					ألاسكا		Αλάσκα						Alaska	Alaska	알래스카	
-state-abbreviation.Ariz.		Ariz.					أريز.		Αριζόνα						Ariz.	Ariz.	애리조나	
-state-abbreviation.Ark.		Ark.					أرك.		Αρκάνσας						Ark.	Ark.	아칸소	
-state-abbreviation.Calif.		Calif.					كالي.		Καλιφόρνια						Calif.	Calif.	캘리포니아	
-state-abbreviation.Colo.		Colo.					كولو.		Κολοράντο						Colo.	Colo.	콜로라도	
-state-abbreviation.Conn.		Conn.					كون.		Κονέκτικατ						Conn.	Conn.	코네티컷	
-state-abbreviation.D.C.		D.C.					العاص.		Κολούμπια						D.C.	D.C.	워싱턴 D.C.	
-state-abbreviation.Del.		Del.					ديلا.		Ντελαγουέρ						Del.	Del.	델라웨어	
-state-abbreviation.Fla.		Fla.					فلور.		Φλόριντα						Fla.	Fla.	플로리다	
-state-abbreviation.Ga.		Ga.					جورج.		Τζώρτζια						Ga.	Ga.	조지아	
-state-abbreviation.Hawaii		Hawaii					هاواي		Χαβάη			Hawaï			Hawaii	Hawaii	하와이	Havaí
-state-abbreviation.Idaho		Idaho					آيداهو		Άινταχο						Idaho	Idaho	아이다호	
-state-abbreviation.Ill.		Ill.					إلينو.		Ιλινόις						Ill.	Ill.	일리노이	
-state-abbreviation.Ind.		Ind.					إند.		Ιντιάνα						Ind.	Ind.	인디애나	
-state-abbreviation.Iowa		Iowa					آيوا		Αϊόβα						Iowa	Iowa	아이오와	
-state-abbreviation.Kan.		Kan.					كانز.		Κάνσας						Kans.	Kans.	캔자스	
-state-abbreviation.Ky.		Ky.					كنتا.		Κεντάκι						Ky.	Ky.	켄터키	
-state-abbreviation.La.		La.					لويز.		Λουιζιάνα						La.	La.	루이지애나	
-state-abbreviation.Maine		Maine					مين		Μέιν						Maine	Maine	메인	
-state-abbreviation.Mass.		Mass.					ماسا.		Μασσαχουσέτη						Mass.	Mass.	매사추세츠	
-state-abbreviation.Md.		Md.					ميري.		Μέριλαντ						Md.	Md.	메릴랜드	
-state-abbreviation.Mich.		Mich.					ميشي.		Μίσιγκαν						Mich.	Mich.	미시건	
-state-abbreviation.Minn.		Minn.					ميني.		Μινεσσότα						Minn.	Minn.	미네소타	
-state-abbreviation.Miss.		Miss.					ميزي.		Μισισίπι						Miss.	Miss.	미시시피	
-state-abbreviation.Mo.		Mo.					ميزو.		Μιζούρι						Mo.	Mo.	미주리	
-state-abbreviation.Mont.		Mont.					مونت.		Μοντάνα						Mont.	Mont.	몬태나	
-state-abbreviation.N.C.		N.C.					كارو-ش.		Βόρεια Καρολίνα	C. del Norte	C. Nte	C.Nord			N.C.	N.C.	노스 캐롤라이나	
-state-abbreviation.N.D.		N.D.					داكو-ش.		Βόρεια Ντακότα	D. del Norte	C Nte	D.Nord			N.D.	N.D.	노스 다코타	
-state-abbreviation.N.H.		N.H.					هامب.		Νιού Χάμσαϊρ						N.H.	N.H.	뉴 햄프셔	
-state-abbreviation.N.J.		N.J.					جيرز.		Νιού Τζέρσι						N.J.	N.J.	뉴 저지	
-state-abbreviation.N.M.		N.M.					نيومكس.		Νιού Μέξικο						N.M.	N.M.	뉴 멕시코	
-state-abbreviation.N.Y.		N.Y.					نيويورك		Νέα Υόρκη						N.Y.	N.Y.	뉴욕	
-state-abbreviation.Neb.		Neb.					نبرا.		Νεμπράσκα						Nebr.	Nebr.	네브래스카	
-state-abbreviation.Nev.		Nev.					نيفا.		Νεβάδα						Nev.	Nev.	네바다	
-state-abbreviation.Ohio		Ohio					أوهايو		Οχάιο						Ohio	Ohio	오하이오	
-state-abbreviation.Okla.		Okla.					أوكلا.		Οκλαχόμα						Okla.	Okla.	오클라호마	
-state-abbreviation.Ore.		Ore.					أوري.		Όρεγκον						Ore.	Ore.	오리건	
-state-abbreviation.Pa.		Pa.					بنسل.		Πενσυλβάνια						Pa.	Pa.	펜실베이니아	
-state-abbreviation.R.I.		R.I.					رودآ.		Ροντ Άιλαντ						R.I.	R.I.	로드 아일랜드	
-state-abbreviation.S.C.		S.C.					كارو-ج.		Νότια Καρολίνα	C. del Sur	C. Sur	C.Sud			S.C.	S.C.	사우스 캐롤라이나	
-state-abbreviation.S.D.		S.D.					داكو-ج.		Νότια Ντακότα	D. del Sur	D Sur	D.Sud			S.D.	S.D.	사우스 다코타	
-state-abbreviation.Tenn.		Tenn.					تنس.		Τενεσί						Tenn.	Tenn.	테네시	
-state-abbreviation.Texas		Texas					تكس.		Τέξας						Tex.	Tex.	텍사스	
-state-abbreviation.Utah		Utah					يوتا		Γιούτα						Utah	Utah	유타	
-state-abbreviation.Va.		Va.					فيرج.		Βιρτζίνια						Va.	Va.	버지니아	
-state-abbreviation.Vt.		Vt.					فيرم.		Βερμόντ						Vt.	Vt.	버몬트	
-state-abbreviation.W.Va.		W.Va.					فرج-غ.		Δυτική Βιρτζίνια						W.Va.	W.Va.	웨스트 버지니아	
-state-abbreviation.Wash.		Wash.					واشن.		Ουάσινγκτον						Wash.	Wash.	워싱턴	
-state-abbreviation.Wis.		Wis.					ويسك.		Γουισκόνσιν						Wis.	Wis.	위스콘신	
-state-abbreviation.Wyo.		Wyo.					وايو.		Γουαϊόμινγκ						Wyo.	Wyo.	와이오밍	
+state-abbreviation.Ala.	State abbreviation (appears on map)	Ala.					ألاب.								Ala.	Ala.	앨라배마	
+state-abbreviation.Alaska		Alaska					ألاسكا								Alaska	Alaska	알래스카	
+state-abbreviation.Ariz.		Ariz.					أريز.								Ariz.	Ariz.	애리조나	
+state-abbreviation.Ark.		Ark.					أرك.								Ark.	Ark.	아칸소	
+state-abbreviation.Calif.		Calif.					كالي.								Calif.	Calif.	캘리포니아	
+state-abbreviation.Colo.		Colo.					كولو.								Colo.	Colo.	콜로라도	
+state-abbreviation.Conn.		Conn.					كون.								Conn.	Conn.	코네티컷	
+state-abbreviation.D.C.		D.C.					العاص.								D.C.	D.C.	워싱턴 D.C.	
+state-abbreviation.Del.		Del.					ديلا.								Del.	Del.	델라웨어	
+state-abbreviation.Fla.		Fla.					فلور.								Fla.	Fla.	플로리다	
+state-abbreviation.Ga.		Ga.					جورج.								Ga.	Ga.	조지아	
+state-abbreviation.Hawaii		Hawaii					هاواي					Hawaï			Hawaii	Hawaii	하와이	Havaí
+state-abbreviation.Idaho		Idaho					آيداهو								Idaho	Idaho	아이다호	
+state-abbreviation.Ill.		Ill.					إلينو.								Ill.	Ill.	일리노이	
+state-abbreviation.Ind.		Ind.					إند.								Ind.	Ind.	인디애나	
+state-abbreviation.Iowa		Iowa					آيوا								Iowa	Iowa	아이오와	
+state-abbreviation.Kan.		Kan.					كانز.								Kans.	Kans.	캔자스	
+state-abbreviation.Ky.		Ky.					كنتا.								Ky.	Ky.	켄터키	
+state-abbreviation.La.		La.					لويز.								La.	La.	루이지애나	
+state-abbreviation.Maine		Maine					مين								Maine	Maine	메인	
+state-abbreviation.Mass.		Mass.					ماسا.								Mass.	Mass.	매사추세츠	
+state-abbreviation.Md.		Md.					ميري.								Md.	Md.	메릴랜드	
+state-abbreviation.Mich.		Mich.					ميشي.								Mich.	Mich.	미시건	
+state-abbreviation.Minn.		Minn.					ميني.								Minn.	Minn.	미네소타	
+state-abbreviation.Miss.		Miss.					ميزي.								Miss.	Miss.	미시시피	
+state-abbreviation.Mo.		Mo.					ميزو.								Mo.	Mo.	미주리	
+state-abbreviation.Mont.		Mont.					مونت.								Mont.	Mont.	몬태나	
+state-abbreviation.N.C.		N.C.					كارو-ش.			C. del Norte	C. Nte	C.Nord			N.C.	N.C.	노스 캐롤라이나	
+state-abbreviation.N.D.		N.D.					داكو-ش.			D. del Norte	C Nte	D.Nord			N.D.	N.D.	노스 다코타	
+state-abbreviation.N.H.		N.H.					هامب.								N.H.	N.H.	뉴 햄프셔	
+state-abbreviation.N.J.		N.J.					جيرز.								N.J.	N.J.	뉴 저지	
+state-abbreviation.N.M.		N.M.					نيومكس.								N.M.	N.M.	뉴 멕시코	
+state-abbreviation.N.Y.		N.Y.					نيويورك								N.Y.	N.Y.	뉴욕	
+state-abbreviation.Neb.		Neb.					نبرا.								Nebr.	Nebr.	네브래스카	
+state-abbreviation.Nev.		Nev.					نيفا.								Nev.	Nev.	네바다	
+state-abbreviation.Ohio		Ohio					أوهايو								Ohio	Ohio	오하이오	
+state-abbreviation.Okla.		Okla.					أوكلا.								Okla.	Okla.	오클라호마	
+state-abbreviation.Ore.		Ore.					أوري.								Ore.	Ore.	오리건	
+state-abbreviation.Pa.		Pa.					بنسل.								Pa.	Pa.	펜실베이니아	
+state-abbreviation.R.I.		R.I.					رودآ.								R.I.	R.I.	로드 아일랜드	
+state-abbreviation.S.C.		S.C.					كارو-ج.			C. del Sur	C. Sur	C.Sud			S.C.	S.C.	사우스 캐롤라이나	
+state-abbreviation.S.D.		S.D.					داكو-ج.			D. del Sur	D Sur	D.Sud			S.D.	S.D.	사우스 다코타	
+state-abbreviation.Tenn.		Tenn.					تنس.								Tenn.	Tenn.	테네시	
+state-abbreviation.Texas		Texas					تكس.								Tex.	Tex.	텍사스	
+state-abbreviation.Utah		Utah					يوتا								Utah	Utah	유타	
+state-abbreviation.Va.		Va.					فيرج.								Va.	Va.	버지니아	
+state-abbreviation.Vt.		Vt.					فيرم.								Vt.	Vt.	버몬트	
+state-abbreviation.W.Va.		W.Va.					فرج-غ.								W.Va.	W.Va.	웨스트 버지니아	
+state-abbreviation.Wash.		Wash.					واشن.								Wash.	Wash.	워싱턴	
+state-abbreviation.Wis.		Wis.					ويسك.								Wis.	Wis.	위스콘신	
+state-abbreviation.Wyo.		Wyo.					وايو.								Wyo.	Wyo.	와이오밍	
 state.Alabama	Full state name	Alabama					ألاباما		Αλαμπάμα						Alabama	アラバマ州	앨라배마	
 state.Alaska		Alaska					ألاسكا		Αλάσκα						Alaska	アラスカ州	알래스카	Alasca
 state.Arizona		Arizona					أريزونا		Αριζόνα						Arizona	アリゾナ州	애리조나	
