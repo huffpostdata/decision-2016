@@ -1,5 +1,6 @@
 var GeoMap = require('./region/GeoMap');
 var DistrictList = require('./region/DistrictList');
+var SplitVoteDistricts = require('./region/SplitVoteDistricts');
 var DistrictMap = require('./region/DistrictMap');
 var BallotRaces = require('./region/BallotRaces');
 var Tooltip = require('./common/Tooltip');
@@ -22,6 +23,12 @@ var presidentTooltip = new Tooltip({
   mapType: 'geo'
 });
 var presidentTableEl = document.querySelector('section#president .candidate-table');
+
+var splitVoteDistricts = null;
+var splitVoteDistrictsEl = document.querySelector('section#president .split-vote-districts');
+if (splitVoteDistrictsEl) {
+  splitVoteDistricts = new SplitVoteDistricts({ el: splitVoteDistrictsEl });
+}
 
 var senateMap = null;
 var senateTooltip = null;
@@ -79,6 +86,10 @@ function doRefresh(json) {
   presidentMap.update(json.president.geos);
   presidentTooltip.setData(json.president.geos);
   presidentTableEl.innerHTML = buildCandidateTableHTML(json.president.race);
+
+  if (splitVoteDistricts) {
+    splitVoteDistricts.update(json.president.districts);
+  }
 
   if (senateMap) {
     senateMap.update(json.senate.geos);
