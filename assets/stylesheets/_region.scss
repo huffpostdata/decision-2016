@@ -71,7 +71,7 @@ body.region {
 
     svg {
       display: block;
-      max-width: 100%;
+      width: 100%;
       height: auto;
       max-height: 25rem;
     }
@@ -97,6 +97,17 @@ body.region {
       stroke: $background;
       stroke-width: 2px;
       pointer-events: none;
+    }
+  }
+
+  p.to-national-map {
+    font-weight: bold;
+    color: $color;
+
+    a {
+      font: inherit;
+      color: inherit;
+      padding: .5rem 0; // make it easier to click
     }
   }
 }

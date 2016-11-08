@@ -8,6 +8,7 @@ const postcss = require('postcss')
 const autoprefixer = require('autoprefixer')
 const mdeps = require('module-deps')
 const browserPack = require('browser-pack')
+const UglifyJS = require('uglify-js')
 
 function md5sum(string) {
   const hash = crypto.createHash('md5')
@@ -215,7 +216,8 @@ module.exports = class AssetCompiler {
       pack.on('end', () => {
         try {
           const js = Buffer.concat(chunks)
-          out[key] = new Asset(key, js, { content_type: 'application/javascript', max_age: 8640000000 }) // far-future expires
+          const uglyJs = process.env.UGLIFY ? Buffer.from(UglifyJS.minify(js.toString('utf-8'), { fromString: true }).code, 'utf8') : js
+          out[key] = new Asset(key, uglyJs, { content_type: 'application/javascript', max_age: 8640000000 }) // far-future expires
           process.nextTick(build_one)
         } catch (e) {
           return callbackOnce(e)

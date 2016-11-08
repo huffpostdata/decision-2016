@@ -148,10 +148,9 @@ function compareRaces(a, b) {
   // 2. Sort by state name
   if (a.stateName !== b.stateName) return a.stateName.localeCompare(b.stateName)
 
-  // 3. Sort by race name ("Maine At Large" < "Maine District 2")
-  if (a.name !== b.name) return a.name.localeCompare(b.name)
-
-  // 4. Sort by seat number/class (be careful: "3" should come _after_ "20")
+  // 3. Sort by seat number/class:
+  // "3" should come _after_ "20"
+  // "District 1" should come _after_ "At Large"
   return a.id.localeCompare(b.id)
 }
 

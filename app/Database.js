@@ -103,13 +103,13 @@ module.exports = class Database {
 
     this.president = {
       metadata: new PageMetadata('president', {
-        hed: 'Who Will Be The Next President?',
-        dek: 'Follow along with live-updating election results and maps',
+        title: '2016 Presidential Election',
+        hed: '2016 Presidential Election Live Results',
+        social_title: '2016 Presidential Election Live Results',
+        dek: 'Track your candidate using our interactive, live election maps and infographics',
         twitter_author: '@huffpostdata',
-        date_published: 'Tk, Tk TK, TKTK',
-        title: 'Presidential Election',
-        social_title: 'Who Will Be The Next President?',
-        suggested_tweet: 'Follow along with live-updating election results and maps'
+        date_published: 'Monday, Nov. 8, 2016, 12:00 P.M. EST',
+        suggested_tweet: 'Follow the 2016 election with live results and maps'
       }),
       summaries: summaries,
       races: presidentRaces,
@@ -118,13 +118,13 @@ module.exports = class Database {
 
     this.senate = {
       metadata: new PageMetadata('senate', {
-        hed: 'Which Party Will Take The Senate?',
-        dek: 'Follow along with live-updating election results and maps',
+        title: '2016 Senate Election',
+        hed: '2016 Senate Election Live Results',
+        social_title: '2016 Senate Election Live Results',
+        dek: 'Track your candidate using our interactive, live election maps and infographics',
         twitter_author: '@huffpostdata',
-        date_published: 'Tk, Tk TK, TKTK',
-        title: 'Senate Election',
-        social_title: 'Which Party Will Take The Senate?',
-        suggested_tweet: 'Follow along with live-updating election results and maps'
+        date_published: 'Monday, Nov. 8, 2016, 12:00 P.M. EST',
+        suggested_tweet: 'Follow the 2016 election with live results and maps'
       }),
       summaries: summaries,
       races: senateRaces,
@@ -133,13 +133,13 @@ module.exports = class Database {
 
     this.house = {
       metadata: new PageMetadata('house', {
-        hed: 'Which Party Will Take The House?',
-        dek: 'Follow along with live-updating election results and maps',
+        title: '2016 House Election',
+        hed: '2016 House Election Live Results',
+        social_title: '2016 House Election Live Results',
+        dek: 'Track your candidate using our interactive, live election maps and infographics',
         twitter_author: '@huffpostdata',
-        date_published: 'Tk, Tk TK, TKTK',
-        title: 'Senate Election',
-        social_title: 'Which Party Will Take The House?',
-        suggested_tweet: 'Follow along with live-updating election results and maps'
+        date_published: 'Monday, Nov. 8, 2016, 12:00 P.M. EST',
+        suggested_tweet: 'Follow the 2016 election with live results and maps'
       }),
       summaries: summaries,
       races: houseRaces,
@@ -173,13 +173,13 @@ module.exports = class Database {
 
       const metadata = new PageMetadata(`state/${regionId}`, {
         social_image: 'president-social.jpg',
-        hed: `${name} Election Results`,
-        dek: 'Follow along with live-updating election results and maps',
-        twitter_author: '@huffpostdata',
-        date_published: 'Tk, Tk TK, TKTK',
         title: `${name} Election Results`,
+        hed: `${name} Election Results`,
+        dek: 'Track your candidate using our interactive, live election maps and infographics',
+        twitter_author: '@huffpostdata',
+        date_published: 'Monday, Nov. 8, 2016, 12:00 P.M. EST',
         social_title: `Who’s ahead in ${name}?`,
-        suggested_tweet: 'Follow along with live-updating election results and maps'
+        suggested_tweet: `Follow the 2016 ${name} election with live results and maps`
       })
       metadata.url_route = [ 'state/:id', regionId ]
 

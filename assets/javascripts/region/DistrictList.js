@@ -1,5 +1,7 @@
+var formatFractionReporting = require('../dashboard/formatFractionReporting');
+
 function formatFraction(numerator, denominator) {
-  return denominator ? formatPercent((numerator || 0) / denominator) : '';
+  return denominator ? formatFractionReporting(numerator / denominator) : '';
 }
 
 function formatPercent(fraction) {
@@ -87,7 +89,7 @@ DistrictList.prototype.update = function(races) {
     setPercent(dom.dem, race.dem, race.nVotes);
     setPercent(dom.gop, race.gop, race.nVotes);
     setPercent(dom.third, race.third, race.nVotes);
-    dom.fractionReporting.textContent = formatPercent(race.fractionReporting);
+    dom.fractionReporting.textContent = formatFractionReporting(race.fractionReporting);
   }
 };
 

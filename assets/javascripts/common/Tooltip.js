@@ -16,17 +16,19 @@ function Tooltip(options) {
   this.mapType = options.mapType;
   this.i18n = options.i18n || null;
   this.urlTemplate = options.urlTemplate || null;
-  //  haven't figured out a way to get rid of this map type option yet...
-  var mapTypeToDataAttribute = {
-    geo: 'data-geo-id',
-    state: 'data-race-id'
-  }
-  this.dataAttrAccessor = mapTypeToDataAttribute[options.mapType];
 
   var _this = this;
 
   function goToStatePage(stateCode) {
-    window.top.location = _this.urlTemplate.replace('XX', stateCode);
+    var url = _this.urlTemplate.replace('XX', stateCode);
+    if (/^http:\/\//.test(url)) {
+      // From splash? Open in new tab
+      var win = window.open(url, '_blank');
+      win.focus();
+    } else {
+      // From dashboard? Move
+      window.top.location = url;
+    }
   }
 
   function onMouseClick(_, raceId) {

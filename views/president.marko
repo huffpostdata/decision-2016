@@ -2,7 +2,7 @@
 html lang="en"
   head
     meta charset="utf-8"
-    title - Presidential Race: Election 2016
+    title - ${data.model.metadata.title}
     meta name="viewport" content="width=device-width, initial-scale=1"
     link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/dashboard.css')}"
     link rel="shortcut icon" type="image/x-icon" href="${data.path_to_asset('digest', 'images/favicon.ico')}"
@@ -15,7 +15,7 @@ html lang="en"
       $!{data.helpers.partial('dashboard/_refresh')}
       $!{data.helpers.partial('president/_summary')}
 
-      p.explanation - Voters in each state decide how their state's <em>electors</em> will vote. Most states are winner-take-all: whoever wins in California earns all 55 of its electoral-college votes.
+      p.explanation - Voters in each state decide how their state's <em>electors</em> will vote. Most states are winner-take-all: whoever wins in California earns all 55 of its electoral college votes.
 
       .map-and-map-info
         .map
