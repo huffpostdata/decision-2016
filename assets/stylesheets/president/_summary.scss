@@ -62,15 +62,15 @@
   .popular-votes {
     height: 1rem;
     font-size: .85rem;
-    line-height: 1rem;
+    line-height: 1;
     position: relative;
-    padding-top: .25rem;
+    padding-top: .125rem;
     color: $muted-color;
 
     .trump-popular-votes {
       position: absolute;
       right: 0;
-      top: .25rem;
+      top: .125rem;
     }
   }
 
@@ -114,7 +114,7 @@
       margin-left: -.5px;
       left: 50%;
       width: 0;
-      height: 5.5rem;
+      height: 4.5rem;
       bottom: 1rem;
       border-left: 1px solid $color;
     }
@@ -157,7 +157,6 @@
       font-family: $body-font-family;
       color: $very-muted-color;
       font-size: .75rem;
-      margin-top: .75rem;
     }
   }
 }
