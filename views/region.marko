@@ -43,7 +43,7 @@ html lang="en"
                     td.winner - ${{'dem-win':'Clinton','gop-win':'Trump'}[race.className] || ''}
                     td.votes - 1
 
-          .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
+          .refresh - <button class="refresh"></button><span class="countdown"></span>
           p.to-national-map - <a href="${data.path_to('president')}">National President Map »</a>
         .section-main
           $!{data.helpers.partial('dashboard/_legend', { entrySet: 'president' })}
@@ -58,7 +58,7 @@ html lang="en"
               p - ${seat.candidates[0].fullName} (${seat.candidates[0].partyId === 'ind' ? 'Independent, caucuses as a ' : ''}<strong class="${seat.className}">${{gop: 'Republican', dem: 'Democrat'}[seat.winner]}</strong>) has a term ending ${{3: 'this year:', 1: 'in 2018.', 2: 'in 2020.'}[seat.seatClass]}
             if(data.model.races.senate.race)
               <div class="candidate-table">$!{buildCandidateTableHTML(data.model.races.senate.race)}</div>
-              .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
+              .refresh - <button class="refresh"></button><span class="countdown"></span>
             p.to-national-map - <a href="${data.path_to('senate')}">National Senate Map »</a>
           if(data.model.races.senate.race)
             .section-main
@@ -73,7 +73,7 @@ html lang="en"
             p - ${data.model.name} has <strong>${data.model.races.house.length}</strong> ${data.model.races.house.length == 1 ? 'House seat' : 'House seats'}. ${data.model.races.house.length == 1 ? 'It is' : (data.model.races.house.length == 2 ? 'Both are' : 'All are')} up for re-election.
             $!{data.helpers.partial('dashboard/_legend', { entrySet: 'house' })}
             .house-map - $!{data.helpers.districtSvg(data.model.id)}
-            .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
+            .refresh - <button class="refresh"></button><span class="countdown"></span>
             p.to-national-map - <a href="${data.path_to('house')}">National House Map »</a>
           .section-main - $!{data.helpers.partial('region/_house-races')}
 
@@ -84,7 +84,7 @@ html lang="en"
           aside
             p - ${data.model.name} is voting on <strong>${data.model.races.ballot.length}</strong> statewide ballot ${data.model.races.ballot.length == 1 ? 'initiative' : 'initiatives'}.
             p.percent-reporting - ${Math.round(100 * Math.max.apply(null, data.model.races.ballot.map(function(r) { return r.fractionReporting; })))}% of votes counted
-            .refresh - <button class="refresh">Refresh</button><span class="countdown"></span>
+            .refresh - <button class="refresh"></button><span class="countdown"></span>
           .section-main - $!{data.helpers.partial('region/_ballot-races')}
 
     $!{data.helpers.partial('_sources')}

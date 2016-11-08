@@ -1,31 +1,27 @@
 #refresh, div.refresh {
   display: block;
+  margin: .5rem 0;
   //height: 2rem;
   font-size: .85rem;
   color: $muted-color;
 
   button {
     display: inline-block;
-    background: $refresh-bg;
+    background: $background;
     position: relative;
-    padding-left: 2rem;
-    padding-right: .5rem;
+    padding-right: .7rem;
     margin: 1rem .5rem 1rem 0;
-    font-size: .85rem;
-    text-transform: uppercase;
-    font-weight: bold;
-    color: black;
     line-height: 1.5rem;
-    border: 1px solid darken($refresh-bg, 10);
+    border: none;
     outline: none;
     cursor: pointer;
 
      &:hover {
-      background-color: darken($refresh-bg, 10);
+      background-color: $background;
     }
 
     &:active {
-      background-color: darken($refresh-bg, 10);
+      background-color: $background;
     }
 
     &::before {
@@ -34,8 +30,8 @@
       width: 1.2rem;
       height: 1.2rem;
       position: absolute;
-      top: .3rem;
-      left: .4rem;
+      top: -.8rem;
+      left: 0rem;
       background-image: asset-as-url('digest', 'images/common/refresh.svg');
       background-size: 100%;
     }
