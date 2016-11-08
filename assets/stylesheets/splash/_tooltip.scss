@@ -4,7 +4,7 @@
   background: $background;
   box-sizing: border-box;
   border: 1px solid $color;
-  padding: .5rem;
+  padding: .75rem;
   width: 260px;
 
   thead, p.state-click, tr:not(.dem):not(.gop) {
@@ -62,7 +62,7 @@
   p, table {
     font-family: $body-font-family;
     font-size: .85rem;
-    margin: .75rem 0;
+    margin: .3rem 0;
   }
 
   p { color: $muted-color; }
