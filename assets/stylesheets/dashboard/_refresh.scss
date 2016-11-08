@@ -9,14 +9,15 @@
     display: inline-block;
     background: $background;
     position: relative;
-    padding-right: .3rem;
-    margin: 1rem .5rem 1rem 0;
+    font-size: .9rem;
+    margin: 0;
+    padding: 0 .25rem;
     line-height: 1.5rem;
     border: none;
     outline: none;
     cursor: pointer;
 
-     &:hover {
+    &:hover {
       background-color: $background;
     }
 
@@ -27,11 +28,9 @@
     &::before {
       content: '';
       display: inline-block;
-      width: .8rem;
-      height: .8rem;
-      position: absolute;
-      top: -.5rem;
-      left: 0rem;
+      width: 1em;
+      height: 1em;
+      vertical-align: -.125rem;
       background-image: asset-as-url('digest', 'images/common/refresh.svg');
       background-size: 100%;
     }
