@@ -46,13 +46,18 @@ html, body {
 body {
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
+  // Ideally, the "main" element would stretch to fit the viewport. But as-is,
+  // this breaks on Safari 10: it gives the <main> element zero height.
+  //
+  // In decision-2016, all our pages happen to be rather tall. So we shouldn't
+  // need to stretch any pages. So nix the display:flex;.
+  //display: flex;
+  //flex-direction: column;
 }
 
-main {
-  flex: 1 0 auto;
-}
+//main {
+//  flex: 1 0 auto;
+//}
 
 nav, main {
   &>* {
