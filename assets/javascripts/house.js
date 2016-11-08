@@ -58,7 +58,7 @@ var navEl = document.querySelector('nav');
 var updateNav = nav(navEl);
 updateNav(initialJson.summaries);
 
-var titleUpdater = new TitleUpdater('DEM', 'GOP');
+var titleUpdater = new TitleUpdater('DEM', 'GOP', 218);
 function updateTitle(json) {
   var race = json.summaries.house;
   titleUpdater.update(race.className, race.wins.dem, race.wins.gop);
