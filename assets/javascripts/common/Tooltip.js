@@ -46,9 +46,23 @@ function Tooltip(options) {
     return _this.raceData.hasOwnProperty(raceId);
   }
 
+  function canTouch() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+  }
+
   function highlightRace(raceId, originView, ev) {
+    for (var i = 0; i < _this.views.length; i++) {
+      _this.views[i].highlightRace(raceId);
+    }
+
+    if (canTouch()) {
+      _this.el.classList.add('on-touch-device');
+    } else {
+      _this.el.classList.remove('on-touch-device');
+    }
+
     var race = _this.raceData[raceId];
-    _this.el.innerHTML = '<div class="candidate-table">' + buildCandidateTableHTML(race, ev.target, { i18n: _this.i18n, urlTemplate: _this.urlTemplate }) + '</div>';
+    _this.el.innerHTML = '<div class="candidate-table"><a href="#" class="close only-touch">×</a>' + buildCandidateTableHTML(race, ev.target, { i18n: _this.i18n, urlTemplate: _this.urlTemplate }) + '</div>';
 
     _this.el.style.visibility = 'hidden';
     _this.el.style.display = 'block'; // so we can set position
@@ -59,18 +73,38 @@ function Tooltip(options) {
   }
 
   function unhighlightRace() {
+    for (var i = 0; i < _this.views.length; i++) {
+      _this.views[i].highlightRace(null);
+    }
     _this.el.style.display = 'none';
   }
 
   this.setData(options.races);
 
-  function onHover(view, raceIdOrNull, ev) {
-    if (!raceIdIsValid(raceIdOrNull)) raceIdOrNull = null;
+  function isMouseoutReallyTouchstartOnTooltipA(ev) {
+    // If we're touching a <a> within the tooltip, ignore the "Un-highlight"
+    // event because we want the tooltip to stay up while we touch it.
+    if (!canTouch()) return false;
 
-    // Both highlight _and_ un-highlight the views
-    for (var i = 0; i < _this.views.length; i++) {
-      _this.views[i].highlightRace(raceIdOrNull);
+    var node = ev.relatedTarget;
+    console.log(ev, ev.relatedTarget, node.tagName);
+    if (node.tagName !== 'A') return false;
+
+    while (node !== null) {
+      console.log(node);
+      if (node === _this.el) return true;
+      node = node.parentNode;
     }
+
+    return false;
+  }
+
+  function onHover(view, raceIdOrNull, ev) {
+    if (ev.type === 'mouseout' && isMouseoutReallyTouchstartOnTooltipA(ev)) {
+      return;
+    }
+
+    if (!raceIdIsValid(raceIdOrNull)) raceIdOrNull = null;
 
     // Now adjust the actual tooltip
     if (raceIdOrNull) {
@@ -79,6 +113,14 @@ function Tooltip(options) {
       unhighlightRace();
     }
   }
+
+  // Close the popup when touching "a.close"
+  this.el.addEventListener('click', function(ev) {
+    if (ev.target.tagName === 'A' && ev.target.classList.contains('close')) {
+      ev.preventDefault();
+      unhighlightRace();
+    }
+  });
 
   for (var i = 0; i < this.views.length; i++) {
     this.views[i].addHoverListener(onHover);
