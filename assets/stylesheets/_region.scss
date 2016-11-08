@@ -10,7 +10,10 @@ body.region {
 
     }
     text {
-      font-size: 1.8rem;
+    @media (min-width: $min-desktop-width){
+    font-size: 1.8rem;
+    }
+      font-size: 2rem;
       fill: none;
       font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
       pointer-events: none;
@@ -18,7 +21,7 @@ body.region {
       &.background {
         fill: none;
         stroke: $background;
-        stroke-width: 8px;
+        stroke-width: 7px;
       }
       &.foreground {
         fill: $color;
@@ -33,6 +36,9 @@ body.region {
       stroke-width: 3px;
     }
     text {
+      @media (min-width: $min-desktop-width){
+      font-size: 2.5rem;
+    }
       font-size: 2rem;
       fill: none;
       font-famiily: Source Sans Pro, Helvetica, Arial, sans-serif;
@@ -41,7 +47,7 @@ body.region {
       &.background {
         fill: none;
         stroke: $background;
-        stroke-width: 8px;
+        stroke-width: 7px;
       }
       &.foreground {
         fill: $color;
