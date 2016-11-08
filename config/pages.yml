@@ -2,6 +2,10 @@ index:
   path: _root
   redirect: president
 
+s3-trailing-slash-redirect:
+  path: index
+  redirect: index
+
 # GET /splash.js
 #
 # JavaScript file that assumes it's being loaded into the Huffington Post
