@@ -98,6 +98,10 @@ function Changelog(el, initialJson) {
 
   this.topEntryId = entries.length > 0 ? entries[0].id : null;
 
+  if (entries.length === 0) {
+    this.ol.innerHTML = '<li class="placeholder">Come back at 7 p.m. EST for live updates.</li>';
+  }
+
   el.appendChild(this.ol);
 }
 

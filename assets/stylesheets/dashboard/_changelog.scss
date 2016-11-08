@@ -6,8 +6,11 @@
 
     #refresh {
       display: inline-block;
-      padding-left: .25rem;
       margin: 0;
+
+      button.refresh {
+        padding: 0 .25rem;
+      }
 
       span.countdown {
         line-height: 1.5rem;
@@ -47,6 +50,11 @@
     &.new-change {
       background-color: $very-muted-color;
     }
+  }
+
+  li.placeholder {
+    padding-left: 0;
+    color: $muted-color;
   }
 
   time {
