@@ -51,7 +51,7 @@
           margin: 0;
           font-size: 20px;
           @include locale-font-size("ar-SA", 21px);
-          @include locale-font-size("de-DE", 19.5px);
+          @include locale-font-size("de-DE", 18px);
           @include locale-font-size("el-GR", 18px);
         }
       }

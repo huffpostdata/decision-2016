@@ -83,11 +83,8 @@ var setFooterText = function(race, target, i18n, promptUrl) {
   ];
 
   if (promptUrl) {
-    if(isPresidentRace.test(race.id)) {
-      htmlInject.push('<p class="state-click">Click state to view full results</p>');
-    } else {
-      htmlInject.push('<p class="state-click">Click state to view full results</p>');
-    }
+    htmlInject.push('<p class="state-click only-touch"><a href="' + promptUrl + '">Full results »</a></p>');
+    htmlInject.push('<p class="state-click except-touch">Click state for full results</a></p>');
   }
 
   return htmlInject.join('');
@@ -118,7 +115,7 @@ function buildSenateNonRace(race) {
 
 var buildTable = function(race, targetEl, options) {
   var i18n = options && options.i18n || EnglishI18n;
-  var promptUrl = options && options.urlTemplate;
+  var promptUrl = options && options.urlTemplate && options.urlTemplate.replace('XX', race.id.slice(0, 2)) || null;
 
   //  only summaries for tooltip tables. use targetEl(ev.target) to check.
   var textSummary = !targetEl ? [] : setText(race, targetEl, i18n);

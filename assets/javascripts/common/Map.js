@@ -69,7 +69,7 @@ Map.prototype.addHoverListener = function(callback) {
     }
   });
   this.svg.addEventListener('mouseout', function(ev) {
-    callback(null);
+    callback(_this, null, ev);
   });
 };
 
@@ -82,7 +82,7 @@ Map.prototype.addMouseClickListener = function(callback) {
   var _this = this;
   var idAttribute = this.idAttribute;
 
-  // A tap causes mousedown, too, but we want to treat tap as hover, not click.
+  // A tap causes click, too, but we want to treat tap as hover, not click.
   // Solution: assume touchend comes before mousedown, and prevent mousedown
   // events that happen right after touchend.
   // ref: https://patrickhlauke.github.io/touch/tests/results/
@@ -91,9 +91,9 @@ Map.prototype.addMouseClickListener = function(callback) {
     lastTouchendDate = new Date();
   });
 
-  this.svg.addEventListener('mousedown', function(ev) {
+  this.svg.addEventListener('click', function(ev) {
     if (ev.button !== 0) return;
-    if (new Date() - lastTouchendDate < 1000) return; // arbitrary number
+    if (new Date() - lastTouchendDate < 2000) return; // arbitrary number
     if (ev.target.hasAttribute(idAttribute)) {
       callback(_this, ev.target.getAttribute(idAttribute));
     }

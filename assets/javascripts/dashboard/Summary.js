@@ -21,8 +21,8 @@ Summary.prototype.refreshCounts = function(demScore, gopScore, demVotes, gopVote
 };
 
 /**
- * Calls callback(this, raceId, ev) and callback(null), for all of time, depending
- * on user actions.
+ * Calls callback(this, raceId, ev) and callback(this, null, ev), for all of
+ * time, depending on user actions.
  *
  * The caller should be able to handle spurious calls with the same raceId (or
  * spurious `null` calls).
@@ -36,7 +36,7 @@ Summary.prototype.addHoverListener = function(callback) {
     }
   });
   ol.addEventListener('mouseout', function(ev) {
-    callback(null);
+    callback(_this, null, ev);
   });
 };
 
@@ -48,7 +48,7 @@ Summary.prototype.addHoverListener = function(callback) {
 Summary.prototype.addMouseClickListener = function(callback) {
   var _this = this;
 
-  // A tap causes mousedown, too, but we want to treat tap as hover, not click.
+  // A tap causes click, too, but we want to treat tap as hover, not click.
   // Solution: assume touchend comes before mousedown, and prevent mousedown
   // events that happen right after touchend.
   // ref: https://patrickhlauke.github.io/touch/tests/results/
@@ -57,9 +57,9 @@ Summary.prototype.addMouseClickListener = function(callback) {
     lastTouchendDate = new Date();
   });
 
-  this.els.races.addEventListener('mousedown', function(ev) {
+  this.els.races.addEventListener('click', function(ev) {
     if (ev.button !== 0) return;
-    if (new Date() - lastTouchendDate < 500) return; // arbitrary number
+    if (new Date() - lastTouchendDate < 2000) return; // arbitrary number
     if (ev.target.hasAttribute('data-race-id')) {
       callback(_this, ev.target.getAttribute('data-race-id'));
     }
