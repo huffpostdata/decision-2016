@@ -23,7 +23,7 @@ function BallotRaces(options) {
 }
 
 BallotRaces.prototype.update = function(races) {
-  var minFractionReporting = 0;
+  var minFractionReporting = 1;
 
   for (var i = 0; i < races.length; i++) {
     var race = races[i];
@@ -33,7 +33,7 @@ BallotRaces.prototype.update = function(races) {
     dom.yay.textContent = formatFraction(race.yay.n, race.nVotes);
     dom.nay.textContent = formatFraction(race.nay.n, race.nVotes);
 
-    if (race.fractionReporting > minFractionReporting) {
+    if (race.fractionReporting < minFractionReporting) {
       minFractionReporting = race.fractionReporting;
     }
   }

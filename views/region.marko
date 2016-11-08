@@ -82,7 +82,7 @@ html lang="en"
         .section-inner
           aside
             p - ${data.model.name} is voting on <strong>${data.model.races.ballot.length}</strong> statewide ballot ${data.model.races.ballot.length == 1 ? 'initiative' : 'initiatives'}.
-            p.percent-reporting - ${Math.round(100 * Math.max.apply(null, data.model.races.ballot.map(function(r) { return r.fractionReporting; })))}% of votes counted
+            p.percent-reporting - ${Math.round(100 * Math.min.apply(null, data.model.races.ballot.map(function(r) { return r.fractionReporting; })))}% of votes counted
             .refresh - <button class="refresh"></button><span class="countdown"></span>
           .section-main - $!{data.helpers.partial('region/_ballot-races')}
 
