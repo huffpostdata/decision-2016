@@ -6,6 +6,8 @@ var BallotRaces = require('./region/BallotRaces');
 var Tooltip = require('./common/Tooltip');
 var refresh = require('./common/_refresh');
 var buildCandidateTableHTML = require('./common/buildCandidateTableHTML');
+var waitForFontThen = require('./region/wait_for_font_then');
+var positionSvgCities = require('./region/position_svg_cities');
 
 var script = document.querySelector('script[data-json]');
 
@@ -81,6 +83,10 @@ if (ballotDiv) {
     percentReportingEl: document.querySelector('section#ballot .percent-reporting')
   });
 }
+
+waitForFontThen('Source Sans Pro', function() {
+  positionSvgCities(document.querySelectorAll('svg'))
+});
 
 function doRefresh(json) {
   presidentMap.update(json.president.geos);

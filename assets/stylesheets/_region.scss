@@ -5,11 +5,47 @@ body.region {
   }
 
   .president-map,
-  .senate-map,
-  .house-map {
-    text,
+  .senate-map {
     circle {
-      display: none;
+      fill: #333;
+    }
+    text {
+      font-size: 35px;
+      fill: none;
+      font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
+      pointer-events: none;
+      dominant-baseline: text-before-edge;
+      &.background {
+        fill: none;
+        stroke: white;
+        stroke-width: 6px;
+      }
+      &.foreground {
+        fill: #333;
+      }
+    }
+  }
+
+  .house-map {
+    circle {
+      fill: #333;
+      stroke: #333;
+      stroke-width: 10px;
+    }
+    text {
+      font-size: 45px;
+      fill: none;
+      font-famiily: Source Sans Pro, Helvetica, Arial, sans-serif;
+      pointer-events: none;
+      dominant-baseline: text-before-edge;
+      &.background {
+        fill: none;
+        stroke: white;
+        stroke-width: 8px;
+      }
+      &.foreground {
+        fill: #333;
+      }
     }
   }
 
