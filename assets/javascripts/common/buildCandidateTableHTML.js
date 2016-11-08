@@ -3,8 +3,6 @@ var isPresidentRace = /^[A-Z][A-Z][0-9]?$/;
 var isSenateRace = /^[A-Z][A-Z]S[123]$/;
 var isSeat3Race = /^[A-Z][A-Z]S3$/;
 var isHouseRace = /^[A-Z][A-Z][0-9][0-9]$/;
-var isSubcountyGeo = /^[0-9]{10}$/;
-var isCountyGeo = /^[0-9]{5}$/;
 
 function formatPercentForIE10(number) {
   return Math.round(number*100) + '%';
@@ -31,41 +29,21 @@ var EnglishI18n = {
   }
 };
 
-function getTitleFromGeoParentClasses(target) {
-  pElements = []
-  while (target) {
-    pElements.push(target); //  push to go from the bottom up
-    target = target.parentNode;
-  }
-  var ret = null;
-  for (var i = 0; i < pElements.length; i++) {
-    var elClasses = pElements[i].classList;
-    if (elClasses.contains('president-map')) {
-      ret = 'PRESIDENT';
-      break;
-    } else if (elClasses.contains('senate-map')) {
-      ret = 'SENATOR';
-      break;
-    }
-  }
-  return ret;
+function raceToCandidateType(race) {
+  if (isHouseRace.test(race.id)) return 'HOUSE REP.';
+  if (isPresidentRace.test(race.id)) return 'PRESIDENT';
+  if (isSenateRace.test(race.id)) return 'SENATOR';
+  if ([ 'Clinton', 'Trump', 'McMullin', 'Johnson', 'Stein' ].indexOf(race.candidates[0].name) === -1) return 'SENATOR';
+  return 'PRESIDENT';
 }
 
-function raceIdToCandidateType(raceId, target) {
-  if (isHouseRace.test(raceId)) return 'HOUSE REP.';
-  if (isPresidentRace.test(raceId)) return 'PRESIDENT';
-  if (isSenateRace.test(raceId)) return 'SENATOR';
-  if (isSubcountyGeo.test(raceId) || isCountyGeo.test(raceId)) return getTitleFromGeoParentClasses(target);
-  return
-}
-
-var setText = function(race, target, i18n) {
+var setText = function(race, i18n) {
   var parts = [
     '<div class="inner">',
     '<h3 class="state-name">' + i18n.t('state.' + race.name) + '</h3>',
   ];
 
-  if (isPresidentRace.test(race.id) && !isSubcountyGeo.test(race.id)) {
+  if (race.nElectoralVotes) {
     parts.push('<p class="state-summary">');
     parts.push(i18n.t('tooltip.n Electoral Votes', race.nElectoralVotes).replace(/\d+/, '<strong>$&</strong>'));
     parts.push('</p>');
@@ -75,7 +53,7 @@ var setText = function(race, target, i18n) {
   return parts;
 }
 
-var setFooterText = function(race, target, i18n, promptUrl) {
+var setFooterText = function(race, i18n, promptUrl) {
   var summaryFigure = race.fractionReporting;
 
   var formatPercent = typeof Intl === 'object' ? new Intl.NumberFormat(i18n.locale, { style: 'percent' }).format : formatPercentForIE10;
@@ -122,8 +100,8 @@ var buildTable = function(race, targetEl, options) {
   var promptUrl = options && options.urlTemplate && options.urlTemplate.replace('XX', race.id.slice(0, 2)) || null;
 
   //  only summaries for tooltip tables. use targetEl(ev.target) to check.
-  var textSummary = !targetEl ? [] : setText(race, targetEl, i18n);
-  var textFooter = setFooterText(race, targetEl, i18n, promptUrl);
+  var textSummary = !targetEl ? [] : setText(race, i18n);
+  var textFooter = setFooterText(race, i18n, promptUrl);
   var candidates = race.candidates;
   var votesTotal = race.nVotes;
 
@@ -135,7 +113,7 @@ var buildTable = function(race, targetEl, options) {
     return buildSenateNonRace(race);
   }
 
-  var cdType = raceIdToCandidateType(race.id, targetEl);
+  var cdType = raceToCandidateType(race);
   var leadingCount = Math.max.apply(null, candidates.map(function(d) { return d.n; }));
 
   var htmlInject = ['<table class="' + race.className + '">',
