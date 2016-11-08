@@ -6,44 +6,45 @@ body.region {
   .president-map,
   .senate-map {
     circle {
-      fill: #333;
+      fill: $color;
+
     }
     text {
-      font-size: 35px;
+      font-size: 2rem;
       fill: none;
       font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
       pointer-events: none;
       dominant-baseline: text-before-edge;
       &.background {
         fill: none;
-        stroke: white;
-        stroke-width: 6px;
+        stroke: $background;
+        stroke-width: 8px;
       }
       &.foreground {
-        fill: #333;
+        fill: $color;
       }
     }
   }
 
   .house-map {
     circle {
-      fill: #333;
-      stroke: #333;
-      stroke-width: 10px;
+      fill: $color;
+      stroke: $color;
+      stroke-width: 3px;
     }
     text {
-      font-size: 45px;
+      font-size: 2rem;
       fill: none;
       font-famiily: Source Sans Pro, Helvetica, Arial, sans-serif;
       pointer-events: none;
       dominant-baseline: text-before-edge;
       &.background {
         fill: none;
-        stroke: white;
+        stroke: $background;
         stroke-width: 8px;
       }
       &.foreground {
-        fill: #333;
+        fill: $color;
       }
     }
   }
