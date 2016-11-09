@@ -70,7 +70,7 @@ module.exports = class Database {
     const apData = ap_fs.load()
     const changelog = ap_fs.loadChangelogEntries()
 
-    const battlegrounds = 'FL NC MI OH PA'.split(' ');
+    const battlegrounds = 'FL NC MI WI PA'.split(' ');
 
     const summaries = {
       president: apData.presidentSummary(),
