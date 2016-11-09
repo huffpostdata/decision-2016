@@ -151,9 +151,9 @@ tooltip.Candidate	Table heading	Candidate					المرشح	Kandidat	Υποψήφ
 tooltip.Votes	Table heading for voet count	Votes					الأصوات الناخبة	Stimmen	Ψήφοι	Votos	Votos	Votes				票	득표	Votos
 tooltip.Percent counted	Sentence in tooltip, e.g., "34% of votes counted" -- always rounded. "%{percent}" includes the percent symbol ("%" in English) for your language.	%{percent} of votes counted					 من الأصوات الناخبة المحصاة	%{percent} der Stimmen ausgezählt	Το %{percent} των ψήφων έχει καταμετρηθεί	%{percent} de votos escrutados 	%{percent} del conteo de votos	%{percent} de votes comptabilisés				開票状況%{percent}	개표된 표 중 %{percent}획득	%{percent} de votos apurados
 tooltip.click for details	Sentence in tooltip -- the page it links to is in English, so you might want to specify "(English)"	Click for details					اضغط لمشاهدة التفاصيل	Klicke für Details	Πατήστε για περισσότερες λεπτομέρειες	Pulsa aquí para más información	Dale clic para más información	Cliquez pour plus de détails				詳細をクリック	자세히 보기	Clique aqui para mais informações
-legend.title		LEGEND					المفتاح 	LEGENDE		LEYENDA	LEYENDA	LÉGENDE				凡例	보기	
-legend.No winner yet		No winner yet					لا فائز حتى الآن	Bislang kein Gewinner	Δεν υπάρχει ακόμη νικητής	Aún sin ganador	Aún sin ganador	Aucun vainqueur pour l'instant				勝者未定	승자 없음	
-legend.Clinton win		Clinton win					فوز كلينتون	Clinton gewinnt	Νίκη Κλίντον	Clinton ha ganado	Clinton gana	Clinton a gagné				クリントン勝利	클린턴 승리	
-legend.Trump win		Trump win					فوز ترامب	Trump gewinnt	Νίκη Τραμπ	Trump ha ganado	Trump gana	Trump a gagné				トランプ勝利	트럼프 승리	
-legend.Other win		Other win					فوز مرشح آخر	ein anderer gewinnt	Άλλος νικητητής	Ha ganado otro candidato	Otro gana	Un autre candidat a gagné				他候補勝利	기타 후보 승리	
-refresh.Refresh	Refresh button	REFRESH					تحديث	AKTUALISIEREN	Refresh 	ACTUALIZAR	ACTUALIZAR	ACTUALISER					새로 고침	
+legend.title		LEGEND					المفتاح 	LEGENDE		LEYENDA	LEYENDA	LÉGENDE			LEGENDA	凡例	보기	Legenda
+legend.No winner yet		No winner yet					لا فائز حتى الآن	Bislang kein Gewinner	Δεν υπάρχει ακόμη νικητής	Aún sin ganador	Aún sin ganador	Aucun vainqueur pour l'instant			Sem Vencedor Ainda	勝者未定	승자 없음	Sem vencedor ainda
+legend.Clinton win		Clinton win					فوز كلينتون	Clinton gewinnt	Νίκη Κλίντον	Clinton ha ganado	Clinton gana	Clinton a gagné			Clinton Vence	クリントン勝利	클린턴 승리	Clinton vence
+legend.Trump win		Trump win					فوز ترامب	Trump gewinnt	Νίκη Τραμπ	Trump ha ganado	Trump gana	Trump a gagné			Trump Vence	トランプ勝利	트럼프 승리	Trump vence
+legend.Other win		Other win					فوز مرشح آخر	ein anderer gewinnt	Άλλος νικητητής	Ha ganado otro candidato	Otro gana	Un autre candidat a gagné				他候補勝利	기타 후보 승리	Outro vence
+refresh.Refresh	Refresh button	REFRESH					تحديث	AKTUALISIEREN	Refresh 	ACTUALIZAR	ACTUALIZAR	ACTUALISER					새로 고침	Atualizar 
