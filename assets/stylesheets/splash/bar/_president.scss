@@ -64,6 +64,14 @@
       }
     }
 
+    html[lang="de-DE"] & {
+      margin-left: -.4rem;
+
+      .clinton, .trump {
+        padding-right: 0;
+      }
+    }
+
     .clinton::after { background-image: asset-url('digest', 'images/splash/clinton-head.png'); }
     .trump::after { background-image: asset-url('digest', 'images/splash/trump-head.png'); }
 
@@ -82,7 +90,7 @@
       padding-left: .5rem;
       color: $muted-color;
 
-      html[lang="pt-BR"] & {
+      html[lang="pt-BR"] &, html[lang="de-DE"] & {
         margin-top: -.3rem;
       }
     }
