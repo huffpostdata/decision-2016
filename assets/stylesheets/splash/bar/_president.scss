@@ -81,6 +81,10 @@
       line-height: .9rem;
       padding-left: .5rem;
       color: $muted-color;
+
+      html[lang="pt-BR"] & {
+        margin-top: -.3rem;
+      }
     }
 
     .clinton strong { color: $dem-color; }
