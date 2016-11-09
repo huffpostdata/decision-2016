@@ -38,7 +38,7 @@ BallotRaces.prototype.update = function(races) {
     }
   }
 
-  this.percentReportingEl.textContent = formatFractionReporting(minFractionReporting) + ' of votes counted';
+  this.percentReportingEl.textContent = formatFractionReporting(minFractionReporting) + ' of precincts reporting';
 };
 
 module.exports = BallotRaces;

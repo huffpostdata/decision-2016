@@ -21,7 +21,7 @@ var EnglishI18n = {
       case 'tooltip.mcmullin':
         return 'McMullin'
       case 'tooltip.Percent counted':
-        return o.percent + ' of votes counted';
+        return o.percent + ' of precincts reporting';
       default:
         if (/^state\./.test(s)) return s.slice(6);
         return s;
