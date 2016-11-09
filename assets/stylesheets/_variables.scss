@@ -29,6 +29,13 @@ $bfa-color: #db61b9;
 $other-color: #835BA6;
 $tossup-color: #bcbec0;
 
+$gop-lead-color: #fbd5ca;
+$dem-lead-color: #d6e0f2;
+$grn-lead-color: #e7efd7;
+$lib-lead-color: #fbeecb;
+$bfa-lead-color: #f4e2e7;
+$other-lead-color: #efe8f3;
+
 // Sets &.dem-win { property: $dem-color; }, etc.
 @mixin party-win-colors($property) {
   &.dem-win { #{$property}: $dem-color; }
@@ -37,4 +44,14 @@ $tossup-color: #bcbec0;
   &.grn-win { #{$property}: $grn-color; }
   &.bfa-win { #{$property}: $bfa-color; }
   &.other-win { #{$property}: $other-color; }
+}
+
+// Sets &.dem-lead { property: $dem-lead-color; }, etc.
+@mixin party-lead-colors($property) {
+  &.dem-lead { #{$property}: $dem-lead-color; }
+  &.gop-lead { #{$property}: $gop-lead-color; }
+  &.lib-lead { #{$property}: $lib-lead-color; }
+  &.grn-lead { #{$property}: $grn-lead-color; }
+  &.bfa-lead { #{$property}: $bfa-lead-color; }
+  &.other-lead { #{$property}: $other-lead-color; }
 }

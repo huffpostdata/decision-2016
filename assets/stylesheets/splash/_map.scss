@@ -19,5 +19,6 @@
       stroke-width: 2px;
     }
     @include party-win-colors('fill');
+    @include party-lead-colors('fill');
   }
 }
