@@ -3,4 +3,4 @@
 views/*.js
 *.marko.js
 node_modules
-data/*
+data
