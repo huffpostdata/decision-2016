@@ -31,10 +31,12 @@ html, body {
 
   .column-president {
     padding-right: 1rem;
+    html[lang="de-DE"] & { padding-right: 0; }
   }
 
   .column-senate-house {
     padding-left: 1.5rem;
+    html[lang="de-DE"] & { padding-left: 0; }
     .races{
       display: flex;
       &>* {
