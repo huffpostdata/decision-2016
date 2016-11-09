@@ -7,12 +7,12 @@ body.region {
   .senate-map {
     circle {
       fill: $color;
-
+      pointer-events: none;
     }
     text {
-    @media (min-width: $min-desktop-width){
-    font-size: 1.8rem;
-    }
+      @media (min-width: $min-desktop-width){
+        font-size: 1.8rem;
+      }
       font-size: 2rem;
       fill: none;
       font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
@@ -34,6 +34,7 @@ body.region {
       fill: $color;
       stroke: $color;
       stroke-width: 3px;
+      poitner-events: none;
     }
     text {
       @media (min-width: $min-desktop-width){
