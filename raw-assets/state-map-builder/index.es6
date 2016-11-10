@@ -307,7 +307,7 @@ const render_state_path = (path, topology) => {
   // console.log(topology.objects.state)
   let d = path(topojson.feature(topology, topology.objects.state))
   d = compress_svg_path(d)
-  return '<path d="' + d + '"/>'
+  return `<path d="${d}"/>`
 }
 
 // Returns a <path class="mesh">
@@ -374,6 +374,7 @@ const render_geo_svg = (state_code, feature_set, options, callback) => {
   features_json = project_features(features_json, projection)
   const topology = topojsonize(features_json, BigTopojsonOptions)
 
+
   const path = d3.geo.path().projection(null)
   let st_abbr = fipsToState[state_code]
 
@@ -395,8 +396,14 @@ const render_geo_svg = (state_code, feature_set, options, callback) => {
       if (features_json.cities.features.length) {
         geo_data.push(render_cities_g(features_json.cities.features))
       }
+  } else if (topology.objects.state) {
+    console.log('rendering alaska state outline')
+    geo_data.push(render_state_path(path, topology))
+    if (features_json.cities.features.length) {
+      geo_data.push(render_cities_g(features_json.cities.features))
+    }
   }
-
+  geo_data.push('</svg>')
   const geo_data_string = geo_data.join('')
 
   fs.writeFile(geo_output_filename, geo_data_string, callback)
