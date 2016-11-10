@@ -310,6 +310,14 @@ const render_state_path = (path, topology) => {
   return `<path d="${d}"/>`
 }
 
+const render_ak_path = (path, topology) => {
+  console.log('rendering alaska')
+  // console.log(topology.objects.state)
+  let d = path(topojson.feature(topology, topology.objects.state))
+  d = compress_svg_path(d)
+  return `<path data-geo-id="02000" d="${d}"/>`
+}
+
 // Returns a <path class="mesh">
 const render_mesh_path = (path, topology, key) => {
   console.log('rendering mesh path')
@@ -398,7 +406,7 @@ const render_geo_svg = (state_code, feature_set, options, callback) => {
       }
   } else if (topology.objects.state) {
     console.log('rendering alaska state outline')
-    geo_data.push(render_state_path(path, topology))
+    geo_data.push(render_ak_path(path, topology))
     if (features_json.cities.features.length) {
       geo_data.push(render_cities_g(features_json.cities.features))
     }
