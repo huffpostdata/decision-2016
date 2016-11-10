@@ -19,20 +19,19 @@ function Tooltip(options) {
 
   var _this = this;
 
-  function goToStatePage(stateCode) {
+  function goToStatePage(stateCode, inNewWindow) {
     var url = _this.urlTemplate.replace('XX', stateCode);
-    if (/^http:\/\//.test(url)) {
-      // From splash? Open in new tab
+    inNewWindow = inNewWindow || /^http:\/\//.test(url); //On splash? Open in a new tab, always
+    if (inNewWindow) {
       var win = window.open(url, '_blank');
       win.focus();
     } else {
-      // From dashboard? Move
       window.top.location = url;
     }
   }
 
-  function onMouseClick(_, raceId) {
-    goToStatePage(raceId.slice(0, 2));
+  function onMouseClick(_, raceId, inNewWindow) {
+    goToStatePage(raceId.slice(0, 2), inNewWindow);
   }
 
   this.setData = function(data) {

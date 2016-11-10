@@ -83,7 +83,7 @@ function repeatBoxes(times, css) {
 
 module.exports = {
   updateHouse: function(data) {
-    updateHouseSeats(data);
+    if (house_seats) updateHouseSeats(data);
   },
   renderHouse: function(data, i18n) {
     house_seats = window.document.getElementById('house_seats');
@@ -93,11 +93,10 @@ module.exports = {
     }
   },
   updateSenate: function(data) {
-    updateSenateSeats(data);
+    if (senate_seats) updateSenateSeats(data);
   },
   renderSenate: function(data, i18n) {
     senate_seats = window.document.getElementById('senate_seats');
-
     if (senate_seats) {
       setUpSenate(data, i18n);
       this.updateSenate(data);

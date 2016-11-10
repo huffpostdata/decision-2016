@@ -14,7 +14,7 @@ class GoogleSheets {
   // You must have called download_all_sync() to get data for this method.
   slug_to_array(slug) {
     if (!this.cache.has(slug)) {
-      const input_path = `${this.config.code_path}/${slug}.tsv`
+      const input_path = `${__dirname}/../${this.config.code_path}/${slug}.tsv`
       const tsv = fs.readFileSync(input_path)
       const array = csv_parse(tsv, { delimiter: '\t', columns: true, relax: true })
       this.cache.set(slug, array)

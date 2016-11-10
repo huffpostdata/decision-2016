@@ -140,6 +140,24 @@
     }
   }
 
+  .gop-lead {
+    .state {
+      color: $gop-lead-color;
+    }
+    .percent--trump {
+      background-color: $gop-lead-color;
+    }
+  }
+
+  .dem-lead {
+    .state {
+      color: $dem-lead-color;
+    }
+    .percent--clinton {
+      background-color: $dem-lead-color;
+    }
+  }
+
   .dem-win {
     .state {
       color: $dem-color;
