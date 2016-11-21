@@ -10,7 +10,7 @@ if (!process.env.AP_API_KEY) {
 }
 const ApiKey = process.env.AP_API_KEY
 
-const Timeout = 120000 // ms between refreshes
+const Timeout = 1000*60*15 // ms between refreshes
 
 const debug = require('debug')('script/loop-update-and-upload')
 const fs = require('fs')
